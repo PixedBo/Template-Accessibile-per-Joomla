@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <extension type="template" client="site" method="upgrade">
   <name>Template Accessibile per Joomla</name>
   <version>1.0.0</version>
@@ -6,44 +6,47 @@
   <author>Pixed</author>
   <description>Template Joomla 5 conforme alle linee guida Designers Italia e Modello Comuni</description>
   <files>
-    <filename>index.php</filename>
+    <filename>README.md</filename>
     <filename>error.php</filename>
+    <filename>index.php</filename>
     <filename>offline.php</filename>
     <filename>templateDetails.xml</filename>
     <filename>template_preview.png</filename>
+    <folder>assets</folder>
     <folder>css</folder>
-    <folder>images</folder>
+    <folder>fonts</folder>
     <folder>forms</folder>
+    <folder>html</folder>
+    <folder>images</folder>
+    <folder>js</folder>
+    <folder>svg</folder>
   </files>
   <positions>
     <position>menu-principale</position>
-	<position>menu-secondario</position>
+    <position>menu-secondario</position>
   </positions>
   <config>
     <fields name="params">
       <fieldset name="basic">
-        <field name="logotipo" type="media" label="Logo del Comune" directory="images" preview="true" description="Inserisci in questo campo il logo del tuo comune"/>
-		<field name="nomesito" type="text" default="Il mio Comune" label="Nome del Comune" description="Inserisci in questo spazio il nome del comune, apparirà nella testata del sito" size="20" />
-		<field name="nomeregione" type="text" default="La mia Regione" label="Nome della Regione" description="Inserisci in questo spazio il nome della tua Regione" size="20" />
-		<field name="linkregione" type="url" default="" label="Url sito Regione" description="Inserisci in questo spazio l'url del sito della Regione" size="20" />
-		<field name="payoff" type="text" default="Sottotitolo" label="Sottotitolo" description="Inserisci in questo spazio il sottotitolo che comparirà sotto il nome del comune nella testata del sito" size="20" />
-<field name="coloreprimario" type="list" default="#007a52"
-       label="Colore primario del sito"
-       description="Scegli il colore primario tra quelli accessibili predefiniti. L'anteprima viene mostrata accanto.">
-
-    <option value="#0066CC">Blu istituzionale</option>
-	<option value="#007a52">Verde (Comuni)</option>
-    <option value="#d1344c">Rosso (Scuole)</option>
-    <option value="#07768d">Verde Acqua (ASL)</option>
-	<option value="#7d2670">Viola (Musei)</option>
-</field>
+        <field name="logotipo" type="media" label="Logo del Comune" directory="images" preview="true" description="Inserisci in questo campo il logo del tuo comune" />
+        <field name="nomesito" type="text" default="Il mio Comune" label="Nome del Comune" description="Inserisci in questo spazio il nome del comune, apparirà nella testata del sito" size="20" />
+        <field name="nomeregione" type="text" default="La mia Regione" label="Nome della Regione" description="Inserisci in questo spazio il nome della tua Regione" size="20" />
+        <field name="linkregione" type="url" default="" label="Url sito Regione" description="Inserisci in questo spazio l'url del sito della Regione" size="20" />
+        <field name="payoff" type="text" default="Sottotitolo" label="Sottotitolo" description="Inserisci in questo spazio il sottotitolo che comparirà sotto il nome del comune nella testata del sito" size="20" />
+        <field name="coloreprimario" type="list" default="#007a52" label="Colore primario del sito" description="Scegli il colore primario tra quelli accessibili predefiniti. L'anteprima viene mostrata accanto.">
+          <option value="#0066CC">Blu istituzionale</option>
+          <option value="#007a52">Verde (Comuni)</option>
+          <option value="#d1344c">Rosso (Scuole)</option>
+          <option value="#07768d">Verde Acqua (ASL)</option>
+          <option value="#7d2670">Viola (Musei)</option>
+        </field>
       </fieldset>
-	  <fieldset name="social">
-		<field name="socialx" type="url" label="URL pagina X" description="Inserisci in questo spazio l'URL della tua pagina del social X" size="20" />
-		<field name="facebook" type="url" label="URL pagina Facebook" description="Inserisci in questo spazio l'URL della tua pagina del social Facebook" size="20" />
-		<field name="youtube" type="url" label="URL canale Youtube" description="Inserisci in questo spazio l'URL del tuo canale Youtube" size="20" />
-		<field name="telegram" type="url" label="URL canale Telegram" description="Inserisci in questo spazio l'URL del tuo canale Telegram" size="20" />
-		<field name="whatsapp" type="text" label="Telefono Whatsapp" description="Inserisci in questo spazio il numero di telefono Whatsapp in formato +39XXXXXXXXXX" size="20" />
+      <fieldset name="social">
+        <field name="socialx" type="url" label="URL pagina X" description="Inserisci in questo spazio l'URL della tua pagina del social X" size="20" />
+        <field name="facebook" type="url" label="URL pagina Facebook" description="Inserisci in questo spazio l'URL della tua pagina del social Facebook" size="20" />
+        <field name="youtube" type="url" label="URL canale Youtube" description="Inserisci in questo spazio l'URL del tuo canale Youtube" size="20" />
+        <field name="telegram" type="url" label="URL canale Telegram" description="Inserisci in questo spazio l'URL del tuo canale Telegram" size="20" />
+        <field name="whatsapp" type="text" label="Telefono Whatsapp" description="Inserisci in questo spazio il numero di telefono Whatsapp in formato +39XXXXXXXXXX" size="20" />
       </fieldset>
     </fields>
   </config>
