@@ -24,6 +24,7 @@
   <positions>
     <position>menu-principale</position>
     <position>menu-secondario</position>
+    <position>top</position>
   </positions>
   <config>
     <fields name="params">

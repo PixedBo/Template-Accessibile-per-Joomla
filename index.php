@@ -348,42 +348,7 @@ if (!empty($logo)) {
     <main>
       <h1 class="visually-hidden" id="main-container">Nome del comune</h1>
       <section id="head-section">
-        <h2 class="visually-hidden">Contenuti in evidenza</h2>
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-6 order-2 order-lg-1">
-              <div class="card mb-5">
-                <div class="card-body pb-5 px-0">
-                  <div class="category-top">
-                    <svg class="icon icon-sm" aria-hidden="true">
-                      <use xlink:href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/svg/sprites.svg#it-calendar"></use>
-                    </svg>
-                    <span class="title-xsmall-semi-bold fw-semibold">Notizie</span>
-                    <span class="data fw-normal">18 mag 2022</span>
-                  </div>
-                  <a href="#" class="text-decoration-none">
-                    <h3 class="card-title">Parte l'estate con oltre 300 eventi in centro e nei quartieri, tutti gli eventi previsti
-                    </h3>
-                  </a>
-                  <p class="mb-4 pt-3 lora"><strong>Inaugurazione lunedì 2 luglio</strong> con il concerto
-                    gratuito in piazza XX Settembre degli Sweet Soul Music Revue. Sul palco 20 musicisti dal tutto il mondo</p>
-                  <a class="chip chip-simple" href="#">
-                    <span class="chip-label">Estate in città</span>
-                  </a>
-                  <a class="read-more pb-3" href="#" data-focus-mouse="false">
-                    <span class="text">Tutte le novità</span>
-                    <svg class="icon">
-                      <use xlink:href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/svg/sprites.svg#it-arrow-right"></use>
-                    </svg>
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6 order-1 order-lg-2 px-0 px-lg-3">
-              <img src="#" title="titolo immagine" alt="descrizione immagine" class="img-fluid">
-            </div>
-          </div>
-        </div>
+        <jdoc:include type="modules" name="top" />
       </section>
       <section id="calendario">
         <div class="section section-muted pb-90 pb-lg-50 px-lg-5 pt-0">

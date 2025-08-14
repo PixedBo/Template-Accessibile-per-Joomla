@@ -9,6 +9,7 @@
  */
 
 defined('_JEXEC') or die;
+$start = (int) $params->get('startLevel', 1);
 ?>
 
 <nav aria-label="Principale">
