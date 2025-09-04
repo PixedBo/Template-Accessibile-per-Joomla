@@ -68,6 +68,15 @@ if (!empty($logo)) {
   $logoUrl = $this->baseurl . '/' . ltrim($logoData->url, '/'); // ✅ URL assoluto corretto
 }
 
+// INSERIMENTO DI FONT-AWESOME
+
+$wa = $this->getWebAssetManager();
+if ($wa->assetExists('style', 'fontawesome')) {
+	$wa->useStyle('fontawesome');
+	} else {
+		$wa->registerAndUseStyle('fa-base', 'media/vendor/fontawesome-free/css/fontawesome.min.css');
+	}
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -573,7 +582,7 @@ if (!empty($logo)) {
         </div>
       </section>
       <section class="evidence-section">
-        <div class="section py-5 pb-lg-80 px-lg-5 position-relative" style="background-image: url(<?= $this->baseurl ?>/templates/<?= $this->template ?>/assets/images/evidenza-header.png)">
+        <div class="section py-5 pb-lg-80 px-lg-5 position-relative">
           <div class="container">
             <div class="row">
               <h2 class="text-white">Argomenti in evidenza</h2>
