@@ -19,7 +19,6 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
-use Joomla\Component\Tags\Site\Helper\RouteHelper as TagsHelperRoute;
 
 /** @var \Joomla\Component\Content\Site\View\Article\HtmlView $this */
 
@@ -40,7 +39,8 @@ $useDefList        = $params->get('show_modify_date') || $params->get('show_publ
 
 // Controllo presenza moduli nella colonna destra
 $app = Factory::getApplication();
-$hasRightColumn = $app->getDocument()->countModules('colonna-destra') > 0;
+$document = $app->getDocument();
+$hasRightColumn = $document->countModules('colonna-destra') > 0;
 
 // Definisco le classi delle colonne in base alla presenza della colonna destra
 $leftColClass = $hasRightColumn ? 'col-lg-3' : 'col-lg-3';
@@ -185,15 +185,10 @@ $rightColClass = 'col-lg-3';
                 <?php if ($params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
                     <div class="mt-4 mb-4">
                         <span class="subtitle-small">Argomenti</span>
-                        <ul class="d-flex flex-wrap gap-1">
-                            <?php foreach ($this->item->tags->itemTags as $tag) : ?>
-                                <li>
-                                    <a class="chip chip-simple" href="<?php echo Route::_(TagsHelperRoute::getTagRoute($tag->tag_id . ':' . $tag->alias)); ?>" data-element="service-topic">
-                                        <span class="chip-label"><?php echo $this->escape($tag->title); ?></span>
-                                    </a>
-                                </li>
-                            <?php endforeach; ?>
-                        </ul>
+                        <div class="d-flex flex-wrap gap-1">
+                            <?php $this->item->tagLayout = new FileLayout('joomla.content.tags'); ?>
+                            <?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>
+                        </div>
                     </div>
                 <?php endif; ?>
             </div>
@@ -262,9 +257,9 @@ $rightColClass = 'col-lg-3';
                 </div>
                 
                 <?php // Posizione modulo colonna-sinistra ?>
-                <?php if ($app->getDocument()->countModules('colonna-sinistra')) : ?>
+                <?php if ($document->countModules('colonna-sinistra')) : ?>
                     <div class="mt-4">
-                        <jdoc:include type="modules" name="colonna-sinistra" style="html5" />
+                        <?php echo HTMLHelper::_('content.prepare', '{loadposition colonna-sinistra}'); ?>
                     </div>
                 <?php endif; ?>
             </aside>
@@ -420,7 +415,7 @@ $rightColClass = 'col-lg-3';
             <?php // Sidebar destra (solo se ci sono moduli) ?>
             <?php if ($hasRightColumn) : ?>
                 <aside class="<?php echo $rightColClass; ?>">
-                    <jdoc:include type="modules" name="colonna-destra" style="html5" />
+                    <?php echo HTMLHelper::_('content.prepare', '{loadposition colonna-destra}'); ?>
                 </aside>
             <?php endif; ?>
         </div>

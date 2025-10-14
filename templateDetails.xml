@@ -24,6 +24,14 @@
     <position>menu-principale</position>
     <position>menu-secondario</position>
     <position>top</position>
+	<position>top-muted</position>
+	<position>bottom</position>
+	<position>calendario</position>
+	<position>evidenza</position>
+	<position>colonna-sinistra</position>
+	<position>colonna-destra</position>
+	<position>footer1</position>
+	<position>footer2</position>
   </positions>
   <config>
     <fields name="params">
