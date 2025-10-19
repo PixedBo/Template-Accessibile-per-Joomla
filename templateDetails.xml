@@ -21,6 +21,7 @@
     <folder>svg</folder>
   </files>
   <positions>
+    <position>selezione-lingua</position>
     <position>menu-principale</position>
     <position>menu-secondario</position>
     <position>top</position>
@@ -48,6 +49,27 @@
           <option value="#07768d">Verde Acqua (ASL)</option>
           <option value="#7d2670">Viola (Musei)</option>
         </field>
+      </fieldset>
+      <fieldset name="opzioni" label="Opzioni Header">
+        <field name="mostra_login" type="radio" default="0" label="Vuoi mostrare il link login in alto?" description="Attiva o disattiva la visualizzazione del link di login nella testata" class="btn-group btn-group-yesno">
+          <option value="1">SI</option>
+          <option value="0">NO</option>
+        </field>
+        <field name="tipo_login" type="list" default="standard" label="Tipo di login" description="Scegli se utilizzare la pagina di login standard di Joomla o una pagina di menu personalizzata" showon="mostra_login:1">
+          <option value="standard">Pagina login standard di Joomla</option>
+          <option value="menuitem">Seleziona pagina di menu</option>
+        </field>
+        <field name="menuitem_login" type="menuitem" label="Seleziona pagina di menu per login" description="Scegli la voce di menu da utilizzare come pagina di login" showon="mostra_login:1[AND]tipo_login:menuitem" />
+        
+        <field name="mostra_ricerca" type="radio" default="0" label="Vuoi visualizzare il pulsante ricerca nella header?" description="Attiva o disattiva la visualizzazione del pulsante di ricerca nell'intestazione" class="btn-group btn-group-yesno">
+          <option value="1">SI</option>
+          <option value="0">NO</option>
+        </field>
+        <field name="tipo_ricerca" type="list" default="smartsearch" label="Tipo di ricerca" description="Scegli se utilizzare la ricerca Smart Search standard o una pagina di menu personalizzata" showon="mostra_ricerca:1">
+          <option value="smartsearch">Ricerca Smart Search standard</option>
+          <option value="menuitem">Seleziona pagina di menu</option>
+        </field>
+        <field name="menuitem_ricerca" type="menuitem" label="Seleziona pagina di menu per ricerca" description="Scegli la voce di menu da utilizzare come pagina di ricerca" showon="mostra_ricerca:1[AND]tipo_ricerca:menuitem" />
       </fieldset>
       <fieldset name="social">
         <field name="socialx" type="url" label="URL pagina X" description="Inserisci in questo spazio l'URL della tua pagina del social X" size="20" />

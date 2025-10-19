@@ -88,55 +88,57 @@ if ($wa->assetExists('style', 'fontawesome')) {
     <link rel="stylesheet" href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/css/fonts.css">
 	<style>
 	:root {
+	  /* Colore primario personalizzato */
 	  --bs-primary: <?php echo htmlspecialchars($colore); ?> !important;
 	  --bs-link-color: <?php echo htmlspecialchars($colore); ?> !important;
+	  --bs-link-hover-color: color-mix(in srgb, <?php echo htmlspecialchars($colore); ?> 85%, black) !important;
+	  
+	  /* Success e info con il colore primario */
+	  --bs-success: <?php echo htmlspecialchars($colore); ?> !important;
+	  --bs-info: <?php echo htmlspecialchars($colore); ?> !important;
+	  
+	  /* Colori RGB per trasparenze (se necessario) */
+	  <?php
+	  // Converte il colore hex in RGB
+	  $hex = ltrim($colore, '#');
+	  if (strlen($hex) == 6) {
+		  $r = hexdec(substr($hex, 0, 2));
+		  $g = hexdec(substr($hex, 2, 2));
+		  $b = hexdec(substr($hex, 4, 2));
+		  echo "--bs-primary-rgb: {$r}, {$g}, {$b} !important;";
+		  echo "--bs-success-rgb: {$r}, {$g}, {$b} !important;";
+		  echo "--bs-info-rgb: {$r}, {$g}, {$b} !important;";
+	  }
+	  ?>
 	}
 
+	/* Header specifici che non usano le variabili */
 	.it-header-center-wrapper {
-		background-color:<?php echo htmlspecialchars($colore); ?> !important;
+		background-color: <?php echo htmlspecialchars($colore); ?> !important;
 	}
-	@media (min-width: 992px) {
-    .it-header-navbar-wrapper {
-        background: <?php echo htmlspecialchars($colore); ?> !important;
-    }
-	@media (min-width: 992px) {
-    .navbar {
-        background: <?php echo htmlspecialchars($colore); ?> !important;
-    }
-	.btn-primary {
-    background-color: <?php echo htmlspecialchars($colore); ?> !important;
-    border-color: <?php echo htmlspecialchars($colore); ?> !important;
-	}
+
 	.it-header-slim-wrapper {
-    background: #202a2e;
+		background: #202a2e;
 	}
-	.chip .chip-label {
-		color: <?php echo htmlspecialchars($colore); ?> !important;
+
+	@media (min-width: 992px) {
+		.it-header-navbar-wrapper,
+		.navbar {
+			background: <?php echo htmlspecialchars($colore); ?> !important;
+		}
 	}
-	.chip:not(.chip-disabled) {
-    border-color: <?php echo htmlspecialchars($colore); ?> !important;
+
+	/* Hover per i bottoni con colore più scuro */
+	.btn-primary:hover,
+	.btn-primary:focus,
+	.btn-secondary:hover,
+	.btn-secondary:focus,
+	.btn-info:hover,
+	.btn-info:focus {
+		background-color: color-mix(in srgb, <?php echo htmlspecialchars($colore); ?> 85%, black) !important;
+		border-color: color-mix(in srgb, <?php echo htmlspecialchars($colore); ?> 85%, black) !important;
+		color: #fff !important;
 	}
-	a.read-more {
-		color: <?php echo htmlspecialchars($colore); ?> !important;
-	}
-	a.read-more .icon {
-    fill: <?php echo htmlspecialchars($colore); ?> !important;
-	}
-	.row-calendar .it-calendar-wrapper .card .card-text a {
-		color: <?php echo htmlspecialchars($colore); ?> !important;
-	}
-	.it-calendar-wrapper .it-header-block-title {
-    background-color: <?php echo htmlspecialchars($colore); ?> !important;
-}
-.evidence-section .list-item.active span, .useful-links-section .list-item.active span {
-    color: <?php echo htmlspecialchars($colore); ?> !important;
-}
-.bg-primary {
-    background-color: <?php echo htmlspecialchars($colore); ?> !important;
-}
-.icon-primary {
-    fill: <?php echo htmlspecialchars($colore); ?> !important;
-}
 	</style>
 
   </head>
@@ -168,36 +170,46 @@ if ($wa->assetExists('style', 'fontawesome')) {
 
                         
 						<div class="it-header-slim-right-zone" role="navigation">
-                          <div class="nav-item dropdown">
-                            <button type="button" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="languages" aria-haspopup="true">
-                              <span class="visually-hidden">Lingua attiva:</span>
-                              <span>ITA</span>
-                              <svg class="icon">
-                                <use href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/svg/sprites.svg#it-expand"></use>
-                              </svg>
-                            </button>
-                            <div class="dropdown-menu">
-                              <div class="row">
-                                <div class="col-12">
-                                  <div class="link-list-wrapper">
-                                    <ul class="link-list">
-                                      <li><a class="dropdown-item list-item" href="#"><span>ITA <span class="visually-hidden">selezionata</span></span></a></li>
-                                      <li><a class="dropdown-item list-item" href="#"><span>ENG</span></a></li>
-                                    </ul>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <a class="btn btn-primary btn-icon btn-full" href="../servizi/accesso-servizio.html" data-element="personal-area-login">
-                            <span class="rounded-icon" aria-hidden="true">
-                              <svg class="icon icon-primary">
-                                <use xlink:href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/svg/sprites.svg#it-user"></use>
-                              </svg>
-                            </span>
-                            <span class="d-none d-lg-block">Accedi all'area personale</span>
-                          </a>
-                        </div>
+  <!-- Posizione modulo per selezione lingua -->
+  <jdoc:include type="modules" name="selezione-lingua" style="none" />
+  
+  <?php
+  // Recupero parametri login dal template
+  $mostraLogin = $this->params->get('mostra_login', 0);
+  
+  if ($mostraLogin == 1) :
+      $tipoLogin = $this->params->get('tipo_login', 'standard');
+      $menuitemLogin = $this->params->get('menuitem_login', 0);
+      $user = Factory::getUser();
+      
+      if ($user->guest) {
+          // Utente non loggato - mostra link login
+          if ($tipoLogin == 'menuitem' && $menuitemLogin > 0) {
+              // Login personalizzato tramite menu item
+              $loginUrl = JRoute::_('index.php?Itemid=' . $menuitemLogin);
+          } else {
+              // Login standard di Joomla
+              $loginUrl = JRoute::_('index.php?option=com_users&view=login');
+          }
+          $loginText = 'Accedi all\'area personale';
+      } else {
+          // Utente loggato - mostra link profilo
+          $loginUrl = JRoute::_('index.php?option=com_users&view=profile');
+          $loginText = 'Area personale';
+      }
+  ?>
+  
+  <a class="btn btn-primary btn-icon btn-full" href="<?php echo $loginUrl; ?>" data-element="personal-area-login">
+    <span class="rounded-icon" aria-hidden="true">
+      <svg class="icon icon-primary">
+        <use xlink:href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/svg/sprites.svg#it-user"></use>
+      </svg>
+    </span>
+    <span class="d-none d-lg-block"><?php echo $loginText; ?></span>
+  </a>
+  
+  <?php endif; ?>
+</div>
                       </div>
                     </div>
                   </div>
@@ -227,33 +239,52 @@ if ($wa->assetExists('style', 'fontawesome')) {
 							
 							
                           <div class="it-right-zone">
-							  <?php if (!empty($socialLinks)) : ?>
-								<div class="it-socials d-none d-lg-flex">
-								  <span>Seguici su</span>
-								  <ul>
-									<?php foreach ($socialLinks as $social) : ?>
-									  <li>
-										<a href="<?php echo htmlspecialchars($social['url'], ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noopener noreferrer">
-										  <svg class="icon icon-sm icon-white align-top">
-											<use xlink:href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/svg/sprites.svg#<?php echo $social['icon']; ?>"></use>
-										  </svg>
-										  <span class="visually-hidden"><?php echo $social['label']; ?></span>
-										</a>
-									  </li>
-									<?php endforeach; ?>
-								  </ul>
-								</div>
-							  <?php endif; ?>
+  <?php if (!empty($socialLinks)) : ?>
+    <div class="it-socials d-none d-lg-flex">
+      <span>Seguici su</span>
+      <ul>
+        <?php foreach ($socialLinks as $social) : ?>
+          <li>
+            <a href="<?php echo htmlspecialchars($social['url'], ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noopener noreferrer">
+              <svg class="icon icon-sm icon-white align-top">
+                <use xlink:href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/svg/sprites.svg#<?php echo $social['icon']; ?>"></use>
+              </svg>
+              <span class="visually-hidden"><?php echo $social['label']; ?></span>
+            </a>
+          </li>
+        <?php endforeach; ?>
+      </ul>
+    </div>
+  <?php endif; ?>
 
-							  <div class="it-search-wrapper">
-								<span class="d-none d-md-block">Cerca</span>
-								<button class="search-link rounded-icon" type="button" data-bs-toggle="modal" data-bs-target="#search-modal" aria-label="Cerca nel sito">
-								  <svg class="icon">
-									<use href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/svg/sprites.svg#it-search"></use>
-								  </svg>
-								</button>
-							  </div>
-							</div>
+  <?php
+  // Recupero parametri ricerca dal template
+  $mostraRicerca = $this->params->get('mostra_ricerca', 0);
+  
+  if ($mostraRicerca == 1) :
+      $tipoRicerca = $this->params->get('tipo_ricerca', 'smartsearch');
+      $menuitemRicerca = $this->params->get('menuitem_ricerca', 0);
+      
+      if ($tipoRicerca == 'menuitem' && $menuitemRicerca > 0) {
+          // Ricerca personalizzata tramite menu item
+          $ricercaUrl = JRoute::_('index.php?Itemid=' . $menuitemRicerca);
+      } else {
+          // Ricerca Smart Search standard di Joomla
+          $ricercaUrl = JRoute::_('index.php?option=com_finder&view=search');
+      }
+  ?>
+  
+  <div class="it-search-wrapper">
+    <span class="d-none d-md-block">Cerca</span>
+    <a class="search-link rounded-icon" href="<?php echo $ricercaUrl; ?>" aria-label="Cerca nel sito">
+      <svg class="icon">
+        <use href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/svg/sprites.svg#it-search"></use>
+      </svg>
+    </a>
+  </div>
+  
+  <?php endif; ?>
+</div>
 						  
 						  
 						  
