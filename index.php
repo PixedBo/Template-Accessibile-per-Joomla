@@ -357,14 +357,14 @@ if ($wa->assetExists('style', 'fontawesome')) {
       <h1 class="visually-hidden" id="main-container"><?php echo htmlspecialchars($this->params->get('nomesito', 'Il mio Comune')); ?></h1>
       <section id="head-section">
 		<div class="container">
-			<jdoc:include type="modules" name="top" />
+			<jdoc:include type="modules" name="top" style="html5" />
 		</div>
       </section>
       <?php if ($this->countModules('calendario')) : ?>
 	  <section id="calendario">
 		  <div class="section section-muted pb-90 pb-lg-50 px-lg-5 pt-0">
 			<div class="container">
-			  <jdoc:include type="modules" name="calendario" />
+			  <jdoc:include type="modules" name="calendario" style="html5" />
 			</div>
 		  </div>
 	  </section>
@@ -376,12 +376,7 @@ if ($wa->assetExists('style', 'fontawesome')) {
                 
 	<div class="container">
 			<div class="row">
-			<h2 class="text-white title-xlarge mb-3">Argomenti in evidenza</h2>
-			</div>
-	</div>
-	<div class="container">
-			<div class="row">
-			 <jdoc:include type="modules" name="evidenza" />
+			 <jdoc:include type="modules" name="evidenza" style="html5" />
 			</div>
 	</div>
                 
@@ -392,7 +387,7 @@ if ($wa->assetExists('style', 'fontawesome')) {
       <section class="useful-links-section">
         <div class="section section-muted p-0 py-5">
           <div class="container">
-            <jdoc:include type="modules" name="top-muted" />
+            <jdoc:include type="modules" name="top-muted" style="html5" />
             </div>
           </div>
         </div>
@@ -406,14 +401,14 @@ if ($wa->assetExists('style', 'fontawesome')) {
 	<?php if ($this->countModules('bottom')) : ?>
       <div class="bg-primary">
         <div class="container">
-			<jdoc:include type="modules" name="bottom" />
+			<jdoc:include type="modules" name="bottom" style="html5" />
         </div>
       </div>
     <?php endif; ?>
 	<?php if ($this->countModules('bottom2')) : ?>
       <div class="bg-grey-card shadow-contacts">
         <div class="container">
-			<jdoc:include type="modules" name="bottom2" />
+			<jdoc:include type="modules" name="bottom2" style="html5" />
         </div>
       </div>
 	  <?php endif; ?>
@@ -424,23 +419,31 @@ if ($wa->assetExists('style', 'fontawesome')) {
           <div class="row">
             <div class="col-12 footer-items-wrapper logo-wrapper">
               <img class="ue-logo" src="<?= $this->baseurl ?>/templates/<?= $this->template ?>/images/logo-eu-inverted.svg" alt="logo Unione Europea">
-              <div class="it-brand-wrapper">
-                <a href="#">
-                  <svg class="icon" aria-hidden="true">
-                    <use xlink:href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/svg/sprites.svg#it-pa"></use>
-                  </svg>
-                  <div class="it-brand-text">
-                    <h2 class="no_toc"><?php echo htmlspecialchars($this->params->get('nomesito', 'Il mio Comune')); ?></h2>
-                  </div>
-                </a>
-              </div>
+				<div class="it-brand-wrapper">
+				  <a href="<?php echo $this->baseurl; ?>">
+					<?php if ($logoUrl) : ?>
+					  <svg class="icon" aria-hidden="true">
+						<image xlink:href="<?php echo htmlspecialchars($logoUrl, ENT_QUOTES, 'UTF-8'); ?>" />
+					  </svg>
+					<?php endif; ?>
+					<div class="it-brand-text">
+					  <div class="it-brand-title"><?php echo htmlspecialchars($this->params->get('nomesito', 'Il mio Comune')); ?></div>
+					  <div class="it-brand-tagline d-none d-md-block"><?php echo htmlspecialchars($this->params->get('payoff', 'Un comune da vivere')); ?></div>
+					</div>
+				  </a>
+				</div>
             </div>
           </div>
-          <div class="row">
-			<jdoc:include type="modules" name="footer1" />
-          <div class="row">
-			<jdoc:include type="modules" name="footer2" />
-          </div>
+		  <?php if ($this->countModules('footer1')) : ?>
+			  <div class="row footer1">
+					<jdoc:include type="modules" name="footer1" style="html5" />
+			  </div>
+		  <?php endif; ?>
+		  <?php if ($this->countModules('footer2')) : ?>
+			  <div class="row footer2">
+				<jdoc:include type="modules" name="footer2" style="html5" />
+			  </div>
+		  <?php endif; ?>
         </div>
       </div>
     </footer>

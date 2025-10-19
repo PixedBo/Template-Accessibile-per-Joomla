@@ -119,6 +119,10 @@ body {
     background-repeat: no-repeat;
 }
 
+.bg-evidenza h2 {
+	color:white;
+}
+
 hr {
   margin: 1rem 0;
   color: inherit;
@@ -543,6 +547,13 @@ progress {
   max-width: 100%;
   height: auto;
 }
+
+.img-fluid.mod-pa-featured-img {
+  max-width: 100%;
+  height: 100%;
+  object-fit:cover;
+}
+
 .img-thumbnail {
   padding: 0.25rem;
   background-color: #fff;
@@ -21326,6 +21337,11 @@ a.read-more:hover {
 .img-responsive-wrapper .img-responsive .img-wrapper.custom-object-fit img {
   visibility: hidden;
 }
+
+.img-responsive-wrapper .img-responsive .img-wrapper a{
+	height:100%;
+}
+
 .img-responsive-wrapper .img-responsive .img-wrapper img {
   width: 100%;
   display: block;
@@ -25837,6 +25853,7 @@ a.datepicker-button.default:hover {
     right: 0;
   }
 }
+
 .it-footer-main {
   background-color: #096;
   color: #fff;
@@ -25894,12 +25911,37 @@ a.datepicker-button.default:hover {
   margin-right: 8px;
   flex-shrink: 0;
 }
+
+.it-footer-main .it-brand-wrapper a .icon image {
+	height:100%;
+	width:100%;
+}
+
 .it-footer-main section {
   padding: 0 16px;
 }
 .it-footer-main label {
   font-weight: 600;
 }
+
+.it-footer-main .moduletable h2, .it-footer-main .moduletable h3,.it-footer-main .moduletable h4, .it-footer-main .moduletable h5 {
+	font-size: .875rem;
+    line-height: 1rem;
+    text-transform: uppercase;
+	font-weight: 700;
+	margin-bottom: .875rem;
+    padding-bottom: .875rem;
+    border-bottom: 1px solid hsla(0, 0%, 100%, .5);
+}
+
+.it-footer-main .row.footer2{
+	margin-top:30px;
+}
+
+.it-footer-main .moduletable  .mod-menu.mod-list.nav {
+display:block;	
+}
+
 .it-footer-small-prints {
   background-color: #064;
 }
