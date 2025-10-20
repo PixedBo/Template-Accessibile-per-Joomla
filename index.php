@@ -86,60 +86,210 @@ if ($wa->assetExists('style', 'fontawesome')) {
     <link rel="stylesheet" href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/css/bootstrap-italia.min.css">
     <link rel="stylesheet" href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/css/bootstrap-italia-comuni.css">
     <link rel="stylesheet" href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/css/fonts.css">
-	<style>
-	:root {
-	  /* Colore primario personalizzato */
-	  --bs-primary: <?php echo htmlspecialchars($colore); ?> !important;
-	  --bs-link-color: <?php echo htmlspecialchars($colore); ?> !important;
-	  --bs-link-hover-color: color-mix(in srgb, <?php echo htmlspecialchars($colore); ?> 85%, black) !important;
-	  
-	  /* Success e info con il colore primario */
-	  --bs-success: <?php echo htmlspecialchars($colore); ?> !important;
-	  --bs-info: <?php echo htmlspecialchars($colore); ?> !important;
-	  
-	  /* Colori RGB per trasparenze (se necessario) */
-	  <?php
-	  // Converte il colore hex in RGB
-	  $hex = ltrim($colore, '#');
-	  if (strlen($hex) == 6) {
-		  $r = hexdec(substr($hex, 0, 2));
-		  $g = hexdec(substr($hex, 2, 2));
-		  $b = hexdec(substr($hex, 4, 2));
-		  echo "--bs-primary-rgb: {$r}, {$g}, {$b} !important;";
-		  echo "--bs-success-rgb: {$r}, {$g}, {$b} !important;";
-		  echo "--bs-info-rgb: {$r}, {$g}, {$b} !important;";
-	  }
-	  ?>
-	}
+<style>
+:root {
+  /* Colore primario personalizzato */
+  --bs-primary: <?php echo htmlspecialchars($colore); ?> !important;
+  --bs-link-color: <?php echo htmlspecialchars($colore); ?> !important;
+  --bs-link-hover-color: color-mix(in srgb, <?php echo htmlspecialchars($colore); ?> 85%, black) !important;
+  
+  /* Success e info con il colore primario */
+  --bs-success: <?php echo htmlspecialchars($colore); ?> !important;
+  --bs-info: <?php echo htmlspecialchars($colore); ?> !important;
+  
+  /* Variabili bottoni */
+  --bs-btn-color: <?php echo htmlspecialchars($colore); ?> !important;
+  --bs-btn-hover-color: color-mix(in srgb, <?php echo htmlspecialchars($colore); ?> 85%, black) !important;
+  --bs-btn-active-color: color-mix(in srgb, <?php echo htmlspecialchars($colore); ?> 70%, black) !important;
+  
+  /* Colori RGB per trasparenze (se necessario) */
+  <?php
+  // Converte il colore hex in RGB
+  $hex = ltrim($colore, '#');
+  if (strlen($hex) == 6) {
+      $r = hexdec(substr($hex, 0, 2));
+      $g = hexdec(substr($hex, 2, 2));
+      $b = hexdec(substr($hex, 4, 2));
+      echo "--bs-primary-rgb: {$r}, {$g}, {$b} !important;";
+      echo "--bs-success-rgb: {$r}, {$g}, {$b} !important;";
+      echo "--bs-info-rgb: {$r}, {$g}, {$b} !important;";
+  }
+  ?>
+}
 
-	/* Header specifici che non usano le variabili */
-	.it-header-center-wrapper {
-		background-color: <?php echo htmlspecialchars($colore); ?> !important;
-	}
+/* Header specifici che non usano le variabili */
+.it-header-center-wrapper {
+    background-color: <?php echo htmlspecialchars($colore); ?> !important;
+}
 
-	.it-header-slim-wrapper {
-		background: #202a2e;
-	}
+.it-header-slim-wrapper {
+    background: #202a2e;
+}
 
-	@media (min-width: 992px) {
-		.it-header-navbar-wrapper,
-		.navbar {
-			background: <?php echo htmlspecialchars($colore); ?> !important;
-		}
-	}
+.navbar {
+    background: <?php echo htmlspecialchars($colore); ?> !important;
+}
 
-	/* Hover per i bottoni con colore più scuro */
-	.btn-primary:hover,
-	.btn-primary:focus,
-	.btn-secondary:hover,
-	.btn-secondary:focus,
-	.btn-info:hover,
-	.btn-info:focus {
-		background-color: color-mix(in srgb, <?php echo htmlspecialchars($colore); ?> 85%, black) !important;
-		border-color: color-mix(in srgb, <?php echo htmlspecialchars($colore); ?> 85%, black) !important;
-		color: #fff !important;
-	}
-	</style>
+@media (min-width: 992px) {
+    .it-header-navbar-wrapper,
+    .navbar {
+        background: <?php echo htmlspecialchars($colore); ?> !important;
+    }
+}
+
+/* Category link nelle card */
+.card .card-body .category-top a.category {
+    color: <?php echo htmlspecialchars($colore); ?> !important;
+}
+
+/* Bottone primario background */
+.btn-primary {
+    background-color: <?php echo htmlspecialchars($colore); ?> !important;
+    border-color: <?php echo htmlspecialchars($colore); ?> !important;
+}
+
+/* Bottone info */
+.btn-info {
+    color: #fff !important;
+    background-color: <?php echo htmlspecialchars($colore); ?> !important;
+    border-color: <?php echo htmlspecialchars($colore); ?> !important;
+}
+
+/* Dropdown button */
+.dropdown .btn-dropdown {
+    --bs-btn-hover-color: color-mix(in srgb, <?php echo htmlspecialchars($colore); ?> 85%, black) !important;
+}
+
+.btn-dropdown {
+    color: <?php echo htmlspecialchars($colore); ?> !important;
+}
+
+/* Hover per i bottoni con colore più scuro */
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-secondary:hover,
+.btn-secondary:focus,
+.btn-info:hover,
+.btn-info:focus {
+    background-color: color-mix(in srgb, <?php echo htmlspecialchars($colore); ?> 85%, black) !important;
+    border-color: color-mix(in srgb, <?php echo htmlspecialchars($colore); ?> 85%, black) !important;
+    color: #fff !important;
+}
+
+/* Icone primary */
+.icon-primary {
+    fill: <?php echo htmlspecialchars($colore); ?> !important;
+}
+
+/* Spaziatura list-inline-item */
+.list-inline-item {
+    margin-bottom: 10px;
+}
+
+/* Navscroll - Accordion button */
+.cmp-navscroll .navbar.it-navscroll-wrapper .link-list-wrapper .accordion .accordion-header .accordion-button {
+    color: <?php echo htmlspecialchars($colore); ?> !important;
+}
+
+/* Navscroll - Link attivi */
+.navbar.it-navscroll-wrapper .link-list-wrapper ul li a.active span,
+.link-list-wrapper ul li a.active span {
+    color: <?php echo htmlspecialchars($colore); ?> !important;
+}
+
+@media (min-width: 992px) {
+    .navbar.it-navscroll-wrapper .link-list-wrapper ul li a.active span {
+        color: <?php echo htmlspecialchars($colore); ?> !important;
+    }
+}
+
+/* Navscroll - Tutti i link span */
+.link-list-wrapper ul li a span {
+    color: <?php echo htmlspecialchars($colore); ?> !important;
+}
+
+/* Navscroll - Bordo sinistro link attivi */
+aside .cmp-navscroll .navbar.it-navscroll-wrapper .link-list-wrapper ul li a.active {
+    border-left: 2px solid <?php echo htmlspecialchars($colore); ?> !important;
+}
+
+/* Read more link */
+a.read-more {
+    color: <?php echo htmlspecialchars($colore); ?> !important;
+}
+
+a.read-more .icon {
+    fill: <?php echo htmlspecialchars($colore); ?> !important;
+}
+
+/* Testo bianco per heading diretti in bg-primary */
+.bg-primary > .container > .moduletable > h1,
+.bg-primary > .container > .moduletable > h2,
+.bg-primary > .container > .moduletable > h3,
+.bg-primary > .container > .moduletable > h4,
+.bg-primary > .container > .moduletable > h5,
+.bg-primary > .container > .moduletable > h6,
+.bg-primary > .container > h1,
+.bg-primary > .container > h2,
+.bg-primary > .container > h3,
+.bg-primary > .container > h4,
+.bg-primary > .container > h5,
+.bg-primary > .container > h6 {
+    color: #fff !important;
+}
+
+/* Testo bianco per paragrafi diretti in bg-primary */
+.bg-primary > .container > p,
+.bg-primary > .container > .moduletable > p {
+    color: #fff !important;
+}
+
+/* Menu mobile - sfondo e colori */
+.navbar-collapsable .menu-wrapper {
+    background-color: <?php echo htmlspecialchars($colore); ?> !important;
+}
+
+/* Overlay grigio scuro semitrasparente */
+.navbar-collapsable .overlay {
+    background-color: rgba(0, 0, 0, 0.7) !important;
+}
+
+/* Solo il menu wrapper con sfondo primario, non tutto il collapsable */
+.navbar-collapsable {
+    background-color: transparent !important;
+}
+
+/* Testo bianco nel menu mobile */
+.navbar-collapsable .menu-wrapper .nav-link,
+.navbar-collapsable .menu-wrapper .nav-link span,
+.navbar-collapsable .it-socials span,
+.navbar-collapsable .it-brand-title {
+    color: #fff !important;
+}
+
+/* Logo hamburger link */
+.logo-hamburger .it-brand-text .it-brand-title {
+    color: #fff !important;
+}
+
+/* Hover sui link del menu mobile */
+.navbar-collapsable .menu-wrapper .nav-link:hover,
+.navbar-collapsable .menu-wrapper .nav-link:focus {
+    background-color: color-mix(in srgb, <?php echo htmlspecialchars($colore); ?> 85%, black) !important;
+    color: #fff !important;
+}
+
+/* Link attivo nel menu mobile */
+.navbar-collapsable .menu-wrapper .nav-link.active,
+.navbar-collapsable .menu-wrapper .nav-item.active .nav-link {
+    background-color: color-mix(in srgb, <?php echo htmlspecialchars($colore); ?> 85%, black) !important;
+    color: #fff !important;
+}
+
+.navbar-backdrop {
+    z-index: 1;
+}
+</style>
 
   </head>
   <body>
@@ -317,66 +467,39 @@ if ($wa->assetExists('style', 'fontawesome')) {
                               </button>
                             </div>
                             <div class="menu-wrapper">
-                              <a href="homepage.html" class="logo-hamburger">
-                                <svg class="icon" aria-hidden="true">
-                                  <use href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/svg/sprites.svg#it-pa"></use>
-                                </svg>
-                                <div class="it-brand-text">
-                                  <div class="it-brand-title">Nome del Comune</div>
-                                </div>
-                              </a>
+							  <a href="<?php echo $this->baseurl; ?>" class="logo-hamburger">
+								  <?php if ($logoUrl) : ?>
+									<svg width="32" height="32" class="icon" aria-hidden="true">
+									  <image xlink:href="<?php echo htmlspecialchars($logoUrl, ENT_QUOTES, 'UTF-8'); ?>" width="32" height="32" />
+									</svg>
+								  <?php endif; ?>
+								  <div class="it-brand-text">
+									<div class="it-brand-title"><?php echo htmlspecialchars($this->params->get('nomesito', 'Il mio Comune')); ?></div>
+								  </div>
+								</a>
 							  <jdoc:include type="modules" name="menu-principale" />
-                              <nav aria-label="Secondaria">
+							  <nav aria-label="Secondaria">
 								<jdoc:include type="modules" name="menu-secondario" />
-                              </nav>
-                              <div class="it-socials">
-                                <span>Seguici su</span>
-                                <ul>
-                                  <li>
-                                    <a href="#" target="_blank">
-                                      <svg class="icon icon-sm icon-white align-top">
-                                        <use xlink:href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/svg/sprites.svg#it-twitter"></use>
-                                      </svg>
-                                      <span class="visually-hidden">Twitter</span></a>
-                                  </li>
-                                  <li>
-                                    <a href="#" target="_blank">
-                                      <svg class="icon icon-sm icon-white align-top">
-                                        <use xlink:href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/svg/sprites.svg#it-facebook"></use>
-                                      </svg>
-                                      <span class="visually-hidden">Facebook</span></a>
-                                  </li>
-                                  <li>
-                                    <a href="#" target="_blank">
-                                      <svg class="icon icon-sm icon-white align-top">
-                                        <use xlink:href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/svg/sprites.svg#it-youtube"></use>
-                                      </svg>
-                                      <span class="visually-hidden">YouTube</span></a>
-                                  </li>
-                                  <li>
-                                    <a href="#" target="_blank">
-                                      <svg class="icon icon-sm icon-white align-top">
-                                        <use xlink:href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/svg/sprites.svg#it-telegram"></use>
-                                      </svg>
-                                      <span class="visually-hidden">Telegram</span></a>
-                                  </li>
-                                  <li>
-                                    <a href="#" target="_blank">
-                                      <svg class="icon icon-sm icon-white align-top">
-                                        <use xlink:href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/svg/sprites.svg#it-whatsapp"></use>
-                                      </svg>
-                                      <span class="visually-hidden">Whatsapp</span></a>
-                                  </li>
-                                  <li>
-                                    <a href="#" target="_blank">
-                                      <svg class="icon icon-sm icon-white align-top">
-                                        <use xlink:href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/svg/sprites.svg#it-rss"></use>
-                                      </svg>
-                                      <span class="visually-hidden">RSS</span></a>
-                                  </li>
-                                </ul>
-                              </div>
-                            </div>
+							  </nav>
+							  
+							  <?php if (!empty($socialLinks)) : ?>
+							  <div class="it-socials">
+								<span>Seguici su</span>
+								<ul>
+								  <?php foreach ($socialLinks as $social) : ?>
+									<li>
+									  <a href="<?php echo htmlspecialchars($social['url'], ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noopener noreferrer">
+										<svg class="icon icon-sm icon-white align-top">
+										  <use xlink:href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/svg/sprites.svg#<?php echo $social['icon']; ?>"></use>
+										</svg>
+										<span class="visually-hidden"><?php echo $social['label']; ?></span>
+									  </a>
+									</li>
+								  <?php endforeach; ?>
+								</ul>
+							  </div>
+							  <?php endif; ?>
+							</div>
                           </div>
                         </div>
                       </div>
@@ -424,24 +547,30 @@ if ($wa->assetExists('style', 'fontawesome')) {
         </div>
       </section>
 	  <?php endif; ?>
-	  <main>
-                    <div class="container" id="main-container">
-					<jdoc:include type="component" />
-					</div>
-	</main>
+	  <main id="main" class="main-section">
+	  <div class="section py-5 pb-lg-80 px-lg-5 position-relative">
+		<div class="container" id="main-container">
+			<jdoc:include type="component" />
+		</div>
+	  </div>
+	  </main>
 	<?php if ($this->countModules('bottom')) : ?>
-      <div class="bg-primary">
+	<section class="bottom-section ">
+      <div class="bg-primary py-5 pb-lg-80 px-lg-5 position-relative">
         <div class="container">
 			<jdoc:include type="modules" name="bottom" style="html5" />
         </div>
       </div>
+	 </section>
     <?php endif; ?>
 	<?php if ($this->countModules('bottom2')) : ?>
-      <div class="bg-grey-card shadow-contacts">
+	<section class="bottom2-section">
+      <div class="bg-grey-card shadow-contacts py-5 pb-lg-80 px-lg-5 position-relative">
         <div class="container">
 			<jdoc:include type="modules" name="bottom2" style="html5" />
         </div>
       </div>
+	</section>
 	  <?php endif; ?>
 
 <footer class="it-footer" id="footer">
