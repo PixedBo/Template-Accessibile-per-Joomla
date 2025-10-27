@@ -1,5 +1,10 @@
 # Template HTML Accessibile - Joomla + Bootstrap Italia
 
+## Licenza
+Questo template è rilasciato sotto licenza GNU GPL v3.
+Puoi usarlo, modificarlo e distribuirlo liberamente.
+NON puoi venderlo, ma puoi offrire servizi di installazione e supporto.
+
 ## 📄 Descrizione
 Questo repository contiene un **template HTML** pronto per essere integrato in Joomla o altri CMS, progettato per garantire un'esperienza **accessibile** e **responsive**.  
 La struttura si basa su **Bootstrap Italia 2.x**, con HTML semantico e stili personalizzati, ed è pensata per adattarsi a progetti web che richiedono un alto livello di usabilità e conformità agli standard di accessibilità (**WCAG 2.1 AA**).
