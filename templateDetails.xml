@@ -3,7 +3,11 @@
   <name>Template Accessibile per Joomla</name>
   <version>1.0.0</version>
   <creationDate>2025-07-24</creationDate>
-  <author>Pixed</author>
+  <author>Pixed Web Development</author>
+  <authorEmail>info@pixed.it</authorEmail>
+  <authorUrl>https://www.pixed.it</authorUrl>
+  <copyright>Copyright (C) 2025 Pixed Web Development. All rights reserved.</copyright>
+  <license>GNU General Public License version 3 or later; see LICENSE.txt</license>
   <description>Template Joomla 5 conforme alle linee guida Designers Italia e Modello Comuni</description>
   <files>
     <filename>README.md</filename>
