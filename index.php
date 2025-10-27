@@ -1,4 +1,22 @@
 <?php
+
+/**
+ * @package     Joomla Template Accessibile per la PA
+ * @subpackage  Templates.it_accessible
+ * @copyright   Copyright (C) 2025 Pixed Web Development. All rights reserved.
+ * @license     GNU General Public License version 3 or later; see LICENSE.txt
+ * @link        https://www.pixed.it
+ * 
+ * This template is free software. You can redistribute it and/or modify it
+ * under the terms of the GNU General Public License version 3 as published
+ * by the Free Software Foundation.
+ * 
+ * This template is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ */
+
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
