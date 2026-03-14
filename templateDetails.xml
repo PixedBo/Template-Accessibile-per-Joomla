@@ -9,6 +9,10 @@
   <copyright>Copyright (C) 2025 Pixed Web Development. All rights reserved.</copyright>
   <license>GNU General Public License version 3 or later; see LICENSE.txt</license>
   <description>Template Joomla 5 conforme alle linee guida Designers Italia e Modello Comuni</description>
+  <dependencies>
+    <dependency type="core" operator=">=">5.0.0</dependency>
+    <dependency type="php" operator=">=">8.2.0</dependency>
+  </dependencies>
   <files>
     <filename>README.md</filename>
     <filename>error.php</filename>

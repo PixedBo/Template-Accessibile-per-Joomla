@@ -33558,6 +33558,7 @@ s .cmp-icon-list .shadow:not(:first-child) {
 .card.card-teaser-info {
   border-left: 8px solid rgba(0, 122, 82, 0.1);
 }
+
 @media print {
   .cmp-navscroll,
   .dropdown,

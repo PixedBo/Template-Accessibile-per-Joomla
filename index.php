@@ -22,6 +22,8 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Text;
 
 $app       = Factory::getApplication();
 $doc       = $app->getDocument();
@@ -29,6 +31,20 @@ $template  = $app->getTemplate();
 $params    = $app->getTemplate(true)->params;
 
 $colore    = $params->get('coloreprimario', '#0066CC');
+
+// Mappiamo i colori esatti del tuo XML ai nomi dei file immagine
+$mappaSfondi = [
+    '#0066CC' => 'blu-default.jpg',
+    '#007a52' => 'verde-comuni.png',
+    '#d1344c' => 'rosso-scuola.jpg',
+    '#07768d' => 'verde-acqua-asl.jpg',
+    '#7d2670' => 'viola-musei.jpg'
+];
+
+// Se il colore scelto non è in mappa, usiamo il blu di default come fallback
+$sfondoScelto = $mappaSfondi[$colore] ?? 'blu-default.jpg';
+$urlSfondoEvidenza = $this->baseurl . '/templates/' . $this->template . '/images/' . $sfondoScelto;
+
 $baseurl   = Uri::base();
 $logo = $this->params->get('logotipo');
 $logoUrl = '';
@@ -86,24 +102,30 @@ if (!empty($logo)) {
   $logoUrl = $this->baseurl . '/' . ltrim($logoData->url, '/'); // ✅ URL assoluto corretto
 }
 
-// INSERIMENTO DI FONT-AWESOME
-
+// INSERIMENTO ASSET E FONT-AWESOME
 $wa = $this->getWebAssetManager();
-if ($wa->assetExists('style', 'fontawesome')) {
-	$wa->useStyle('fontawesome');
-	} else {
-		$wa->registerAndUseStyle('fa-base', 'media/vendor/fontawesome-free/css/fontawesome.min.css');
-	}
 
+// Costruiamo il percorso corretto alla cartella del template
+$tplPath = 'templates/' . $this->template;
+
+// FontAwesome
+if ($wa->assetExists('style', 'fontawesome')) {
+    $wa->useStyle('fontawesome');
+} else {
+    $wa->registerAndUseStyle('fa-base', 'media/vendor/fontawesome-free/css/fontawesome.min.css');
+}
+
+// Registrazione e attivazione degli asset del template con percorsi esatti
+$wa->registerAndUseStyle('template.styles', $tplPath . '/css/bootstrap-italia.min.css')
+   ->registerAndUseStyle('template.comuni', $tplPath . '/css/bootstrap-italia-comuni.css', [], ['template.styles'])
+   ->registerAndUseStyle('template.fonts', $tplPath . '/css/fonts.css')
+   ->registerAndUseScript('template.scripts', $tplPath . '/js/bootstrap-italia.bundle.min.js', [], ['defer' => true]);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <jdoc:include type="head" />
-    <link rel="stylesheet" href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/css/bootstrap-italia.min.css">
-    <link rel="stylesheet" href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/css/bootstrap-italia-comuni.css">
-    <link rel="stylesheet" href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/css/fonts.css">
 <style>
 :root {
   /* Colore primario personalizzato */
@@ -307,6 +329,21 @@ a.read-more .icon {
 .navbar-backdrop {
     z-index: 1;
 }
+
+/* Sfondo Dinamico Sezione Evidenza */
+.bg-evidenza {
+    background-image: url('<?php echo htmlspecialchars($urlSfondoEvidenza, ENT_QUOTES, 'UTF-8'); ?>') !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+}
+
+/* Rimuovi eventuali pseudo-elementi esistenti di default in Bootstrap Italia */
+.bg-evidenza::before,
+.bg-evidenza::after {
+    display: none !important;
+}
+
 </style>
 
   </head>
@@ -354,15 +391,15 @@ a.read-more .icon {
           // Utente non loggato - mostra link login
           if ($tipoLogin == 'menuitem' && $menuitemLogin > 0) {
               // Login personalizzato tramite menu item
-              $loginUrl = JRoute::_('index.php?Itemid=' . $menuitemLogin);
+              $loginUrl = Route::_('index.php?Itemid=' . $menuitemLogin);
           } else {
               // Login standard di Joomla
-              $loginUrl = JRoute::_('index.php?option=com_users&view=login');
+              $loginUrl = Route::_('index.php?option=com_users&view=login');
           }
           $loginText = 'Accedi all\'area personale';
       } else {
           // Utente loggato - mostra link profilo
-          $loginUrl = JRoute::_('index.php?option=com_users&view=profile');
+          $loginUrl = Route::_('index.php?option=com_users&view=profile');
           $loginText = 'Area personale';
       }
   ?>
@@ -435,10 +472,10 @@ a.read-more .icon {
       
       if ($tipoRicerca == 'menuitem' && $menuitemRicerca > 0) {
           // Ricerca personalizzata tramite menu item
-          $ricercaUrl = JRoute::_('index.php?Itemid=' . $menuitemRicerca);
+          $ricercaUrl = Route::_('index.php?Itemid=' . $menuitemRicerca);
       } else {
           // Ricerca Smart Search standard di Joomla
-          $ricercaUrl = JRoute::_('index.php?option=com_finder&view=search');
+          $ricercaUrl = Route::_('index.php?option=com_finder&view=search');
       }
   ?>
   
@@ -544,7 +581,7 @@ a.read-more .icon {
 	   
 	   <?php if ($this->countModules('evidenza')) : ?>
 	   <section id="evidenza" class="evidence-section">
-		<div class="section py-5 pb-lg-80 px-lg-5 position-relative bg-evidenza bg-evidenza-<?php echo $this->params->get('coloreprimario', 'blu'); ?>">
+		<div class="section py-5 pb-lg-80 px-lg-5 position-relative bg-evidenza">
                 
 	<div class="container">
 			<div class="row">
@@ -633,7 +670,6 @@ a.read-more .icon {
     <?php endif; ?>
 
     <jdoc:include type="modules" name="debug" style="none" />
-	    <script src="<?= $this->baseurl ?>/templates/<?= $this->template ?>/js/bootstrap-italia.bundle.min.js"></script>
 </body>
 
 </html>
