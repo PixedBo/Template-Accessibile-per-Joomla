@@ -81,12 +81,17 @@ if ($wa->assetExists('style', 'fontawesome')) {
 	$wa->registerAndUseStyle('fa-base', 'media/vendor/fontawesome-free/css/fontawesome.min.css');
 }
 
-// Registrazione asset
+// Registrazione asset di base
 $wa->registerAndUseStyle('template.styles', $tplPath . '/css/bootstrap-italia.min.css')
    ->registerAndUseStyle('template.comuni', $tplPath . '/css/bootstrap-italia-comuni.css', [], ['template.styles'])
    ->registerAndUseStyle('template.fonts', $tplPath . '/css/fonts.css')
    ->registerAndUseScript('template.scripts', $tplPath . '/js/bootstrap-italia.bundle.min.js', [], ['defer' => true]);
 
+// Controllo e caricamento del file custom.css (se esiste)
+if (file_exists(JPATH_ROOT . '/templates/' . $this->template . '/css/custom.css')) {
+    // Aggiungiamo la dipendenza da 'template.comuni' per assicurarci che venga caricato per ultimo
+    $wa->registerAndUseStyle('template.custom', $tplPath . '/css/custom.css', [], ['template.comuni']);
+}
 // Mappa degli sfondi in base al colore scelto
 $mappaSfondi = [
     '#0066CC' => 'blu-default.jpg',
