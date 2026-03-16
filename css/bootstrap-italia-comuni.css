@@ -33558,6 +33558,101 @@ s .cmp-icon-list .shadow:not(:first-child) {
 .card.card-teaser-info {
   border-left: 8px solid rgba(0, 122, 82, 0.1);
 }
+
+/* ==========================================================================
+   COLORI DINAMICI TEMPLATE
+   Queste regole usano le variabili CSS iniettate dinamicamente dall'index.php
+   ========================================================================== */
+
+/* Header specifici che non usano le variabili di default */
+.it-header-center-wrapper,
+.navbar,
+.navbar-collapsable .menu-wrapper {
+    background-color: var(--bs-primary) !important;
+}
+
+@media (min-width: 992px) {
+    .it-header-navbar-wrapper,
+    .navbar {
+        background-color: var(--bs-primary) !important;
+    }
+}
+
+/* Category link nelle card */
+.card .card-body .category-top a.category {
+    color: var(--bs-primary) !important;
+}
+
+/* Bottoni */
+.btn-primary,
+.btn-info {
+    background-color: var(--bs-primary) !important;
+    border-color: var(--bs-primary) !important;
+}
+.btn-info {
+    color: #fff !important;
+}
+.btn-dropdown,
+.accordion-header .accordion-button,
+.link-list-wrapper ul li a span,
+.navbar.it-navscroll-wrapper .link-list-wrapper ul li a.active span,
+.link-list-wrapper ul li a.active span,
+a.read-more {
+    color: var(--bs-primary) !important;
+}
+.dropdown .btn-dropdown {
+    --bs-btn-hover-color: var(--bs-btn-hover-color) !important;
+}
+
+/* Hover per i bottoni */
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-secondary:hover,
+.btn-secondary:focus,
+.btn-info:hover,
+.btn-info:focus {
+    background-color: var(--bs-btn-hover-color) !important;
+    border-color: var(--bs-btn-hover-color) !important;
+    color: #fff !important;
+}
+
+/* Icone e bordi */
+.icon-primary,
+a.read-more .icon {
+    fill: var(--bs-primary) !important;
+}
+aside .cmp-navscroll .navbar.it-navscroll-wrapper .link-list-wrapper ul li a.active {
+    border-left: 2px solid var(--bs-primary) !important;
+}
+
+/* Testo bianco per bg-primary */
+.bg-primary > .container > .moduletable > h1,
+.bg-primary > .container > .moduletable > h2,
+.bg-primary > .container > .moduletable > h3,
+.bg-primary > .container > .moduletable > h4,
+.bg-primary > .container > .moduletable > h5,
+.bg-primary > .container > .moduletable > h6,
+.bg-primary > .container > h1,
+.bg-primary > .container > h2,
+.bg-primary > .container > h3,
+.bg-primary > .container > h4,
+.bg-primary > .container > h5,
+.bg-primary > .container > h6,
+.bg-primary > .container > p,
+.bg-primary > .container > .moduletable > p {
+    color: #fff !important;
+}
+
+/* Menu mobile */
+.navbar-collapsable .menu-wrapper .nav-link:hover,
+.navbar-collapsable .menu-wrapper .nav-link:focus,
+.navbar-collapsable .menu-wrapper .nav-link.active,
+.navbar-collapsable .menu-wrapper .nav-item.active .nav-link {
+    background-color: var(--bs-btn-hover-color) !important;
+    color: #fff !important;
+}
+
+
 @media print {
   .cmp-navscroll,
   .dropdown,

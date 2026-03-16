@@ -4,6 +4,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Language\Text;
 
 $app       = Factory::getApplication();
 $doc       = $app->getDocument();
@@ -68,14 +69,72 @@ if (!empty($logo)) {
   $logoUrl = $this->baseurl . '/' . ltrim($logoData->url, '/'); // ✅ URL assoluto corretto
 }
 
-// INSERIMENTO DI FONT-AWESOME
-
+// INSERIMENTO ASSET E FONT-AWESOME
 $wa = $this->getWebAssetManager();
+
+// Costruiamo il percorso corretto alla cartella del template
+$tplPath = 'templates/' . $this->template;
+
 if ($wa->assetExists('style', 'fontawesome')) {
 	$wa->useStyle('fontawesome');
-	} else {
-		$wa->registerAndUseStyle('fa-base', 'media/vendor/fontawesome-free/css/fontawesome.min.css');
-	}
+} else {
+	$wa->registerAndUseStyle('fa-base', 'media/vendor/fontawesome-free/css/fontawesome.min.css');
+}
+
+// Registrazione asset
+$wa->registerAndUseStyle('template.styles', $tplPath . '/css/bootstrap-italia.min.css')
+   ->registerAndUseStyle('template.comuni', $tplPath . '/css/bootstrap-italia-comuni.css', [], ['template.styles'])
+   ->registerAndUseStyle('template.fonts', $tplPath . '/css/fonts.css')
+   ->registerAndUseScript('template.scripts', $tplPath . '/js/bootstrap-italia.bundle.min.js', [], ['defer' => true]);
+
+// Mappa degli sfondi in base al colore scelto
+$mappaSfondi = [
+    '#0066CC' => 'blu-default.jpg',
+    '#007a52' => 'verde-comuni.png',
+    '#d1344c' => 'rosso-scuola.jpg',
+    '#07768d' => 'verde-acqua-asl.jpg',
+    '#7d2670' => 'viola-musei.jpg'
+];
+$sfondoScelto = $mappaSfondi[$colore] ?? 'blu-default.jpg';
+$urlSfondoEvidenza = $this->baseurl . '/templates/' . $this->template . '/images/' . $sfondoScelto;
+
+// INIEZIONE VARIABILI CSS DINAMICHE
+$hex = ltrim($colore, '#');
+$r = hexdec(substr($hex, 0, 2));
+$g = hexdec(substr($hex, 2, 2));
+$b = hexdec(substr($hex, 4, 2));
+
+$inlineCss = "
+:root {
+  --bs-primary: {$colore} !important;
+  --bs-link-color: {$colore} !important;
+  --bs-link-hover-color: color-mix(in srgb, {$colore} 85%, black) !important;
+  --bs-success: {$colore} !important;
+  --bs-info: {$colore} !important;
+  --bs-btn-color: {$colore} !important;
+  --bs-btn-hover-color: color-mix(in srgb, {$colore} 85%, black) !important;
+  --bs-btn-active-color: color-mix(in srgb, {$colore} 70%, black) !important;
+  --bs-primary-rgb: {$r}, {$g}, {$b} !important;
+  --bs-success-rgb: {$r}, {$g}, {$b} !important;
+  --bs-info-rgb: {$r}, {$g}, {$b} !important;
+}
+/* Sovrascrittura della testata alta (Header Slim) - La scuriamo del 25% rispetto al primario */
+.it-header-slim-wrapper {
+  background-color: color-mix(in srgb, var(--bs-primary) 75%, black) !important;
+}
+/* Sfondo della sezione Evidenza */
+.bg-evidenza {
+  background-image: url('{$urlSfondoEvidenza}') !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+.bg-evidenza::before, .bg-evidenza::after {
+  display: none !important;
+}
+";
+
+$wa->addInlineStyle($inlineCss);
 
 ?>
 <!DOCTYPE html>
@@ -83,217 +142,16 @@ if ($wa->assetExists('style', 'fontawesome')) {
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <jdoc:include type="head" />
-    <link rel="stylesheet" href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/css/bootstrap-italia.min.css">
-    <link rel="stylesheet" href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/css/bootstrap-italia-comuni.css">
-    <link rel="stylesheet" href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/css/fonts.css">
-<style>
-:root {
-  /* Colore primario personalizzato */
-  --bs-primary: <?php echo htmlspecialchars($colore); ?> !important;
-  --bs-link-color: <?php echo htmlspecialchars($colore); ?> !important;
-  --bs-link-hover-color: color-mix(in srgb, <?php echo htmlspecialchars($colore); ?> 85%, black) !important;
-  
-  /* Success e info con il colore primario */
-  --bs-success: <?php echo htmlspecialchars($colore); ?> !important;
-  --bs-info: <?php echo htmlspecialchars($colore); ?> !important;
-  
-  /* Variabili bottoni */
-  --bs-btn-color: <?php echo htmlspecialchars($colore); ?> !important;
-  --bs-btn-hover-color: color-mix(in srgb, <?php echo htmlspecialchars($colore); ?> 85%, black) !important;
-  --bs-btn-active-color: color-mix(in srgb, <?php echo htmlspecialchars($colore); ?> 70%, black) !important;
-  
-  /* Colori RGB per trasparenze (se necessario) */
-  <?php
-  // Converte il colore hex in RGB
-  $hex = ltrim($colore, '#');
-  if (strlen($hex) == 6) {
-      $r = hexdec(substr($hex, 0, 2));
-      $g = hexdec(substr($hex, 2, 2));
-      $b = hexdec(substr($hex, 4, 2));
-      echo "--bs-primary-rgb: {$r}, {$g}, {$b} !important;";
-      echo "--bs-success-rgb: {$r}, {$g}, {$b} !important;";
-      echo "--bs-info-rgb: {$r}, {$g}, {$b} !important;";
-  }
-  ?>
-}
-
-/* Header specifici che non usano le variabili */
-.it-header-center-wrapper {
-    background-color: <?php echo htmlspecialchars($colore); ?> !important;
-}
-
-.it-header-slim-wrapper {
-    background: #202a2e;
-}
-
-.navbar {
-    background: <?php echo htmlspecialchars($colore); ?> !important;
-}
-
-@media (min-width: 992px) {
-    .it-header-navbar-wrapper,
-    .navbar {
-        background: <?php echo htmlspecialchars($colore); ?> !important;
-    }
-}
-
-/* Category link nelle card */
-.card .card-body .category-top a.category {
-    color: <?php echo htmlspecialchars($colore); ?> !important;
-}
-
-/* Bottone primario background */
-.btn-primary {
-    background-color: <?php echo htmlspecialchars($colore); ?> !important;
-    border-color: <?php echo htmlspecialchars($colore); ?> !important;
-}
-
-/* Bottone info */
-.btn-info {
-    color: #fff !important;
-    background-color: <?php echo htmlspecialchars($colore); ?> !important;
-    border-color: <?php echo htmlspecialchars($colore); ?> !important;
-}
-
-/* Dropdown button */
-.dropdown .btn-dropdown {
-    --bs-btn-hover-color: color-mix(in srgb, <?php echo htmlspecialchars($colore); ?> 85%, black) !important;
-}
-
-.btn-dropdown {
-    color: <?php echo htmlspecialchars($colore); ?> !important;
-}
-
-/* Hover per i bottoni con colore più scuro */
-.btn-primary:hover,
-.btn-primary:focus,
-.btn-secondary:hover,
-.btn-secondary:focus,
-.btn-info:hover,
-.btn-info:focus {
-    background-color: color-mix(in srgb, <?php echo htmlspecialchars($colore); ?> 85%, black) !important;
-    border-color: color-mix(in srgb, <?php echo htmlspecialchars($colore); ?> 85%, black) !important;
-    color: #fff !important;
-}
-
-/* Icone primary */
-.icon-primary {
-    fill: <?php echo htmlspecialchars($colore); ?> !important;
-}
-
-/* Spaziatura list-inline-item */
-.list-inline-item {
-    margin-bottom: 10px;
-}
-
-/* Navscroll - Accordion button */
-.cmp-navscroll .navbar.it-navscroll-wrapper .link-list-wrapper .accordion .accordion-header .accordion-button {
-    color: <?php echo htmlspecialchars($colore); ?> !important;
-}
-
-/* Navscroll - Link attivi */
-.navbar.it-navscroll-wrapper .link-list-wrapper ul li a.active span,
-.link-list-wrapper ul li a.active span {
-    color: <?php echo htmlspecialchars($colore); ?> !important;
-}
-
-@media (min-width: 992px) {
-    .navbar.it-navscroll-wrapper .link-list-wrapper ul li a.active span {
-        color: <?php echo htmlspecialchars($colore); ?> !important;
-    }
-}
-
-/* Navscroll - Tutti i link span */
-.link-list-wrapper ul li a span {
-    color: <?php echo htmlspecialchars($colore); ?> !important;
-}
-
-/* Navscroll - Bordo sinistro link attivi */
-aside .cmp-navscroll .navbar.it-navscroll-wrapper .link-list-wrapper ul li a.active {
-    border-left: 2px solid <?php echo htmlspecialchars($colore); ?> !important;
-}
-
-/* Read more link */
-a.read-more {
-    color: <?php echo htmlspecialchars($colore); ?> !important;
-}
-
-a.read-more .icon {
-    fill: <?php echo htmlspecialchars($colore); ?> !important;
-}
-
-/* Testo bianco per heading diretti in bg-primary */
-.bg-primary > .container > .moduletable > h1,
-.bg-primary > .container > .moduletable > h2,
-.bg-primary > .container > .moduletable > h3,
-.bg-primary > .container > .moduletable > h4,
-.bg-primary > .container > .moduletable > h5,
-.bg-primary > .container > .moduletable > h6,
-.bg-primary > .container > h1,
-.bg-primary > .container > h2,
-.bg-primary > .container > h3,
-.bg-primary > .container > h4,
-.bg-primary > .container > h5,
-.bg-primary > .container > h6 {
-    color: #fff !important;
-}
-
-/* Testo bianco per paragrafi diretti in bg-primary */
-.bg-primary > .container > p,
-.bg-primary > .container > .moduletable > p {
-    color: #fff !important;
-}
-
-/* Menu mobile - sfondo e colori */
-.navbar-collapsable .menu-wrapper {
-    background-color: <?php echo htmlspecialchars($colore); ?> !important;
-}
-
-/* Overlay grigio scuro semitrasparente */
-.navbar-collapsable .overlay {
-    background-color: rgba(0, 0, 0, 0.7) !important;
-}
-
-/* Solo il menu wrapper con sfondo primario, non tutto il collapsable */
-.navbar-collapsable {
-    background-color: transparent !important;
-}
-
-/* Testo bianco nel menu mobile */
-.navbar-collapsable .menu-wrapper .nav-link,
-.navbar-collapsable .menu-wrapper .nav-link span,
-.navbar-collapsable .it-socials span,
-.navbar-collapsable .it-brand-title {
-    color: #fff !important;
-}
-
-/* Logo hamburger link */
-.logo-hamburger .it-brand-text .it-brand-title {
-    color: #fff !important;
-}
-
-/* Hover sui link del menu mobile */
-.navbar-collapsable .menu-wrapper .nav-link:hover,
-.navbar-collapsable .menu-wrapper .nav-link:focus {
-    background-color: color-mix(in srgb, <?php echo htmlspecialchars($colore); ?> 85%, black) !important;
-    color: #fff !important;
-}
-
-/* Link attivo nel menu mobile */
-.navbar-collapsable .menu-wrapper .nav-link.active,
-.navbar-collapsable .menu-wrapper .nav-item.active .nav-link {
-    background-color: color-mix(in srgb, <?php echo htmlspecialchars($colore); ?> 85%, black) !important;
-    color: #fff !important;
-}
-
-.navbar-backdrop {
-    z-index: 1;
-}
-</style>
-
-  </head>
+</head>
   <body>
-<header class="it-header-wrapper" data-bs-target="#header-nav-wrapper" style="">
+    
+    <div class="skiplinks visually-hidden-focusable">
+        <a href="#main"><?php echo Text::_('TPL_ACCESSIBILE_SKIP_MAIN'); ?></a>
+        <a href="#header-nav-wrapper"><?php echo Text::_('TPL_ACCESSIBILE_SKIP_MENU'); ?></a>
+        <a href="#footer"><?php echo Text::_('TPL_ACCESSIBILE_SKIP_FOOTER'); ?></a>
+    </div>
+
+    <header class="it-header-wrapper" data-bs-target="#header-nav-wrapper">
               <div class="it-header-slim-wrapper">
                 <div class="container">
                   <div class="row">
@@ -306,12 +164,11 @@ a.read-more .icon {
 
 						if (!empty($nomeRegione)) :
 							if (!empty($linkRegione)) : ?>
-								<a class="d-lg-block navbar-brand" target="_blank"
-								   href="<?php echo htmlspecialchars($linkRegione, ENT_QUOTES, 'UTF-8'); ?>"
-								   aria-label="Vai al portale <?php echo htmlspecialchars($nomeRegione); ?> - link esterno - apertura nuova scheda"
-								   title="Vai al portale <?php echo htmlspecialchars($nomeRegione); ?>">
-								   <?php echo htmlspecialchars($nomeRegione); ?>
-								</a>
+								<a class="d-lg-block navbar-brand" target="_blank" href="<?php echo htmlspecialchars($linkRegione, ENT_QUOTES, 'UTF-8'); ?>" 
+                  aria-label="<?php echo Text::sprintf('TPL_ACCESSIBILE_GO_TO_PORTAL', htmlspecialchars($nomeRegione)) . ' - ' . Text::_('TPL_ACCESSIBILE_EXTERNAL_LINK'); ?>" 
+                  title="<?php echo Text::sprintf('TPL_ACCESSIBILE_GO_TO_PORTAL', htmlspecialchars($nomeRegione)); ?>">
+                  <?php echo htmlspecialchars($nomeRegione); ?>
+                </a>
 							<?php else : ?>
 								<span class="d-lg-block navbar-brand"><?php echo htmlspecialchars($nomeRegione); ?></span>
 							<?php endif;
@@ -341,11 +198,11 @@ a.read-more .icon {
               // Login standard di Joomla
               $loginUrl = JRoute::_('index.php?option=com_users&view=login');
           }
-          $loginText = 'Accedi all\'area personale';
+          $loginText = $user->guest ? Text::_('TPL_ACCESSIBILE_LOGIN') : Text::_('TPL_ACCESSIBILE_PERSONAL_AREA');
       } else {
           // Utente loggato - mostra link profilo
           $loginUrl = JRoute::_('index.php?option=com_users&view=profile');
-          $loginText = 'Area personale';
+          $loginText = $user->guest ? Text::_('TPL_ACCESSIBILE_LOGIN') : Text::_('TPL_ACCESSIBILE_PERSONAL_AREA');
       }
   ?>
   
@@ -391,7 +248,7 @@ a.read-more .icon {
                           <div class="it-right-zone">
   <?php if (!empty($socialLinks)) : ?>
     <div class="it-socials d-none d-lg-flex">
-      <span>Seguici su</span>
+      <span><?php echo Text::_('TPL_ACCESSIBILE_FOLLOW_US'); ?></span>
       <ul>
         <?php foreach ($socialLinks as $social) : ?>
           <li>
@@ -484,7 +341,7 @@ a.read-more .icon {
 							  
 							  <?php if (!empty($socialLinks)) : ?>
 							  <div class="it-socials">
-								<span>Seguici su</span>
+								<span><?php echo Text::_('TPL_ACCESSIBILE_FOLLOW_US'); ?></span>
 								<ul>
 								  <?php foreach ($socialLinks as $social) : ?>
 									<li>
@@ -508,8 +365,7 @@ a.read-more .icon {
                 </div>
               </div>
             </header>
-      <h1 class="visually-hidden" id="main-container"><?php echo htmlspecialchars($this->params->get('nomesito', 'Il mio Comune')); ?></h1>
-      <section id="head-section">
+<h1 class="visually-hidden" id="main-title"><?php echo htmlspecialchars($this->params->get('nomesito', 'Il mio Comune')); ?></h1>      <section id="head-section">
 		<div class="container">
 			<jdoc:include type="modules" name="top" style="html5" />
 		</div>

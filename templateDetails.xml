@@ -20,6 +20,10 @@
     <folder>js</folder>
     <folder>svg</folder>
   </files>
+  <languages folder="language">
+    <language tag="it-IT">it-IT/tpl_templateaccessibileperjoomla.ini</language>
+    <language tag="en-GB">en-GB/tpl_templateaccessibileperjoomla.ini</language>
+  </languages>
   <positions>
     <position>selezione-lingua</position>
     <position>menu-principale</position>

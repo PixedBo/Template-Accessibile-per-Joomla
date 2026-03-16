@@ -1,438 +1,270 @@
 <?php
 /**
  * @package     Joomla.Site
- * @subpackage  com_content
+ * @subpackage  Template.accessibile
  *
- * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * Pagina di Errore personalizzata (404, 500, ecc.)
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Associations;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
-use Joomla\Component\Content\Administrator\Extension\ContentComponent;
-use Joomla\Component\Content\Site\Helper\RouteHelper;
-use Joomla\Component\Tags\Site\Helper\RouteHelper as TagsHelperRoute;
+use Joomla\CMS\Language\Text;
 
-/** @var \Joomla\Component\Content\Site\View\Article\HtmlView $this */
+$app       = Factory::getApplication();
+$doc       = $app->getDocument();
+$template  = $app->getTemplate();
+$params    = $app->getTemplate(true)->params;
 
-// Create shortcuts to some parameters.
-$params  = $this->item->params;
-$canEdit = $params->get('access-edit');
-$user    = $this->getCurrentUser();
-$info    = $params->get('info_block_position', 0);
-$htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
+// Gestione Errori
+$errorCode = $this->error->getCode();
+$errorMessage = $this->error->getMessage();
+if ($errorCode == '404') {
+    $errorMessage = 'Not Found';
+}
 
-// Check if associations are implemented. If they are, define the parameter.
-$assocParam        = (Associations::isEnabled() && $params->get('show_associations'));
-$currentDate       = Factory::getDate()->format('Y-m-d H:i:s');
-$isNotPublishedYet = $this->item->publish_up > $currentDate;
-$isExpired         = !is_null($this->item->publish_down) && $this->item->publish_down < $currentDate;
-$useDefList        = $params->get('show_modify_date') || $params->get('show_publish_date') || $params->get('show_create_date')
-    || $params->get('show_hits') || $params->get('show_category') || $params->get('show_parent_category') || $params->get('show_author') || $assocParam;
+$colore    = $params->get('coloreprimario', '#0066CC');
+$baseurl   = Uri::base();
+$logo      = $params->get('logotipo');
+$logoUrl   = '';
 
-// Controllo presenza moduli nella colonna destra
-$app = Factory::getApplication();
-$hasRightColumn = $app->getDocument()->countModules('colonna-destra') > 0;
+// Costruzione lista social (serve per header e footer)
+$socialX   = $params->get('socialx');
+$facebook  = $params->get('facebook');
+$youtube   = $params->get('youtube');
+$telegram  = $params->get('telegram');
+$whatsapp  = $params->get('whatsapp');
+$socialLinks = [];
+if ($socialX)  $socialLinks[] = ['url' => $socialX, 'icon' => 'it-twitter', 'label' => 'X (Twitter)'];
+if ($facebook) $socialLinks[] = ['url' => $facebook, 'icon' => 'it-facebook', 'label' => 'Facebook'];
+if ($youtube)  $socialLinks[] = ['url' => $youtube, 'icon' => 'it-youtube', 'label' => 'YouTube'];
+if ($telegram) $socialLinks[] = ['url' => $telegram, 'icon' => 'it-telegram', 'label' => 'Telegram'];
+if ($whatsapp) $socialLinks[] = ['url' => 'https://wa.me/' . preg_replace('/[^0-9]/', '', $whatsapp), 'icon' => 'it-whatsapp', 'label' => 'Whatsapp'];
 
-// Definisco le classi delle colonne in base alla presenza della colonna destra
-$leftColClass = $hasRightColumn ? 'col-lg-3' : 'col-lg-3';
-$centerColClass = $hasRightColumn ? 'col-lg-6' : 'col-lg-9';
-$rightColClass = 'col-lg-3';
+if (!empty($logo)) {
+  $logoData = HTMLHelper::cleanImageURL($logo);
+  $logoUrl = $this->baseurl . '/' . ltrim($logoData->url, '/');
+}
+
+// INSERIMENTO ASSET E FONT-AWESOME
+$wa = $this->getWebAssetManager();
+$tplPath = 'templates/' . $this->template;
+
+if ($wa->assetExists('style', 'fontawesome')) {
+    $wa->useStyle('fontawesome');
+} else {
+    $wa->registerAndUseStyle('fa-base', 'media/vendor/fontawesome-free/css/fontawesome.min.css');
+}
+
+$wa->registerAndUseStyle('template.styles', $tplPath . '/css/bootstrap-italia.min.css')
+   ->registerAndUseStyle('template.comuni', $tplPath . '/css/bootstrap-italia-comuni.css', [], ['template.styles'])
+   ->registerAndUseStyle('template.fonts', $tplPath . '/css/fonts.css')
+   ->registerAndUseScript('template.scripts', $tplPath . '/js/bootstrap-italia.bundle.min.js', [], ['defer' => true]);
+
+// INIEZIONE VARIABILI CSS DINAMICHE
+$hex = ltrim($colore, '#');
+$r = hexdec(substr($hex, 0, 2));
+$g = hexdec(substr($hex, 2, 2));
+$b = hexdec(substr($hex, 4, 2));
+
+$inlineCss = ":root {
+  --bs-primary: {$colore} !important;
+  --bs-link-color: {$colore} !important;
+  --bs-link-hover-color: color-mix(in srgb, {$colore} 85%, black) !important;
+  --bs-success: {$colore} !important;
+  --bs-info: {$colore} !important;
+  --bs-btn-color: {$colore} !important;
+  --bs-btn-hover-color: color-mix(in srgb, {$colore} 85%, black) !important;
+  --bs-btn-active-color: color-mix(in srgb, {$colore} 70%, black) !important;
+  --bs-primary-rgb: {$r}, {$g}, {$b} !important;
+  --bs-success-rgb: {$r}, {$g}, {$b} !important;
+  --bs-info-rgb: {$r}, {$g}, {$b} !important;
+}
+.it-header-slim-wrapper {
+  background-color: color-mix(in srgb, var(--bs-primary) 75%, black) !important;
+}";
+$wa->addInlineStyle($inlineCss);
+
 ?>
+<!DOCTYPE html>
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <jdoc:include type="head" />
+  </head>
+  <body>
     
-        <div class="row">
-            <div class="col-lg-8 px-lg-4 py-lg-2">
-                <?php if ($params->get('show_title')) : ?>
-                    <<?php echo $htag; ?> data-audio="">
-                        <?php echo $this->escape($this->item->title); ?>
-                        <?php if ($this->item->state == ContentComponent::CONDITION_UNPUBLISHED) : ?>
-                            <span class="badge bg-warning text-light"><?php echo Text::_('JUNPUBLISHED'); ?></span>
-                        <?php endif; ?>
-                        <?php if ($isNotPublishedYet) : ?>
-                            <span class="badge bg-warning text-light"><?php echo Text::_('JNOTPUBLISHEDYET'); ?></span>
-                        <?php endif; ?>
-                        <?php if ($isExpired) : ?>
-                            <span class="badge bg-warning text-light"><?php echo Text::_('JEXPIRED'); ?></span>
-                        <?php endif; ?>
-                    </<?php echo $htag; ?>>
-                <?php endif; ?>
-                
-                <h2 class="visually-hidden" data-audio="">Dettagli della notizia</h2>
-                
-                <?php if ($this->item->introtext && $params->get('show_intro')) : ?>
-                    <p data-audio="">
-                        <?php echo $this->item->introtext; ?>
-                    </p>
-                <?php endif; ?>
-                
-                <div class="row mt-5 mb-4">
-                    <?php if ($params->get('show_publish_date') || $params->get('show_create_date')) : ?>
-                        <div class="col-6">
-                            <small>Data:</small>
-                            <p class="fw-semibold font-monospace">
-                                <?php 
-                                if ($params->get('show_publish_date')) {
-                                    echo HTMLHelper::_('date', $this->item->publish_up, Text::_('d F Y'));
-                                } elseif ($params->get('show_create_date')) {
-                                    echo HTMLHelper::_('date', $this->item->created, Text::_('d F Y'));
-                                }
+    <header class="it-header-wrapper" data-bs-target="#header-nav-wrapper">
+        <div class="it-header-slim-wrapper">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="it-header-slim-wrapper-content">
+                            <?php
+                            $nomeRegione = $params->get('nomeregione');
+                            $linkRegione = $params->get('linkregione');
+                            if (!empty($nomeRegione)) :
+                                if (!empty($linkRegione)) : ?>
+                                    <a class="d-lg-block navbar-brand" target="_blank" href="<?php echo htmlspecialchars($linkRegione, ENT_QUOTES, 'UTF-8'); ?>" aria-label="Vai al portale <?php echo htmlspecialchars($nomeRegione); ?> - link esterno - apertura nuova scheda" title="Vai al portale <?php echo htmlspecialchars($nomeRegione); ?>">
+                                       <?php echo htmlspecialchars($nomeRegione); ?>
+                                    </a>
+                                <?php else : ?>
+                                    <span class="d-lg-block navbar-brand"><?php echo htmlspecialchars($nomeRegione); ?></span>
+                                <?php endif;
+                            endif; ?>
+                            
+                            <div class="it-header-slim-right-zone" role="navigation">
+                                <jdoc:include type="modules" name="selezione-lingua" style="none" />
+                                <?php
+                                $mostraLogin = $params->get('mostra_login', 0);
+                                if ($mostraLogin == 1) :
+                                    $user = Factory::getUser();
+                                    $loginText = $user->guest ? 'Accedi all\'area personale' : 'Area personale';
+                                    // Semplificato per la pagina di errore
+                                    $loginUrl = $this->baseurl . '/index.php?option=com_users&view=login';
                                 ?>
-                            </p>
+                                <a class="btn btn-primary btn-icon btn-full" href="<?php echo $loginUrl; ?>" data-element="personal-area-login">
+                                    <span class="rounded-icon" aria-hidden="true">
+                                        <svg class="icon icon-primary"><use xlink:href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/svg/sprites.svg#it-user"></use></svg>
+                                    </span>
+                                    <span class="d-none d-lg-block"><?php echo $loginText; ?></span>
+                                </a>
+                                <?php endif; ?>
+                            </div>
                         </div>
-                    <?php endif; ?>
-                    
-                    <div class="col-6">
-                        <small>Tempo di lettura:</small>
-                        <p class="fw-semibold" id="readingTime">
-                            <?php // Calcolo automatico tempo di lettura ?>
-                            <?php 
-                            $wordCount = str_word_count(strip_tags($this->item->text));
-                            $readingTime = ceil($wordCount / 200); // 200 parole al minuto
-                            echo $readingTime . ' min';
-                            ?>
-                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="it-nav-wrapper">
+            <div class="it-header-center-wrapper">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="it-header-center-content-wrapper">
+                                <div class="it-brand-wrapper">
+                                    <a href="<?php echo $this->baseurl; ?>">
+                                        <?php if ($logoUrl) : ?>
+                                            <svg width="82" height="82" class="icon" aria-hidden="true">
+                                                <image xlink:href="<?php echo htmlspecialchars($logoUrl, ENT_QUOTES, 'UTF-8'); ?>" />
+                                            </svg>
+                                        <?php endif; ?>
+                                        <div class="it-brand-text">
+                                            <div class="it-brand-title"><?php echo htmlspecialchars($params->get('nomesito', 'Il mio Comune')); ?></div>
+                                            <div class="it-brand-tagline d-none d-md-block"><?php echo htmlspecialchars($params->get('payoff', 'Un comune da vivere')); ?></div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="it-right-zone">
+                                    <?php if (!empty($socialLinks)) : ?>
+                                        <div class="it-socials d-none d-lg-flex">
+                                            <span>Seguici su</span>
+                                            <ul>
+                                                <?php foreach ($socialLinks as $social) : ?>
+                                                    <li>
+                                                        <a href="<?php echo htmlspecialchars($social['url'], ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noopener noreferrer">
+                                                            <svg class="icon icon-sm icon-white align-top"><use xlink:href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/svg/sprites.svg#<?php echo $social['icon']; ?>"></use></svg>
+                                                            <span class="visually-hidden"><?php echo $social['label']; ?></span>
+                                                        </a>
+                                                    </li>
+                                                <?php endforeach; ?>
+                                            </ul>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             
-            <div class="col-lg-3 offset-lg-1">
-                <?php // Dropdown Condividi ?>
-                <div class="dropdown d-inline">
-                    <button class="btn btn-dropdown dropdown-toggle text-decoration-underline d-inline-flex align-items-center fs-0" 
-                            type="button" id="shareActions" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" 
-                            aria-label="condividi sui social">
-                        <i class="fa-solid fa-share-nodes" aria-hidden="true"></i>
-                        <small>Condividi</small>
-                    </button>
-                    <div class="dropdown-menu shadow-lg" aria-labelledby="shareActions">
-                        <div class="link-list-wrapper">
-                            <ul class="link-list" role="menu">
-                                <li role="none">
-                                    <a class="list-item" href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode(Uri::current()); ?>" 
-                                       target="_blank" role="menuitem">
-                                        <i class="fa-brands fa-facebook" aria-hidden="true"></i>
-                                        <span>Facebook</span>
-                                    </a>
-                                </li>
-                                <li role="none">
-                                    <a class="list-item" href="https://twitter.com/intent/tweet?text=<?php echo urlencode(Uri::current()); ?>" 
-                                       target="_blank" role="menuitem">
-                                        <i class="fa-brands fa-twitter" aria-hidden="true"></i>
-                                        <span>Twitter</span>
-                                    </a>
-                                </li>
-                                <li role="none">
-                                    <a class="list-item" href="https://www.linkedin.com/shareArticle?url=<?php echo urlencode(Uri::current()); ?>" 
-                                       target="_blank" role="menuitem">
-                                        <i class="fa-brands fa-linkedin" aria-hidden="true"></i>
-                                        <span>Linkedin</span>
-                                    </a>
-                                </li>
-                                <li role="none">
-                                    <a class="list-item" href="https://api.whatsapp.com/send?text=<?php echo urlencode(Uri::current()); ?>" 
-                                       target="_blank" role="menuitem">
-                                        <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
-                                        <span>Whatsapp</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                
-                <?php // Dropdown Azioni ?>
-                <div class="dropdown d-inline">
-                    <button class="btn btn-dropdown dropdown-toggle text-decoration-underline d-inline-flex align-items-center fs-0" 
-                            type="button" id="viewActions" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa-solid fa-ellipsis" aria-hidden="true"></i>
-                        <small>Vedi azioni</small>
-                    </button>
-                    <div class="dropdown-menu shadow-lg" aria-labelledby="viewActions">
-                        <div class="link-list-wrapper">
-                            <ul class="link-list" role="menu">
-                                <li role="none">
-                                    <a class="list-item" href="#" onclick="window.print(); return false;" role="menuitem">
-                                        <i class="fa-solid fa-print" aria-hidden="true"></i>
-                                        <span>Stampa</span>
-                                    </a>
-                                </li>
-                                <?php if ($canEdit) : ?>
-                                    <li role="none">
-                                        <?php echo LayoutHelper::render('joomla.content.icons', ['params' => $params, 'item' => $this->item]); ?>
-                                    </li>
-                                <?php endif; ?>
-                                <li role="none">
-                                    <a class="list-item" href="mailto:?subject=<?php echo urlencode($this->item->title); ?>&amp;body=<?php echo urlencode(Uri::current()); ?>" 
-                                       role="menuitem">
-                                        <i class="fa-solid fa-envelope" aria-hidden="true"></i>
-                                        <span>Invia</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                
-                <?php // Argomenti/Tags ?>
-                <?php if ($params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
-                    <div class="mt-4 mb-4">
-                        <span class="subtitle-small">Argomenti</span>
-                        <ul class="d-flex flex-wrap gap-1">
-                            <?php foreach ($this->item->tags->itemTags as $tag) : ?>
-                                <li>
-                                    <a class="chip chip-simple" href="<?php echo Route::_(TagsHelperRoute::getTagRoute($tag->tag_id . ':' . $tag->alias)); ?>" data-element="service-topic">
-                                        <span class="chip-label"><?php echo $this->escape($tag->title); ?></span>
-                                    </a>
-                                </li>
-                            <?php endforeach; ?>
-                        </ul>
-                    </div>
-                <?php endif; ?>
-            </div>
-        </div>
-    </div>
-    
-    <?php // Immagine full ?>
-    <?php if ($params->get('access-view')) : ?>
-        <div class="container-fluid my-3">
-            <div class="row">
-                <figure class="figure px-0 img-full">
-                    <?php echo LayoutHelper::render('joomla.content.full_image', $this->item); ?>
-                </figure>
-            </div>
-        </div>
-    <?php endif; ?>
-    
-    <div class="container">
-        <div class="row border-top border-light row-column-border row-column-menu-left">
-            <?php // Sidebar sinistra con indice ?>
-            <aside class="<?php echo $leftColClass; ?>">
-                <div class="cmp-navscroll sticky-top" aria-labelledby="accordion-title-one">
-                    <nav class="navbar it-navscroll-wrapper navbar-expand-lg" aria-label="Indice della pagina" data-bs-navscroll="">
-                        <div class="navbar-custom" id="navbarNavProgress">
-                            <div class="menu-wrapper">
-                                <div class="link-list-wrapper">
-                                    <div class="accordion">
-                                        <div class="accordion-item">
-                                            <span class="accordion-header" id="accordion-title-one">
-                                                <button class="accordion-button pb-10 px-3 text-uppercase" type="button" 
-                                                        aria-controls="collapse-one" aria-expanded="true" 
-                                                        data-bs-toggle="collapse" data-bs-target="#collapse-one">
-                                                    INDICE DELLA PAGINA
-                                                    <i class="fa-solid fa-chevron-down icon-sm icon-primary align-top" aria-hidden="true"></i>
-                                                </button>
-                                            </span>
-                                            <div class="progress">
-                                                <div class="progress-bar it-navscroll-progressbar" role="progressbar" 
-                                                     aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
-                                            </div>
-                                            <div id="collapse-one" class="accordion-collapse collapse show" role="region" 
-                                                 aria-labelledby="accordion-title-one">
-                                                <div class="accordion-body">
-                                                    <ul class="link-list" data-element="page-index">
-                                                        <li class="nav-item">
-                                                            <a class="nav-link active" href="#descrizione">
-                                                                <span>Descrizione</span>
-                                                            </a>
-                                                        </li>
-                                                        <?php if ($useDefList) : ?>
-                                                            <li class="nav-item">
-                                                                <a class="nav-link" href="#informazioni-articolo">
-                                                                    <span>Informazioni Articolo</span>
-                                                                </a>
-                                                            </li>
-                                                        <?php endif; ?>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
+            <div class="it-header-navbar-wrapper" id="header-nav-wrapper">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="navbar navbar-expand-lg has-megamenu">
+                                <button class="custom-navbar-toggler" type="button" aria-controls="nav4" aria-expanded="false" aria-label="Mostra/Nascondi la navigazione" data-bs-target="#nav4" data-bs-toggle="navbarcollapsible">
+                                    <svg class="icon"><use href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/svg/sprites.svg#it-burger"></use></svg>
+                                </button>
+                                <div class="navbar-collapsable" id="nav4">
+                                    <div class="overlay" style="display: none;"></div>
+                                    <div class="close-div">
+                                        <button class="btn close-menu" type="button">
+                                            <span class="visually-hidden">Nascondi la navigazione</span>
+                                            <svg class="icon"><use href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/svg/sprites.svg#it-close-big"></use></svg>
+                                        </button>
+                                    </div>
+                                    <div class="menu-wrapper">
+                                        <jdoc:include type="modules" name="menu-principale" />
+                                        <nav aria-label="Secondaria">
+                                            <jdoc:include type="modules" name="menu-secondario" />
+                                        </nav>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </nav>
-                </div>
-                
-                <?php // Posizione modulo colonna-sinistra ?>
-                <?php if ($app->getDocument()->countModules('colonna-sinistra')) : ?>
-                    <div class="mt-4">
-                        <jdoc:include type="modules" name="colonna-sinistra" style="html5" />
                     </div>
-                <?php endif; ?>
-            </aside>
-            
-            <?php // Contenuto principale ?>
-            <section class="<?php echo $centerColClass; ?> it-page-sections-container border-light">
-                <?php // Content is generated by content plugin event "onContentAfterTitle" ?>
-                <?php echo $this->item->event->afterDisplayTitle; ?>
-                
-                <?php // Content is generated by content plugin event "onContentBeforeDisplay" ?>
-                <?php echo $this->item->event->beforeDisplayContent; ?>
-                
-                <?php if ($params->get('access-view')) : ?>
-                    <article class="it-page-section anchor-offset" data-audio="">
-                        <h4 id="descrizione">Descrizione</h4>
-                        <div class="richtext-wrapper lora">
-                            <?php echo $this->item->text; ?>
-                        </div>
-                    </article>
-                    
-                    <?php if ((int) $params->get('urls_position', 0) === 0) : ?>
-                        <?php echo $this->loadTemplate('links'); ?>
-                    <?php endif; ?>
-                    
-                    <?php if (!empty($this->item->pagination) && !$this->item->paginationposition && !$this->item->paginationrelative) : ?>
-                        <?php echo $this->item->pagination; ?>
-                    <?php endif; ?>
-                    
-                    <?php if (isset($this->item->toc)) : ?>
-                        <?php echo $this->item->toc; ?>
-                    <?php endif; ?>
-                    
-                    <?php if ($info == 1 || $info == 2) : ?>
-                        <?php if ($useDefList) : ?>
-                            <?php echo LayoutHelper::render('joomla.content.info_block', ['item' => $this->item, 'params' => $params, 'position' => 'below']); ?>
-                        <?php endif; ?>
-                    <?php endif; ?>
-                    
-                    <?php if (!empty($this->item->pagination) && $this->item->paginationposition && !$this->item->paginationrelative) : ?>
-                        <?php echo $this->item->pagination; ?>
-                    <?php endif; ?>
-                    
-                    <?php if ((int) $params->get('urls_position', 0) === 1) : ?>
-                        <?php echo $this->loadTemplate('links'); ?>
-                    <?php endif; ?>
-                    
-                <?php elseif ($params->get('show_noauth') == true && $user->guest) : ?>
-                    <?php echo LayoutHelper::render('joomla.content.intro_image', $this->item); ?>
-                    <?php echo HTMLHelper::_('content.prepare', $this->item->introtext); ?>
-                    
-                    <?php if ($params->get('show_readmore') && $this->item->fulltext != null) : ?>
-                        <?php $menu = Factory::getApplication()->getMenu(); ?>
-                        <?php $active = $menu->getActive(); ?>
-                        <?php $itemId = $active->id; ?>
-                        <?php $link = new Uri(Route::_('index.php?option=com_users&view=login&Itemid=' . $itemId, false)); ?>
-                        <?php $link->setVar('return', base64_encode(RouteHelper::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language))); ?>
-                        <?php echo LayoutHelper::render('joomla.content.readmore', ['item' => $this->item, 'params' => $params, 'link' => $link]); ?>
-                    <?php endif; ?>
-                <?php endif; ?>
-                
-                <?php // Informazioni Articolo ?>
-                <?php if ($useDefList) : ?>
-                    <article class="it-page-section anchor-offset mt-5">
-                        <h4 id="informazioni-articolo">Informazioni Articolo</h4>
-                        <div class="row">
-                            <div class="col-12">
-                                <dl class="row">
-                                    <?php // Categoria ?>
-                                    <?php if ($params->get('show_category')) : ?>
-                                        <dt class="col-sm-3 fw-semibold">Categoria:</dt>
-                                        <dd class="col-sm-9">
-                                            <?php if ($params->get('link_category') && !empty($this->item->catid)) : ?>
-                                                <a href="<?php echo Route::_(RouteHelper::getCategoryRoute($this->item->catid)); ?>">
-                                                    <?php echo $this->escape($this->item->category_title); ?>
-                                                </a>
-                                            <?php else : ?>
-                                                <?php echo $this->escape($this->item->category_title); ?>
-                                            <?php endif; ?>
-                                        </dd>
-                                    <?php endif; ?>
-                                    
-                                    <?php // Categoria Genitore ?>
-                                    <?php if ($params->get('show_parent_category') && !empty($this->item->parent_id) && $this->item->parent_id != 'root') : ?>
-                                        <dt class="col-sm-3 fw-semibold">Categoria Genitore:</dt>
-                                        <dd class="col-sm-9">
-                                            <?php if ($params->get('link_parent_category')) : ?>
-                                                <a href="<?php echo Route::_(RouteHelper::getCategoryRoute($this->item->parent_id)); ?>">
-                                                    <?php echo $this->escape($this->item->parent_title); ?>
-                                                </a>
-                                            <?php else : ?>
-                                                <?php echo $this->escape($this->item->parent_title); ?>
-                                            <?php endif; ?>
-                                        </dd>
-                                    <?php endif; ?>
-                                    
-                                    <?php // Autore ?>
-                                    <?php if ($params->get('show_author')) : ?>
-                                        <dt class="col-sm-3 fw-semibold">Autore:</dt>
-                                        <dd class="col-sm-9">
-                                            <?php if (!empty($this->item->author)) : ?>
-                                                <?php if ($params->get('link_author') && !empty($this->item->contact_link)) : ?>
-                                                    <a href="<?php echo Route::_($this->item->contact_link); ?>">
-                                                        <?php echo $this->escape($this->item->author); ?>
-                                                    </a>
-                                                <?php else : ?>
-                                                    <?php echo $this->escape($this->item->author); ?>
-                                                <?php endif; ?>
-                                            <?php endif; ?>
-                                        </dd>
-                                    <?php endif; ?>
-                                    
-                                    <?php // Data di Creazione ?>
-                                    <?php if ($params->get('show_create_date')) : ?>
-                                        <dt class="col-sm-3 fw-semibold">Creato:</dt>
-                                        <dd class="col-sm-9">
-                                            <?php echo HTMLHelper::_('date', $this->item->created, Text::_('DATE_FORMAT_LC3')); ?>
-                                        </dd>
-                                    <?php endif; ?>
-                                    
-                                    <?php // Data di Pubblicazione ?>
-                                    <?php if ($params->get('show_publish_date')) : ?>
-                                        <dt class="col-sm-3 fw-semibold">Pubblicato:</dt>
-                                        <dd class="col-sm-9">
-                                            <?php echo HTMLHelper::_('date', $this->item->publish_up, Text::_('DATE_FORMAT_LC3')); ?>
-                                        </dd>
-                                    <?php endif; ?>
-                                    
-                                    <?php // Data di Modifica ?>
-                                    <?php if ($params->get('show_modify_date')) : ?>
-                                        <dt class="col-sm-3 fw-semibold">Ultimo aggiornamento:</dt>
-                                        <dd class="col-sm-9">
-                                            <?php echo HTMLHelper::_('date', $this->item->modified, Text::_('DATE_FORMAT_LC3')); ?>
-                                        </dd>
-                                    <?php endif; ?>
-                                    
-                                    <?php // Visualizzazioni ?>
-                                    <?php if ($params->get('show_hits')) : ?>
-                                        <dt class="col-sm-3 fw-semibold">Visualizzazioni:</dt>
-                                        <dd class="col-sm-9">
-                                            <?php echo $this->item->hits; ?>
-                                        </dd>
-                                    <?php endif; ?>
-                                </dl>
-                            </div>
-                        </div>
-                    </article>
-                <?php endif; ?>
-                
-                <?php // Content is generated by content plugin event "onContentAfterDisplay" ?>
-                <?php echo $this->item->event->afterDisplayContent; ?>
-            </section>
-            
-            <?php // Sidebar destra (solo se ci sono moduli) ?>
-            <?php if ($hasRightColumn) : ?>
-                <aside class="<?php echo $rightColClass; ?>">
-                    <jdoc:include type="modules" name="colonna-destra" style="html5" />
-                </aside>
-            <?php endif; ?>
-        </div>
-    </div>
-    
-    <?php // Rating section ?>
-    <div class="bg-primary">
-        <div class="container">
-            <div class="row d-flex justify-content-center bg-primary">
-                <div class="col-12 col-lg-6 p-lg-0 px-3">
-                    <?php // Inserire qui il componente di rating se disponibile ?>
                 </div>
             </div>
         </div>
-    </div>
+    </header>
+
+    <main id="main" class="main-section pb-5">
+        <div class="container mt-4 mb-5" id="main-container">
+            <div class="row">
+                <div class="col-12">
+                    <nav class="breadcrumb-container mb-4" aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="<?php echo $this->baseurl; ?>/"><?php echo Text::_('TPL_ACCESSIBILE_HOME'); ?></a><span class="separator">/</span>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                <?php echo $errorCode; ?> <?php echo $errorMessage; ?>
+                            </li>
+                        </ol>
+                    </nav>
+
+                    <h1 class="display-1 fw-bold mb-4"><?php echo $errorCode; ?></h1>
+                    <p class="lead mb-5">
+                        <?php echo Text::_('TPL_ACCESSIBILE_ERROR_NOT_FOUND'); ?><br>
+                        <a href="javascript:history.back()"><?php echo Text::_('TPL_ACCESSIBILE_GO_BACK'); ?></a> <?php echo Text::_('TPL_ACCESSIBILE_ERROR_NAVIGATE'); ?>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="it-footer" id="footer">
+        <div class="it-footer-main">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 footer-items-wrapper logo-wrapper">
+                        <img class="ue-logo" src="<?= $this->baseurl ?>/templates/<?= $this->template ?>/images/logo-eu-inverted.svg" alt="logo Unione Europea">
+                        <div class="it-brand-wrapper">
+                            <a href="<?php echo $this->baseurl; ?>">
+                                <?php if ($logoUrl) : ?>
+                                    <svg class="icon" aria-hidden="true"><image xlink:href="<?php echo htmlspecialchars($logoUrl, ENT_QUOTES, 'UTF-8'); ?>" /></svg>
+                                <?php endif; ?>
+                                <div class="it-brand-text">
+                                    <div class="it-brand-title"><?php echo htmlspecialchars($params->get('nomesito', 'Il mio Comune')); ?></div>
+                                    <div class="it-brand-tagline d-none d-md-block"><?php echo htmlspecialchars($params->get('payoff', 'Un comune da vivere')); ?></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <?php if ($this->countModules('footer1')) : ?>
+                    <div class="row footer1"><jdoc:include type="modules" name="footer1" style="html5" /></div>
+                <?php endif; ?>
+                <?php if ($this->countModules('footer2')) : ?>
+                    <div class="row footer2"><jdoc:include type="modules" name="footer2" style="html5" /></div>
+                <?php endif; ?>
+            </div>
+        </div>
+    </footer>
+
+  </body>
+</html>
