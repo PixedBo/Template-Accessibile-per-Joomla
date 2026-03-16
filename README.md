@@ -1,61 +1,73 @@
-# Template HTML Accessibile - Joomla + Bootstrap Italia
+# Template Accessibile per Joomla 5+ (Modello Comuni / Bootstrap Italia)
 
 ## 📄 Descrizione
-Questo repository contiene un **template HTML** pronto per essere integrato in Joomla o altri CMS, progettato per garantire un'esperienza **accessibile** e **responsive**.  
-La struttura si basa su **Bootstrap Italia 2.x**, con HTML semantico e stili personalizzati, ed è pensata per adattarsi a progetti web che richiedono un alto livello di usabilità e conformità agli standard di accessibilità (**WCAG 2.1 AA**).
+Questo è il template definitivo per integrare il **Modello Comuni** e il design system di **Designers Italia** nativamente su **Joomla 5+**. 
+Progettato senza l'ausilio di framework esterni pesanti (zero jQuery, puro CSS vanilla e Javascript nativo), garantisce un'esperienza utente **altamente accessibile (WCAG 2.1 AA/AAA)**, estremamente performante e a prova di futuri aggiornamenti.
 
-## 🎯 Obiettivi
-- Fornire una base solida per lo sviluppo di template accessibili.
-- Garantire un design chiaro, coerente e mobile-first.
-- Utilizzare il Design System nazionale come base tecnica e visiva.
-- Rendere il template facilmente adattabile a diversi tipi di progetto.
+La struttura si basa su **Bootstrap Italia 2.9.0** e sfrutta i moderni *Web Asset Manager* e i namespace nativi di Joomla 5.
 
-## 🛠 Tecnologie e Struttura
-- **HTML5** e **CSS3**
-- **Bootstrap Italia 2.9.0**
-- HTML semantico con ruoli ARIA
-- CSS personalizzato (`bootstrap-italia-comuni.css`)
-- Pagine di esempio incluse:
-  - `homepage.html` → Struttura base della home
-  - `argomenti.html` → Elenco contenuti/argomenti
-  - `argomento.html` → Pagina dettaglio contenuto
-  - `lista-categorie.html` → Lista categorie
-  - `lista-risorse.html` → Elenco risorse
-
-## 📐 Linee guida seguite
-- **Accessibilità**: WCAG 2.1 livello AA.
-- **Responsive design**: mobile-first, compatibile con tutti i dispositivi.
-- **Usabilità**: interfacce pulite e prevedibili.
-- **Performance**: caricamento solo delle risorse necessarie.
-- **Compatibilità**: HTML/CSS conforme agli standard W3C.
-
-## 📂 Struttura del repository
-```
-assets/
-  bootstrap-italia/      # Libreria Bootstrap Italia
-  css/                   # Stili personalizzati
-  images/                # Risorse grafiche
-homepage.html
-argomenti.html
-argomento.html
-lista-categorie.html
-lista-risorse.html
-bootstrap-italia-comuni.css
-```
+## 🛠 Requisiti di sistema
+- **Joomla!**: 5.0.0 o superiore
+- **PHP**: 8.2.0 o superiore
 
 ## 🚀 Installazione
-1. Clona il repository:
-   ```bash
-   git clone https://github.com/<tuo-utente>/<nome-repo>.git
-   ```
-2. Integra i file HTML e CSS nel tuo progetto o CMS.
-3. Personalizza logo, colori e contenuti secondo le tue esigenze.
-4. Testa l’accessibilità con strumenti come WAVE, Lighthouse o axe DevTools.
+L'installazione è la classica procedura standard di Joomla. Nessuna riga di codice richiesta.
 
-## 📌 Note
-- Questo template è **generico** e può essere adattato a qualsiasi tipo di sito.
-- In caso di modifiche agli stili, mantenere la compatibilità con le classi di Bootstrap Italia.
-- Per Joomla, è possibile creare un template personalizzato partendo da questi file.
+1. Vai nella pagina [Releases](https://github.com/PixedBo/Template-Accessibile-per-Joomla/releases) di questo repository.
+2. Scarica l'ultima versione del pacchetto di installazione (es. `tpl_accessibile_vX.X.X.zip`).
+3. Accedi al backend del tuo sito Joomla.
+4. Naviga in **Sistema** > **Installa** > **Estensioni**.
+5. Trascina il file `.zip` scaricato nell'area di caricamento.
+6. Vai su **Sistema** > **Stili Template (Sito)** e imposta "Template Accessibile" come predefinito (cliccando sulla stellina).
 
-## 📜 Licenza
-Questo template è rilasciato sotto licenza GNU GPL v3. Puoi usarlo, modificarlo e distribuirlo liberamente. NON puoi venderlo, ma puoi offrire servizi di installazione e supporto.
+---
+
+## ⚙️ Configurazione dal Backend (Opzioni del Template)
+Il template è progettato per essere "chiavi in mano". Cliccando sul nome del template in *Stili Template*, avrai accesso a un pannello di controllo dove poter personalizzare il sito senza toccare il codice.
+
+### 🎨 Generale / Branding
+- **Logo del Comune:** Carica il logotipo istituzionale in formato SVG o PNG.
+- **Nome del Comune & Sottotitolo:** Gestisci i testi della testata principale (es. "Comune di Bugliano" - "Un comune da vivere").
+- **Ente Superiore:** Inserisci il nome e il link della Regione o dell'ente di appartenenza (appare in cima alla pagina).
+- **Colore Primario:** Scegli tra 5 temi cromatici accessibili e validati da AgID. Il sito adatterà automaticamente bottoni, sfondi, hover e icone:
+  - Blu istituzionale (Default)
+  - Verde (Modello Comuni)
+  - Rosso (Modello Scuole)
+  - Verde Acqua (Modello ASL / Sanità)
+  - Viola (Modello Musei)
+
+### 🧩 Opzioni Header (Testata)
+- **Area Personale (Login):** Attiva/disattiva il pulsante di accesso. Puoi collegarlo al login nativo di Joomla o a una specifica voce di menu custom.
+- **Motore di Ricerca:** Attiva/disattiva l'icona della lente di ingrandimento. Integrato nativamente con *Smart Search* di Joomla, oppure indirizzabile a una pagina specifica.
+
+### 📱 Social Network
+Inserisci i link ai canali social dell'ente. Le icone (X, Facebook, YouTube, Telegram, WhatsApp) appariranno automaticamente nell'intestazione e nel footer solo se il relativo campo è compilato.
+
+---
+
+## 📐 Posizioni Modulo disponibili
+Il template dichiara le seguenti posizioni modulo native, studiate per rispecchiare la griglia di Bootstrap Italia:
+
+- `selezione-lingua`: Menu a tendina per i siti multilingua (Header alto).
+- `menu-principale`: Il menu di navigazione principale.
+- `menu-secondario`: I link di servizio (es. argomenti) posti a destra del menu principale.
+- `top`: Area a piena larghezza sotto l'header.
+- `top-muted`: Area con sfondo grigio chiaro per link in evidenza o avvisi.
+- `evidenza`: Sezione con sfondo dinamico (basato sul colore primario) per lo slider notizie/servizi.
+- `calendario`: Area dedicata ai moduli eventi.
+- `colonna-sinistra`: Sidebar per la navigazione secondaria e indici di pagina (Scrollspy).
+- `colonna-destra`: Sidebar per moduli aggiuntivi o azioni rapide.
+- `bottom`: Area a piena larghezza sopra il footer.
+- `footer1` e `footer2`: Colonne per l'organizzazione dei link nel pié di pagina istituzionale.
+
+---
+
+## 🌟 Override e Layout Alternativi inclusi
+Il template è dotato di potenti override nativi per garantire che i componenti standard di Joomla generino codice HTML conforme alle linee guida di Designers Italia:
+
+- **Moduli Articoli (`mod_articles`):** Layout per lo slider automatico accessibile ("Evidenza") gestito senza dipendenze javascript esterne, e layout a "3 colonne teaser".
+- **Articolo Singolo (`com_content > article`):** Layout completo per servizi/notizie con calcolo automatico del tempo di lettura, impaginazione accessibile, tag a "chip" e pulsanti di condivisione social nativi.
+
+## 📜 Licenza e Crediti
+Questo template è rilasciato sotto licenza **GNU GPL v3**.  
+Basato sulle risorse UI/UX di [Designers Italia](https://designers.italia.it/) e sul framework [Bootstrap Italia](https://italia.github.io/bootstrap-italia/).
