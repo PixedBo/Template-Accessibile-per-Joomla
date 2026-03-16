@@ -58,4 +58,4 @@ bootstrap-italia-comuni.css
 - Per Joomla, è possibile creare un template personalizzato partendo da questi file.
 
 ## 📜 Licenza
-Questo progetto è rilasciato sotto licenza **MIT**, salvo differenti vincoli legati all’uso di Bootstrap Italia.
+Questo template è rilasciato sotto licenza GNU GPL v3. Puoi usarlo, modificarlo e distribuirlo liberamente. NON puoi venderlo, ma puoi offrire servizi di installazione e supporto.
