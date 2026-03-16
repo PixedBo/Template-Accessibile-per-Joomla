@@ -1,7 +1,7 @@
-# Template Accessibile per Joomla 5+ (Modello Comuni / Bootstrap Italia)
+# Template Accessibile per Joomla 5+ (Modello Universale / Bootstrap Italia)
 
 ## 📄 Descrizione
-Questo è il template definitivo per integrare il **Modello Comuni** e il design system di **Designers Italia** nativamente su **Joomla 5+**. 
+Questo è il template definitivo per integrare il **Modello Universale** e il design system di **Designers Italia** nativamente su **Joomla 5+**. 
 Progettato senza l'ausilio di framework esterni pesanti (zero jQuery, puro CSS vanilla e Javascript nativo), garantisce un'esperienza utente **altamente accessibile (WCAG 2.1 AA/AAA)**, estremamente performante e a prova di futuri aggiornamenti.
 
 La struttura si basa su **Bootstrap Italia 2.9.0** e sfrutta i moderni *Web Asset Manager* e i namespace nativi di Joomla 5.
