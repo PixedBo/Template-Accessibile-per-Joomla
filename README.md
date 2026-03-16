@@ -62,6 +62,14 @@ Il template dichiara le seguenti posizioni modulo native, studiate per rispecchi
 
 ---
 
+## 💻 Personalizzazione Avanzata (CSS Custom)
+Se hai bisogno di aggiungere regole CSS personalizzate per sovrascrivere lo stile nativo di Bootstrap Italia o del template, **non modificare i file originali**.
+
+Ti basterà creare un file chiamato `custom.css` all'interno della cartella `css/` del template (il percorso sarà `/templates/NOME_TEMPLATE/css/custom.css`). 
+Il sistema lo rileverà in automatico e lo caricherà per ultimo, garantendo che le tue regole abbiano la priorità assoluta e non vengano cancellate durante i futuri aggiornamenti del template.
+
+---
+
 ## 🌟 Override e Layout Alternativi inclusi
 Il template è dotato di potenti override nativi per garantire che i componenti standard di Joomla generino codice HTML conforme alle linee guida di Designers Italia:
 
