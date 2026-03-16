@@ -48,6 +48,25 @@ if (!empty($logo)) {
   $logoUrl = $this->baseurl . '/' . ltrim($logoData->url, '/');
 }
 
+// Gestione Favicon
+$faviconSvg = $params->get('favicon_svg');
+$faviconPng = $params->get('favicon_png');
+
+if (!empty($faviconSvg)) {
+    $favSvg = HTMLHelper::cleanImageURL($faviconSvg);
+    $doc->addHeadLink($this->baseurl . '/' . ltrim($favSvg->url, '/'), 'icon', 'rel', ['type' => 'image/svg+xml']);
+}
+
+if (!empty($faviconPng)) {
+    $favPng = HTMLHelper::cleanImageURL($faviconPng);
+    // Aggiunge l'icona per i dispositivi Apple (iPhone/iPad)
+    $doc->addHeadLink($this->baseurl . '/' . ltrim($favPng->url, '/'), 'apple-touch-icon', 'rel');
+    
+    // Aggiunge il PNG come fallback. Se c'è già l'SVG, lo dichiariamo come "alternate"
+    $relType = empty($faviconSvg) ? 'icon' : 'alternate icon';
+    $doc->addHeadLink($this->baseurl . '/' . ltrim($favPng->url, '/'), $relType, 'rel', ['type' => 'image/png']);
+}
+
 // INSERIMENTO ASSET E FONT-AWESOME
 $wa = $this->getWebAssetManager();
 $tplPath = 'templates/' . $this->template;
@@ -227,11 +246,29 @@ $wa->addInlineStyle($inlineCss);
                         </ol>
                     </nav>
 
-                    <h1 class="display-1 fw-bold mb-4"><?php echo $errorCode; ?></h1>
-                    <p class="lead mb-5">
-                        <?php echo Text::_('TPL_ACCESSIBILE_ERROR_NOT_FOUND'); ?><br>
-                        <a href="javascript:history.back()"><?php echo Text::_('TPL_ACCESSIBILE_GO_BACK'); ?></a> <?php echo Text::_('TPL_ACCESSIBILE_ERROR_NAVIGATE'); ?>
-                    </p>
+                    <h1 class="display-1 fw-bold mb-4 text-danger"><?php echo $errorCode; ?></h1>
+                    
+                    <?php if ($this->debug) : ?>
+                        <div class="alert alert-danger" role="alert">
+                            <h4 class="alert-heading"><?php echo htmlspecialchars($errorMessage, ENT_QUOTES, 'UTF-8'); ?></h4>
+                            <p class="mb-0"><strong>File:</strong> <?php echo htmlspecialchars($this->error->getFile(), ENT_QUOTES, 'UTF-8'); ?>:<?php echo $this->error->getLine(); ?></p>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <h5>Call Stack (Traccia dell'errore)</h5>
+                            <?php echo $this->renderBacktrace(); ?>
+                        </div>
+                        
+                    <?php else : ?>
+                        <p class="lead mb-5">
+                            <?php if ($errorCode == '404') : ?>
+                                <?php echo Text::_('TPL_ACCESSIBILE_ERROR_NOT_FOUND'); ?>
+                            <?php else : ?>
+                                Si è verificato un errore imprevisto (<?php echo htmlspecialchars($errorMessage, ENT_QUOTES, 'UTF-8'); ?>).
+                            <?php endif; ?><br>
+                            <a href="javascript:history.back()"><?php echo Text::_('TPL_ACCESSIBILE_GO_BACK'); ?></a> <?php echo Text::_('TPL_ACCESSIBILE_ERROR_NAVIGATE'); ?>
+                        </p>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>

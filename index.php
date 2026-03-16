@@ -5,6 +5,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 $app       = Factory::getApplication();
 $doc       = $app->getDocument();
@@ -67,6 +68,25 @@ if ($whatsapp) {
 if (!empty($logo)) {
   $logoData = HTMLHelper::cleanImageURL($logo);
   $logoUrl = $this->baseurl . '/' . ltrim($logoData->url, '/'); // ✅ URL assoluto corretto
+}
+
+// Gestione Favicon
+$faviconSvg = $params->get('favicon_svg');
+$faviconPng = $params->get('favicon_png');
+
+if (!empty($faviconSvg)) {
+    $favSvg = HTMLHelper::cleanImageURL($faviconSvg);
+    $doc->addHeadLink($this->baseurl . '/' . ltrim($favSvg->url, '/'), 'icon', 'rel', ['type' => 'image/svg+xml']);
+}
+
+if (!empty($faviconPng)) {
+    $favPng = HTMLHelper::cleanImageURL($faviconPng);
+    // Aggiunge l'icona per i dispositivi Apple (iPhone/iPad)
+    $doc->addHeadLink($this->baseurl . '/' . ltrim($favPng->url, '/'), 'apple-touch-icon', 'rel');
+    
+    // Aggiunge il PNG come fallback. Se c'è già l'SVG, lo dichiariamo come "alternate"
+    $relType = empty($faviconSvg) ? 'icon' : 'alternate icon';
+    $doc->addHeadLink($this->baseurl . '/' . ltrim($favPng->url, '/'), $relType, 'rel', ['type' => 'image/png']);
 }
 
 // INSERIMENTO ASSET E FONT-AWESOME
@@ -198,16 +218,18 @@ $wa->addInlineStyle($inlineCss);
           // Utente non loggato - mostra link login
           if ($tipoLogin == 'menuitem' && $menuitemLogin > 0) {
               // Login personalizzato tramite menu item
-              $loginUrl = JRoute::_('index.php?Itemid=' . $menuitemLogin);
+              $loginUrl = Route::_('index.php?Itemid=' . $menuitemLogin);
           } else {
               // Login standard di Joomla
-              $loginUrl = JRoute::_('index.php?option=com_users&view=login');
+              $loginUrl = Route::_('index.php?option=com_users&view=login');
           }
-          $loginText = $user->guest ? Text::_('TPL_ACCESSIBILE_LOGIN') : Text::_('TPL_ACCESSIBILE_PERSONAL_AREA');
+          // Assegnazione diretta della costante lingua
+          $loginText = Text::_('TPL_ACCESSIBILE_LOGIN');
       } else {
           // Utente loggato - mostra link profilo
-          $loginUrl = JRoute::_('index.php?option=com_users&view=profile');
-          $loginText = $user->guest ? Text::_('TPL_ACCESSIBILE_LOGIN') : Text::_('TPL_ACCESSIBILE_PERSONAL_AREA');
+          $loginUrl = Route::_('index.php?option=com_users&view=profile');
+          // Assegnazione diretta della costante lingua
+          $loginText = Text::_('TPL_ACCESSIBILE_PERSONAL_AREA');
       }
   ?>
   
@@ -278,11 +300,9 @@ $wa->addInlineStyle($inlineCss);
       $menuitemRicerca = $this->params->get('menuitem_ricerca', 0);
       
       if ($tipoRicerca == 'menuitem' && $menuitemRicerca > 0) {
-          // Ricerca personalizzata tramite menu item
-          $ricercaUrl = JRoute::_('index.php?Itemid=' . $menuitemRicerca);
+          $ricercaUrl = Route::_('index.php?Itemid=' . $menuitemRicerca); // <-- MODIFICATO
       } else {
-          // Ricerca Smart Search standard di Joomla
-          $ricercaUrl = JRoute::_('index.php?option=com_finder&view=search');
+          $ricercaUrl = Route::_('index.php?option=com_finder&view=search'); // <-- MODIFICATO
       }
   ?>
   

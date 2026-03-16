@@ -50,6 +50,8 @@
     <fields name="params">
       <fieldset name="basic" label="TPL_ACCESSIBILE_BASIC_LABEL">
         <field name="logotipo" type="media" label="TPL_ACCESSIBILE_LOGO_LABEL" directory="images" preview="true" description="TPL_ACCESSIBILE_LOGO_DESC" />
+        <field name="favicon_svg" type="media" label="TPL_ACCESSIBILE_FAVICON_SVG_LABEL" directory="images" description="TPL_ACCESSIBILE_FAVICON_SVG_DESC" />
+        <field name="favicon_png" type="media" label="TPL_ACCESSIBILE_FAVICON_PNG_LABEL" directory="images" description="TPL_ACCESSIBILE_FAVICON_PNG_DESC" />
         <field name="nomesito" type="text" default="Il mio Comune" label="TPL_ACCESSIBILE_SITENAME_LABEL" description="TPL_ACCESSIBILE_SITENAME_DESC" size="20" />
         <field name="nomeregione" type="text" default="La mia Regione" label="TPL_ACCESSIBILE_REGION_LABEL" description="TPL_ACCESSIBILE_REGION_DESC" size="20" />
         <field name="linkregione" type="url" default="" label="TPL_ACCESSIBILE_REGION_LINK_LABEL" description="TPL_ACCESSIBILE_REGION_LINK_DESC" size="20" />

@@ -49,8 +49,8 @@ Inserisci i link ai canali social dell'ente. Le icone (X, Facebook, YouTube, Tel
 Il template dichiara le seguenti posizioni modulo native, studiate per rispecchiare la griglia di Bootstrap Italia:
 
 - `selezione-lingua`: Menu a tendina per i siti multilingua (Header alto).
-- `menu-principale`: Il menu di navigazione principale.
-- `menu-secondario`: I link di servizio (es. argomenti) posti a destra del menu principale.
+- `menu-principale`: Il menu di navigazione principale. **(N.B. Usare un modulo di tipo "Menu" e impostare il layout alternativo su `comuni-menu`)**.
+- `menu-secondario`: I link di servizio (es. argomenti) posti a destra del menu principale. **(N.B. Usare un modulo di tipo "Menu" e impostare il layout alternativo su `comuni-menu`)**.
 - `top`: Area a piena larghezza sotto l'header.
 - `top-muted`: Area con sfondo grigio chiaro per link in evidenza o avvisi.
 - `evidenza`: Sezione con sfondo dinamico (basato sul colore primario) per lo slider notizie/servizi.
@@ -73,7 +73,8 @@ Il sistema lo rileverà in automatico e lo caricherà per ultimo, garantendo che
 ## 🌟 Override e Layout Alternativi inclusi
 Il template è dotato di potenti override nativi per garantire che i componenti standard di Joomla generino codice HTML conforme alle linee guida di Designers Italia:
 
-- **Moduli Articoli (`mod_articles`):** Layout per lo slider automatico accessibile ("Evidenza") gestito senza dipendenze javascript esterne, e layout a "3 colonne teaser".
+- **Moduli Articoli (`mod_articles`):** Sono presenti due layout specifici: un **layout a 3 colonne** e un **layout singolo**. Il layout singolo è dinamico: se all'interno del modulo è presente più di un articolo, il sistema crea automaticamente uno slideshow accessibile.
+- **Modulo Menu (`mod_menu`):** È incluso il layout `comuni-menu`, essenziale e obbligatorio per impaginare in modo corretto e accessibile sia il Menu Principale che il Menu Secondario all'interno della testata.
 - **Articolo Singolo (`com_content > article`):** Layout completo per servizi/notizie con calcolo automatico del tempo di lettura, impaginazione accessibile, tag a "chip" e pulsanti di condivisione social nativi.
 
 ## 📜 Licenza e Crediti
