@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <extension type="template" client="site" method="upgrade">
   <name>Template Accessibile per Joomla</name>
-  <version>1.0.2</version>
+  <version>1.0.3</version>
   <creationDate>2025-07-24</creationDate>
   <author>Pixed Web Development</author>
   <authorEmail>info@pixed.it</authorEmail>
@@ -20,6 +20,7 @@
     <filename>offline.php</filename>
     <filename>templateDetails.xml</filename>
     <filename>template_preview.png</filename>
+    <filename>template_thumbnail.png</filename>
     <folder>assets</folder>
     <folder>css</folder>
     <folder>fonts</folder>
