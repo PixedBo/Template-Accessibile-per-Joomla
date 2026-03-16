@@ -33652,6 +33652,46 @@ aside .cmp-navscroll .navbar.it-navscroll-wrapper .link-list-wrapper ul li a.act
     color: #fff !important;
 }
 
+/* ========================================= */
+/* OVERRIDE ARTICOLO SINGOLO                 */
+/* ========================================= */
+
+/* Distanziamento flessibile per i Tag di Joomla */
+.comuni-tags ul.tags { 
+    list-style: none; 
+    padding: 0; 
+    margin: 0; 
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 0.5rem; 
+}
+
+.comuni-tags ul.tags li { 
+    margin: 0; 
+}
+
+/* Bottoni Condividi e Azioni */
+.btn-action-icon {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: 1px solid var(--bs-primary) !important;
+    background-color: transparent;
+    transition: all 0.2s ease-in-out;
+}
+.btn-action-icon svg.icon {
+    fill: var(--bs-primary);
+    transition: fill 0.2s ease-in-out;
+}
+.btn-action-icon:hover,
+.btn-action-icon:focus {
+    background-color: var(--bs-primary) !important;
+}
+.btn-action-icon:hover svg.icon,
+.btn-action-icon:focus svg.icon {
+    fill: #ffffff;
+}
+
 
 @media print {
   .cmp-navscroll,

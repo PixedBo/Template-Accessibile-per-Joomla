@@ -101,16 +101,13 @@ if ($wa->assetExists('style', 'fontawesome')) {
 	$wa->registerAndUseStyle('fa-base', 'media/vendor/fontawesome-free/css/fontawesome.min.css');
 }
 
-// Registrazione asset di base
 $wa->registerAndUseStyle('template.styles', $tplPath . '/css/bootstrap-italia.min.css')
-   ->registerAndUseStyle('template.comuni', $tplPath . '/css/bootstrap-italia-comuni.css', [], ['template.styles'])
+   ->registerAndUseStyle('template.comuni', $tplPath . '/css/bootstrap-italia-comuni.css', [], [], ['template.styles'])
    ->registerAndUseStyle('template.fonts', $tplPath . '/css/fonts.css')
    ->registerAndUseScript('template.scripts', $tplPath . '/js/bootstrap-italia.bundle.min.js', [], ['defer' => true]);
 
-// Controllo e caricamento del file custom.css (se esiste)
 if (file_exists(JPATH_ROOT . '/templates/' . $this->template . '/css/custom.css')) {
-    // Aggiungiamo la dipendenza da 'template.comuni' per assicurarci che venga caricato per ultimo
-    $wa->registerAndUseStyle('template.custom', $tplPath . '/css/custom.css', [], ['template.comuni']);
+    $wa->registerAndUseStyle('template.custom', $tplPath . '/css/custom.css', [], [], ['template.comuni']);
 }
 // Mappa degli sfondi in base al colore scelto
 $mappaSfondi = [
@@ -165,7 +162,7 @@ $wa->addInlineStyle($inlineCss);
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
   <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <jdoc:include type="head" />
 </head>
   <body>
@@ -429,7 +426,7 @@ $wa->addInlineStyle($inlineCss);
       </section>
 	  <?php endif; ?>
 	  <main id="main" class="main-section">
-	  <div class="section py-5 pb-lg-80 px-lg-5 position-relative">
+	  <div class="section py-1 pb-lg-80 px-lg-5 position-relative">
 		<div class="container" id="main-container">
 			<jdoc:include type="component" />
 		</div>

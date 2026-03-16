@@ -2,9 +2,6 @@
 /**
  * @package     Joomla.Site
  * @subpackage  com_content
- *
- * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -22,14 +19,12 @@ use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 /** @var \Joomla\Component\Content\Site\View\Article\HtmlView $this */
 
-// Create shortcuts to some parameters.
 $params  = $this->item->params;
 $canEdit = $params->get('access-edit');
 $user    = $this->getCurrentUser();
 $info    = $params->get('info_block_position', 0);
 $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
 
-// Check if associations are implemented. If they are, define the parameter.
 $assocParam        = (Associations::isEnabled() && $params->get('show_associations'));
 $currentDate       = Factory::getDate()->format('Y-m-d H:i:s');
 $isNotPublishedYet = $this->item->publish_up > $currentDate;
@@ -37,46 +32,45 @@ $isExpired         = !is_null($this->item->publish_down) && $this->item->publish
 $useDefList        = $params->get('show_modify_date') || $params->get('show_publish_date') || $params->get('show_create_date')
     || $params->get('show_hits') || $params->get('show_category') || $params->get('show_parent_category') || $params->get('show_author') || $assocParam;
 
-// Controllo presenza moduli nella colonna destra
 $app = Factory::getApplication();
 $document = $app->getDocument();
 $hasRightColumn = $document->countModules('colonna-destra') > 0;
 
-// Definisco le classi delle colonne in base alla presenza della colonna destra
 $leftColClass = $hasRightColumn ? 'col-lg-3' : 'col-lg-3';
 $centerColClass = $hasRightColumn ? 'col-lg-6' : 'col-lg-9';
 $rightColClass = 'col-lg-3';
 ?>
     
+    <div class="container pt-4">
         <div class="row">
             <div class="col-lg-8 px-lg-4 py-lg-2">
                 <?php if ($params->get('show_title')) : ?>
-                    <<?php echo $htag; ?> data-audio="">
+                    <?php echo '<' . $htag . ' data-audio="">'; ?>
                         <?php echo $this->escape($this->item->title); ?>
                         <?php if ($this->item->state == ContentComponent::CONDITION_UNPUBLISHED) : ?>
-                            <span class="badge bg-warning text-light"><?php echo Text::_('JUNPUBLISHED'); ?></span>
+                            <span class="badge bg-warning text-dark"><?php echo Text::_('JUNPUBLISHED'); ?></span>
                         <?php endif; ?>
                         <?php if ($isNotPublishedYet) : ?>
-                            <span class="badge bg-warning text-light"><?php echo Text::_('JNOTPUBLISHEDYET'); ?></span>
+                            <span class="badge bg-warning text-dark"><?php echo Text::_('JNOTPUBLISHEDYET'); ?></span>
                         <?php endif; ?>
                         <?php if ($isExpired) : ?>
-                            <span class="badge bg-warning text-light"><?php echo Text::_('JEXPIRED'); ?></span>
+                            <span class="badge bg-warning text-dark"><?php echo Text::_('JEXPIRED'); ?></span>
                         <?php endif; ?>
-                    </<?php echo $htag; ?>>
+                    <?php echo '</' . $htag . '>'; ?>
                 <?php endif; ?>
                 
-                <h2 class="visually-hidden" data-audio="">Dettagli della notizia</h2>
+                <h2 class="visually-hidden" data-audio=""><?php echo Text::_('TPL_ACCESSIBILE_ARTICLE_DETAILS'); ?></h2>
                 
                 <?php if ($this->item->introtext && $params->get('show_intro')) : ?>
-                    <p data-audio="">
+                    <div data-audio="" class="lead">
                         <?php echo $this->item->introtext; ?>
-                    </p>
+                    </div>
                 <?php endif; ?>
                 
                 <div class="row mt-5 mb-4">
                     <?php if ($params->get('show_publish_date') || $params->get('show_create_date')) : ?>
                         <div class="col-6">
-                            <small>Data:</small>
+                            <small><?php echo Text::_('TPL_ACCESSIBILE_DATE'); ?>:</small>
                             <p class="fw-semibold font-monospace">
                                 <?php 
                                 if ($params->get('show_publish_date')) {
@@ -90,13 +84,12 @@ $rightColClass = 'col-lg-3';
                     <?php endif; ?>
                     
                     <div class="col-6">
-                        <small>Tempo di lettura:</small>
+                        <small><?php echo Text::_('TPL_ACCESSIBILE_READING_TIME'); ?>:</small>
                         <p class="fw-semibold" id="readingTime">
-                            <?php // Calcolo automatico tempo di lettura ?>
                             <?php 
                             $wordCount = str_word_count(strip_tags($this->item->text));
-                            $readingTime = ceil($wordCount / 200); // 200 parole al minuto
-                            echo $readingTime . ' min';
+                            $readingTime = ceil($wordCount / 200); 
+                            echo $readingTime . ' ' . Text::_('TPL_ACCESSIBILE_MINUTES');
                             ?>
                         </p>
                     </div>
@@ -104,114 +97,100 @@ $rightColClass = 'col-lg-3';
             </div>
             
             <div class="col-lg-3 offset-lg-1">
-                <?php // Dropdown Condividi ?>
-                <div class="dropdown d-inline">
-                    <button class="btn btn-dropdown dropdown-toggle text-decoration-underline d-inline-flex align-items-center fs-0" 
-                            type="button" id="shareActions" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" 
-                            aria-label="condividi sui social">
-                        <i class="fa-solid fa-share-nodes" aria-hidden="true"></i>
-                        <small>Condividi</small>
-                    </button>
-                    <div class="dropdown-menu shadow-lg" aria-labelledby="shareActions">
-                        <div class="link-list-wrapper">
-                            <ul class="link-list" role="menu">
-                                <li role="none">
-                                    <a class="list-item" href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode(Uri::current()); ?>" 
-                                       target="_blank" role="menuitem">
-                                        <i class="fa-brands fa-facebook" aria-hidden="true"></i>
-                                        <span>Facebook</span>
-                                    </a>
-                                </li>
-                                <li role="none">
-                                    <a class="list-item" href="https://twitter.com/intent/tweet?text=<?php echo urlencode(Uri::current()); ?>" 
-                                       target="_blank" role="menuitem">
-                                        <i class="fa-brands fa-twitter" aria-hidden="true"></i>
-                                        <span>Twitter</span>
-                                    </a>
-                                </li>
-                                <li role="none">
-                                    <a class="list-item" href="https://www.linkedin.com/shareArticle?url=<?php echo urlencode(Uri::current()); ?>" 
-                                       target="_blank" role="menuitem">
-                                        <i class="fa-brands fa-linkedin" aria-hidden="true"></i>
-                                        <span>Linkedin</span>
-                                    </a>
-                                </li>
-                                <li role="none">
-                                    <a class="list-item" href="https://api.whatsapp.com/send?text=<?php echo urlencode(Uri::current()); ?>" 
-                                       target="_blank" role="menuitem">
-                                        <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
-                                        <span>Whatsapp</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+                <?php $spritePath = Uri::base(true) . '/templates/' . $app->getTemplate() . '/svg/sprites.svg'; ?>
+                
+                <?php // Blocco Condividi ?>
+                <div class="d-flex align-items-center mb-3">
+                    <span class="subtitle-small fw-semibold text-muted me-3 mb-0"><?php echo Text::_('TPL_ACCESSIBILE_SHARE'); ?>:</span>
+                    <div class="d-flex gap-2">
+                        <a class="btn btn-action-icon d-flex align-items-center justify-content-center rounded" 
+                           href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode(Uri::current()); ?>" 
+                           target="_blank" rel="noopener noreferrer" 
+                           title="<?php echo Text::_('TPL_ACCESSIBILE_SHARE_ON_FACEBOOK'); ?>"
+                           aria-label="<?php echo Text::_('TPL_ACCESSIBILE_SHARE_ON_FACEBOOK'); ?> - <?php echo Text::_('TPL_ACCESSIBILE_NEW_WINDOW'); ?>">
+                            <svg class="icon icon-sm" aria-hidden="true"><use href="<?php echo $spritePath; ?>#it-facebook"></use></svg>
+                        </a>
+                        <a class="btn btn-action-icon d-flex align-items-center justify-content-center rounded" 
+                           href="https://twitter.com/intent/tweet?text=<?php echo urlencode(Uri::current()); ?>" 
+                           target="_blank" rel="noopener noreferrer" 
+                           title="<?php echo Text::_('TPL_ACCESSIBILE_SHARE_ON_X'); ?>"
+                           aria-label="<?php echo Text::_('TPL_ACCESSIBILE_SHARE_ON_X'); ?> - <?php echo Text::_('TPL_ACCESSIBILE_NEW_WINDOW'); ?>">
+                            <svg class="icon icon-sm" aria-hidden="true"><use href="<?php echo $spritePath; ?>#it-twitter"></use></svg>
+                        </a>
+                        <a class="btn btn-action-icon d-flex align-items-center justify-content-center rounded" 
+                           href="https://www.linkedin.com/shareArticle?url=<?php echo urlencode(Uri::current()); ?>" 
+                           target="_blank" rel="noopener noreferrer" 
+                           title="<?php echo Text::_('TPL_ACCESSIBILE_SHARE_ON_LINKEDIN'); ?>"
+                           aria-label="<?php echo Text::_('TPL_ACCESSIBILE_SHARE_ON_LINKEDIN'); ?> - <?php echo Text::_('TPL_ACCESSIBILE_NEW_WINDOW'); ?>">
+                            <svg class="icon icon-sm" aria-hidden="true"><use href="<?php echo $spritePath; ?>#it-linkedin"></use></svg>
+                        </a>
+                        <a class="btn btn-action-icon d-flex align-items-center justify-content-center rounded" 
+                           href="https://api.whatsapp.com/send?text=<?php echo urlencode(Uri::current()); ?>" 
+                           target="_blank" rel="noopener noreferrer" 
+                           title="<?php echo Text::_('TPL_ACCESSIBILE_SHARE_ON_WHATSAPP'); ?>"
+                           aria-label="<?php echo Text::_('TPL_ACCESSIBILE_SHARE_ON_WHATSAPP'); ?> - <?php echo Text::_('TPL_ACCESSIBILE_NEW_WINDOW'); ?>">
+                            <svg class="icon icon-sm" aria-hidden="true"><use href="<?php echo $spritePath; ?>#it-whatsapp"></use></svg>
+                        </a>
                     </div>
                 </div>
                 
-                <?php // Dropdown Azioni ?>
-                <div class="dropdown d-inline">
-                    <button class="btn btn-dropdown dropdown-toggle text-decoration-underline d-inline-flex align-items-center fs-0" 
-                            type="button" id="viewActions" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa-solid fa-ellipsis" aria-hidden="true"></i>
-                        <small>Vedi azioni</small>
-                    </button>
-                    <div class="dropdown-menu shadow-lg" aria-labelledby="viewActions">
-                        <div class="link-list-wrapper">
-                            <ul class="link-list" role="menu">
-                                <li role="none">
-                                    <a class="list-item" href="#" onclick="window.print(); return false;" role="menuitem">
-                                        <i class="fa-solid fa-print" aria-hidden="true"></i>
-                                        <span>Stampa</span>
-                                    </a>
-                                </li>
-                                <?php if ($canEdit) : ?>
-                                    <li role="none">
-                                        <?php echo LayoutHelper::render('joomla.content.icons', ['params' => $params, 'item' => $this->item]); ?>
-                                    </li>
-                                <?php endif; ?>
-                                <li role="none">
-                                    <a class="list-item" href="mailto:?subject=<?php echo urlencode($this->item->title); ?>&amp;body=<?php echo urlencode(Uri::current()); ?>" 
-                                       role="menuitem">
-                                        <i class="fa-solid fa-envelope" aria-hidden="true"></i>
-                                        <span>Invia</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+                <?php // Blocco Azioni ?>
+                <div class="d-flex align-items-center mb-4">
+                    <span class="subtitle-small fw-semibold text-muted me-3 mb-0"><?php echo Text::_('TPL_ACCESSIBILE_ACTIONS'); ?>:</span>
+                    <div class="d-flex gap-2 align-items-center">
+                        <button class="btn btn-action-icon d-flex align-items-center justify-content-center rounded" 
+                                onclick="window.print();" 
+                                title="<?php echo Text::_('TPL_ACCESSIBILE_PRINT_PAGE'); ?>"
+                                aria-label="<?php echo Text::_('TPL_ACCESSIBILE_PRINT_PAGE'); ?>">
+                            <svg class="icon icon-sm" aria-hidden="true"><use href="<?php echo $spritePath; ?>#it-print"></use></svg>
+                        </button>
+                        <a class="btn btn-action-icon d-flex align-items-center justify-content-center rounded" 
+                           href="mailto:?subject=<?php echo urlencode($this->item->title); ?>&amp;body=<?php echo urlencode(Uri::current()); ?>" 
+                           title="<?php echo Text::_('TPL_ACCESSIBILE_SEND_EMAIL'); ?>"
+                           aria-label="<?php echo Text::_('TPL_ACCESSIBILE_SEND_EMAIL'); ?>">
+                            <svg class="icon icon-sm" aria-hidden="true"><use href="<?php echo $spritePath; ?>#it-mail"></use></svg>
+                        </a>
+                        <?php if ($canEdit) : ?>
+                            <div class="d-inline-block ms-1">
+                                <?php echo LayoutHelper::render('joomla.content.icons', ['params' => $params, 'item' => $this->item]); ?>
+                            </div>
+                        <?php endif; ?>
                     </div>
                 </div>
                 
                 <?php // Argomenti/Tags ?>
                 <?php if ($params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
                     <div class="mt-4 mb-4">
-                        <span class="subtitle-small">Argomenti</span>
-                        <div class="d-flex flex-wrap gap-1">
+                        <span class="subtitle-small mb-2 d-block fw-semibold text-muted"><?php echo Text::_('TPL_ACCESSIBILE_TAGS'); ?></span>
+                        <div class="comuni-tags">
                             <?php $this->item->tagLayout = new FileLayout('joomla.content.tags'); ?>
                             <?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>
                         </div>
                     </div>
                 <?php endif; ?>
+                
             </div>
         </div>
-    </div>
-    
-    <?php // Immagine full ?>
-    <?php if ($params->get('access-view')) : ?>
-        <div class="container-fluid my-3">
-            <div class="row">
-                <figure class="figure px-0 img-full">
-                    <?php echo LayoutHelper::render('joomla.content.full_image', $this->item); ?>
-                </figure>
+    </div> <?php // Immagine full ?>
+    <?php if ($params->get('access-view') && isset($this->item->images)) : ?>
+        <?php $images = json_decode($this->item->images); ?>
+        <?php if (!empty($images->image_fulltext)) : ?>
+            <div class="container-fluid my-3">
+                <div class="row">
+                    <figure class="figure px-0 img-full">
+                        <?php echo LayoutHelper::render('joomla.content.full_image', $this->item); ?>
+                    </figure>
+                </div>
             </div>
-        </div>
+        <?php endif; ?>
     <?php endif; ?>
     
     <div class="container">
         <div class="row border-top border-light row-column-border row-column-menu-left">
             <?php // Sidebar sinistra con indice ?>
             <aside class="<?php echo $leftColClass; ?>">
-                <div class="cmp-navscroll sticky-top" aria-labelledby="accordion-title-one">
-                    <nav class="navbar it-navscroll-wrapper navbar-expand-lg" aria-label="Indice della pagina" data-bs-navscroll="">
+                <div class="cmp-navscroll sticky-top" role="region" aria-labelledby="accordion-title-one">
+                    <nav class="navbar it-navscroll-wrapper navbar-expand-lg" aria-label="<?php echo Text::_('TPL_ACCESSIBILE_PAGE_INDEX'); ?>" data-bs-navscroll="">
                         <div class="navbar-custom" id="navbarNavProgress">
                             <div class="menu-wrapper">
                                 <div class="link-list-wrapper">
@@ -221,7 +200,7 @@ $rightColClass = 'col-lg-3';
                                                 <button class="accordion-button pb-10 px-3 text-uppercase" type="button" 
                                                         aria-controls="collapse-one" aria-expanded="true" 
                                                         data-bs-toggle="collapse" data-bs-target="#collapse-one">
-                                                    INDICE DELLA PAGINA
+                                                    <?php echo Text::_('TPL_ACCESSIBILE_PAGE_INDEX'); ?>
                                                     <i class="fa-solid fa-chevron-down icon-sm icon-primary align-top" aria-hidden="true"></i>
                                                 </button>
                                             </span>
@@ -235,13 +214,13 @@ $rightColClass = 'col-lg-3';
                                                     <ul class="link-list" data-element="page-index">
                                                         <li class="nav-item">
                                                             <a class="nav-link active" href="#descrizione">
-                                                                <span>Descrizione</span>
+                                                                <span><?php echo Text::_('TPL_ACCESSIBILE_DESCRIPTION'); ?></span>
                                                             </a>
                                                         </li>
                                                         <?php if ($useDefList) : ?>
                                                             <li class="nav-item">
                                                                 <a class="nav-link" href="#informazioni-articolo">
-                                                                    <span>Informazioni Articolo</span>
+                                                                    <span><?php echo Text::_('TPL_ACCESSIBILE_ARTICLE_INFO'); ?></span>
                                                                 </a>
                                                             </li>
                                                         <?php endif; ?>
@@ -256,7 +235,6 @@ $rightColClass = 'col-lg-3';
                     </nav>
                 </div>
                 
-                <?php // Posizione modulo colonna-sinistra ?>
                 <?php if ($document->countModules('colonna-sinistra')) : ?>
                     <div class="mt-4">
                         <?php echo HTMLHelper::_('content.prepare', '{loadposition colonna-sinistra}'); ?>
@@ -265,16 +243,13 @@ $rightColClass = 'col-lg-3';
             </aside>
             
             <?php // Contenuto principale ?>
-            <section class="<?php echo $centerColClass; ?> it-page-sections-container border-light">
-                <?php // Content is generated by content plugin event "onContentAfterTitle" ?>
+            <div class="<?php echo $centerColClass; ?> it-page-sections-container border-light">
                 <?php echo $this->item->event->afterDisplayTitle; ?>
-                
-                <?php // Content is generated by content plugin event "onContentBeforeDisplay" ?>
                 <?php echo $this->item->event->beforeDisplayContent; ?>
                 
                 <?php if ($params->get('access-view')) : ?>
                     <article class="it-page-section anchor-offset" data-audio="">
-                        <h4 id="descrizione">Descrizione</h4>
+                        <h2 id="descrizione"><?php echo Text::_('TPL_ACCESSIBILE_DESCRIPTION'); ?></h2>
                         <div class="richtext-wrapper lora">
                             <?php echo $this->item->text; ?>
                         </div>
@@ -323,13 +298,12 @@ $rightColClass = 'col-lg-3';
                 <?php // Informazioni Articolo ?>
                 <?php if ($useDefList) : ?>
                     <article class="it-page-section anchor-offset mt-5">
-                        <h4 id="informazioni-articolo">Informazioni Articolo</h4>
+                        <h2 id="informazioni-articolo"><?php echo Text::_('TPL_ACCESSIBILE_ARTICLE_INFO'); ?></h2>
                         <div class="row">
                             <div class="col-12">
                                 <dl class="row">
-                                    <?php // Categoria ?>
                                     <?php if ($params->get('show_category')) : ?>
-                                        <dt class="col-sm-3 fw-semibold">Categoria:</dt>
+                                        <dt class="col-sm-3 fw-semibold"><?php echo Text::_('JCATEGORY'); ?>:</dt>
                                         <dd class="col-sm-9">
                                             <?php if ($params->get('link_category') && !empty($this->item->catid)) : ?>
                                                 <a href="<?php echo Route::_(RouteHelper::getCategoryRoute($this->item->catid)); ?>">
@@ -341,9 +315,8 @@ $rightColClass = 'col-lg-3';
                                         </dd>
                                     <?php endif; ?>
                                     
-                                    <?php // Categoria Genitore ?>
                                     <?php if ($params->get('show_parent_category') && !empty($this->item->parent_id) && $this->item->parent_id != 'root') : ?>
-                                        <dt class="col-sm-3 fw-semibold">Categoria Genitore:</dt>
+                                        <dt class="col-sm-3 fw-semibold"><?php echo Text::_('TPL_ACCESSIBILE_PARENT_CATEGORY'); ?>:</dt>
                                         <dd class="col-sm-9">
                                             <?php if ($params->get('link_parent_category')) : ?>
                                                 <a href="<?php echo Route::_(RouteHelper::getCategoryRoute($this->item->parent_id)); ?>">
@@ -355,9 +328,8 @@ $rightColClass = 'col-lg-3';
                                         </dd>
                                     <?php endif; ?>
                                     
-                                    <?php // Autore ?>
                                     <?php if ($params->get('show_author')) : ?>
-                                        <dt class="col-sm-3 fw-semibold">Autore:</dt>
+                                        <dt class="col-sm-3 fw-semibold"><?php echo Text::_('JAUTHOR'); ?>:</dt>
                                         <dd class="col-sm-9">
                                             <?php if (!empty($this->item->author)) : ?>
                                                 <?php if ($params->get('link_author') && !empty($this->item->contact_link)) : ?>
@@ -371,33 +343,29 @@ $rightColClass = 'col-lg-3';
                                         </dd>
                                     <?php endif; ?>
                                     
-                                    <?php // Data di Creazione ?>
                                     <?php if ($params->get('show_create_date')) : ?>
-                                        <dt class="col-sm-3 fw-semibold">Creato:</dt>
+                                        <dt class="col-sm-3 fw-semibold"><?php echo Text::_('TPL_ACCESSIBILE_CREATED'); ?>:</dt>
                                         <dd class="col-sm-9">
                                             <?php echo HTMLHelper::_('date', $this->item->created, Text::_('DATE_FORMAT_LC3')); ?>
                                         </dd>
                                     <?php endif; ?>
                                     
-                                    <?php // Data di Pubblicazione ?>
                                     <?php if ($params->get('show_publish_date')) : ?>
-                                        <dt class="col-sm-3 fw-semibold">Pubblicato:</dt>
+                                        <dt class="col-sm-3 fw-semibold"><?php echo Text::_('JPUBLISHED'); ?>:</dt>
                                         <dd class="col-sm-9">
                                             <?php echo HTMLHelper::_('date', $this->item->publish_up, Text::_('DATE_FORMAT_LC3')); ?>
                                         </dd>
                                     <?php endif; ?>
                                     
-                                    <?php // Data di Modifica ?>
                                     <?php if ($params->get('show_modify_date')) : ?>
-                                        <dt class="col-sm-3 fw-semibold">Ultimo aggiornamento:</dt>
+                                        <dt class="col-sm-3 fw-semibold"><?php echo Text::_('TPL_ACCESSIBILE_MODIFIED'); ?>:</dt>
                                         <dd class="col-sm-9">
                                             <?php echo HTMLHelper::_('date', $this->item->modified, Text::_('DATE_FORMAT_LC3')); ?>
                                         </dd>
                                     <?php endif; ?>
                                     
-                                    <?php // Visualizzazioni ?>
                                     <?php if ($params->get('show_hits')) : ?>
-                                        <dt class="col-sm-3 fw-semibold">Visualizzazioni:</dt>
+                                        <dt class="col-sm-3 fw-semibold"><?php echo Text::_('JGLOBAL_HITS'); ?>:</dt>
                                         <dd class="col-sm-9">
                                             <?php echo $this->item->hits; ?>
                                         </dd>
@@ -408,9 +376,8 @@ $rightColClass = 'col-lg-3';
                     </article>
                 <?php endif; ?>
                 
-                <?php // Content is generated by content plugin event "onContentAfterDisplay" ?>
                 <?php echo $this->item->event->afterDisplayContent; ?>
-            </section>
+             </div>
             
             <?php // Sidebar destra (solo se ci sono moduli) ?>
             <?php if ($hasRightColumn) : ?>
@@ -418,16 +385,5 @@ $rightColClass = 'col-lg-3';
                     <?php echo HTMLHelper::_('content.prepare', '{loadposition colonna-destra}'); ?>
                 </aside>
             <?php endif; ?>
-        </div>
-    </div>
-    
-    <?php // Rating section ?>
-    <div class="bg-primary">
-        <div class="container">
-            <div class="row d-flex justify-content-center bg-primary">
-                <div class="col-12 col-lg-6 p-lg-0 px-3">
-                    <?php // Inserire qui il componente di rating se disponibile ?>
-                </div>
-            </div>
         </div>
     </div>
