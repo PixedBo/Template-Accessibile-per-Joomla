@@ -33715,53 +33715,56 @@ aside .cmp-navscroll .navbar.it-navscroll-wrapper .link-list-wrapper ul li a.act
 /* FIX COLORI MENU MOBILE (ALTO CONTRASTO)   */
 /* ========================================= */
 
-/* Forza il testo bianco per tutti i link, i titoli e i testi nel menu mobile */
-.navbar-collapsable .menu-wrapper .nav-link,
-.navbar-collapsable .menu-wrapper .nav-link span,
-.navbar-collapsable .menu-wrapper .list-item,
-.navbar-collapsable .menu-wrapper .list-item span,
-.navbar-collapsable .menu-wrapper .it-brand-title,
-.navbar-collapsable .menu-wrapper .it-socials span {
-    color: #ffffff !important;
-}
+/* Applichiamo queste regole SOLO sugli schermi più piccoli di 992px (Tablet e Smartphone) */
+@media (max-width: 991.98px) {
+    /* Forza il testo bianco per tutti i link, i titoli e i testi nel menu mobile */
+    .navbar-collapsable .menu-wrapper .nav-link,
+    .navbar-collapsable .menu-wrapper .nav-link span,
+    .navbar-collapsable .menu-wrapper .list-item,
+    .navbar-collapsable .menu-wrapper .list-item span,
+    .navbar-collapsable .menu-wrapper .it-brand-title,
+    .navbar-collapsable .menu-wrapper .it-socials span {
+        color: #ffffff !important;
+    }
 
-/* Forza il riempimento bianco per tutte le icone e le freccette SVG */
-.navbar-collapsable .menu-wrapper .icon,
-.navbar-collapsable .menu-wrapper .nav-link svg,
-.navbar-collapsable .menu-wrapper .list-item svg {
-    fill: #ffffff !important;
-}
+    /* Forza il riempimento bianco per tutte le icone e le freccette SVG */
+    .navbar-collapsable .menu-wrapper .icon,
+    .navbar-collapsable .menu-wrapper .nav-link svg,
+    .navbar-collapsable .menu-wrapper .list-item svg {
+        fill: #ffffff !important;
+    }
 
-/* Rende i bordi separatori tra le voci di menu di un bianco semi-trasparente elegante */
-.navbar-collapsable .menu-wrapper .nav-item,
-.navbar-collapsable .menu-wrapper .dropdown-menu .link-list-wrapper ul li a.list-item {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
-}
+    /* Rende i bordi separatori tra le voci di menu di un bianco semi-trasparente elegante */
+    .navbar-collapsable .menu-wrapper .nav-item,
+    .navbar-collapsable .menu-wrapper .dropdown-menu .link-list-wrapper ul li a.list-item {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
+    }
 
-/* Disabilita lo sfondo bianco predefinito del dropdown aperto su mobile */
-.navbar-collapsable .menu-wrapper .dropdown-menu {
-    background-color: transparent !important;
-    box-shadow: none !important;
-}
+    /* Disabilita lo sfondo bianco predefinito del dropdown aperto su mobile */
+    .navbar-collapsable .menu-wrapper .dropdown-menu {
+        background-color: transparent !important;
+        box-shadow: none !important;
+    }
 
-.it-header-wrapper .navbar-collapsable .logo-hamburger {
-	color:white;
-}
+    .it-header-wrapper .navbar-collapsable .logo-hamburger {
+        color: white;
+    }
 
-.navbar .navbar-collapsable .navbar-nav li a.nav-link.active {
-    border-left: 3px solid white;
-}
+    .navbar .navbar-collapsable .navbar-nav li a.nav-link.active {
+        border-left: 3px solid white;
+    }
 
-.it-header-wrapper .navbar-collapsable .it-socials ul li a svg {
-	fill:white!important;
-}
+    .it-header-wrapper .navbar-collapsable .it-socials ul li a svg {
+        fill: white !important;
+    }
 
-.navbar-collapsable.expanded .menu-wrapper  nav[aria-label="Secondaria"] nav[aria-label="Principale"] {
-	padding-left:0px;
-}
+    .navbar-collapsable.expanded .menu-wrapper nav[aria-label="Secondaria"] nav[aria-label="Principale"] {
+        padding-left: 0px;
+    }
 
-.dropdown-menu.show .link-list-wrapper li a.list-item {
-	border-bottom:none!important;
+    .dropdown-menu.show .link-list-wrapper li a.list-item {
+        border-bottom: none !important;
+    }
 }
 
 @media (max-width:700px) {
