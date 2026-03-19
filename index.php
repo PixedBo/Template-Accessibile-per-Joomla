@@ -493,7 +493,6 @@ $wa->addInlineStyle($inlineCss);
     <?php endif; ?>
 
     <jdoc:include type="modules" name="debug" style="none" />
-	    <script src="<?= $this->baseurl ?>/templates/<?= $this->template ?>/js/bootstrap-italia.bundle.min.js"></script>
 </body>
 
 </html>
