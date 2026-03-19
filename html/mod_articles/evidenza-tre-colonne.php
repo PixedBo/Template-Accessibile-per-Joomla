@@ -26,6 +26,9 @@ $template  = Factory::getApplication()->getTemplate();
 $baseurl   = Uri::base(true);
 $spriteUrl = $baseurl . '/templates/' . $template . '/svg/sprites.svg';
 
+// Estraiamo il parametro del tag per il titolo (default: h4)
+$itemHeading = $params->get('item_heading', 'h4');
+
 $truncate = static function (string $text, int $limit): string {
     if ($limit <= 0 || mb_strlen($text) <= $limit) return $text;
     return rtrim(mb_substr($text, 0, $limit)) . '…';
@@ -68,9 +71,9 @@ $cleanText = static function (?string $html): string {
                             <?= htmlspecialchars($item->category_title ?? '', ENT_QUOTES, 'UTF-8'); ?>
                         </span>
                     </div>
-                    <h3 class="card-title text-paragraph-medium u-grey-light">
+                    <<?= $itemHeading ?> class="card-title text-paragraph-medium u-grey-light">
                         <?= htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
-                    </h3>
+                    </<?= $itemHeading ?>>
                     <?php if ($introTruncated !== '') : ?>
                         <p class="text-paragraph-card u-grey-light m-0"><?= htmlspecialchars($introTruncated, ENT_QUOTES, 'UTF-8'); ?></p>
                     <?php endif; ?>
@@ -99,9 +102,9 @@ $cleanText = static function (?string $html): string {
                         <?= htmlspecialchars($item->category_title ?? '', ENT_QUOTES, 'UTF-8'); ?>
                     </span>
                 </div>
-                <h3 class="card-title text-paragraph-medium u-grey-light">
+                <<?= $itemHeading ?> class="card-title text-paragraph-medium u-grey-light">
                     <?= htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
-                </h3>
+                </<?= $itemHeading ?>>
                 <?php if ($introTruncated !== '') : ?>
                     <p class="text-paragraph-card u-grey-light m-0"><?= htmlspecialchars($introTruncated, ENT_QUOTES, 'UTF-8'); ?></p>
                 <?php endif; ?>

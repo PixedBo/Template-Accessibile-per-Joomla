@@ -26,6 +26,9 @@ $app           = Factory::getApplication();
 $template      = $app->getTemplate();
 $spriteUrl     = Uri::base(true) . '/templates/' . $template . '/svg/sprites.svg';
 
+// Estraiamo il parametro del tag per il titolo (default: h4 come da XML nativo)
+$itemHeading   = $params->get('item_heading', 'h4');
+
 // ==============================================================================
 // LOGICA 1: SE C'È UN SOLO ARTICOLO -> LAYOUT STATICO NATIVO (NO SLIDER)
 // ==============================================================================
@@ -82,7 +85,7 @@ if ($totalArticles === 1) :
                     </div>
 
                     <a href="<?= $link; ?>" class="text-decoration-none">
-                        <h3 class="card-title"><?= htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?></h3>
+                        <<?= $itemHeading ?> class="card-title"><?= htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?></<?= $itemHeading ?>>
                     </a>
 
                     <?php if ($intro !== '') : ?>
@@ -233,7 +236,7 @@ else :
                                         </div>
 
                                         <a href="<?= $link; ?>" class="text-decoration-none">
-                                            <h3 class="card-title"><?= htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?></h3>
+                                            <<?= $itemHeading ?> class="card-title"><?= htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?></<?= $itemHeading ?>>
                                         </a>
 
                                         <?php if ($intro !== '') : ?>

@@ -270,16 +270,22 @@ $wa->addInlineStyle($inlineCss);
 							
 							
                           <div class="it-right-zone">
-  <?php if (!empty($socialLinks)) : ?>
+<?php if (!empty($socialLinks)) : ?>
     <div class="it-socials d-none d-lg-flex">
       <span><?php echo Text::_('TPL_ACCESSIBILE_FOLLOW_US'); ?></span>
       <ul>
         <?php foreach ($socialLinks as $social) : ?>
           <li>
-            <a href="<?php echo htmlspecialchars($social['url'], ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noopener noreferrer">
-              <svg class="icon icon-sm icon-white align-top">
+            <a href="<?php echo htmlspecialchars($social['url'], ENT_QUOTES, 'UTF-8'); ?>" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="text-white" 
+               aria-label="<?php echo $social['label']; ?> - <?php echo Text::_('TPL_ACCESSIBILE_NEW_WINDOW'); ?>">
+              
+              <svg class="icon icon-sm align-top" aria-hidden="true" style="fill: currentColor;">
                 <use xlink:href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/svg/sprites.svg#<?php echo $social['icon']; ?>"></use>
               </svg>
+              
               <span class="visually-hidden"><?php echo $social['label']; ?></span>
             </a>
           </li>

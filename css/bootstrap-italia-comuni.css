@@ -119,10 +119,6 @@ body {
     background-repeat: no-repeat;
 }
 
-.bg-evidenza h2 {
-	color:white;
-}
-
 hr {
   margin: 1rem 0;
   color: inherit;
@@ -28119,6 +28115,7 @@ display:block;
 }
 .icon-white {
   fill: #fff !important;
+  color: #fff !important;
 }
 .icon-100 {
   fill: #f5f5f5 !important;
