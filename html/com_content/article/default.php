@@ -36,7 +36,7 @@ $app = Factory::getApplication();
 $document = $app->getDocument();
 $hasRightColumn = $document->countModules('colonna-destra') > 0;
 
-$leftColClass = $hasRightColumn ? 'col-lg-3' : 'col-lg-3';
+$leftColClass = 'col-lg-3';
 $centerColClass = $hasRightColumn ? 'col-lg-6' : 'col-lg-9';
 $rightColClass = 'col-lg-3';
 ?>
@@ -45,7 +45,7 @@ $rightColClass = 'col-lg-3';
         <div class="row">
             <div class="col-lg-8 px-lg-4 py-lg-2">
                 <?php if ($params->get('show_title')) : ?>
-                    <?php echo '<' . $htag . ' data-audio="">'; ?>
+                    <?php echo '<' . $htag . '>'; ?>
                         <?php echo $this->escape($this->item->title); ?>
                         <?php if ($this->item->state == ContentComponent::CONDITION_UNPUBLISHED) : ?>
                             <span class="badge bg-warning text-dark"><?php echo Text::_('JUNPUBLISHED'); ?></span>
@@ -59,10 +59,10 @@ $rightColClass = 'col-lg-3';
                     <?php echo '</' . $htag . '>'; ?>
                 <?php endif; ?>
                 
-                <h2 class="visually-hidden" data-audio=""><?php echo Text::_('TPL_ACCESSIBILE_ARTICLE_DETAILS'); ?></h2>
-                
-                <?php if ($this->item->introtext && $params->get('show_intro')) : ?>
-                    <div data-audio="" class="lead">
+                <h2 class="visually-hidden"><?php echo Text::_('TPL_ACCESSIBILE_ARTICLE_DETAILS'); ?></h2>
+
+                <?php if ($this->item->introtext && !empty($this->item->fulltext) && $params->get('show_intro')) : ?>
+                    <div class="lead">
                         <?php echo $this->item->introtext; ?>
                     </div>
                 <?php endif; ?>
@@ -248,10 +248,10 @@ $rightColClass = 'col-lg-3';
                 <?php echo $this->item->event->beforeDisplayContent; ?>
                 
                 <?php if ($params->get('access-view')) : ?>
-                    <article class="it-page-section anchor-offset" data-audio="">
+                    <article class="it-page-section anchor-offset">
                         <h2 id="descrizione"><?php echo Text::_('TPL_ACCESSIBILE_DESCRIPTION'); ?></h2>
                         <div class="richtext-wrapper lora">
-                            <?php echo $this->item->text; ?>
+                            <?php echo !empty($this->item->fulltext) ? $this->item->fulltext : $this->item->text; ?>
                         </div>
                     </article>
                     

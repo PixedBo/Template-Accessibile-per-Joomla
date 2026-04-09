@@ -393,10 +393,18 @@ $wa->addInlineStyle($inlineCss);
                 </div>
               </div>
             </header>
-<h1 class="visually-hidden" id="main-title"><?php echo htmlspecialchars($this->params->get('nomesito', 'Il mio Comune')); ?></h1>      <section id="head-section">
-		<div class="container">
-			<jdoc:include type="modules" name="top" style="html5" />
-		</div>
+<h1 class="visually-hidden" id="main-title"><?php echo htmlspecialchars($this->params->get('nomesito', 'Il mio Comune')); ?></h1>
+      <?php if ($this->countModules('percorso')) : ?>
+      <nav aria-label="<?php echo Text::_('TPL_ACCESSIBILE_BREADCRUMB_NAV'); ?>" id="percorso-section">
+        <div class="container">
+          <jdoc:include type="modules" name="percorso" style="none" />
+        </div>
+      </nav>
+      <?php endif; ?>
+      <section id="head-section">
+        <div class="container">
+          <jdoc:include type="modules" name="top" style="html5" />
+        </div>
       </section>
       <?php if ($this->countModules('calendario')) : ?>
 	  <section id="calendario">
@@ -461,7 +469,9 @@ $wa->addInlineStyle($inlineCss);
         <div class="container">
           <div class="row">
             <div class="col-12 footer-items-wrapper logo-wrapper">
-              <img class="ue-logo" src="<?= $this->baseurl ?>/templates/<?= $this->template ?>/images/logo-eu-inverted.svg" alt="logo Unione Europea">
+              <?php if ($this->params->get('mostra_logo_ue', 1)) : ?>
+              <img class="ue-logo" src="<?= $this->baseurl ?>/templates/<?= $this->template ?>/images/logo-eu-inverted.svg" alt="<?php echo Text::_('TPL_ACCESSIBILE_EU_LOGO_ALT'); ?>">
+              <?php endif; ?>
 				<div class="it-brand-wrapper">
 				  <a href="<?php echo $this->baseurl; ?>">
 					<?php if ($logoUrl) : ?>

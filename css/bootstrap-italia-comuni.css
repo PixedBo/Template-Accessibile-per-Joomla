@@ -33797,3 +33797,37 @@ aside .cmp-navscroll .navbar.it-navscroll-wrapper .link-list-wrapper ul li a.act
     display: none !important;
   }
 }
+
+/* ============================================================
+   Paginazione articoli prev/next (com_content)
+   ============================================================ */
+span.pagination {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* ============================================================
+   Carousel Evidenza (mod_articles layout: evidenza-singolo)
+   ============================================================ */
+.it-carousel-evidenza.splide {
+  padding-bottom: 0 !important;
+}
+.it-carousel-evidenza .splide__track {
+  padding-top: 0 !important;
+}
+.it-carousel-evidenza .splide__pagination {
+  display: none !important;
+}
+.it-carousel-evidenza .splide__arrow--prev,
+.it-carousel-evidenza .splide__arrow--next {
+  width: 3rem;
+  height: 3rem;
+  padding: 0;
+  z-index: 10;
+}
+.it-carousel-evidenza .splide__arrow--prev { left: -0.5rem; }
+.it-carousel-evidenza .splide__arrow--next { right: -0.5rem; }
+@media (min-width: 992px) {
+  .it-carousel-evidenza .splide__arrow--prev { left: -3.5rem; }
+  .it-carousel-evidenza .splide__arrow--next { right: -3.5rem; }
+}

@@ -46,7 +46,7 @@ if ($totalArticles === 1) :
 
     $images = json_decode($item->images ?? '{}');
     $imgUrl   = $images->image_intro ?? '';
-    $imgAlt   = !empty($images->image_intro_alt) ? $images->image_intro_alt : 'Immagine di copertina per ' . $item->title;
+    $imgAlt   = !empty($images->image_intro_alt) ? $images->image_intro_alt : Text::sprintf('TPL_ACCESSIBILE_COVER_IMAGE_ALT', $item->title);
     $imgTitle = $images->image_intro_caption ?? $item->title;
 
     $tags = [];
@@ -69,7 +69,7 @@ if ($totalArticles === 1) :
                 <div class="card-body pb-3 px-0">
                     <div class="category-top">
                         <i class="fa-solid fa-calendar-days" aria-hidden="true"></i>
-                        <span class="visually-hidden">Data di pubblicazione e categoria:</span>
+                        <span class="visually-hidden"><?php echo Text::_('TPL_ACCESSIBILE_PUBLISH_DATE_AND_CATEGORY'); ?></span>
                         
                         <?php if (!empty($item->category_title)) : ?>
                             <a class="text-decoration-none" href="<?= Route::_(ContentRouteHelper::getCategoryRoute($item->catid)); ?>">
@@ -93,7 +93,7 @@ if ($totalArticles === 1) :
                     <?php endif; ?>
 
                     <?php if (!empty($tags)) : ?>
-                        <div aria-label="Argomenti correlati">
+                        <div aria-label="<?php echo Text::_('TPL_ACCESSIBILE_RELATED_TOPICS'); ?>">
                             <?php foreach ($tags as $tag) :
                                 $tagTitle = $tag->title ?? '';
                                 try {
@@ -122,55 +122,29 @@ if ($totalArticles === 1) :
         <?php endif; ?>
     </div>
 
-<?php 
+<?php
 // ==============================================================================
 // LOGICA 2: SE CI SONO PIÙ ARTICOLI -> LAYOUT CAROSELLO SPLIDE.JS
 // ==============================================================================
-else : 
+else :
     $carouselId = 'carousel-evidenza-' . $module->id;
 ?>
 
-    <style>
-        /* 1. Rimuove TUTTI gli spazi extra di Splide/Bootstrap Italia per avere l'immagine a filo */
-        #<?= $carouselId ?>.splide {
-            padding-bottom: 0 !important;
-        }
-        #<?= $carouselId ?> .splide__track {
-            padding-top: 0 !important;
-        }
-        
-        /* 2. Rimuove completamente la paginazione a pallini */
-        #<?= $carouselId ?> .splide__pagination {
-            display: none !important;
-        }
-        
-        /* 3. Posizionamento delle frecce: esterne su desktop, interne su mobile */
-        #<?= $carouselId ?> .splide__arrow--prev { left: -0.5rem; }
-        #<?= $carouselId ?> .splide__arrow--next { right: -0.5rem; }
-        
-        @media (min-width: 992px) {
-            #<?= $carouselId ?> .splide__arrow--prev { left: -3.5rem; }
-            #<?= $carouselId ?> .splide__arrow--next { right: -3.5rem; }
-        }
-    </style>
+    <div id="<?= $carouselId ?>" class="it-carousel-wrapper it-carousel-evidenza splide position-relative" data-bs-carousel-splide
+         aria-label="<?php echo Text::_('TPL_ACCESSIBILE_FEATURED_ARTICLES'); ?>" aria-roledescription="carousel">
 
-    <div id="<?= $carouselId ?>" class="it-carousel-wrapper splide position-relative" data-bs-carousel-splide 
-         aria-label="Articoli in evidenza" aria-roledescription="carousel">
-        
         <div class="splide__arrows">
-            <button class="splide__arrow splide__arrow--prev btn btn-primary rounded-circle position-absolute top-50 translate-middle-y d-flex align-items-center justify-content-center" 
-                    style="z-index: 10; width: 3rem; height: 3rem; padding: 0;"
-                    type="button" 
-                    aria-label="Vai alla slide precedente" aria-controls="<?= $carouselId ?>-track">
+            <button class="splide__arrow splide__arrow--prev btn btn-primary rounded-circle position-absolute top-50 translate-middle-y d-flex align-items-center justify-content-center"
+                    type="button"
+                    aria-label="<?php echo Text::_('TPL_ACCESSIBILE_PREV_SLIDE'); ?>" aria-controls="<?= $carouselId ?>-track">
                 <svg class="icon icon-white" aria-hidden="true">
                     <use href="<?= $spriteUrl ?>#it-chevron-left"></use>
                 </svg>
             </button>
-            
-            <button class="splide__arrow splide__arrow--next btn btn-primary rounded-circle position-absolute top-50 translate-middle-y d-flex align-items-center justify-content-center" 
-                    style="z-index: 10; width: 3rem; height: 3rem; padding: 0;"
-                    type="button" 
-                    aria-label="Vai alla slide successiva" aria-controls="<?= $carouselId ?>-track">
+
+            <button class="splide__arrow splide__arrow--next btn btn-primary rounded-circle position-absolute top-50 translate-middle-y d-flex align-items-center justify-content-center"
+                    type="button"
+                    aria-label="<?php echo Text::_('TPL_ACCESSIBILE_NEXT_SLIDE'); ?>" aria-controls="<?= $carouselId ?>-track">
                 <svg class="icon icon-white" aria-hidden="true">
                     <use href="<?= $spriteUrl ?>#it-chevron-right"></use>
                 </svg>
@@ -193,7 +167,7 @@ else :
 
                     $images = json_decode($item->images ?? '{}');
                     $imgUrl   = $images->image_intro ?? '';
-                    $imgAlt   = !empty($images->image_intro_alt) ? $images->image_intro_alt : 'Immagine di copertina per ' . $item->title;
+                    $imgAlt   = !empty($images->image_intro_alt) ? $images->image_intro_alt : Text::sprintf('TPL_ACCESSIBILE_COVER_IMAGE_ALT', $item->title);
                     $imgTitle = $images->image_intro_caption ?? $item->title;
 
                     $tags = [];
@@ -220,7 +194,7 @@ else :
                                     <div class="card-body pb-3 px-0">
                                         <div class="category-top">
                                             <i class="fa-solid fa-calendar-days" aria-hidden="true"></i>
-                                            <span class="visually-hidden">Data di pubblicazione e categoria:</span>
+                                            <span class="visually-hidden"><?php echo Text::_('TPL_ACCESSIBILE_PUBLISH_DATE_AND_CATEGORY'); ?></span>
                                             
                                             <?php if (!empty($item->category_title)) : ?>
                                                 <a class="text-decoration-none" href="<?= Route::_(ContentRouteHelper::getCategoryRoute($item->catid)); ?>">
@@ -244,7 +218,7 @@ else :
                                         <?php endif; ?>
 
                                         <?php if (!empty($tags)) : ?>
-                                            <div aria-label="Argomenti correlati">
+                                            <div aria-label="<?php echo Text::_('TPL_ACCESSIBILE_RELATED_TOPICS'); ?>">
                                                 <?php foreach ($tags as $tag) :
                                                     $tagTitle = $tag->title ?? '';
                                                     try {

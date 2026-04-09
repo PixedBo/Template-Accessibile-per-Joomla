@@ -37,6 +37,7 @@
     <position>selezione-lingua</position>
     <position>menu-principale</position>
     <position>menu-secondario</position>
+    <position>percorso</position>
     <position>top</position>
 	<position>top-muted</position>
 	<position>bottom</position>
@@ -87,6 +88,13 @@
           <option value="menuitem">TPL_ACCESSIBILE_SEARCH_MENUITEM</option>
         </field>
         <field name="menuitem_ricerca" type="menuitem" label="TPL_ACCESSIBILE_SEARCH_MENUITEM_LABEL" description="TPL_ACCESSIBILE_SEARCH_MENUITEM_DESC" showon="mostra_ricerca:1[AND]tipo_ricerca:menuitem" />
+      </fieldset>
+
+      <fieldset name="footer" label="TPL_ACCESSIBILE_FOOTER_OPTIONS_LABEL">
+        <field name="mostra_logo_ue" type="radio" default="1" label="TPL_ACCESSIBILE_SHOW_EU_LOGO_LABEL" description="TPL_ACCESSIBILE_SHOW_EU_LOGO_DESC" class="btn-group btn-group-yesno">
+          <option value="1">JYES</option>
+          <option value="0">JNO</option>
+        </field>
       </fieldset>
 
       <fieldset name="social" label="TPL_ACCESSIBILE_SOCIAL_LABEL">
