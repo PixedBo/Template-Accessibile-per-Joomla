@@ -126,7 +126,7 @@ $wa->addInlineStyle($inlineCss);
                             $linkRegione = $params->get('linkregione');
                             if (!empty($nomeRegione)) :
                                 if (!empty($linkRegione)) : ?>
-                                    <a class="d-lg-block navbar-brand" target="_blank" href="<?php echo htmlspecialchars($linkRegione, ENT_QUOTES, 'UTF-8'); ?>" aria-label="Vai al portale <?php echo htmlspecialchars($nomeRegione); ?> - link esterno - apertura nuova scheda" title="Vai al portale <?php echo htmlspecialchars($nomeRegione); ?>">
+                                    <a class="d-lg-block navbar-brand" target="_blank" href="<?php echo htmlspecialchars($linkRegione, ENT_QUOTES, 'UTF-8'); ?>" aria-label="<?php echo Text::sprintf('TPL_ACCESSIBILE_GO_TO_PORTAL', htmlspecialchars($nomeRegione)) . ' - ' . Text::_('TPL_ACCESSIBILE_EXTERNAL_LINK'); ?>" title="<?php echo Text::sprintf('TPL_ACCESSIBILE_GO_TO_PORTAL', htmlspecialchars($nomeRegione)); ?>">
                                        <?php echo htmlspecialchars($nomeRegione); ?>
                                     </a>
                                 <?php else : ?>
@@ -140,7 +140,7 @@ $wa->addInlineStyle($inlineCss);
                                 $mostraLogin = $params->get('mostra_login', 0);
                                 if ($mostraLogin == 1) :
                                     $user = Factory::getUser();
-                                    $loginText = $user->guest ? 'Accedi all\'area personale' : 'Area personale';
+                                    $loginText = $user->guest ? Text::_('TPL_ACCESSIBILE_LOGIN') : Text::_('TPL_ACCESSIBILE_PERSONAL_AREA');
                                     // Semplificato per la pagina di errore
                                     $loginUrl = $this->baseurl . '/index.php?option=com_users&view=login';
                                 ?>
@@ -180,7 +180,7 @@ $wa->addInlineStyle($inlineCss);
                                 <div class="it-right-zone">
                                     <?php if (!empty($socialLinks)) : ?>
                                         <div class="it-socials d-none d-lg-flex">
-                                            <span>Seguici su</span>
+                                            <span><?php echo Text::_('TPL_ACCESSIBILE_FOLLOW_US'); ?></span>
                                             <ul>
                                                 <?php foreach ($socialLinks as $social) : ?>
                                                     <li>
@@ -205,14 +205,14 @@ $wa->addInlineStyle($inlineCss);
                     <div class="row">
                         <div class="col-12">
                             <div class="navbar navbar-expand-lg has-megamenu">
-                                <button class="custom-navbar-toggler" type="button" aria-controls="nav4" aria-expanded="false" aria-label="Mostra/Nascondi la navigazione" data-bs-target="#nav4" data-bs-toggle="navbarcollapsible">
+                                <button class="custom-navbar-toggler" type="button" aria-controls="nav4" aria-expanded="false" aria-label="<?php echo Text::_('TPL_ACCESSIBILE_TOGGLE_NAV'); ?>" data-bs-target="#nav4" data-bs-toggle="navbarcollapsible">
                                     <svg class="icon"><use href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/svg/sprites.svg#it-burger"></use></svg>
                                 </button>
                                 <div class="navbar-collapsable" id="nav4">
                                     <div class="overlay" style="display: none;"></div>
                                     <div class="close-div">
                                         <button class="btn close-menu" type="button">
-                                            <span class="visually-hidden">Nascondi la navigazione</span>
+                                            <span class="visually-hidden"><?php echo Text::_('TPL_ACCESSIBILE_HIDE_NAV'); ?></span>
                                             <svg class="icon"><use href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/svg/sprites.svg#it-close-big"></use></svg>
                                         </button>
                                     </div>

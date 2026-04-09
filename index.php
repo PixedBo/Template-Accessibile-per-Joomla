@@ -310,8 +310,8 @@ $wa->addInlineStyle($inlineCss);
   ?>
   
   <div class="it-search-wrapper">
-    <span class="d-none d-md-block">Cerca</span>
-    <a class="search-link rounded-icon" href="<?php echo $ricercaUrl; ?>" aria-label="Cerca nel sito">
+    <span class="d-none d-md-block"><?php echo Text::_('TPL_ACCESSIBILE_SEARCH'); ?></span>
+    <a class="search-link rounded-icon" href="<?php echo $ricercaUrl; ?>" aria-label="<?php echo Text::_('TPL_ACCESSIBILE_SEARCH_SITE'); ?>">
       <svg class="icon">
         <use href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/svg/sprites.svg#it-search"></use>
       </svg>
@@ -336,7 +336,7 @@ $wa->addInlineStyle($inlineCss);
                       <div class="col-12">
                         <!--start nav-->
                         <div class="navbar navbar-expand-lg has-megamenu">
-                          <button class="custom-navbar-toggler" type="button" aria-controls="nav4" aria-expanded="false" aria-label="Mostra/Nascondi la navigazione" data-bs-target="#nav4" data-bs-toggle="navbarcollapsible">
+                          <button class="custom-navbar-toggler" type="button" aria-controls="nav4" aria-expanded="false" aria-label="<?php echo Text::_('TPL_ACCESSIBILE_TOGGLE_NAV'); ?>" data-bs-target="#nav4" data-bs-toggle="navbarcollapsible">
                             <svg class="icon">
                               <use href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/svg/sprites.svg#it-burger"></use>
                             </svg>
@@ -345,7 +345,7 @@ $wa->addInlineStyle($inlineCss);
                             <div class="overlay" style="display: none;"></div>
                             <div class="close-div">
                               <button class="btn close-menu" type="button">
-                                <span class="visually-hidden">Nascondi la navigazione</span>
+                                <span class="visually-hidden"><?php echo Text::_('TPL_ACCESSIBILE_HIDE_NAV'); ?></span>
                                 <svg class="icon">
                                   <use href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/svg/sprites.svg#it-close-big"></use>
                                 </svg>
@@ -426,7 +426,6 @@ $wa->addInlineStyle($inlineCss);
         <div class="section section-muted p-0 py-5">
           <div class="container">
             <jdoc:include type="modules" name="top-muted" style="html5" />
-            </div>
           </div>
         </div>
       </section>
