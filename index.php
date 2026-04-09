@@ -230,13 +230,13 @@ $wa->addInlineStyle($inlineCss);
       }
   ?>
   
-  <a class="btn btn-primary btn-icon btn-full" href="<?php echo $loginUrl; ?>" data-element="personal-area-login">
+  <a class="btn btn-primary btn-icon btn-full" href="<?php echo $loginUrl; ?>" data-element="personal-area-login" aria-label="<?php echo $loginText; ?>">
     <span class="rounded-icon" aria-hidden="true">
       <svg class="icon icon-primary">
         <use xlink:href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/svg/sprites.svg#it-user"></use>
       </svg>
     </span>
-    <span class="d-none d-lg-block"><?php echo $loginText; ?></span>
+    <span aria-hidden="true" class="d-none d-lg-block"><?php echo $loginText; ?></span>
   </a>
   
   <?php endif; ?>

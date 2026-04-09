@@ -33831,3 +33831,31 @@ span.pagination {
   .it-carousel-evidenza .splide__arrow--prev { left: -3.5rem; }
   .it-carousel-evidenza .splide__arrow--next { right: -3.5rem; }
 }
+/* Password toggle button — icona visibile su sfondo trasparente */
+.input-group .input-password-toggle {
+  background-color: transparent;
+  border-top: 0;
+  border-right: 0;
+  border-bottom: 1px solid #5d7083;
+  border-left: 0;
+  border-radius: 0;
+  color: #5d7083;
+  box-shadow: none;
+  padding: 0 0.75rem;
+  display: flex;
+  align-items: center;
+}
+.input-group .input-password-toggle:hover {
+  background-color: transparent;
+  color: #1a1a1a;
+  border-bottom-color: #1a1a1a;
+}
+.input-group .input-password-toggle:focus {
+  box-shadow: inset 0 0 0 2px #995c00;
+  outline: 0;
+}
+.input-group .input-password-toggle .icon-eye,
+.input-group .input-password-toggle .icon-eye-slash {
+  font-size: 1.25rem;
+  line-height: 1;
+}
