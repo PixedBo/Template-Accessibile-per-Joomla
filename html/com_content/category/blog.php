@@ -40,42 +40,59 @@ $afterDisplayContent = trim(implode("\n", $results));
 
     <?php // Hero con titolo e descrizione categoria ?>
     <?php if ($this->params->get('show_category_title', 1) || ($this->params->get('show_description', 1) && $this->category->description)) : ?>
-        <div class="col-12 col-lg-10">
-            <div class="cmp-hero">
-                <section class="it-hero-wrapper bg-white align-items-start">
-                    <div class="it-hero-text-wrapper pt-0 ps-0 pb-4 pb-lg-60">
-                        <?php if ($this->params->get('show_category_title', 1)) : ?>
-                            <h1 class="text-black hero-title">
-                                <?php echo $this->category->title; ?>
-                            </h1>
-                        <?php endif; ?>
-                        <?php echo $afterDisplayTitle; ?>
-                        
-                        <?php if ($this->params->get('show_description', 1) && $this->category->description) : ?>
-                            <div class="hero-text">
-                                <?php echo $beforeDisplayContent; ?>
-                                <?php echo HTMLHelper::_('content.prepare', $this->category->description, '', 'com_content.category'); ?>
-                                <?php echo $afterDisplayContent; ?>
+        <div class="container">
+            <div class="row justify-content-center row-shadow">
+                <div class="col-12 col-lg-10">
+                    <div class="cmp-hero">
+                        <section class="it-hero-wrapper bg-white align-items-start">
+                            <div class="it-hero-text-wrapper pt-0 ps-0 pb-4 pb-lg-60">
+                                <?php if ($this->params->get('show_category_title', 1)) : ?>
+                                    <h1 class="text-black hero-title">
+                                        <?php echo $this->category->title; ?>
+                                    </h1>
+                                <?php endif; ?>
+                                <?php echo $afterDisplayTitle; ?>
+
+                                <?php if ($this->params->get('show_description', 1) && $this->category->description) : ?>
+                                    <div class="hero-text">
+                                        <?php echo $beforeDisplayContent; ?>
+                                        <?php echo HTMLHelper::_('content.prepare', $this->category->description, '', 'com_content.category'); ?>
+                                        <?php echo $afterDisplayContent; ?>
+                                    </div>
+                                <?php endif; ?>
+
+                                <?php if ($this->params->get('show_cat_tags', 1) && !empty($this->category->tags->itemTags)) : ?>
+                                    <div class="mt-3">
+                                        <?php $this->category->tagLayout = new FileLayout('joomla.content.tags'); ?>
+                                        <?php echo $this->category->tagLayout->render($this->category->tags->itemTags); ?>
+                                    </div>
+                                <?php endif; ?>
                             </div>
-                        <?php endif; ?>
-                        
-                        <?php if ($this->params->get('show_cat_tags', 1) && !empty($this->category->tags->itemTags)) : ?>
-                            <div class="mt-3">
-                                <?php $this->category->tagLayout = new FileLayout('joomla.content.tags'); ?>
-                                <?php echo $this->category->tagLayout->render($this->category->tags->itemTags); ?>
-                            </div>
-                        <?php endif; ?>
-                        
-                        <?php if ($this->params->get('show_description_image') && $this->category->getParams()->get('image')) : ?>
-                            <div class="mt-3">
-                                <img src="<?php echo $this->category->getParams()->get('image'); ?>" 
-                                     alt="<?php echo $this->category->getParams()->get('image_alt') ?: $this->category->title; ?>" 
-                                     class="img-fluid rounded">
-                            </div>
-                        <?php endif; ?>
+                        </section>
                     </div>
-                </section>
+                </div>
             </div>
+
+            <?php if ($this->params->get('show_description_image') && $this->category->getParams()->get('image')) : ?>
+                <section class="hero-img mb-20 mb-lg-50">
+                    <section class="it-hero-wrapper it-hero-small-size cmp-hero-img-small">
+                        <div class="img-responsive-wrapper">
+                            <div class="img-responsive">
+                                <div class="img-wrapper">
+                                    <img src="<?php echo $this->category->getParams()->get('image'); ?>"
+                                         alt="<?php echo htmlspecialchars($this->category->getParams()->get('image_alt') ?: $this->category->title, ENT_QUOTES, 'UTF-8'); ?>"
+                                         title="<?php echo htmlspecialchars($this->category->title, ENT_QUOTES, 'UTF-8'); ?>">
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <?php if ($this->category->getParams()->get('image_alt')) : ?>
+                        <p class="title-xsmall cmp-hero-img-small__description">
+                            <?php echo htmlspecialchars($this->category->getParams()->get('image_alt'), ENT_QUOTES, 'UTF-8'); ?>
+                        </p>
+                    <?php endif; ?>
+                </section>
+            <?php endif; ?>
         </div>
     <?php endif; ?>
 

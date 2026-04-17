@@ -395,7 +395,7 @@ $wa->addInlineStyle($inlineCss);
             </header>
 <h1 class="visually-hidden" id="main-title"><?php echo htmlspecialchars($this->params->get('nomesito', 'Il mio Comune')); ?></h1>
       <?php if ($this->countModules('percorso')) : ?>
-      <nav aria-label="<?php echo Text::_('TPL_ACCESSIBILE_BREADCRUMB_NAV'); ?>" id="percorso-section">
+      <nav aria-label="<?php echo Text::_('TPL_ACCESSIBILE_BREADCRUMB_NAV'); ?>" id="percorso-section" class="cmp-breadcrumbs">
         <div class="container">
           <jdoc:include type="modules" name="percorso" style="none" />
         </div>
