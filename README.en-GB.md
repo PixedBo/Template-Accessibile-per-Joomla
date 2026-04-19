@@ -101,7 +101,16 @@ Resolution walks the category hierarchy: an article inside `Services > Registry 
 
 A second fieldset **Evaluation Criteria – Municipality** lets you associate **menu items** to "functional" `data-element`s pointing to unique destinations (not article types): `management`, `all-services`, `all-topics`, `live`, `faq`, `report-inefficiency`, `accessibility-link`, `privacy-policy-link`, `news`.
 
+The same fieldset also contains the **Enable feedback system** flag (default: NO), which toggles the "Page clarity feedback" widget described below.
+
 Implementation lives in `helpers/ModelloPAHelper.php` (loaded via `require_once` from the overrides) and is called by the `com_content` and `mod_articles` layouts.
+
+## 📝 "Page clarity feedback" widget (C.SI.2.5)
+The template ships with the page-clarity feedback block required by the Comuni Model: 1-5 stars, conditional follow-up question (preferred aspects if rating ≥ 4, difficulties if rating ≤ 3), detail text field and a final thank-you message. All the `data-element` attributes required by the App Valutazione Modelli are emitted: `feedback`, `feedback-title`, `feedback-rate-1..5`, `feedback-rating-positive`/`negative`, `feedback-rating-question` (×2), `feedback-rating-answer` (×10), `feedback-input-text`.
+
+The widget renders **only on single article pages** (`com_content` view `article`), full-width below `<main>`, with the template's primary color as background. The JS controller (`js/feedback-chiarezza.js`, vanilla ES6) is loaded conditionally on the same pages and only when the flag is enabled.
+
+> ⚠️ **The widget is currently a pure demo:** the interface matches the Comuni Model but answers are **not stored anywhere yet**. A user-visible warning banner is shown above the widget. Enable the flag only if you need the HTML structure to pass the App Valutazione Modelli checks, pending integration with a feedback collection backend. Toggle it from *Template Styles → Accessible Template → Evaluation Criteria - Municipality → Enable feedback system*.
 
 ## 🧪 Compliance status
 - ✅ Main menu with `data-element="main-navigation"` and mappable items.
@@ -109,6 +118,7 @@ Implementation lives in `helpers/ModelloPAHelper.php` (loaded via `require_once`
 - ✅ `service-link`, `news-link`, `event-link`, `document-link` attributes applied automatically via the category map.
 - ✅ "Services" layout with `service-link` + `service-category-link`.
 - ✅ Article index with `data-element="page-index"`, topic tag with `data-element="topic-element"`.
+- ⚠️ "Page clarity feedback" widget (C.SI.2.5): full HTML structure with every required `data-element`, **but currently a demo placeholder** — answers are not stored yet. Toggle via the "Enable feedback system" flag in the "Evaluation Criteria – Municipality" fieldset.
 - 🚧 Some `data-element`s required by the Evaluation App (e.g. detailed structures for Administration/Offices, Event, Document, Service pages) are **not complete yet**. That is why the template **does not fully pass** the Department for Digital Transformation checks — see [notice at the top of this page](#-this-template-is-not-ready-for-production-sites).
 
 ## 🤝 Contributing

@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <extension type="template" client="site" method="upgrade">
   <name>Template Accessibile per Joomla</name>
-  <version>1.0.8</version>
+  <version>1.0.9</version>
   <creationDate>2025-07-24</creationDate>
   <author>Pixed Web Development</author>
   <authorEmail>info@pixed.it</authorEmail>
@@ -78,7 +78,9 @@
           <option value="standard">TPL_ACCESSIBILE_LOGIN_STANDARD</option>
           <option value="menuitem">TPL_ACCESSIBILE_LOGIN_MENUITEM</option>
         </field>
-        <field name="menuitem_login" type="menuitem" label="TPL_ACCESSIBILE_LOGIN_MENUITEM_LABEL" description="TPL_ACCESSIBILE_LOGIN_MENUITEM_DESC" showon="mostra_login:1[AND]tipo_login:menuitem" />
+        <field name="menuitem_login" type="menuitem" default="" label="TPL_ACCESSIBILE_LOGIN_MENUITEM_LABEL" description="TPL_ACCESSIBILE_LOGIN_MENUITEM_DESC" showon="mostra_login:1[AND]tipo_login:menuitem">
+          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>
         
         <field name="mostra_ricerca" type="radio" default="0" label="TPL_ACCESSIBILE_SHOW_SEARCH_LABEL" description="TPL_ACCESSIBILE_SHOW_SEARCH_DESC" class="btn-group btn-group-yesno">
           <option value="1">JYES</option>
@@ -88,7 +90,9 @@
           <option value="smartsearch">TPL_ACCESSIBILE_SEARCH_STANDARD</option>
           <option value="menuitem">TPL_ACCESSIBILE_SEARCH_MENUITEM</option>
         </field>
-        <field name="menuitem_ricerca" type="menuitem" label="TPL_ACCESSIBILE_SEARCH_MENUITEM_LABEL" description="TPL_ACCESSIBILE_SEARCH_MENUITEM_DESC" showon="mostra_ricerca:1[AND]tipo_ricerca:menuitem" />
+        <field name="menuitem_ricerca" type="menuitem" default="" label="TPL_ACCESSIBILE_SEARCH_MENUITEM_LABEL" description="TPL_ACCESSIBILE_SEARCH_MENUITEM_DESC" showon="mostra_ricerca:1[AND]tipo_ricerca:menuitem">
+          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>
       </fieldset>
 
       <fieldset name="footer" label="TPL_ACCESSIBILE_FOOTER_OPTIONS_LABEL">
@@ -107,22 +111,52 @@
       </fieldset>
 
       <fieldset name="categorie_modellopa" label="TPL_ACCESSIBILE_FIELDSET_CAT_MODELLOPA_LABEL" description="TPL_ACCESSIBILE_FIELDSET_CAT_MODELLOPA_DESC">
-        <field name="cat_services"  type="category" extension="com_content" label="TPL_ACCESSIBILE_CAT_SERVICES_LABEL"  description="TPL_ACCESSIBILE_CAT_SERVICES_DESC"  default="" />
-        <field name="cat_news"      type="category" extension="com_content" label="TPL_ACCESSIBILE_CAT_NEWS_LABEL"      description="TPL_ACCESSIBILE_CAT_NEWS_DESC"      default="" />
-        <field name="cat_events"    type="category" extension="com_content" label="TPL_ACCESSIBILE_CAT_EVENTS_LABEL"    description="TPL_ACCESSIBILE_CAT_EVENTS_DESC"    default="" />
-        <field name="cat_documents" type="category" extension="com_content" label="TPL_ACCESSIBILE_CAT_DOCUMENTS_LABEL" description="TPL_ACCESSIBILE_CAT_DOCUMENTS_DESC" default="" />
+        <field name="cat_services"  type="category" extension="com_content" label="TPL_ACCESSIBILE_CAT_SERVICES_LABEL"  description="TPL_ACCESSIBILE_CAT_SERVICES_DESC"  default="">
+          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>
+        <field name="cat_news"      type="category" extension="com_content" label="TPL_ACCESSIBILE_CAT_NEWS_LABEL"      description="TPL_ACCESSIBILE_CAT_NEWS_DESC"      default="">
+          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>
+        <field name="cat_events"    type="category" extension="com_content" label="TPL_ACCESSIBILE_CAT_EVENTS_LABEL"    description="TPL_ACCESSIBILE_CAT_EVENTS_DESC"    default="">
+          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>
+        <field name="cat_documents" type="category" extension="com_content" label="TPL_ACCESSIBILE_CAT_DOCUMENTS_LABEL" description="TPL_ACCESSIBILE_CAT_DOCUMENTS_DESC" default="">
+          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>
       </fieldset>
 
       <fieldset name="valutazione" label="TPL_ACCESSIBILE_FIELDSET_VALUTAZIONE_LABEL" description="TPL_ACCESSIBILE_FIELDSET_VALUTAZIONE_DESC">
-        <field name="de_management" type="menuitem" label="TPL_ACCESSIBILE_DE_MANAGEMENT_LABEL" description="TPL_ACCESSIBILE_DE_MANAGEMENT_DESC" default="" />
-        <field name="de_news" type="menuitem" label="TPL_ACCESSIBILE_DE_NEWS_LABEL" description="TPL_ACCESSIBILE_DE_NEWS_DESC" default="" />
-        <field name="de_all_services" type="menuitem" label="TPL_ACCESSIBILE_DE_ALL_SERVICES_LABEL" description="TPL_ACCESSIBILE_DE_ALL_SERVICES_DESC" default="" />
-        <field name="de_live" type="menuitem" label="TPL_ACCESSIBILE_DE_LIVE_LABEL" description="TPL_ACCESSIBILE_DE_LIVE_DESC" default="" />
-        <field name="de_faq" type="menuitem" label="TPL_ACCESSIBILE_DE_FAQ_LABEL" description="TPL_ACCESSIBILE_DE_FAQ_DESC" default="" />
-        <field name="de_report_inefficiency" type="menuitem" label="TPL_ACCESSIBILE_DE_REPORT_LABEL" description="TPL_ACCESSIBILE_DE_REPORT_DESC" default="" />
-        <field name="de_accessibility_link" type="menuitem" label="TPL_ACCESSIBILE_DE_ACCESSIBILITY_LABEL" description="TPL_ACCESSIBILE_DE_ACCESSIBILITY_DESC" default="" />
-        <field name="de_privacy_policy_link" type="menuitem" label="TPL_ACCESSIBILE_DE_PRIVACY_LABEL" description="TPL_ACCESSIBILE_DE_PRIVACY_DESC" default="" />
-        <field name="de_all_topics" type="menuitem" label="TPL_ACCESSIBILE_DE_ALL_TOPICS_LABEL" description="TPL_ACCESSIBILE_DE_ALL_TOPICS_DESC" default="" />
+        <field name="mostra_feedback" type="radio" default="0" label="TPL_ACCESSIBILE_SHOW_FEEDBACK_LABEL" description="TPL_ACCESSIBILE_SHOW_FEEDBACK_DESC" class="btn-group btn-group-yesno">
+          <option value="1">JYES</option>
+          <option value="0">JNO</option>
+        </field>
+        <field name="de_management" type="menuitem" label="TPL_ACCESSIBILE_DE_MANAGEMENT_LABEL" description="TPL_ACCESSIBILE_DE_MANAGEMENT_DESC" default="">
+          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>
+        <field name="de_news" type="menuitem" label="TPL_ACCESSIBILE_DE_NEWS_LABEL" description="TPL_ACCESSIBILE_DE_NEWS_DESC" default="">
+          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>
+        <field name="de_all_services" type="menuitem" label="TPL_ACCESSIBILE_DE_ALL_SERVICES_LABEL" description="TPL_ACCESSIBILE_DE_ALL_SERVICES_DESC" default="">
+          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>
+        <field name="de_live" type="menuitem" label="TPL_ACCESSIBILE_DE_LIVE_LABEL" description="TPL_ACCESSIBILE_DE_LIVE_DESC" default="">
+          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>
+        <field name="de_faq" type="menuitem" label="TPL_ACCESSIBILE_DE_FAQ_LABEL" description="TPL_ACCESSIBILE_DE_FAQ_DESC" default="">
+          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>
+        <field name="de_report_inefficiency" type="menuitem" label="TPL_ACCESSIBILE_DE_REPORT_LABEL" description="TPL_ACCESSIBILE_DE_REPORT_DESC" default="">
+          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>
+        <field name="de_accessibility_link" type="menuitem" label="TPL_ACCESSIBILE_DE_ACCESSIBILITY_LABEL" description="TPL_ACCESSIBILE_DE_ACCESSIBILITY_DESC" default="">
+          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>
+        <field name="de_privacy_policy_link" type="menuitem" label="TPL_ACCESSIBILE_DE_PRIVACY_LABEL" description="TPL_ACCESSIBILE_DE_PRIVACY_DESC" default="">
+          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>
+        <field name="de_all_topics" type="menuitem" label="TPL_ACCESSIBILE_DE_ALL_TOPICS_LABEL" description="TPL_ACCESSIBILE_DE_ALL_TOPICS_DESC" default="">
+          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>
       </fieldset>
     </fields>
   </config>

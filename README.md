@@ -101,7 +101,16 @@ La risoluzione considera anche la gerarchia: un articolo in `Servizi > Anagrafe`
 
 Un secondo fieldset **Criteri valutazione – Comune** permette invece di associare **voci di menu** ai `data-element` "funzionali" che puntano a destinazioni uniche (non a tipologie di articoli): `management`, `all-services`, `all-topics`, `live`, `faq`, `report-inefficiency`, `accessibility-link`, `privacy-policy-link`, `news`.
 
+Nello stesso fieldset è presente il flag **Abilita sistema di feedback** (default: NO), che attiva o disattiva il widget "Valutazione chiarezza pagina" descritto qui sotto.
+
 Tecnicamente la logica vive in `helpers/ModelloPAHelper.php` (caricato via `require_once` dagli override) e viene richiamata dai layout di `com_content` e `mod_articles`.
+
+## 📝 Widget "Valutazione chiarezza pagina" (C.SI.2.5)
+Il template include il blocco di valutazione chiarezza richiesto dal Modello Comuni: stelline 1-5, domanda di follow-up condizionale (aspetti preferiti se voto ≥ 4, difficoltà incontrate se voto ≤ 3), campo testuale di dettaglio e messaggio finale di ringraziamento. Sono emessi tutti i `data-element` richiesti dall'App Valutazione Modelli: `feedback`, `feedback-title`, `feedback-rate-1..5`, `feedback-rating-positive`/`negative`, `feedback-rating-question` (×2), `feedback-rating-answer` (×10), `feedback-input-text`.
+
+Il widget viene renderizzato **solo sulle pagine del singolo articolo** (`com_content` view `article`), a piena larghezza sotto il `<main>`, con lo sfondo del colore primario del template. Lo script JS (`js/feedback-chiarezza.js`, vanilla ES6) è caricato condizionalmente solo sulle stesse pagine e solo quando il flag è attivo.
+
+> ⚠️ **Attualmente il widget è puramente dimostrativo:** l'interfaccia è conforme al Modello Comuni, ma le risposte **non vengono ancora salvate da nessuna parte**. Sopra al widget compare un banner di avviso visibile all'utente. Abilita il flag solo se ti serve la struttura HTML per superare i controlli dell'App Valutazione Modelli, in attesa dell'integrazione con un sistema di raccolta feedback. L'attivazione si fa da *Stili Template → Template Accessibile → Criteri valutazione - Comune → Abilita sistema di feedback*.
 
 ## 🧪 Stato della conformità
 - ✅ Menu principale con `data-element="main-navigation"` e voci mappabili.
@@ -109,6 +118,7 @@ Tecnicamente la logica vive in `helpers/ModelloPAHelper.php` (caricato via `requ
 - ✅ Attributi `service-link`, `news-link`, `event-link`, `document-link` applicati automaticamente via mappa categorie.
 - ✅ Layout "Servizi" con `service-link` + `service-category-link`.
 - ✅ Indice articolo con `data-element="page-index"`, tag argomento con `data-element="topic-element"`.
+- ⚠️ Widget "Valutazione chiarezza pagina" (C.SI.2.5): struttura HTML completa con tutti i `data-element` richiesti, **ma attualmente è un segnaposto dimostrativo** — le risposte non vengono ancora salvate. Attivabile dal flag "Abilita sistema di feedback" nel fieldset "Criteri valutazione – Comune".
 - 🚧 Alcuni `data-element` richiesti dall'App Valutazione Modelli (es. strutture dettagliate per pagine Amministrazione/Uffici, Evento, Documento, scheda Servizio) **non sono ancora completi**. Per questo motivo il template **non passa al 100%** i controlli del Dipartimento per la Trasformazione Digitale — vedi [avviso in cima a questa pagina](#-il-template-non-è-pronto-per-siti-di-produzione).
 
 ## 🤝 Contribuire

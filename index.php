@@ -3,6 +3,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
@@ -105,6 +106,12 @@ $wa->registerAndUseStyle('template.styles', $tplPath . '/css/bootstrap-italia.mi
    ->registerAndUseStyle('template.comuni', $tplPath . '/css/bootstrap-italia-comuni.css', [], [], ['template.styles'])
    ->registerAndUseStyle('template.fonts', $tplPath . '/css/fonts.css')
    ->registerAndUseScript('template.scripts', $tplPath . '/js/bootstrap-italia.bundle.min.js', [], ['defer' => true]);
+
+if ((int) $params->get('mostra_feedback', 0) === 1
+    && $app->input->get('option') === 'com_content'
+    && $app->input->get('view') === 'article') {
+    $wa->registerAndUseScript('template.feedback', $tplPath . '/js/feedback-chiarezza.js', [], ['defer' => true]);
+}
 
 if (file_exists(JPATH_ROOT . '/templates/' . $this->template . '/css/custom.css')) {
     $wa->registerAndUseStyle('template.custom', $tplPath . '/css/custom.css', [], [], ['template.comuni']);
@@ -445,6 +452,12 @@ $wa->addInlineStyle($inlineCss);
 		</div>
 	  </div>
 	  </main>
+	<?php // Widget Valutazione chiarezza pagina (C.SI.2.5) - solo su articoli e se abilitato ?>
+	<?php if ((int) $params->get('mostra_feedback', 0) === 1
+		&& $app->input->get('option') === 'com_content'
+		&& $app->input->get('view') === 'article') : ?>
+		<?php echo LayoutHelper::render('accessibile.feedback-chiarezza'); ?>
+	<?php endif; ?>
 	<?php if ($this->countModules('bottom')) : ?>
 	<section class="bottom-section ">
       <div class="bg-primary py-5 pb-lg-80 px-lg-5 position-relative">
