@@ -1,8 +1,14 @@
 # Template Accessibile per Joomla 5+ (Modello Universale / Bootstrap Italia)
 
+> ## ⚠️ IL TEMPLATE NON È PRONTO PER SITI DI PRODUZIONE
+>
+> Questo è un progetto **WORK IN PROGRESS**. Al momento il template **non supera ancora** i controlli dei validatori del Dipartimento per la Trasformazione Digitale — vedi [App di valutazione per i siti di Comuni e Scuole, pubblicata la versione 2.0](https://innovazione.gov.it/notizie/articoli/app-di-valutazione-per-i-siti-di-comuni-e-scuole-pubblicata-la-versione-2-0/).
+>
+> Chiunque può **scaricarlo, testarlo, provarlo e contribuire**: segnalazioni, PR e feedback sono benvenuti. Non utilizzarlo però come base di un sito istituzionale reale finché la conformità ai validatori ufficiali non sarà completa.
+
 ## 📄 Descrizione
-Questo è il template definitivo per integrare il **Modello Universale** e il design system di **Designers Italia** nativamente su **Joomla 5+**. 
-Progettato senza l'ausilio di framework esterni pesanti (zero jQuery, puro CSS vanilla e Javascript nativo), garantisce un'esperienza utente **altamente accessibile (WCAG 2.1 AA/AAA)**, estremamente performante e a prova di futuri aggiornamenti.
+Questo è il template pensato per integrare il **Modello Universale** e il design system di **Designers Italia** nativamente su **Joomla 5+**.
+Progettato senza l'ausilio di framework esterni pesanti (zero jQuery, puro CSS vanilla e Javascript nativo), punta a garantire un'esperienza utente **altamente accessibile (WCAG 2.1 AA/AAA)**, performante e a prova di futuri aggiornamenti.
 
 La struttura si basa su **Bootstrap Italia 2.9.0** e sfrutta i moderni *Web Asset Manager* e i namespace nativi di Joomla 5.
 
@@ -71,11 +77,46 @@ Il sistema lo rileverà in automatico e lo caricherà per ultimo, garantendo che
 ---
 
 ## 🌟 Override e Layout Alternativi inclusi
-Il template è dotato di potenti override nativi per garantire che i componenti standard di Joomla generino codice HTML conforme alle linee guida di Designers Italia:
+Il template è dotato di override nativi per far sì che i componenti standard di Joomla generino codice HTML orientato alle linee guida di Designers Italia:
 
 - **Moduli Articoli (`mod_articles`):** Sono presenti due layout specifici: un **layout a 3 colonne** e un **layout singolo**. Il layout singolo è dinamico: se all'interno del modulo è presente più di un articolo, il sistema crea automaticamente uno slideshow accessibile.
 - **Modulo Menu (`mod_menu`):** È incluso il layout `comuni-menu`, essenziale e obbligatorio per impaginare in modo corretto e accessibile sia il Menu Principale che il Menu Secondario all'interno della testata.
 - **Articolo Singolo (`com_content > article`):** Layout completo per servizi/notizie con calcolo automatico del tempo di lettura, impaginazione accessibile, tag a "chip" e pulsanti di condivisione social nativi.
+- **Categoria Blog / Lista (`com_content > category`):** Override di `blog` e `default` con card in stile Bootstrap Italia.
+- **Layout alternativo "Servizi" (`com_content > category > servizi`):** Layout dedicato alla categoria "Servizi" del Comune, conforme al Modello Comuni. Hero, elenco card servizi con `data-element="service-link"`, blocco "Esplora per argomento" con sottocategorie e `data-element="service-category-link"`. Selezionabile come *Alternative Layout* da una voce di menu di tipo Blog o Lista Categoria. Funziona indistintamente con entrambe le viste.
+
+## 🏛️ Integrazione Modello PA (Designers Italia)
+Il template include un sistema di mappatura tra **categorie Joomla** e le **tipologie di contenuto** del Modello Comuni, così da applicare automaticamente gli attributi `data-element` richiesti dall'App Valutazione Modelli ai link degli articoli, ovunque compaiano (homepage featured, liste categoria, moduli articoli in evidenza, ecc.).
+
+**Come configurarlo:** dal backend, in *Stili Template → Template Accessibile*, nel fieldset **Categorie Modello PA** selezioni quale categoria Joomla corrisponde a ciascuna tipologia:
+
+| Parametro | Categoria | `data-element` applicato |
+|---|---|---|
+| `cat_services` | Servizi del Comune | `service-link` |
+| `cat_news` | Notizie | `news-link` |
+| `cat_events` | Eventi | `event-link` |
+| `cat_documents` | Documenti | `document-link` |
+
+La risoluzione considera anche la gerarchia: un articolo in `Servizi > Anagrafe` riceve automaticamente `service-link`.
+
+Un secondo fieldset **Criteri valutazione – Comune** permette invece di associare **voci di menu** ai `data-element` "funzionali" che puntano a destinazioni uniche (non a tipologie di articoli): `management`, `all-services`, `all-topics`, `live`, `faq`, `report-inefficiency`, `accessibility-link`, `privacy-policy-link`, `news`.
+
+Tecnicamente la logica vive in `helpers/ModelloPAHelper.php` (caricato via `require_once` dagli override) e viene richiamata dai layout di `com_content` e `mod_articles`.
+
+## 🧪 Stato della conformità
+- ✅ Menu principale con `data-element="main-navigation"` e voci mappabili.
+- ✅ Pulsante login con `data-element="personal-area-login"`.
+- ✅ Attributi `service-link`, `news-link`, `event-link`, `document-link` applicati automaticamente via mappa categorie.
+- ✅ Layout "Servizi" con `service-link` + `service-category-link`.
+- ✅ Indice articolo con `data-element="page-index"`, tag argomento con `data-element="topic-element"`.
+- 🚧 Alcuni `data-element` richiesti dall'App Valutazione Modelli (es. strutture dettagliate per pagine Amministrazione/Uffici, Evento, Documento, scheda Servizio) **non sono ancora completi**. Per questo motivo il template **non passa al 100%** i controlli del Dipartimento per la Trasformazione Digitale — vedi [avviso in cima a questa pagina](#-il-template-non-è-pronto-per-siti-di-produzione).
+
+## 🤝 Contribuire
+Il progetto è aperto ai contributi della community:
+
+- Apri una **issue** per segnalare bug, mancanze di conformità o proporre nuove funzionalità.
+- Fai una **pull request** se hai sistemato qualcosa (benvenuti fix, nuovi override, nuovi layout dedicati per Amministrazione, Evento, Documento, ecc.).
+- Testa il template installandolo su un ambiente di sviluppo e lancia l'[App di valutazione per i siti di Comuni e Scuole](https://innovazione.gov.it/notizie/articoli/app-di-valutazione-per-i-siti-di-comuni-e-scuole-pubblicata-la-versione-2-0/) per verificare quali criteri non passano ancora.
 
 ## 📜 Licenza e Crediti
 Questo template è rilasciato sotto licenza **GNU GPL v3**.  

@@ -22,6 +22,10 @@ use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\AssociationHelper;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
+if (!class_exists('ModelloPAHelper')) {
+    require_once JPATH_THEMES . '/' . Factory::getApplication()->getTemplate() . '/helpers/ModelloPAHelper.php';
+}
+
 /** @var \Joomla\Component\Content\Site\View\Category\HtmlView $this */
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->getDocument()->getWebAssetManager();
@@ -173,8 +177,9 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
                     <tr class="cat-list-row<?php echo $i % 2; ?>" >
                 <?php endif; ?>
                 <th class="list-title" scope="row">
+                    <?php $deAttr = ModelloPAHelper::attributeFor((int) $article->catid); ?>
                     <?php if (in_array($article->access, $this->user->getAuthorisedViewLevels())) : ?>
-                        <a href="<?php echo Route::_(RouteHelper::getArticleRoute($article->slug, $article->catid, $article->language)); ?>">
+                        <a href="<?php echo Route::_(RouteHelper::getArticleRoute($article->slug, $article->catid, $article->language)); ?>"<?php echo $deAttr; ?>>
                             <?php echo $this->escape($article->title); ?>
                         </a>
                         <?php if (Associations::isEnabled() && $this->params->get('show_associations')) : ?>

@@ -24,6 +24,7 @@
     <folder>assets</folder>
     <folder>css</folder>
     <folder>fonts</folder>
+    <folder>helpers</folder>
     <folder>html</folder>
     <folder>images</folder>
     <folder>js</folder>
@@ -103,6 +104,25 @@
         <field name="youtube" type="url" label="TPL_ACCESSIBILE_SOCIAL_YT_LABEL" description="TPL_ACCESSIBILE_SOCIAL_YT_DESC" size="20" />
         <field name="telegram" type="url" label="TPL_ACCESSIBILE_SOCIAL_TG_LABEL" description="TPL_ACCESSIBILE_SOCIAL_TG_DESC" size="20" />
         <field name="whatsapp" type="text" label="TPL_ACCESSIBILE_SOCIAL_WA_LABEL" description="TPL_ACCESSIBILE_SOCIAL_WA_DESC" size="20" />
+      </fieldset>
+
+      <fieldset name="categorie_modellopa" label="TPL_ACCESSIBILE_FIELDSET_CAT_MODELLOPA_LABEL" description="TPL_ACCESSIBILE_FIELDSET_CAT_MODELLOPA_DESC">
+        <field name="cat_services"  type="category" extension="com_content" label="TPL_ACCESSIBILE_CAT_SERVICES_LABEL"  description="TPL_ACCESSIBILE_CAT_SERVICES_DESC"  default="" />
+        <field name="cat_news"      type="category" extension="com_content" label="TPL_ACCESSIBILE_CAT_NEWS_LABEL"      description="TPL_ACCESSIBILE_CAT_NEWS_DESC"      default="" />
+        <field name="cat_events"    type="category" extension="com_content" label="TPL_ACCESSIBILE_CAT_EVENTS_LABEL"    description="TPL_ACCESSIBILE_CAT_EVENTS_DESC"    default="" />
+        <field name="cat_documents" type="category" extension="com_content" label="TPL_ACCESSIBILE_CAT_DOCUMENTS_LABEL" description="TPL_ACCESSIBILE_CAT_DOCUMENTS_DESC" default="" />
+      </fieldset>
+
+      <fieldset name="valutazione" label="TPL_ACCESSIBILE_FIELDSET_VALUTAZIONE_LABEL" description="TPL_ACCESSIBILE_FIELDSET_VALUTAZIONE_DESC">
+        <field name="de_management" type="menuitem" label="TPL_ACCESSIBILE_DE_MANAGEMENT_LABEL" description="TPL_ACCESSIBILE_DE_MANAGEMENT_DESC" default="" />
+        <field name="de_news" type="menuitem" label="TPL_ACCESSIBILE_DE_NEWS_LABEL" description="TPL_ACCESSIBILE_DE_NEWS_DESC" default="" />
+        <field name="de_all_services" type="menuitem" label="TPL_ACCESSIBILE_DE_ALL_SERVICES_LABEL" description="TPL_ACCESSIBILE_DE_ALL_SERVICES_DESC" default="" />
+        <field name="de_live" type="menuitem" label="TPL_ACCESSIBILE_DE_LIVE_LABEL" description="TPL_ACCESSIBILE_DE_LIVE_DESC" default="" />
+        <field name="de_faq" type="menuitem" label="TPL_ACCESSIBILE_DE_FAQ_LABEL" description="TPL_ACCESSIBILE_DE_FAQ_DESC" default="" />
+        <field name="de_report_inefficiency" type="menuitem" label="TPL_ACCESSIBILE_DE_REPORT_LABEL" description="TPL_ACCESSIBILE_DE_REPORT_DESC" default="" />
+        <field name="de_accessibility_link" type="menuitem" label="TPL_ACCESSIBILE_DE_ACCESSIBILITY_LABEL" description="TPL_ACCESSIBILE_DE_ACCESSIBILITY_DESC" default="" />
+        <field name="de_privacy_policy_link" type="menuitem" label="TPL_ACCESSIBILE_DE_PRIVACY_LABEL" description="TPL_ACCESSIBILE_DE_PRIVACY_DESC" default="" />
+        <field name="de_all_topics" type="menuitem" label="TPL_ACCESSIBILE_DE_ALL_TOPICS_LABEL" description="TPL_ACCESSIBILE_DE_ALL_TOPICS_DESC" default="" />
       </fieldset>
     </fields>
   </config>

@@ -19,6 +19,10 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
+if (!class_exists('ModelloPAHelper')) {
+    require_once JPATH_THEMES . '/' . Factory::getApplication()->getTemplate() . '/helpers/ModelloPAHelper.php';
+}
+
 /** @var \Joomla\Component\Content\Site\View\Category\HtmlView $this */
 $params = $this->item->params;
 $canEdit = $this->item->params->get('access-edit');
@@ -39,6 +43,9 @@ $colClass = 'col-md-6 col-xl-4';
 // Ottieni la categoria dell'articolo
 $category = $this->item->category_title ?? '';
 $categoryLink = $this->item->catid ? Route::_(RouteHelper::getCategoryRoute($this->item->catid, $this->item->language)) : '';
+
+// data-element Modello PA in base alla categoria (service-link, news-link, event-link, document-link)
+$deAttr = ModelloPAHelper::attributeFor((int) $this->item->catid);
 
 // Formatta la data di pubblicazione
 $displayDate = '';
@@ -62,8 +69,8 @@ if (!empty($this->item->publish_up)) {
                 <div class="img-responsive-wrapper">
                     <div class="img-responsive img-responsive-panoramic">
                         <figure class="img-wrapper">
-                            <a href="<?php echo Route::_(RouteHelper::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language)); ?>">
-                                <img src="<?php echo htmlspecialchars($images->image_intro); ?>" 
+                            <a href="<?php echo Route::_(RouteHelper::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language)); ?>"<?php echo $deAttr; ?>>
+                                <img src="<?php echo htmlspecialchars($images->image_intro); ?>"
                                      alt="<?php echo htmlspecialchars($images->image_intro_alt ?: $this->item->title); ?>" 
                                      title="<?php echo htmlspecialchars($this->item->title); ?>">
                             </a>
@@ -95,7 +102,7 @@ if (!empty($this->item->publish_up)) {
                         <?php endif; ?>
                     </div>
 
-                    <a class="text-decoration-none" href="<?php echo Route::_(RouteHelper::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language)); ?>">
+                    <a class="text-decoration-none" href="<?php echo Route::_(RouteHelper::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language)); ?>"<?php echo $deAttr; ?>>
                         <h3 class="card-title"><?php echo $this->escape($this->item->title); ?></h3>
                     </a>
 

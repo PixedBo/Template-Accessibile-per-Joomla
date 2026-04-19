@@ -1,8 +1,14 @@
 # Accessible Template for Joomla 5+ (Universal Model / Bootstrap Italia)
 
+> ## ⚠️ THIS TEMPLATE IS NOT READY FOR PRODUCTION SITES
+>
+> This is a **WORK IN PROGRESS** project. Currently the template **does not yet pass** the checks of the Italian Department for Digital Transformation validators — see [Evaluation App for Municipalities and Schools websites, version 2.0 released](https://innovazione.gov.it/notizie/articoli/app-di-valutazione-per-i-siti-di-comuni-e-scuole-pubblicata-la-versione-2-0/) (in Italian).
+>
+> Anyone is welcome to **download, test, try and contribute**: issues, PRs and feedback are encouraged. Do not use it as the base of a real institutional website until full compliance with the official validators is reached.
+
 ## 📄 Description
-This is the definitive template for integrating the **Universal Model** and the design system of **Designers Italia** natively on **Joomla 5+**. 
-Designed without the aid of heavy external frameworks (zero jQuery, pure vanilla CSS and native Javascript), it guarantees a highly **accessible user experience (WCAG 2.1 AA/AAA)**, extremely performant and future-proof.
+This is the template aimed at integrating the **Universal Model** and the design system of **Designers Italia** natively on **Joomla 5+**.
+Designed without the aid of heavy external frameworks (zero jQuery, pure vanilla CSS and native Javascript), it aims at a highly **accessible user experience (WCAG 2.1 AA/AAA)**, performant and future-proof.
 
 The structure is based on **Bootstrap Italia 2.9.0** and leverages modern *Web Asset Manager* and native Joomla 5 namespaces.
 
@@ -71,11 +77,46 @@ The system will auto-detect and load it last, ensuring your rules have absolute 
 ---
 
 ## 🌟 Included Overrides and Alternative Layouts
-The template comes with powerful native overrides to ensure that standard Joomla components generate HTML code compliant with the Designers Italia guidelines:
+The template comes with native overrides aimed at making standard Joomla components generate HTML code aligned with the Designers Italia guidelines:
 
 - **Articles Module (`mod_articles`):** Two specific layouts are included: a **3-column layout** and a **single layout**. The single layout is dynamic: if the module contains more than one article, the system automatically creates an accessible slideshow.
 - **Menu Module (`mod_menu`):** The `comuni-menu` layout is included, essential and mandatory to correctly and accessibly structure both the Main Menu and Secondary Menu within the header.
 - **Single Article (`com_content > article`):** Complete layout for services/news with automatic reading time calculation, accessible pagination, chip-style tags and native social sharing buttons.
+- **Category Blog / List (`com_content > category`):** Override of `blog` and `default` with Bootstrap Italia-styled cards.
+- **"Services" alternative layout (`com_content > category > servizi`):** Layout dedicated to the Municipality "Services" category, following the Comuni Model. Hero, list of service cards with `data-element="service-link"`, "Explore by topic" block with subcategories tagged `data-element="service-category-link"`. Selectable as *Alternative Layout* on any Blog or List Category menu item. Works with both views.
+
+## 🏛️ PA Model integration (Designers Italia)
+The template includes a mapping system between **Joomla categories** and the **content types** of the Comuni Model, so that the `data-element` attributes required by the Evaluation App are automatically applied to article links, wherever they appear (featured homepage, category lists, featured-article modules, etc.).
+
+**How to configure:** from the backend, in *Template Styles → Accessible Template*, the **PA Model Categories** fieldset lets you pick which Joomla category corresponds to each content type:
+
+| Parameter | Category | Applied `data-element` |
+|---|---|---|
+| `cat_services` | Municipality services | `service-link` |
+| `cat_news` | News | `news-link` |
+| `cat_events` | Events | `event-link` |
+| `cat_documents` | Documents | `document-link` |
+
+Resolution walks the category hierarchy: an article inside `Services > Registry office` automatically receives `service-link`.
+
+A second fieldset **Evaluation Criteria – Municipality** lets you associate **menu items** to "functional" `data-element`s pointing to unique destinations (not article types): `management`, `all-services`, `all-topics`, `live`, `faq`, `report-inefficiency`, `accessibility-link`, `privacy-policy-link`, `news`.
+
+Implementation lives in `helpers/ModelloPAHelper.php` (loaded via `require_once` from the overrides) and is called by the `com_content` and `mod_articles` layouts.
+
+## 🧪 Compliance status
+- ✅ Main menu with `data-element="main-navigation"` and mappable items.
+- ✅ Login button with `data-element="personal-area-login"`.
+- ✅ `service-link`, `news-link`, `event-link`, `document-link` attributes applied automatically via the category map.
+- ✅ "Services" layout with `service-link` + `service-category-link`.
+- ✅ Article index with `data-element="page-index"`, topic tag with `data-element="topic-element"`.
+- 🚧 Some `data-element`s required by the Evaluation App (e.g. detailed structures for Administration/Offices, Event, Document, Service pages) are **not complete yet**. That is why the template **does not fully pass** the Department for Digital Transformation checks — see [notice at the top of this page](#-this-template-is-not-ready-for-production-sites).
+
+## 🤝 Contributing
+The project is open to community contributions:
+
+- Open an **issue** for bugs, compliance gaps or feature proposals.
+- Send a **pull request** if you fixed something (fixes, new overrides, new layouts dedicated to Administration, Event, Document, etc. are welcome).
+- Test the template by installing it in a dev environment and run the [Evaluation App for Municipalities and Schools websites](https://innovazione.gov.it/notizie/articoli/app-di-valutazione-per-i-siti-di-comuni-e-scuole-pubblicata-la-versione-2-0/) (in Italian) to see which criteria still fail.
 
 ## 📜 License and Credits
 This template is released under **GNU GPL v3** license.  

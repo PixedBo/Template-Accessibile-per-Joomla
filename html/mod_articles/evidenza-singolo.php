@@ -21,6 +21,10 @@ if (empty($list)) {
     return;
 }
 
+if (!class_exists('ModelloPAHelper')) {
+    require_once JPATH_THEMES . '/' . Factory::getApplication()->getTemplate() . '/helpers/ModelloPAHelper.php';
+}
+
 $totalArticles = count($list);
 $app           = Factory::getApplication();
 $template      = $app->getTemplate();
@@ -61,6 +65,7 @@ if ($totalArticles === 1) :
 
     $leftColClass = $imgUrl ? 'col-lg-6 order-2 order-lg-1' : 'col-12';
     $link = $item->link ?? Route::_(ContentRouteHelper::getArticleRoute($item->slug ?? $item->id, $item->catid, $item->language));
+    $deAttr = ModelloPAHelper::attributeFor((int) ($item->catid ?? 0));
     ?>
 
     <div class="row align-items-center">
@@ -84,7 +89,7 @@ if ($totalArticles === 1) :
                         <?php endif; ?>
                     </div>
 
-                    <a href="<?= $link; ?>" class="text-decoration-none">
+                    <a href="<?= $link; ?>" class="text-decoration-none"<?= $deAttr; ?>>
                         <<?= $itemHeading ?> class="card-title"><?= htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?></<?= $itemHeading ?>>
                     </a>
 
@@ -182,7 +187,8 @@ else :
 
                     $leftColClass = $imgUrl ? 'col-lg-6 order-2 order-lg-1' : 'col-12';
                     $link = $item->link ?? Route::_(ContentRouteHelper::getArticleRoute($item->slug ?? $item->id, $item->catid, $item->language));
-                    
+                    $deAttr = ModelloPAHelper::attributeFor((int) ($item->catid ?? 0));
+
                     $slideNum = $index + 1;
                 ?>
                 
@@ -209,7 +215,7 @@ else :
                                             <?php endif; ?>
                                         </div>
 
-                                        <a href="<?= $link; ?>" class="text-decoration-none">
+                                        <a href="<?= $link; ?>" class="text-decoration-none"<?= $deAttr; ?>>
                                             <<?= $itemHeading ?> class="card-title"><?= htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?></<?= $itemHeading ?>>
                                         </a>
 

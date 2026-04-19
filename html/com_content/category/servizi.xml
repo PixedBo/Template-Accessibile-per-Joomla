@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+    <layout title="Servizi (Modello PA)" option="Servizi (Modello PA)">
+        <help key="Articles:_Category_Blog" />
+        <message>
+            <![CDATA[Layout dedicato alla categoria Servizi del Comune (Designers Italia). Applica gli attributi data-element richiesti dall'App Valutazione Modelli.]]>
+        </message>
+    </layout>
+    <!-- Campi della request necessari perche' Joomla riconosca questo come menu item di categoria -->
+    <fields name="request">
+        <fieldset name="request">
+            <field
+                name="id"
+                type="category"
+                extension="com_content"
+                label="JCATEGORY"
+                required="true"
+            />
+        </fieldset>
+    </fields>
+</metadata>
