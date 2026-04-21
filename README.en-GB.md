@@ -79,9 +79,11 @@ The system will auto-detect and load it last, ensuring your rules have absolute 
 ## 🌟 Included Overrides and Alternative Layouts
 The template comes with native overrides aimed at making standard Joomla components generate HTML code aligned with the Designers Italia guidelines:
 
-- **Articles Module (`mod_articles`):** Two specific layouts are included: a **3-column layout** and a **single layout**. The single layout is dynamic: if the module contains more than one article, the system automatically creates an accessible slideshow.
+- **Articles Module (`mod_articles`):** Two specific layouts are included: a **3-column layout** and a **single layout**. The single layout is dynamic: if the module contains more than one article, the system automatically creates an accessible slideshow. Related tags are emitted as a semantic `<ul>/<li>` list of Bootstrap Italia chips, the calendar icon uses the internal SVG sprite, and the article intro text keeps its original HTML (strip + truncation with "…" applied only above the 1000 plain-text characters safety threshold).
 - **Menu Module (`mod_menu`):** The `comuni-menu` layout is included, essential and mandatory to correctly and accessibly structure both the Main Menu and Secondary Menu within the header.
-- **Single Article (`com_content > article`):** Complete layout for services/news with automatic reading time calculation, accessible pagination, chip-style tags and native social sharing buttons.
+- **Breadcrumbs Module (`mod_breadcrumbs`):** Override emitting the breadcrumb trail with Bootstrap Italia's `cmp-breadcrumbs` / `breadcrumb-container` structure, `schema.org/BreadcrumbList` microdata, `aria-current="page"` on the active entry and the `data-element="breadcrumb"` attribute required by the Evaluation App.
+- **Single Article (`com_content > article`):** Complete layout for services/news with automatic reading time calculation, accessible pagination, chip-style tags and native social sharing buttons. The reading progress bar exposes a dedicated `aria-label` for screen readers.
+- **"Legal Notes" alternative layout (`com_content > article > note-legali`):** Layout dedicated to the Legal Notes page required by the C.SI.3.4 criterion of the Comuni Model. Emits `data-element="legal-notes"` and appends the mandatory "Content License" section with the CC-BY 4.0 wording verbatim (not editable from the backend), while still letting the admin author free introtext/fulltext body for the article.
 - **Category Blog / List (`com_content > category`):** Override of `blog` and `default` with Bootstrap Italia-styled cards.
 - **"Services" alternative layout (`com_content > category > servizi`):** Layout dedicated to the Municipality "Services" category, following the Comuni Model. Hero, list of service cards with `data-element="service-link"`, "Explore by topic" block with subcategories tagged `data-element="service-category-link"`. Selectable as *Alternative Layout* on any Blog or List Category menu item. Works with both views.
 
@@ -118,6 +120,8 @@ The widget renders **only on single article pages** (`com_content` view `article
 - ✅ `service-link`, `news-link`, `event-link`, `document-link` attributes applied automatically via the category map.
 - ✅ "Services" layout with `service-link` + `service-category-link`.
 - ✅ Article index with `data-element="page-index"`, topic tag with `data-element="topic-element"`.
+- ✅ Breadcrumbs with `data-element="breadcrumb"`, `schema.org/BreadcrumbList` microdata and `aria-current="page"`.
+- ✅ Legal Notes page (C.SI.3.4) with `data-element="legal-notes"` and the CC-BY 4.0 license verbatim.
 - ⚠️ "Page clarity feedback" widget (C.SI.2.5): full HTML structure with every required `data-element`, **but currently a demo placeholder** — answers are not stored yet. Toggle via the "Enable feedback system" flag in the "Evaluation Criteria – Municipality" fieldset.
 - 🚧 Some `data-element`s required by the Evaluation App (e.g. detailed structures for Administration/Offices, Event, Document, Service pages) are **not complete yet**. That is why the template **does not fully pass** the Department for Digital Transformation checks — see [notice at the top of this page](#-this-template-is-not-ready-for-production-sites).
 
@@ -127,6 +131,14 @@ The project is open to community contributions:
 - Open an **issue** for bugs, compliance gaps or feature proposals.
 - Send a **pull request** if you fixed something (fixes, new overrides, new layouts dedicated to Administration, Event, Document, etc. are welcome).
 - Test the template by installing it in a dev environment and run the [Evaluation App for Municipalities and Schools websites](https://innovazione.gov.it/notizie/articoli/app-di-valutazione-per-i-siti-di-comuni-e-scuole-pubblicata-la-versione-2-0/) (in Italian) to see which criteria still fail.
+
+## 📌 Changelog
+
+### 1.0.10 (2026-04-21)
+- **New:** `mod_breadcrumbs` override with `schema.org/BreadcrumbList` microdata, `aria-current="page"` and `data-element="breadcrumb"`; removed the redundant breadcrumb wrapper from `index.php`.
+- **New:** alternative layout `com_content > article > note-legali` for the Legal Notes page (C.SI.3.4), emitting `data-element="legal-notes"` with the CC-BY 4.0 wording verbatim.
+- **Featured articles module (`mod_articles`):** related tags are now emitted as a semantic `<ul>/<li>` list of Bootstrap Italia chips with content-based width and vertically centered labels; calendar icon migrated to the internal SVG sprite; added a `<h2 class="visually-hidden">` section landmark for screen readers; intro text now keeps the original HTML and is only stripped/truncated past the 1000 plain-text characters threshold; fixed the `TagsHelper` namespace (was `\Joomla\CMS\Tag\TagsHelper`, which does not exist in Joomla 5, now `\Joomla\CMS\Helper\TagsHelper`), which prevented tag retrieval.
+- **Single article:** added an `aria-label` to the reading progress bar to fix the Lighthouse "progressbar elements do not have accessible names" warning.
 
 ## 📜 License and Credits
 This template is released under **GNU GPL v3** license.  

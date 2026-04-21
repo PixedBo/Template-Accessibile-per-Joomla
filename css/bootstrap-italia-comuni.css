@@ -33863,3 +33863,15 @@ span.pagination {
 .com-tags-tag__items {
   margin-top:30px;
 }
+
+/* Tag chip-list del modulo evidenza: adattato al contenuto e testo centrato */
+.mod-pa-chips-list .chip {
+  min-width: 0;
+  height: auto;
+  padding: 4px 12px;
+}
+.mod-pa-chips-list .chip .chip-label {
+  height: auto;
+  transform: none;
+  line-height: 1.2;
+}

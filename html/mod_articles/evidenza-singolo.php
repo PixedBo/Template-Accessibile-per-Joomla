@@ -42,10 +42,13 @@ if ($totalArticles === 1) :
     $publishedOn = $item->publish_up ?: $item->created;
     $niceDate    = HTMLHelper::_('date', $publishedOn, Text::_('DATE_FORMAT_LC3')); 
 
-    $maxChars = 260;
-    $intro = trim(strip_tags($item->introtext ?? ''));
-    if (mb_strlen($intro) > $maxChars) {
-        $intro = rtrim(mb_substr($intro, 0, $maxChars)) . '…';
+    $safeLimit = 1000;
+    $rawIntro  = $item->introtext ?? '';
+    $plainLen  = mb_strlen(trim(strip_tags($rawIntro)));
+    if ($plainLen > $safeLimit) {
+        $intro = rtrim(mb_substr(trim(strip_tags($rawIntro)), 0, $safeLimit)) . '…';
+    } else {
+        $intro = $rawIntro;
     }
 
     $images = json_decode($item->images ?? '{}');
@@ -58,7 +61,7 @@ if ($totalArticles === 1) :
         $tags = $item->tags->itemTags;
     } else {
         try {
-            $tagsHelper = new \Joomla\CMS\Tag\TagsHelper;
+            $tagsHelper = new \Joomla\CMS\Helper\TagsHelper;
             $tags = $tagsHelper->getItemTags('com_content.article', (int) $item->id) ?? [];
         } catch (\Throwable $e) {}
     }
@@ -68,12 +71,20 @@ if ($totalArticles === 1) :
     $deAttr = ModelloPAHelper::attributeFor((int) ($item->catid ?? 0));
     ?>
 
+    <?php if (empty($module->showtitle)) :
+        $sectionHeading = !empty($module->title) ? $module->title : Text::_('TPL_ACCESSIBILE_FEATURED_ARTICLES');
+    ?>
+        <h2 class="visually-hidden"><?= htmlspecialchars($sectionHeading, ENT_QUOTES, 'UTF-8') ?></h2>
+    <?php endif; ?>
+
     <div class="row align-items-center">
         <div class="<?= $leftColClass ?>">
             <div class="card mb-0 shadow-none bg-transparent">
                 <div class="card-body pb-3 px-0">
                     <div class="category-top">
-                        <i class="fa-solid fa-calendar-days" aria-hidden="true"></i>
+                        <svg class="icon icon-sm" aria-hidden="true">
+                            <use href="<?= $spriteUrl ?>#it-calendar"></use>
+                        </svg>
                         <span class="visually-hidden"><?php echo Text::_('TPL_ACCESSIBILE_PUBLISH_DATE_AND_CATEGORY'); ?></span>
                         
                         <?php if (!empty($item->category_title)) : ?>
@@ -98,7 +109,7 @@ if ($totalArticles === 1) :
                     <?php endif; ?>
 
                     <?php if (!empty($tags)) : ?>
-                        <div aria-label="<?php echo Text::_('TPL_ACCESSIBILE_RELATED_TOPICS'); ?>">
+                        <ul class="mod-pa-chips-list d-flex flex-wrap gap-1 list-unstyled mb-0" aria-label="<?php echo Text::_('TPL_ACCESSIBILE_RELATED_TOPICS'); ?>">
                             <?php foreach ($tags as $tag) :
                                 $tagTitle = $tag->title ?? '';
                                 try {
@@ -107,11 +118,13 @@ if ($totalArticles === 1) :
                                     $tagLink = '';
                                 }
                             ?>
-                                <a class="chip chip-simple" <?= $tagLink ? 'href="' . htmlspecialchars($tagLink, ENT_QUOTES, 'UTF-8') . '"' : '' ?>>
-                                    <span class="chip-label"><?= htmlspecialchars($tagTitle, ENT_QUOTES, 'UTF-8'); ?></span>
-                                </a>
+                                <li>
+                                    <a class="chip chip-simple" <?= $tagLink ? 'href="' . htmlspecialchars($tagLink, ENT_QUOTES, 'UTF-8') . '"' : '' ?>>
+                                        <span class="chip-label"><?= htmlspecialchars($tagTitle, ENT_QUOTES, 'UTF-8'); ?></span>
+                                    </a>
+                                </li>
                             <?php endforeach; ?>
-                        </div>
+                        </ul>
                     <?php endif; ?>
                 </div>
             </div>
@@ -134,6 +147,12 @@ if ($totalArticles === 1) :
 else :
     $carouselId = 'carousel-evidenza-' . $module->id;
 ?>
+
+    <?php if (empty($module->showtitle)) :
+        $sectionHeading = !empty($module->title) ? $module->title : Text::_('TPL_ACCESSIBILE_FEATURED_ARTICLES');
+    ?>
+        <h2 class="visually-hidden"><?= htmlspecialchars($sectionHeading, ENT_QUOTES, 'UTF-8') ?></h2>
+    <?php endif; ?>
 
     <div id="<?= $carouselId ?>" class="it-carousel-wrapper it-carousel-evidenza splide position-relative" data-bs-carousel-splide
          aria-label="<?php echo Text::_('TPL_ACCESSIBILE_FEATURED_ARTICLES'); ?>" aria-roledescription="carousel">
@@ -180,7 +199,7 @@ else :
                         $tags = $item->tags->itemTags;
                     } else {
                         try {
-                            $tagsHelper = new \Joomla\CMS\Tag\TagsHelper;
+                            $tagsHelper = new \Joomla\CMS\Helper\TagsHelper;
                             $tags = $tagsHelper->getItemTags('com_content.article', (int) $item->id) ?? [];
                         } catch (\Throwable $e) {}
                     }
@@ -199,7 +218,9 @@ else :
                                 <div class="card mb-0 shadow-none bg-transparent">
                                     <div class="card-body pb-3 px-0">
                                         <div class="category-top">
-                                            <i class="fa-solid fa-calendar-days" aria-hidden="true"></i>
+                                            <svg class="icon icon-sm" aria-hidden="true">
+                                                <use href="<?= $spriteUrl ?>#it-calendar"></use>
+                                            </svg>
                                             <span class="visually-hidden"><?php echo Text::_('TPL_ACCESSIBILE_PUBLISH_DATE_AND_CATEGORY'); ?></span>
                                             
                                             <?php if (!empty($item->category_title)) : ?>
@@ -224,7 +245,7 @@ else :
                                         <?php endif; ?>
 
                                         <?php if (!empty($tags)) : ?>
-                                            <div aria-label="<?php echo Text::_('TPL_ACCESSIBILE_RELATED_TOPICS'); ?>">
+                                            <ul class="mod-pa-chips-list d-flex flex-wrap gap-1 list-unstyled mb-0" aria-label="<?php echo Text::_('TPL_ACCESSIBILE_RELATED_TOPICS'); ?>">
                                                 <?php foreach ($tags as $tag) :
                                                     $tagTitle = $tag->title ?? '';
                                                     try {
@@ -233,11 +254,13 @@ else :
                                                         $tagLink = '';
                                                     }
                                                 ?>
-                                                    <a class="chip chip-simple" <?= $tagLink ? 'href="' . htmlspecialchars($tagLink, ENT_QUOTES, 'UTF-8') . '"' : '' ?>>
-                                                        <span class="chip-label"><?= htmlspecialchars($tagTitle, ENT_QUOTES, 'UTF-8'); ?></span>
-                                                    </a>
+                                                    <li>
+                                                        <a class="chip chip-simple" <?= $tagLink ? 'href="' . htmlspecialchars($tagLink, ENT_QUOTES, 'UTF-8') . '"' : '' ?>>
+                                                            <span class="chip-label"><?= htmlspecialchars($tagTitle, ENT_QUOTES, 'UTF-8'); ?></span>
+                                                        </a>
+                                                    </li>
                                                 <?php endforeach; ?>
-                                            </div>
+                                            </ul>
                                         <?php endif; ?>
                                     </div>
                                 </div>

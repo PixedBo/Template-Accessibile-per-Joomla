@@ -79,9 +79,11 @@ Il sistema lo rileverà in automatico e lo caricherà per ultimo, garantendo che
 ## 🌟 Override e Layout Alternativi inclusi
 Il template è dotato di override nativi per far sì che i componenti standard di Joomla generino codice HTML orientato alle linee guida di Designers Italia:
 
-- **Moduli Articoli (`mod_articles`):** Sono presenti due layout specifici: un **layout a 3 colonne** e un **layout singolo**. Il layout singolo è dinamico: se all'interno del modulo è presente più di un articolo, il sistema crea automaticamente uno slideshow accessibile.
+- **Moduli Articoli (`mod_articles`):** Sono presenti due layout specifici: un **layout a 3 colonne** e un **layout singolo**. Il layout singolo è dinamico: se all'interno del modulo è presente più di un articolo, il sistema crea automaticamente uno slideshow accessibile. I tag correlati vengono emessi come lista semantica (`<ul>/<li>`) di chip Bootstrap Italia, l'icona calendario usa lo sprite SVG interno e il testo introduttivo mantiene l'HTML originale (strip + troncamento con "…" solo oltre la soglia di 1000 caratteri plain-text).
 - **Modulo Menu (`mod_menu`):** È incluso il layout `comuni-menu`, essenziale e obbligatorio per impaginare in modo corretto e accessibile sia il Menu Principale che il Menu Secondario all'interno della testata.
-- **Articolo Singolo (`com_content > article`):** Layout completo per servizi/notizie con calcolo automatico del tempo di lettura, impaginazione accessibile, tag a "chip" e pulsanti di condivisione social nativi.
+- **Modulo Breadcrumb (`mod_breadcrumbs`):** Override che emette il percorso con la struttura `cmp-breadcrumbs` / `breadcrumb-container` di Bootstrap Italia, microdata `schema.org/BreadcrumbList`, `aria-current="page"` sull'elemento attivo e `data-element="breadcrumb"` richiesto dall'App Valutazione Modelli.
+- **Articolo Singolo (`com_content > article`):** Layout completo per servizi/notizie con calcolo automatico del tempo di lettura, impaginazione accessibile, tag a "chip" e pulsanti di condivisione social nativi. La barra di avanzamento lettura espone un `aria-label` dedicato per gli screen reader.
+- **Layout alternativo "Note Legali" (`com_content > article > note-legali`):** Layout dedicato alla pagina Note Legali richiesta dal criterio C.SI.3.4 del Modello Comuni. Emette `data-element="legal-notes"` e append la sezione obbligatoria "Licenza dei contenuti" con il testo CC-BY 4.0 verbatim (non modificabile dal backend), preservando comunque il contenuto libero inserito dall'admin come introtext/fulltext dell'articolo.
 - **Categoria Blog / Lista (`com_content > category`):** Override di `blog` e `default` con card in stile Bootstrap Italia.
 - **Layout alternativo "Servizi" (`com_content > category > servizi`):** Layout dedicato alla categoria "Servizi" del Comune, conforme al Modello Comuni. Hero, elenco card servizi con `data-element="service-link"`, blocco "Esplora per argomento" con sottocategorie e `data-element="service-category-link"`. Selezionabile come *Alternative Layout* da una voce di menu di tipo Blog o Lista Categoria. Funziona indistintamente con entrambe le viste.
 
@@ -118,6 +120,8 @@ Il widget viene renderizzato **solo sulle pagine del singolo articolo** (`com_co
 - ✅ Attributi `service-link`, `news-link`, `event-link`, `document-link` applicati automaticamente via mappa categorie.
 - ✅ Layout "Servizi" con `service-link` + `service-category-link`.
 - ✅ Indice articolo con `data-element="page-index"`, tag argomento con `data-element="topic-element"`.
+- ✅ Breadcrumb con `data-element="breadcrumb"`, microdata `schema.org/BreadcrumbList` e `aria-current="page"`.
+- ✅ Pagina Note Legali (C.SI.3.4) con `data-element="legal-notes"` e licenza CC-BY 4.0 verbatim.
 - ⚠️ Widget "Valutazione chiarezza pagina" (C.SI.2.5): struttura HTML completa con tutti i `data-element` richiesti, **ma attualmente è un segnaposto dimostrativo** — le risposte non vengono ancora salvate. Attivabile dal flag "Abilita sistema di feedback" nel fieldset "Criteri valutazione – Comune".
 - 🚧 Alcuni `data-element` richiesti dall'App Valutazione Modelli (es. strutture dettagliate per pagine Amministrazione/Uffici, Evento, Documento, scheda Servizio) **non sono ancora completi**. Per questo motivo il template **non passa al 100%** i controlli del Dipartimento per la Trasformazione Digitale — vedi [avviso in cima a questa pagina](#-il-template-non-è-pronto-per-siti-di-produzione).
 
@@ -127,6 +131,14 @@ Il progetto è aperto ai contributi della community:
 - Apri una **issue** per segnalare bug, mancanze di conformità o proporre nuove funzionalità.
 - Fai una **pull request** se hai sistemato qualcosa (benvenuti fix, nuovi override, nuovi layout dedicati per Amministrazione, Evento, Documento, ecc.).
 - Testa il template installandolo su un ambiente di sviluppo e lancia l'[App di valutazione per i siti di Comuni e Scuole](https://innovazione.gov.it/notizie/articoli/app-di-valutazione-per-i-siti-di-comuni-e-scuole-pubblicata-la-versione-2-0/) per verificare quali criteri non passano ancora.
+
+## 📌 Changelog
+
+### 1.0.10 (2026-04-21)
+- **Nuovo:** override `mod_breadcrumbs` con microdata `schema.org/BreadcrumbList`, `aria-current="page"` e `data-element="breadcrumb"`; rimosse le ridondanze sul wrapper del breadcrumb in `index.php`.
+- **Nuovo:** layout alternativo `com_content > article > note-legali` per la pagina Note Legali (C.SI.3.4) con `data-element="legal-notes"` e licenza CC-BY 4.0 verbatim.
+- **Modulo evidenza singolo (`mod_articles`):** tag correlati emessi come lista semantica `<ul>/<li>` di chip Bootstrap Italia con adattamento al contenuto e testo centrato; icona calendario migrata allo sprite SVG interno; aggiunto `<h2 class="visually-hidden">` di sezione come landmark per screen reader; il testo introduttivo ora mantiene l'HTML originale e viene strippato/troncato solo oltre i 1000 caratteri plain-text; fix del namespace `TagsHelper` (era `\Joomla\CMS\Tag\TagsHelper`, inesistente in Joomla 5, ora `\Joomla\CMS\Helper\TagsHelper`) che impediva di recuperare i tag.
+- **Articolo singolo:** aggiunto `aria-label` alla barra di avanzamento lettura per risolvere il warning Lighthouse "progressbar elements do not have accessible names".
 
 ## 📜 Licenza e Crediti
 Questo template è rilasciato sotto licenza **GNU GPL v3**.  

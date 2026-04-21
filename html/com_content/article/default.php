@@ -205,7 +205,8 @@ $rightColClass = 'col-lg-3';
                                                 </button>
                                             </span>
                                             <div class="progress">
-                                                <div class="progress-bar it-navscroll-progressbar" role="progressbar" 
+                                                <div class="progress-bar it-navscroll-progressbar" role="progressbar"
+                                                     aria-label="<?php echo htmlspecialchars(Text::_('TPL_ACCESSIBILE_READING_PROGRESS'), ENT_QUOTES, 'UTF-8'); ?>"
                                                      aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
                                             </div>
                                             <div id="collapse-one" class="accordion-collapse collapse show" role="region" 

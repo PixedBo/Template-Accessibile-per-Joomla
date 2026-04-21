@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <extension type="template" client="site" method="upgrade">
   <name>Template Accessibile per Joomla</name>
-  <version>1.0.9</version>
-  <creationDate>2025-07-24</creationDate>
+  <version>1.0.10</version>
+  <creationDate>2026-04-21</creationDate>
   <author>Pixed Web Development</author>
   <authorEmail>info@pixed.it</authorEmail>
   <authorUrl>https://www.pixed.it</authorUrl>
