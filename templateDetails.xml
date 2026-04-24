@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <extension type="template" client="site" method="upgrade">
   <name>Template Accessibile per Joomla</name>
-  <version>1.0.10</version>
-  <creationDate>2026-04-21</creationDate>
+  <version>1.0.11</version>
+  <creationDate>2026-04-24</creationDate>
   <author>Pixed Web Development</author>
   <authorEmail>info@pixed.it</authorEmail>
   <authorUrl>https://www.pixed.it</authorUrl>
@@ -24,7 +24,6 @@
     <folder>assets</folder>
     <folder>css</folder>
     <folder>fonts</folder>
-    <folder>helpers</folder>
     <folder>html</folder>
     <folder>images</folder>
     <folder>js</folder>
@@ -108,21 +107,6 @@
         <field name="youtube" type="url" label="TPL_ACCESSIBILE_SOCIAL_YT_LABEL" description="TPL_ACCESSIBILE_SOCIAL_YT_DESC" size="20" />
         <field name="telegram" type="url" label="TPL_ACCESSIBILE_SOCIAL_TG_LABEL" description="TPL_ACCESSIBILE_SOCIAL_TG_DESC" size="20" />
         <field name="whatsapp" type="text" label="TPL_ACCESSIBILE_SOCIAL_WA_LABEL" description="TPL_ACCESSIBILE_SOCIAL_WA_DESC" size="20" />
-      </fieldset>
-
-      <fieldset name="categorie_modellopa" label="TPL_ACCESSIBILE_FIELDSET_CAT_MODELLOPA_LABEL" description="TPL_ACCESSIBILE_FIELDSET_CAT_MODELLOPA_DESC">
-        <field name="cat_services"  type="category" extension="com_content" label="TPL_ACCESSIBILE_CAT_SERVICES_LABEL"  description="TPL_ACCESSIBILE_CAT_SERVICES_DESC"  default="">
-          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
-        </field>
-        <field name="cat_news"      type="category" extension="com_content" label="TPL_ACCESSIBILE_CAT_NEWS_LABEL"      description="TPL_ACCESSIBILE_CAT_NEWS_DESC"      default="">
-          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
-        </field>
-        <field name="cat_events"    type="category" extension="com_content" label="TPL_ACCESSIBILE_CAT_EVENTS_LABEL"    description="TPL_ACCESSIBILE_CAT_EVENTS_DESC"    default="">
-          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
-        </field>
-        <field name="cat_documents" type="category" extension="com_content" label="TPL_ACCESSIBILE_CAT_DOCUMENTS_LABEL" description="TPL_ACCESSIBILE_CAT_DOCUMENTS_DESC" default="">
-          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
-        </field>
       </fieldset>
 
       <fieldset name="valutazione" label="TPL_ACCESSIBILE_FIELDSET_VALUTAZIONE_LABEL" description="TPL_ACCESSIBILE_FIELDSET_VALUTAZIONE_DESC">

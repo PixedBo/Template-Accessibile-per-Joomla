@@ -88,24 +88,14 @@ The template comes with native overrides aimed at making standard Joomla compone
 - **"Services" alternative layout (`com_content > category > servizi`):** Layout dedicated to the Municipality "Services" category, following the Comuni Model. Hero, list of service cards with `data-element="service-link"`, "Explore by topic" block with subcategories tagged `data-element="service-category-link"`. Selectable as *Alternative Layout* on any Blog or List Category menu item. Works with both views.
 
 ## 🏛️ PA Model integration (Designers Italia)
-The template includes a mapping system between **Joomla categories** and the **content types** of the Comuni Model, so that the `data-element` attributes required by the Evaluation App are automatically applied to article links, wherever they appear (featured homepage, category lists, featured-article modules, etc.).
+The `data-element` attributes required by the Evaluation App are applied **inside the dedicated layouts**, where the context matches what the validator actually checks:
 
-**How to configure:** from the backend, in *Template Styles → Accessible Template*, the **PA Model Categories** fieldset lets you pick which Joomla category corresponds to each content type:
+- **"Services" layout** (`com_content > category > servizi`): each service card carries `data-element="service-link"` hardcoded.
+- Future layouts for News, Events and Documents will follow the same pattern.
 
-| Parameter | Category | Applied `data-element` |
-|---|---|---|
-| `cat_services` | Municipality services | `service-link` |
-| `cat_news` | News | `news-link` |
-| `cat_events` | Events | `event-link` |
-| `cat_documents` | Documents | `document-link` |
-
-Resolution walks the category hierarchy: an article inside `Services > Registry office` automatically receives `service-link`.
-
-A second fieldset **Evaluation Criteria – Municipality** lets you associate **menu items** to "functional" `data-element`s pointing to unique destinations (not article types): `management`, `all-services`, `all-topics`, `live`, `faq`, `report-inefficiency`, `accessibility-link`, `privacy-policy-link`, `news`.
+The **Evaluation Criteria – Municipality** fieldset lets you associate **menu items** to "functional" `data-element`s pointing to unique destinations: `management`, `all-services`, `all-topics`, `live`, `faq`, `report-inefficiency`, `accessibility-link`, `privacy-policy-link`, `news`.
 
 The same fieldset also contains the **Enable feedback system** flag (default: NO), which toggles the "Page clarity feedback" widget described below.
-
-Implementation lives in `helpers/ModelloPAHelper.php` (loaded via `require_once` from the overrides) and is called by the `com_content` and `mod_articles` layouts.
 
 ## 📝 "Page clarity feedback" widget (C.SI.2.5)
 The template ships with the page-clarity feedback block required by the Comuni Model: 1-5 stars, conditional follow-up question (preferred aspects if rating ≥ 4, difficulties if rating ≤ 3), detail text field and a final thank-you message. All the `data-element` attributes required by the App Valutazione Modelli are emitted: `feedback`, `feedback-title`, `feedback-rate-1..5`, `feedback-rating-positive`/`negative`, `feedback-rating-question` (×2), `feedback-rating-answer` (×10), `feedback-input-text`.

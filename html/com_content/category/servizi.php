@@ -126,7 +126,7 @@ if (!empty($this->items)) {
                             </p>
                         <?php endif; ?>
                         <div class="com-content-category-blog__pagination">
-                            <?php echo $this->pagination->getPagesLinks(); ?>
+                            <?php echo preg_replace('/<a\b/i', '<a data-element="pager-link"', $this->pagination->getPagesLinks()); ?>
                         </div>
                     </div>
                 <?php endif; ?>

@@ -14,10 +14,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
-if (!class_exists('ModelloPAHelper')) {
-    require_once JPATH_THEMES . '/' . Factory::getApplication()->getTemplate() . '/helpers/ModelloPAHelper.php';
-}
-
 /** @var \Joomla\Component\Content\Site\View\Featured\HtmlView $this */
 ?>
 
@@ -26,10 +22,9 @@ if (!class_exists('ModelloPAHelper')) {
         <h3 class="card-title"><?php echo Text::_('COM_CONTENT_MORE_ARTICLES'); ?></h3>
         <ul class="list-unstyled">
             <?php foreach ($this->link_items as $item) : ?>
-                <?php $deAttr = ModelloPAHelper::attributeFor((int) $item->catid); ?>
                 <li class="mb-2">
                     <a href="<?php echo Route::_(RouteHelper::getArticleRoute($item->slug, $item->catid, $item->language)); ?>"
-                       class="text-decoration-none"<?php echo $deAttr; ?>>
+                       class="text-decoration-none">
                         <span class="icon-chevron-right me-2" aria-hidden="true"></span>
                         <?php echo $this->escape($item->title); ?>
                     </a>

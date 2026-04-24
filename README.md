@@ -88,24 +88,14 @@ Il template è dotato di override nativi per far sì che i componenti standard d
 - **Layout alternativo "Servizi" (`com_content > category > servizi`):** Layout dedicato alla categoria "Servizi" del Comune, conforme al Modello Comuni. Hero, elenco card servizi con `data-element="service-link"`, blocco "Esplora per argomento" con sottocategorie e `data-element="service-category-link"`. Selezionabile come *Alternative Layout* da una voce di menu di tipo Blog o Lista Categoria. Funziona indistintamente con entrambe le viste.
 
 ## 🏛️ Integrazione Modello PA (Designers Italia)
-Il template include un sistema di mappatura tra **categorie Joomla** e le **tipologie di contenuto** del Modello Comuni, così da applicare automaticamente gli attributi `data-element` richiesti dall'App Valutazione Modelli ai link degli articoli, ovunque compaiano (homepage featured, liste categoria, moduli articoli in evidenza, ecc.).
+Gli attributi `data-element` richiesti dall'App Valutazione Modelli sono applicati **nei layout dedicati**, dove il contesto è quello corretto per il validator:
 
-**Come configurarlo:** dal backend, in *Stili Template → Template Accessibile*, nel fieldset **Categorie Modello PA** selezioni quale categoria Joomla corrisponde a ciascuna tipologia:
+- **Layout "Servizi"** (`com_content > category > servizi`): ogni card servizio porta `data-element="service-link"` hardcoded.
+- Futuri layout per Notizie, Eventi e Documenti seguiranno lo stesso pattern.
 
-| Parametro | Categoria | `data-element` applicato |
-|---|---|---|
-| `cat_services` | Servizi del Comune | `service-link` |
-| `cat_news` | Notizie | `news-link` |
-| `cat_events` | Eventi | `event-link` |
-| `cat_documents` | Documenti | `document-link` |
-
-La risoluzione considera anche la gerarchia: un articolo in `Servizi > Anagrafe` riceve automaticamente `service-link`.
-
-Un secondo fieldset **Criteri valutazione – Comune** permette invece di associare **voci di menu** ai `data-element` "funzionali" che puntano a destinazioni uniche (non a tipologie di articoli): `management`, `all-services`, `all-topics`, `live`, `faq`, `report-inefficiency`, `accessibility-link`, `privacy-policy-link`, `news`.
+Il fieldset **Criteri valutazione – Comune** permette di associare **voci di menu** ai `data-element` "funzionali" che puntano a destinazioni uniche: `management`, `all-services`, `all-topics`, `live`, `faq`, `report-inefficiency`, `accessibility-link`, `privacy-policy-link`, `news`.
 
 Nello stesso fieldset è presente il flag **Abilita sistema di feedback** (default: NO), che attiva o disattiva il widget "Valutazione chiarezza pagina" descritto qui sotto.
-
-Tecnicamente la logica vive in `helpers/ModelloPAHelper.php` (caricato via `require_once` dagli override) e viene richiamata dai layout di `com_content` e `mod_articles`.
 
 ## 📝 Widget "Valutazione chiarezza pagina" (C.SI.2.5)
 Il template include il blocco di valutazione chiarezza richiesto dal Modello Comuni: stelline 1-5, domanda di follow-up condizionale (aspetti preferiti se voto ≥ 4, difficoltà incontrate se voto ≤ 3), campo testuale di dettaglio e messaggio finale di ringraziamento. Sono emessi tutti i `data-element` richiesti dall'App Valutazione Modelli: `feedback`, `feedback-title`, `feedback-rate-1..5`, `feedback-rating-positive`/`negative`, `feedback-rating-question` (×2), `feedback-rating-answer` (×10), `feedback-input-text`.

@@ -3,54 +3,46 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * Card notizia per il layout "Notizie" (Modello PA).
+ * I link agli articoli non portano data-element (conforme ai requisiti AGID).
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 /** @var \Joomla\Component\Content\Site\View\Category\HtmlView $this */
-$params = $this->item->params;
+$params  = $this->item->params;
 $canEdit = $this->item->params->get('access-edit');
-$info = $params->get('info_block_position', 0);
-$assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 
-$currentDate = Factory::getDate()->format('Y-m-d H:i:s');
+$currentDate   = Factory::getDate()->format('Y-m-d H:i:s');
+$nullDate      = '0000-00-00 00:00:00';
 $isUnpublished = ($this->item->state == ContentComponent::CONDITION_UNPUBLISHED || $this->item->publish_up > $currentDate)
-    || ($this->item->publish_down < $currentDate && $this->item->publish_down !== null);
+    || ($this->item->publish_down !== null
+        && $this->item->publish_down !== $nullDate
+        && $this->item->publish_down < $currentDate);
 
-// Determina se l'articolo ha un'immagine
-$images = json_decode($this->item->images);
-$hasImage = !empty($images->image_intro);
+$images   = is_string($this->item->images) && $this->item->images !== '' ? json_decode($this->item->images) : null;
+$hasImage = is_object($images) && isset($images->image_intro) && $images->image_intro !== '';
 
-// Determina la classe della colonna
-$colClass = 'col-md-6 col-xl-4';
-
-// Ottieni la categoria dell'articolo
-$category = $this->item->category_title ?? '';
+$category     = $this->item->category_title ?? '';
 $categoryLink = $this->item->catid ? Route::_(RouteHelper::getCategoryRoute($this->item->catid, $this->item->language)) : '';
 
-// Formatta la data di pubblicazione
 $displayDate = '';
-// Usa la data di pubblicazione (publish_up) come data principale
 if (!empty($this->item->publish_up)) {
-    $date = Factory::getDate($this->item->publish_up);
-    // Formato: GG MMM AA (es: 19 SET 22)
-    $displayDate = strtoupper($date->format('d M y'));
+    $displayDate = strtoupper(Factory::getDate($this->item->publish_up)->format('d M y'));
 }
+
+$articleLink = Route::_(RouteHelper::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language));
 ?>
 
-<div class="<?php echo $colClass; ?>">
+<div class="col-md-6 col-xl-4">
     <div class="card-wrapper border border-light rounded shadow-sm <?php echo !$hasImage ? 'cmp-list-card-img cmp-list-card-img-hr' : ''; ?>">
         <div class="card no-after rounded">
             <?php if ($isUnpublished) : ?>
@@ -58,13 +50,12 @@ if (!empty($this->item->publish_up)) {
             <?php endif; ?>
 
             <?php if ($hasImage) : ?>
-                <?php // Card con immagine ?>
                 <div class="img-responsive-wrapper">
                     <div class="img-responsive img-responsive-panoramic">
                         <figure class="img-wrapper">
-                            <a href="<?php echo Route::_(RouteHelper::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language)); ?>">
+                            <a href="<?php echo $articleLink; ?>">
                                 <img src="<?php echo htmlspecialchars($images->image_intro); ?>"
-                                     alt="<?php echo htmlspecialchars($images->image_intro_alt ?: $this->item->title); ?>" 
+                                     alt="<?php echo htmlspecialchars(($images->image_intro_alt ?? '') ?: $this->item->title); ?>"
                                      title="<?php echo htmlspecialchars($this->item->title); ?>">
                             </a>
                         </figure>
@@ -72,7 +63,6 @@ if (!empty($this->item->publish_up)) {
                 </div>
                 <div class="card-body">
             <?php else : ?>
-                <?php // Card senza immagine ?>
                 <div class="row g-2 g-md-0 flex-md-column">
                     <div class="col-12 order-1 order-md-2">
                         <div class="card-body card-img-none rounded-top">
@@ -95,7 +85,7 @@ if (!empty($this->item->publish_up)) {
                         <?php endif; ?>
                     </div>
 
-                    <a class="text-decoration-none" href="<?php echo Route::_(RouteHelper::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language)); ?>">
+                    <a class="text-decoration-none" href="<?php echo $articleLink; ?>">
                         <h3 class="card-title"><?php echo $this->escape($this->item->title); ?></h3>
                     </a>
 

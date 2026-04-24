@@ -18,10 +18,6 @@ if (empty($list)) {
     return;
 }
 
-if (!class_exists('ModelloPAHelper')) {
-    require_once JPATH_THEMES . '/' . Factory::getApplication()->getTemplate() . '/helpers/ModelloPAHelper.php';
-}
-
 // Parametro per troncare l'intro
 $maxChars = 160;
 
@@ -62,9 +58,6 @@ $cleanText = static function (?string $html): string {
         // Routing sicuro
         $link = $item->link ?? Route::_(ContentRouteHelper::getArticleRoute($item->slug ?? $item->id, $item->catid, $item->language));
 
-        // data-element Modello PA in base alla categoria
-        $deAttr = ModelloPAHelper::attributeFor((int) ($item->catid ?? 0));
-
         // Regola originale: se è la prima card, e ha l'immagine, applichiamo lo stile con immagine
         $isFirstAndHasImage = ($index === 0 && !empty($imgUrl));
     ?>
@@ -92,7 +85,7 @@ $cleanText = static function (?string $html): string {
                 </div>
             </div>
 
-            <a class="read-more ps-3" href="<?= $link; ?>"<?= $deAttr; ?>>
+            <a class="read-more ps-3" href="<?= $link; ?>">
                 <span class="text"><?= Text::_('JGLOBAL_READ_MORE') ?: 'Vai alla pagina'; ?></span>
                 <svg class="icon" aria-hidden="true">
                     <use href="<?= $spriteUrl ?>#it-arrow-right"></use>
@@ -116,7 +109,7 @@ $cleanText = static function (?string $html): string {
                     <p class="text-paragraph-card u-grey-light m-0"><?= htmlspecialchars($introTruncated, ENT_QUOTES, 'UTF-8'); ?></p>
                 <?php endif; ?>
             </div>
-            <a class="read-more" href="<?= $link; ?>"<?= $deAttr; ?>>
+            <a class="read-more" href="<?= $link; ?>">
                 <span class="text"><?= Text::_('JGLOBAL_READ_MORE') ?: 'Vai alla pagina'; ?></span>
                 <svg class="icon ms-0" aria-hidden="true">
                     <use href="<?= $spriteUrl ?>#it-arrow-right"></use>

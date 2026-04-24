@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+    <layout title="Notizie (Modello PA)" option="Notizie (Modello PA)">
+        <help key="Articles:_Category_Blog" />
+        <message>
+            <![CDATA[Layout dedicato alla categoria Notizie del Comune (Designers Italia). Applica gli attributi data-element richiesti dall'App Valutazione Modelli.]]>
+        </message>
+    </layout>
+    <fields name="request">
+        <fieldset name="request">
+            <field
+                name="id"
+                type="category"
+                extension="com_content"
+                label="JCATEGORY"
+                required="true"
+            />
+        </fieldset>
+    </fields>
+    <fields name="params">
+        <fieldset name="notizie_params" label="Opzioni layout Notizie">
+            <field
+                name="show_featured_news"
+                type="radio"
+                default="1"
+                label="Mostra sezione «In evidenza»"
+                description="Se attivo, mostra i primi N articoli in evidenza nella parte alta della pagina (solo a pagina 1)."
+                class="btn-group btn-group-yesno">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field
+                name="featured_news_count"
+                type="number"
+                default="3"
+                min="1"
+                max="12"
+                label="Numero articoli in evidenza"
+                description="Quanti articoli mostrare nella sezione «In evidenza». Visibile solo se la sezione è attiva."
+                showon="show_featured_news:1" />
+        </fieldset>
+    </fields>
+</metadata>
