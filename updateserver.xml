@@ -1,0 +1,36 @@
+<updates>
+	<update>
+		<name>Template Accessibile per Joomla</name>
+		<description>Accessible template</description>
+		<element>templateaccessibileperjoomla</element>
+		<type>template</type>
+		<version>1.0.11</version>
+		<client>site</client>
+		<php_minimum>8.1</php_minimum>
+		<infourl title="Joomla! Template - Accessibile per Joomla">https://www.pixedbo.it/template-accessibile-per-joomla</infourl>
+        <changelogurl>https://raw.githubusercontent.com/PixedBo/Template-Accessibile-per-Joomla/main/changelog.xml</changelogurl>
+		<downloads>
+			<downloadurl type="full" format="zip">https://github.com/PixedBo/Template-Accessibile-per-Joomla/releases/download/v1.0.11/templateaccessibileperjoomla-1.0.11.zip</downloadurl>
+		</downloads>
+		<tags><tag>stable</tag></tags>
+        <sha256>a4147fefdd826a2a7427f745f20af21147c315227200c9077d197c89ce6e8ece</sha256>
+        <targetplatform name="joomla" version="((5\.[01234])|(6\.[01234]))" />
+	</update>
+	<update>
+		<name>Template Accessibile per Joomla</name>
+		<description>Accessible template</description>
+		<element>templateaccessibileperjoomla</element>
+		<type>template</type>
+		<version>2.0.0</version>
+		<client>site</client>
+		<php_minimum>8.1</php_minimum>
+		<infourl title="Joomla! Template - Accessibile per Joomla">https://www.alikonwpixedbo.it/template-accessibile-per-joomla</infourl>
+        <changelogurl>https://raw.githubusercontent.com/PixedBo/Template-Accessibile-per-Joomla/main/changelog.xml</changelogurl>
+		<downloads>
+			<downloadurl type="full" format="zip">https://github.com/PixedBo/Template-Accessibile-per-Joomla/releases/download/v2.0/templateaccessibileperjoomla-2.0.0.zip</downloadurl>
+		</downloads>
+		<tags><tag>stable</tag></tags>
+        <sha256>a4147fefdd826a2a7427f745f20af21147c315227200c9077d197c89ce6e8ece</sha256>
+        <targetplatform name="joomla" version="((5\.[01234])|(6\.[01234]))" />
+	</update>
+</updates>
