@@ -2,42 +2,23 @@
     <changelog>
         <element>templateaccessibileperjoomla</element>
         <type>template</type>
-        <version>1.0.11</version>
-        <security>
-            <item>Item A</item>
-            <item>Item b</item>
-        </security>
-        <fix>
-            <item>Item A</item>
-            <item>Item b</item>
-        </fix>
-        <language>
-            <item>Item A</item>
-            <item>Item b</item>
-        </language>
+        <version>1.0.12</version>
         <addition>
-            <item>Item A</item>
-            <item>Item b</item>
+            <item>Prima release con aggiornamento automatico</item>
         </addition>
-        <change>
-            <item>Item A</item>
-            <item>Item b</item>
-        </change>
-        <remove>
-            <item>Item A</item>
-            <item>Item b</item>
-        </remove>
-        <note>
-            <item>Item A</item>
-            <item>Item b</item>
-        </note>
     </changelog>
     <changelog>
         <element>templateaccessibileperjoomla</element>
         <type>template</type>
-        <version>2.0.0</version>
-        <security>
-            <item>Big issue</item>
-        </security>
+        <version>1.0.11</version>
+        <addition>
+            <item>Creazione del layout NOTIZIE per categoria blog</item>
+        </addition>
+        <fix>
+            <item>Fix data-element su paginazione</item>
+        </fix>
+        <remove>
+            <item>Rimosso ModelloPAHelper, non più necesasrio</item>
+        </remove>
     </changelog>
 </changelogs>

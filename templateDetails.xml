@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <extension type="template" client="site" method="upgrade">
   <name>Template Accessibile per Joomla</name>
-  <version>1.0.11</version>
+  <version>1.0.12</version>
   <creationDate>2026-04-24</creationDate>
   <author>Pixed Web Development</author>
   <authorEmail>info@pixed.it</authorEmail>
@@ -145,6 +145,6 @@
     </fields>
   </config>
   <updateservers>
-		<server type="extension" name="Template Accessibile per Joomla">https://raw.githubusercontent.com/PixedBo/Template-Accessibile-per-Joomla/updateserver.xml</server>
+		<server type="extension" name="Template Accessibile per Joomla">https://raw.githubusercontent.com/PixedBo/Template-Accessibile-per-Joomla/main/updateserver.xml</server>
   </updateservers>
 </extension>
