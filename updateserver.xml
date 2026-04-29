@@ -4,16 +4,16 @@
 		<description>Accessible template</description>
 		<element>templateaccessibileperjoomla</element>
 		<type>template</type>
-		<version>1.0.11</version>
+		<version>1.0.12</version>
 		<client>site</client>
 		<php_minimum>8.1</php_minimum>
-		<infourl title="Joomla! Template - Accessibile per Joomla">https://github.com/PixedBo/Template-Accessibile-per-Joomla/releases/tag/v1.0.11</infourl>
+		<infourl title="Joomla! Template - Accessibile per Joomla">https://github.com/PixedBo/Template-Accessibile-per-Joomla/releases/tag/v1.0.12</infourl>
         <changelogurl>https://raw.githubusercontent.com/PixedBo/Template-Accessibile-per-Joomla/main/changelog.xml</changelogurl>
 		<downloads>
-			<downloadurl type="full" format="zip">https://github.com/PixedBo/Template-Accessibile-per-Joomla/releases/download/v1.0.11/Template-Accessibile-per-Joomla.zip</downloadurl>
+			<downloadurl type="full" format="zip">https://github.com/PixedBo/Template-Accessibile-per-Joomla/releases/download/v1.0.12/Template-Accessibile-per-Joomla.zip</downloadurl>
 		</downloads>
 		<tags><tag>stable</tag></tags>
-        <sha256>5c9e2e56a636c6c3e03a86b71983dd50243374f32badc67ad3049c90a02f2153</sha256>
+        <sha256>2d0d526b306107d9111f3a0b02a004f87cfb7ffbb7b3a3168ec13a615538cfaf</sha256>
         <targetplatform name="joomla" version="((5\.[01234])|(6\.[01234]))" />
 	</update>
 </updates>
