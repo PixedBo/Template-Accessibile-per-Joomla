@@ -144,4 +144,7 @@
       </fieldset>
     </fields>
   </config>
+  <updateservers>
+		<server type="extension" name="Template Accessibile per Joomla">https://raw.githubusercontent.com/PixedBo/Template-Accessibile-per-Joomla/updateserver.xml</server>
+  </updateservers>
 </extension>
