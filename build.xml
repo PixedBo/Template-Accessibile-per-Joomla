@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="tpl_templateaccessibileperjoomla" default="dist" basedir=".">
+
+    <!-- Project properties -->
+    <property name="VERSION" value="1.0.13"/>
+    <tstamp>
+        <format property="DATE" pattern="yyyy-MM-dd"/>
+    </tstamp>
+    <property name="build" value="_build"/>
+    <property name="dist" value="_dist"/>
+    <property name="filename" value="tpl_templateaccessibileperjoomla_v${VERSION}.zip"/>
+
+    <!-- Initialize build directories -->
+    <target name="init" depends="clean">
+        <mkdir dir="${build}"/>
+        <mkdir dir="${dist}"/>
+    </target>
+
+    <!-- Copy template files to build dir, replacing version/date tokens -->
+    <target name="prepare">
+        <!-- Single files -->
+        <copy todir="${build}">
+            <fileset dir=".">
+                <include name="README.md"/>
+                <include name="error.php"/>
+                <include name="index.php"/>
+                <include name="offline.php"/>
+                <include name="templateDetails.xml"/>
+                <include name="template_preview.png"/>
+                <include name="template_thumbnail.png"/>
+            </fileset>
+            <filterchain>
+                <replacetokens>
+                    <token key="version" value="${VERSION}"/>
+                    <token key="date" value="${DATE}"/>
+                </replacetokens>
+            </filterchain>
+        </copy>
+
+        <!-- Folders -->
+        <copy todir="${build}">
+            <fileset dir=".">
+                <include name="assets/**"/>
+                <include name="css/**"/>
+                <include name="fonts/**"/>
+                <include name="html/**"/>
+                <include name="images/**"/>
+                <include name="js/**"/>
+                <include name="language/**"/>
+                <include name="svg/**"/>
+            </fileset>
+            <filterchain>
+                <replacetokens>
+                    <token key="version" value="${VERSION}"/>
+                    <token key="date" value="${DATE}"/>
+                </replacetokens>
+            </filterchain>
+        </copy>
+    </target>
+
+    <!-- Create distribution ZIP -->
+    <target name="dist" depends="init, prepare">
+        <zip destfile="${dist}/${filename}">
+            <fileset dir="${build}"/>
+        </zip>
+        <echo message="Package created: ${dist}/${filename}"/>
+    </target>
+
+    <!-- Clean build directories -->
+    <target name="clean" description="Clean build directories">
+        <delete dir="${build}"/>
+        <delete dir="${dist}"/>
+    </target>
+
+</project>
