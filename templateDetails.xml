@@ -107,6 +107,7 @@
         <field name="youtube" type="url" label="TPL_ACCESSIBILE_SOCIAL_YT_LABEL" description="TPL_ACCESSIBILE_SOCIAL_YT_DESC" size="20" />
         <field name="telegram" type="url" label="TPL_ACCESSIBILE_SOCIAL_TG_LABEL" description="TPL_ACCESSIBILE_SOCIAL_TG_DESC" size="20" />
         <field name="whatsapp" type="text" label="TPL_ACCESSIBILE_SOCIAL_WA_LABEL" description="TPL_ACCESSIBILE_SOCIAL_WA_DESC" size="20" />
+		<field name="linkedin" type="text" label="TPL_ACCESSIBILE_SOCIAL_LI_LABEL" description="TPL_ACCESSIBILE_SOCIAL_LI_DESC" size="20" />
       </fieldset>
 
       <fieldset name="valutazione" label="TPL_ACCESSIBILE_FIELDSET_VALUTAZIONE_LABEL" description="TPL_ACCESSIBILE_FIELDSET_VALUTAZIONE_DESC">
