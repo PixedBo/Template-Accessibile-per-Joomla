@@ -78,7 +78,7 @@ if ($wa->assetExists('style', 'fontawesome')) {
 }
 
 $wa->registerAndUseStyle('template.styles', $tplPath . '/css/bootstrap-italia.min.css')
-   ->registerAndUseStyle('template.comuni', $tplPath . '/css/bootstrap-italia-comuni.css', [], ['template.styles'])
+    ->registerAndUseStyle('template.comuni', $tplPath . '/css/bootstrap-italia-comuni.css', [], [], ['template.styles'])
    ->registerAndUseStyle('template.fonts', $tplPath . '/css/fonts.css')
    ->registerAndUseScript('template.scripts', $tplPath . '/js/bootstrap-italia.bundle.min.js', [], ['defer' => true]);
 

@@ -1,17 +1,21 @@
 <?php
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
+$app = Factory::getApplication();
+$template = $app->getTemplate();
 $homeUrl = Uri::base();
+$bootstrapItaliaCss = Uri::root(true) . '/templates/' . $template . '/css/bootstrap-italia.min.css';
 ?><!DOCTYPE html>
 <html lang="it">
 <head>
   <meta charset="utf-8">
   <title>Sito in manutenzione</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-italia@2.7.4/dist/css/bootstrap-italia.min.css">
+  <link rel="stylesheet" href="<?php echo htmlspecialchars($bootstrapItaliaCss, ENT_QUOTES, 'UTF-8'); ?>">
   <style>body { padding: 3rem; text-align: center; }</style>
 </head>
 <body>
