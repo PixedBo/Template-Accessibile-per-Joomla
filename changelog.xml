@@ -5,7 +5,7 @@
         <version>1.0.13</version>
         <addition>
             <item>aggiunta la pagina Linkedin</item>
-            <item>aggiunta la possibilità di settare i parametri delle voci di menu Servizi e Notizie</item>
+            <item><![CDATA[aggiunta la possibilità di settare i parametri delle voci di menu Servizi e Notizie]]></item>
         </addition>
         <fix>
             <item>Fix background del pulsante LOGIN</item>
