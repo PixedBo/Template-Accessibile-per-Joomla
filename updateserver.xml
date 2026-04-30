@@ -6,7 +6,7 @@
 		<type>template</type>
 		<version>1.0.13</version>
 		<client>site</client>
-		<php_minimum>8.1</php_minimum>
+		<php_minimum>8.2</php_minimum>
 		<infourl title="Joomla! Template - Accessibile per Joomla">https://github.com/PixedBo/Template-Accessibile-per-Joomla/releases/tag/v1.0.13</infourl>
         <changelogurl>https://raw.githubusercontent.com/PixedBo/Template-Accessibile-per-Joomla/main/changelog.xml</changelogurl>
 		<downloads>
