@@ -36,12 +36,14 @@ $facebook  = $params->get('facebook');
 $youtube   = $params->get('youtube');
 $telegram  = $params->get('telegram');
 $whatsapp  = $params->get('whatsapp');
+$linkedin  = $params->get('linkedin');
 $socialLinks = [];
 if ($socialX)  $socialLinks[] = ['url' => $socialX, 'icon' => 'it-twitter', 'label' => 'X (Twitter)'];
 if ($facebook) $socialLinks[] = ['url' => $facebook, 'icon' => 'it-facebook', 'label' => 'Facebook'];
 if ($youtube)  $socialLinks[] = ['url' => $youtube, 'icon' => 'it-youtube', 'label' => 'YouTube'];
 if ($telegram) $socialLinks[] = ['url' => $telegram, 'icon' => 'it-telegram', 'label' => 'Telegram'];
 if ($whatsapp) $socialLinks[] = ['url' => 'https://wa.me/' . preg_replace('/[^0-9]/', '', $whatsapp), 'icon' => 'it-whatsapp', 'label' => 'Whatsapp'];
+if ($linkedin) $socialLinks[] = ['url' => $linkedin, 'icon' => 'it-linkedin', 'label' => 'LinkedIn'];
 
 if (!empty($logo)) {
   $logoData = HTMLHelper::cleanImageURL($logo);
@@ -78,7 +80,7 @@ if ($wa->assetExists('style', 'fontawesome')) {
 }
 
 $wa->registerAndUseStyle('template.styles', $tplPath . '/css/bootstrap-italia.min.css')
-   ->registerAndUseStyle('template.comuni', $tplPath . '/css/bootstrap-italia-comuni.css', [], ['template.styles'])
+    ->registerAndUseStyle('template.comuni', $tplPath . '/css/bootstrap-italia-comuni.css', [], [], ['template.styles'])
    ->registerAndUseStyle('template.fonts', $tplPath . '/css/fonts.css')
    ->registerAndUseScript('template.scripts', $tplPath . '/js/bootstrap-italia.bundle.min.js', [], ['defer' => true]);
 
