@@ -1,5 +1,10 @@
 <?php
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
+
+$homeUrl = Uri::base();
 ?><!DOCTYPE html>
 <html lang="it">
 <head>
@@ -13,6 +18,7 @@ defined('_JEXEC') or die;
   <div class="container">
     <h1 class="text-warning">Sito in manutenzione</h1>
     <p>Stiamo lavorando per migliorare il servizio. Torna a trovarci presto.</p>
+    <p><a class="btn btn-primary mt-3" href="<?php echo htmlspecialchars($homeUrl, ENT_QUOTES, 'UTF-8'); ?>"><?php echo Text::_('TPL_ACCESSIBILE_HOME'); ?></a></p>
   </div>
 </body>
 </html>
