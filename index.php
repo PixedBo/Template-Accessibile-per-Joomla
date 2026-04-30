@@ -151,6 +151,16 @@ $inlineCss = "
 .it-header-slim-wrapper {
   background-color: color-mix(in srgb, var(--bs-primary) 75%, black) !important;
 }
+/* Hover e focus del pulsante primario — override diretto perché il framework
+   usa background-color hardcoded che sovrascrive la variabile --bs-btn-hover-color */
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:not(:disabled):not(.disabled):active,
+.btn-primary:not(:disabled):not(.disabled).active,
+.show > .btn-primary.dropdown-toggle {
+  background-color: color-mix(in srgb, {$colore} 82%, black) !important;
+  border-color: color-mix(in srgb, {$colore} 76%, black) !important;
+}
 /* Sfondo della sezione Evidenza */
 .bg-evidenza {
   background-image: url('{$urlSfondoEvidenza}') !important;
