@@ -122,27 +122,6 @@ Il progetto è aperto ai contributi della community:
 - Fai una **pull request** se hai sistemato qualcosa (benvenuti fix, nuovi override, nuovi layout dedicati per Amministrazione, Evento, Documento, ecc.).
 - Testa il template installandolo su un ambiente di sviluppo e lancia l'[App di valutazione per i siti di Comuni e Scuole](https://innovazione.gov.it/notizie/articoli/app-di-valutazione-per-i-siti-di-comuni-e-scuole-pubblicata-la-versione-2-0/) per verificare quali criteri non passano ancora.
 
-## 📌 Changelog
-
-### 1.0.13 (2026-04-30)
-- **Nuovo:** aggiunta la pagina LinkedIn.
-- **Nuovo:** aggiunta la possibilità di settare i parametri delle voci di menu Servizi e Notizie.
-- **Fix:** corretto il background del pulsante LOGIN.
-
-### 1.0.12 (2026-04-30)
-- **Nuovo:** prima release con aggiornamento automatico.
-
-### 1.0.11 (2026-04-30)
-- **Nuovo:** creazione del layout NOTIZIE per categoria blog.
-- **Fix:** corretto il `data-element` sulla paginazione.
-- **Rimosso:** rimosso `ModelloPAHelper`, non piu necessario.
-
-### 1.0.10 (2026-04-21)
-- **Nuovo:** override `mod_breadcrumbs` con microdata `schema.org/BreadcrumbList`, `aria-current="page"` e `data-element="breadcrumb"`; rimosse le ridondanze sul wrapper del breadcrumb in `index.php`.
-- **Nuovo:** layout alternativo `com_content > article > note-legali` per la pagina Note Legali (C.SI.3.4) con `data-element="legal-notes"` e licenza CC-BY 4.0 verbatim.
-- **Modulo evidenza singolo (`mod_articles`):** tag correlati emessi come lista semantica `<ul>/<li>` di chip Bootstrap Italia con adattamento al contenuto e testo centrato; icona calendario migrata allo sprite SVG interno; aggiunto `<h2 class="visually-hidden">` di sezione come landmark per screen reader; il testo introduttivo ora mantiene l'HTML originale e viene strippato/troncato solo oltre i 1000 caratteri plain-text; fix del namespace `TagsHelper` (era `\Joomla\CMS\Tag\TagsHelper`, inesistente in Joomla 5, ora `\Joomla\CMS\Helper\TagsHelper`) che impediva di recuperare i tag.
-- **Articolo singolo:** aggiunto `aria-label` alla barra di avanzamento lettura per risolvere il warning Lighthouse "progressbar elements do not have accessible names".
-
 ## 📜 Licenza e Crediti
 Questo template è rilasciato sotto licenza **GNU GPL v3**.  
 Basato sulle risorse UI/UX di [Designers Italia](https://designers.italia.it/) e sul framework [Bootstrap Italia](https://italia.github.io/bootstrap-italia/).

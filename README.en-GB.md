@@ -122,27 +122,6 @@ The project is open to community contributions:
 - Send a **pull request** if you fixed something (fixes, new overrides, new layouts dedicated to Administration, Event, Document, etc. are welcome).
 - Test the template by installing it in a dev environment and run the [Evaluation App for Municipalities and Schools websites](https://innovazione.gov.it/notizie/articoli/app-di-valutazione-per-i-siti-di-comuni-e-scuole-pubblicata-la-versione-2-0/) (in Italian) to see which criteria still fail.
 
-## 📌 Changelog
-
-### 1.0.13 (2026-04-30)
-- **New:** added LinkedIn page.
-- **New:** added the ability to configure menu item parameters for Services and News.
-- **Fix:** fixed LOGIN button background.
-
-### 1.0.12 (2026-04-30)
-- **New:** first release with automatic updates.
-
-### 1.0.11 (2026-04-30)
-- **New:** created NEWS layout for category blog view.
-- **Fix:** fixed `data-element` on pagination.
-- **Removed:** removed `ModelloPAHelper`, no longer necessary.
-
-### 1.0.10 (2026-04-21)
-- **New:** `mod_breadcrumbs` override with `schema.org/BreadcrumbList` microdata, `aria-current="page"` and `data-element="breadcrumb"`; removed the redundant breadcrumb wrapper from `index.php`.
-- **New:** alternative layout `com_content > article > note-legali` for the Legal Notes page (C.SI.3.4), emitting `data-element="legal-notes"` with the CC-BY 4.0 wording verbatim.
-- **Featured articles module (`mod_articles`):** related tags are now emitted as a semantic `<ul>/<li>` list of Bootstrap Italia chips with content-based width and vertically centered labels; calendar icon migrated to the internal SVG sprite; added a `<h2 class="visually-hidden">` section landmark for screen readers; intro text now keeps the original HTML and is only stripped/truncated past the 1000 plain-text characters threshold; fixed the `TagsHelper` namespace (was `\Joomla\CMS\Tag\TagsHelper`, which does not exist in Joomla 5, now `\Joomla\CMS\Helper\TagsHelper`), which prevented tag retrieval.
-- **Single article:** added an `aria-label` to the reading progress bar to fix the Lighthouse "progressbar elements do not have accessible names" warning.
-
 ## 📜 License and Credits
 This template is released under **GNU GPL v3** license.  
 Based on the UI/UX resources of [Designers Italia](https://designers.italia.it/) and the [Bootstrap Italia](https://italia.github.io/bootstrap-italia/) framework.
