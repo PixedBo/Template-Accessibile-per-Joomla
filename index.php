@@ -24,6 +24,7 @@ $facebook  = $this->params->get('facebook');
 $youtube   = $this->params->get('youtube');
 $telegram  = $this->params->get('telegram');
 $whatsapp  = $this->params->get('whatsapp');
+$linkedin  = $this->params->get('linkedin');
 
 // Costruzione lista social
 $socialLinks = [];
@@ -65,7 +66,13 @@ if ($whatsapp) {
         'label' => 'Whatsapp'
     ];
 }
-
+if ($linkedin) {
+    $socialLinks[] = [
+        'url' => $linkedin,
+        'icon' => 'it-linkedin',
+        'label' => 'Linkedin'
+    ];
+}
 if (!empty($logo)) {
   $logoData = HTMLHelper::cleanImageURL($logo);
   $logoUrl = $this->baseurl . '/' . ltrim($logoData->url, '/'); // ✅ URL assoluto corretto
