@@ -30,7 +30,7 @@
             <item>Fix data-element su paginazione</item>
         </fix>
         <remove>
-            <item>Rimosso ModelloPAHelper, non più necesasrio</item>
+            <item>Rimosso ModelloPAHelper, non più necessario</item>
         </remove>
     </changelog>
 </changelogs>

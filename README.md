@@ -124,6 +124,19 @@ Il progetto è aperto ai contributi della community:
 
 ## 📌 Changelog
 
+### 1.0.13 (2026-04-30)
+- **Nuovo:** aggiunta la pagina LinkedIn.
+- **Nuovo:** aggiunta la possibilità di settare i parametri delle voci di menu Servizi e Notizie.
+- **Fix:** corretto il background del pulsante LOGIN.
+
+### 1.0.12 (2026-04-30)
+- **Nuovo:** prima release con aggiornamento automatico.
+
+### 1.0.11 (2026-04-30)
+- **Nuovo:** creazione del layout NOTIZIE per categoria blog.
+- **Fix:** corretto il `data-element` sulla paginazione.
+- **Rimosso:** rimosso `ModelloPAHelper`, non piu necessario.
+
 ### 1.0.10 (2026-04-21)
 - **Nuovo:** override `mod_breadcrumbs` con microdata `schema.org/BreadcrumbList`, `aria-current="page"` e `data-element="breadcrumb"`; rimosse le ridondanze sul wrapper del breadcrumb in `index.php`.
 - **Nuovo:** layout alternativo `com_content > article > note-legali` per la pagina Note Legali (C.SI.3.4) con `data-element="legal-notes"` e licenza CC-BY 4.0 verbatim.

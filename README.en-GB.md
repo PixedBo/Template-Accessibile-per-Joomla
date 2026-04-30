@@ -124,6 +124,19 @@ The project is open to community contributions:
 
 ## 📌 Changelog
 
+### 1.0.13 (2026-04-30)
+- **New:** added LinkedIn page.
+- **New:** added the ability to configure menu item parameters for Services and News.
+- **Fix:** fixed LOGIN button background.
+
+### 1.0.12 (2026-04-30)
+- **New:** first release with automatic updates.
+
+### 1.0.11 (2026-04-30)
+- **New:** created NEWS layout for category blog view.
+- **Fix:** fixed `data-element` on pagination.
+- **Removed:** removed `ModelloPAHelper`, no longer necessary.
+
 ### 1.0.10 (2026-04-21)
 - **New:** `mod_breadcrumbs` override with `schema.org/BreadcrumbList` microdata, `aria-current="page"` and `data-element="breadcrumb"`; removed the redundant breadcrumb wrapper from `index.php`.
 - **New:** alternative layout `com_content > article > note-legali` for the Legal Notes page (C.SI.3.4), emitting `data-element="legal-notes"` with the CC-BY 4.0 wording verbatim.
