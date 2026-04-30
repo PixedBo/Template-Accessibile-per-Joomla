@@ -2,6 +2,18 @@
     <changelog>
         <element>templateaccessibileperjoomla</element>
         <type>template</type>
+        <version>1.0.13</version>
+        <addition>
+            <item>aggiunta la pagina Linkedin</item>
+            <item>aggiunta la possibilità di settare i parametri delle voci di menu Servizi e Notizie</item>
+        </addition>
+        <fix>
+            <item>Fix background del pulsante LOGIN</item>
+        </fix>
+    </changelog>
+    <changelog>
+        <element>templateaccessibileperjoomla</element>
+        <type>template</type>
         <version>1.0.12</version>
         <addition>
             <item>Prima release con aggiornamento automatico</item>
