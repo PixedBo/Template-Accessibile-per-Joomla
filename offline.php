@@ -6,23 +6,28 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
 $app = Factory::getApplication();
-$template = $app->getTemplate();
 $homeUrl = Uri::base();
-$bootstrapItaliaCss = Uri::root(true) . '/templates/' . $template . '/css/bootstrap-italia.min.css';
+$wa = $app->getDocument()->getWebAssetManager();
+$tplPath = 'templates/' . $app->getTemplate();
+
+$wa->registerAndUseStyle('template.styles', $tplPath . '/css/bootstrap-italia.min.css')
+   ->registerAndUseStyle('template.comuni', $tplPath . '/css/bootstrap-italia-comuni.css', [], [], ['template.styles'])
+   ->registerAndUseStyle('template.fonts', $tplPath . '/css/fonts.css')
+   ->registerAndUseScript('template.scripts', $tplPath . '/js/bootstrap-italia.bundle.min.js', [], ['defer' => true]);
 ?><!DOCTYPE html>
-<html lang="it">
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
   <meta charset="utf-8">
-  <title>Sito in manutenzione</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="<?php echo htmlspecialchars($bootstrapItaliaCss, ENT_QUOTES, 'UTF-8'); ?>">
+  <title><?php echo Text::_('TPL_ACCESSIBILE_OFFLINE_TITLE'); ?></title>
+  <jdoc:include type="head" />
   <style>body { padding: 3rem; text-align: center; }</style>
 </head>
 <body>
-  <div class="container">
-    <h1 class="text-warning">Sito in manutenzione</h1>
-    <p>Stiamo lavorando per migliorare il servizio. Torna a trovarci presto.</p>
+  <main class="container" id="main-content">
+    <h1 class="text-warning"><?php echo Text::_('TPL_ACCESSIBILE_OFFLINE_HEADING'); ?></h1>
+    <p><?php echo Text::_('TPL_ACCESSIBILE_OFFLINE_MESSAGE'); ?></p>
     <p><a class="btn btn-primary mt-3" href="<?php echo htmlspecialchars($homeUrl, ENT_QUOTES, 'UTF-8'); ?>"><?php echo Text::_('TPL_ACCESSIBILE_HOME'); ?></a></p>
-  </div>
+  </main>
 </body>
 </html>

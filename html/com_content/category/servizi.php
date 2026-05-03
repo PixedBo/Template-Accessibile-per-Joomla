@@ -7,14 +7,24 @@
  * Pensato per la categoria "Servizi" del Comune secondo il modello PA (Designers Italia).
  * Emette gli attributi data-element="service-link" e data-element="service-category-link"
  * richiesti dall'App Valutazione Modelli.
+ *
+ * Struttura:
+ * - Hero con titolo e descrizione categoria
+ * - Due colonne:
+ *   - Sinistra: posizione modulo "cerca-servizi" + contatore + articoli + paginazione
+ *   - Destra: link list "Servizi in evidenza" (articoli con featured=1, categoria e sottocategorie)
+ * - Sottocategorie (data-element="service-category-link")
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Router\Route;
+use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 $app = Factory::getApplication();
 
@@ -41,6 +51,61 @@ if (!empty($this->items)) {
         !empty($this->link_items) ? $this->link_items : []
     );
 }
+
+// Query articoli in evidenza (featured=1) dalla categoria e tutte le sottocategorie
+$featuredItems = [];
+try {
+    $db          = Factory::getDbo();
+    $catId       = (int) $this->category->id;
+    $catPathLike = $this->category->path . '/%';
+    $now         = Factory::getDate()->toSql();
+    $nullDate    = $db->getNullDate();
+
+    $query = $db->getQuery(true)
+        ->select([
+            $db->quoteName('a.id'),
+            $db->quoteName('a.title'),
+            $db->quoteName('a.alias'),
+            $db->quoteName('a.catid'),
+            $db->quoteName('a.language'),
+        ])
+        ->from($db->quoteName('#__content', 'a'))
+        ->join('INNER', $db->quoteName('#__categories', 'c'), $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid'))
+        ->where($db->quoteName('a.featured') . ' = 1')
+        ->where($db->quoteName('a.state') . ' = 1')
+        ->where(
+            '(' .
+            $db->quoteName('a.catid') . ' = ' . $catId . ' OR ' .
+            $db->quoteName('c.path') . ' LIKE ' . $db->quote($catPathLike) .
+            ')'
+        )
+        ->where(
+            '(' .
+            $db->quoteName('a.publish_up') . ' IS NULL OR ' .
+            $db->quoteName('a.publish_up') . ' <= ' . $db->quote($now) .
+            ')'
+        )
+        ->where(
+            '(' .
+            $db->quoteName('a.publish_down') . ' IS NULL OR ' .
+            $db->quoteName('a.publish_down') . ' = ' . $db->quote($nullDate) . ' OR ' .
+            $db->quoteName('a.publish_down') . ' > ' . $db->quote($now) .
+            ')'
+        )
+        ->order($db->quoteName('a.title') . ' ASC');
+
+    $db->setQuery($query);
+    $rawFeatured = $db->loadObjectList() ?: [];
+    foreach ($rawFeatured as $row) {
+        $row->slug = $row->id . ':' . $row->alias;
+        $featuredItems[] = $row;
+    }
+} catch (\Throwable $e) {
+    $featuredItems = [];
+}
+
+$searchModules = ModuleHelper::getModules('cerca-servizi');
+$totalItems    = (int) $this->pagination->total;
 ?>
 
 <div class="com-content-category-blog blog blog-servizi">
@@ -88,16 +153,37 @@ if (!empty($this->items)) {
         </div>
     <?php endif; ?>
 
-    <?php // Esplora tutti i servizi ?>
+    <?php // Esplora tutti i servizi — layout a due colonne con sfondo grigio full-width ?>
+    <div class="servizi-explore py-5">
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <h2 class="title-xxlarge mb-4 mt-5 mb-lg-10">
+                <h2 class="title-xxlarge mb-4 mb-lg-10">
                     <?php echo Text::_('TPL_ACCESSIBILE_SERVICES_EXPLORE_ALL'); ?>
                 </h2>
             </div>
+        </div>
 
-            <div class="col-12">
+        <div class="row">
+
+            <?php // Colonna sinistra: ricerca + contatore + articoli + paginazione ?>
+            <div class="col-12 col-lg-8 pt-lg-50 pb-lg-50">
+
+                <?php // Posizione modulo cerca-servizi (es. Smart Search configurato per categoria) ?>
+                <?php if (!empty($searchModules)) : ?>
+                    <div class="cmp-input-search mb-4">
+                        <?php foreach ($searchModules as $mod) : ?>
+                            <?php echo ModuleHelper::renderModule($mod); ?>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
+
+                <?php // Contatore articoli totali ?>
+                <p class="mb-4">
+                    <strong><?php echo $totalItems; ?></strong>
+                    <?php echo Text::_('TPL_ACCESSIBILE_SERVICES_FOUND'); ?>
+                </p>
+
                 <?php if (empty($serviceItems)) : ?>
                     <?php if ($this->params->get('show_no_articles', 1)) : ?>
                         <div class="alert alert-info">
@@ -130,9 +216,34 @@ if (!empty($this->items)) {
                         </div>
                     </div>
                 <?php endif; ?>
+
             </div>
+
+            <?php // Colonna destra: link list "Servizi in evidenza" ?>
+            <?php if (!empty($featuredItems)) : ?>
+                <div class="col-12 col-lg-4 pt-30 pt-lg-5 ps-lg-5 order-first order-md-last">
+                    <div class="link-list-wrap">
+                        <h2 class="title-xsmall-semi-bold">
+                            <span><?php echo Text::_('TPL_ACCESSIBILE_SERVICES_FEATURED'); ?></span>
+                        </h2>
+                        <ul class="link-list t-primary">
+                            <?php foreach ($featuredItems as $featItem) : ?>
+                                <li class="mb-3 mt-3">
+                                    <a class="list-item ps-0 title-medium underline"
+                                       href="<?php echo Route::_(RouteHelper::getArticleRoute($featItem->slug, $featItem->catid, $featItem->language)); ?>"
+                                       data-element="service-link">
+                                        <span><?php echo $this->escape($featItem->title); ?></span>
+                                    </a>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                </div>
+            <?php endif; ?>
+
         </div>
     </div>
+    </div><?php // fine .servizi-explore ?>
 
     <?php // Esplora per categoria (sottocategorie) ?>
     <?php if ($this->maxLevel != 0 && !empty($this->children[$this->category->id])) : ?>

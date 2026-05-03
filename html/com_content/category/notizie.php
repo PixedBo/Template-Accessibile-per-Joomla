@@ -177,7 +177,7 @@ if ($showFeatured && $isFirstPage) {
     <?php endif; ?>
 
     <?php // Sezione "Esplora tutte le novità" — tutti gli articoli + paginazione ?>
-    <div class="py-5">
+    <div class="notizie-explore py-5">
         <div class="container">
             <h2 class="title-xxlarge mb-4">
                 <?php echo Text::_('TPL_ACCESSIBILE_NOTIZIE_ESPLORA'); ?>

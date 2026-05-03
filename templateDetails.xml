@@ -39,16 +39,17 @@
     <position>menu-secondario</position>
     <position>percorso</position>
     <position>top</position>
-    <position>top-muted</position>
-    <position>bottom</position>
-    <position>bottom2</position>
-    <position>calendario</position>
-    <position>evidenza</position>
-    <position>colonna-sinistra</position>
-    <position>colonna-destra</position>
-    <position>footer1</position>
-    <position>footer2</position>
-    <position>debug</position>
+	<position>top-muted</position>
+	<position>bottom</position>
+	<position>bottom2</position>
+	<position>calendario</position>
+	<position>evidenza</position>
+	<position>colonna-sinistra</position>
+	<position>colonna-destra</position>
+	<position>footer1</position>
+	<position>footer2</position>
+  	<position>debug</position>
+	<position>cerca-servizi</position>
   </positions>
   <config>
     <fields name="params">
@@ -111,7 +112,7 @@
 		<field name="linkedin" type="url" label="TPL_ACCESSIBILE_SOCIAL_LI_LABEL" description="TPL_ACCESSIBILE_SOCIAL_LI_DESC" size="20" />
       </fieldset>
 
-      <fieldset name="valutazione" label="TPL_ACCESSIBILE_FIELDSET_VALUTAZIONE_LABEL" description="TPL_ACCESSIBILE_FIELDSET_VALUTAZIONE_DESC">
+      <fieldset name="valutazione" label="TPL_ACCESSIBILE_FIELDSET_VALUTAZIONE_COMUNI_LABEL" description="TPL_ACCESSIBILE_FIELDSET_VALUTAZIONE_DESC">
         <field name="mostra_feedback" type="radio" default="0" label="TPL_ACCESSIBILE_SHOW_FEEDBACK_LABEL" description="TPL_ACCESSIBILE_SHOW_FEEDBACK_DESC" class="btn-group btn-group-yesno">
           <option value="1">JYES</option>
           <option value="0">JNO</option>
@@ -141,6 +142,73 @@
           <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
         </field>
         <field name="de_all_topics" type="menuitem" label="TPL_ACCESSIBILE_DE_ALL_TOPICS_LABEL" description="TPL_ACCESSIBILE_DE_ALL_TOPICS_DESC" default="">
+          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>
+
+        <field type="note" label="TPL_ACCESSIBILE_SCHEDA_SERVIZIO_NOTE_LABEL" description="TPL_ACCESSIBILE_SCHEDA_SERVIZIO_NOTE_DESC" class="alert alert-info" />
+
+        <field name="cf_stato" type="sql" label="TPL_ACCESSIBILE_CF_STATO_LABEL" description="TPL_ACCESSIBILE_CF_STATO_DESC" key_field="id" value_field="title" query="SELECT id, title FROM #__fields WHERE state = 1 AND context = 'com_content.article' ORDER BY title ASC" default="">
+          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>
+        <field name="cf_a_chi_rivolto" type="sql" label="TPL_ACCESSIBILE_CF_A_CHI_RIVOLTO_LABEL" description="TPL_ACCESSIBILE_CF_A_CHI_RIVOLTO_DESC" key_field="id" value_field="title" query="SELECT id, title FROM #__fields WHERE state = 1 AND context = 'com_content.article' ORDER BY title ASC" default="">
+          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>
+        <field name="cf_come_fare" type="sql" label="TPL_ACCESSIBILE_CF_COME_FARE_LABEL" description="TPL_ACCESSIBILE_CF_COME_FARE_DESC" key_field="id" value_field="title" query="SELECT id, title FROM #__fields WHERE state = 1 AND context = 'com_content.article' ORDER BY title ASC" default="">
+          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>
+        <field name="cf_cosa_serve" type="sql" label="TPL_ACCESSIBILE_CF_COSA_SERVE_LABEL" description="TPL_ACCESSIBILE_CF_COSA_SERVE_DESC" key_field="id" value_field="title" query="SELECT id, title FROM #__fields WHERE state = 1 AND context = 'com_content.article' ORDER BY title ASC" default="">
+          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>
+        <field name="cf_cosa_si_ottiene" type="sql" label="TPL_ACCESSIBILE_CF_COSA_SI_OTTIENE_LABEL" description="TPL_ACCESSIBILE_CF_COSA_SI_OTTIENE_DESC" key_field="id" value_field="title" query="SELECT id, title FROM #__fields WHERE state = 1 AND context = 'com_content.article' ORDER BY title ASC" default="">
+          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>
+        <field name="cf_tempi_scadenze" type="sql" label="TPL_ACCESSIBILE_CF_TEMPI_SCADENZE_LABEL" description="TPL_ACCESSIBILE_CF_TEMPI_SCADENZE_DESC" key_field="id" value_field="title" query="SELECT id, title FROM #__fields WHERE state = 1 AND context = 'com_content.article' ORDER BY title ASC" default="">
+          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>
+        <field type="note"
+          label="TPL_ACCESSIBILE_TEMPI_LISTA_NOTE_LABEL"
+          description="TPL_ACCESSIBILE_TEMPI_LISTA_NOTE_DESC"
+          class="alert alert-info" />
+        <field name="cf_tempi_scadenze_lista" type="sql" label="TPL_ACCESSIBILE_CF_TEMPI_SCADENZE_LISTA_LABEL" description="TPL_ACCESSIBILE_CF_TEMPI_SCADENZE_LISTA_DESC" key_field="id" value_field="title" query="SELECT id, title FROM #__fields WHERE state = 1 AND context = 'com_content.article' AND type = 'subform' ORDER BY title ASC" default="">
+          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>
+        <field name="cf_tempi_lista_key_titolo" type="sql" label="TPL_ACCESSIBILE_CF_TEMPI_LISTA_KEY_TITOLO_LABEL" description="TPL_ACCESSIBILE_CF_TEMPI_LISTA_KEY_TITOLO_DESC" key_field="id" value_field="label" query="SELECT id, CONCAT(title, ' [', name, ']') AS label FROM #__fields WHERE state = 1 AND context = 'com_content.article' AND only_use_in_subform = 1 ORDER BY title ASC" default="titolo">
+          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>
+        <field name="cf_tempi_lista_key_data" type="sql" label="TPL_ACCESSIBILE_CF_TEMPI_LISTA_KEY_DATA_LABEL" description="TPL_ACCESSIBILE_CF_TEMPI_LISTA_KEY_DATA_DESC" key_field="id" value_field="label" query="SELECT id, CONCAT(title, ' [', name, ']') AS label FROM #__fields WHERE state = 1 AND context = 'com_content.article' AND only_use_in_subform = 1 ORDER BY title ASC" default="data">
+          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>
+        <field name="cf_tempi_lista_key_numero" type="sql" label="TPL_ACCESSIBILE_CF_TEMPI_LISTA_KEY_NUMERO_LABEL" description="TPL_ACCESSIBILE_CF_TEMPI_LISTA_KEY_NUMERO_DESC" key_field="id" value_field="label" query="SELECT id, CONCAT(title, ' [', name, ']') AS label FROM #__fields WHERE state = 1 AND context = 'com_content.article' AND only_use_in_subform = 1 ORDER BY title ASC" default="numero">
+          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>
+        <field name="cf_tempi_lista_key_unita" type="sql" label="TPL_ACCESSIBILE_CF_TEMPI_LISTA_KEY_UNITA_LABEL" description="TPL_ACCESSIBILE_CF_TEMPI_LISTA_KEY_UNITA_DESC" key_field="id" value_field="label" query="SELECT id, CONCAT(title, ' [', name, ']') AS label FROM #__fields WHERE state = 1 AND context = 'com_content.article' AND only_use_in_subform = 1 ORDER BY title ASC" default="unita">
+          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>
+        <field name="cf_tempi_lista_key_descrizione" type="sql" label="TPL_ACCESSIBILE_CF_TEMPI_LISTA_KEY_DESCRIZIONE_LABEL" description="TPL_ACCESSIBILE_CF_TEMPI_LISTA_KEY_DESCRIZIONE_DESC" key_field="id" value_field="label" query="SELECT id, CONCAT(title, ' [', name, ']') AS label FROM #__fields WHERE state = 1 AND context = 'com_content.article' AND only_use_in_subform = 1 ORDER BY title ASC" default="descrizione">
+          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>
+        <field name="cf_quanto_costa" type="sql" label="TPL_ACCESSIBILE_CF_QUANTO_COSTA_LABEL" description="TPL_ACCESSIBILE_CF_QUANTO_COSTA_DESC" key_field="id" value_field="title" query="SELECT id, title FROM #__fields WHERE state = 1 AND context = 'com_content.article' ORDER BY title ASC" default="">
+          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>
+        <field name="cf_accedi_online" type="sql" label="TPL_ACCESSIBILE_CF_ACCEDI_ONLINE_LABEL" description="TPL_ACCESSIBILE_CF_ACCEDI_ONLINE_DESC" key_field="id" value_field="title" query="SELECT id, title FROM #__fields WHERE state = 1 AND context = 'com_content.article' ORDER BY title ASC" default="">
+          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>
+        <field name="cf_accedi_online_testo" type="sql" label="TPL_ACCESSIBILE_CF_ACCEDI_ONLINE_TESTO_LABEL" description="TPL_ACCESSIBILE_CF_ACCEDI_ONLINE_TESTO_DESC" key_field="id" value_field="title" query="SELECT id, title FROM #__fields WHERE state = 1 AND context = 'com_content.article' ORDER BY title ASC" default="">
+          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>
+        <field name="cf_accedi_appuntamento" type="sql" label="TPL_ACCESSIBILE_CF_ACCEDI_APPUNTAMENTO_LABEL" description="TPL_ACCESSIBILE_CF_ACCEDI_APPUNTAMENTO_DESC" key_field="id" value_field="title" query="SELECT id, title FROM #__fields WHERE state = 1 AND context = 'com_content.article' ORDER BY title ASC" default="">
+          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>
+        <field name="cf_condizioni" type="sql" label="TPL_ACCESSIBILE_CF_CONDIZIONI_LABEL" description="TPL_ACCESSIBILE_CF_CONDIZIONI_DESC" key_field="id" value_field="title" query="SELECT id, title FROM #__fields WHERE state = 1 AND context = 'com_content.article' ORDER BY title ASC" default="">
+          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>
+        <field name="cf_condizioni_file" type="sql" label="TPL_ACCESSIBILE_CF_CONDIZIONI_FILE_LABEL" description="TPL_ACCESSIBILE_CF_CONDIZIONI_FILE_DESC" key_field="id" value_field="title" query="SELECT id, title FROM #__fields WHERE state = 1 AND context = 'com_content.article' ORDER BY title ASC" default="">
+          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>
+        <field name="menuitem_contatti_area" type="menuitem" label="TPL_ACCESSIBILE_MENUITEM_CONTATTI_AREA_LABEL" description="TPL_ACCESSIBILE_MENUITEM_CONTATTI_AREA_DESC" default="">
+          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>
+        <field name="menuitem_contatti" type="menuitem" label="TPL_ACCESSIBILE_MENUITEM_CONTATTI_LABEL" description="TPL_ACCESSIBILE_MENUITEM_CONTATTI_DESC" default="">
           <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
         </field>
       </fieldset>
