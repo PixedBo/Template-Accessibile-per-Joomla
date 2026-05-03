@@ -1,4 +1,20 @@
 <changelogs>
+<changelog>
+        <element>templateaccessibileperjoomla</element>
+        <type>template</type>
+        <version>1.0.14</version>
+        <addition>
+            <item><![CDATA[Aggiunto il layout singolo servizio e di conseguenza tutto il sistema di custom field per passare la validazione]]></item>
+            <item><![CDATA[Aggiunta la scheda "opzioni" per layout categoria SERVIZI e NOTIZIE in modo da poter modificare il layout degli articoli]]></item>
+            <item><![CDATA[Migliorie grafiche di layout categoria SERVIZI e NOTIZIE]]></item>
+        </addition>
+        <fix>
+            <item><![CDATA[allineamento php_minimum updateserver a 8.2]]></item>
+            <item><![CDATA[campo linkedin type=text → type=url in templateDetails.xml]]></item>
+            <item><![CDATA[fix error.php e offline.php]]></item>
+            <item><![CDATA[fix caricamento asset locali Bootstrap Italia 2.9.0 tramite webasset manager]]></item>
+        </fix>
+    </changelog>
     <changelog>
         <element>templateaccessibileperjoomla</element>
         <type>template</type>
