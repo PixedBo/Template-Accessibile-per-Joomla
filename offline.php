@@ -3,8 +3,10 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
 
 $app = Factory::getApplication();
+$homeUrl = Uri::base();
 $wa = $app->getDocument()->getWebAssetManager();
 $tplPath = 'templates/' . $app->getTemplate();
 
@@ -12,7 +14,6 @@ $wa->registerAndUseStyle('template.styles', $tplPath . '/css/bootstrap-italia.mi
    ->registerAndUseStyle('template.comuni', $tplPath . '/css/bootstrap-italia-comuni.css', [], [], ['template.styles'])
    ->registerAndUseStyle('template.fonts', $tplPath . '/css/fonts.css')
    ->registerAndUseScript('template.scripts', $tplPath . '/js/bootstrap-italia.bundle.min.js', [], ['defer' => true]);
-
 ?><!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
@@ -26,6 +27,7 @@ $wa->registerAndUseStyle('template.styles', $tplPath . '/css/bootstrap-italia.mi
   <main class="container" id="main-content">
     <h1 class="text-warning"><?php echo Text::_('TPL_ACCESSIBILE_OFFLINE_HEADING'); ?></h1>
     <p><?php echo Text::_('TPL_ACCESSIBILE_OFFLINE_MESSAGE'); ?></p>
+    <p><a class="btn btn-primary mt-3" href="<?php echo htmlspecialchars($homeUrl, ENT_QUOTES, 'UTF-8'); ?>"><?php echo Text::_('TPL_ACCESSIBILE_HOME'); ?></a></p>
   </main>
 </body>
 </html>

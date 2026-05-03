@@ -48,6 +48,7 @@
 	<position>colonna-destra</position>
 	<position>footer1</position>
 	<position>footer2</position>
+  	<position>debug</position>
 	<position>cerca-servizi</position>
   </positions>
   <config>
