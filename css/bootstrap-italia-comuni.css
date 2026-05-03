@@ -33875,3 +33875,14 @@ span.pagination {
   transform: none;
   line-height: 1.2;
 }
+
+/* Layout Servizi — sezione "Esplora tutti i servizi" a sfondo grigio full-width.
+   Il box-shadow espande il colore oltre i bordi del container Bootstrap;
+   clip-path lo limita verticalmente all'altezza della sezione e
+   orizzontalmente a 100vw per ogni lato, prevenendo lo scrollbar. */
+.blog-servizi .servizi-explore,
+.blog-notizie .notizie-explore {
+  background-color: #f5f5f5;
+  box-shadow: 0 0 0 100vw #f5f5f5;
+  clip-path: inset(0 -100vw);
+}
