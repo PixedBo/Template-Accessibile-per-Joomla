@@ -256,7 +256,7 @@ $wa->addInlineStyle($inlineCss);
   <a class="btn btn-primary btn-icon btn-full" href="<?php echo $loginUrl; ?>" data-element="personal-area-login" aria-label="<?php echo $loginText; ?>">
     <span class="rounded-icon" aria-hidden="true">
       <svg class="icon icon-primary">
-        <use xlink:href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/svg/sprites.svg#it-user"></use>
+        <use xlink:href="<?= $this->baseurl ?>/media/templates/site/<?= $this->template ?>/svg/sprites.svg#it-user"></use>
       </svg>
     </span>
     <span aria-hidden="true" class="d-none d-lg-block"><?php echo $loginText; ?></span>
@@ -306,7 +306,7 @@ $wa->addInlineStyle($inlineCss);
                aria-label="<?php echo $social['label']; ?> - <?php echo Text::_('TPL_ACCESSIBILE_NEW_WINDOW'); ?>">
               
               <svg class="icon icon-sm align-top" aria-hidden="true" style="fill: currentColor;">
-                <use xlink:href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/svg/sprites.svg#<?php echo $social['icon']; ?>"></use>
+                <use xlink:href="<?= $this->baseurl ?>/media/templates/site/<?= $this->template ?>/svg/sprites.svg#<?php echo $social['icon']; ?>"></use>
               </svg>
               
               <span class="visually-hidden"><?php echo $social['label']; ?></span>
@@ -336,7 +336,7 @@ $wa->addInlineStyle($inlineCss);
     <span class="d-none d-md-block"><?php echo Text::_('TPL_ACCESSIBILE_SEARCH'); ?></span>
     <a class="search-link rounded-icon" href="<?php echo $ricercaUrl; ?>" aria-label="<?php echo Text::_('TPL_ACCESSIBILE_SEARCH_SITE'); ?>">
       <svg class="icon">
-        <use href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/svg/sprites.svg#it-search"></use>
+        <use href="<?= $this->baseurl ?>/media/templates/site/<?= $this->template ?>/svg/sprites.svg#it-search"></use>
       </svg>
     </a>
   </div>
@@ -361,7 +361,7 @@ $wa->addInlineStyle($inlineCss);
                         <div class="navbar navbar-expand-lg has-megamenu">
                           <button class="custom-navbar-toggler" type="button" aria-controls="nav4" aria-expanded="false" aria-label="<?php echo Text::_('TPL_ACCESSIBILE_TOGGLE_NAV'); ?>" data-bs-target="#nav4" data-bs-toggle="navbarcollapsible">
                             <svg class="icon">
-                              <use href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/svg/sprites.svg#it-burger"></use>
+                              <use href="<?= $this->baseurl ?>/media/templates/site/<?= $this->template ?>/svg/sprites.svg#it-burger"></use>
                             </svg>
                           </button>
                           <div class="navbar-collapsable" id="nav4">
@@ -370,7 +370,7 @@ $wa->addInlineStyle($inlineCss);
                               <button class="btn close-menu" type="button">
                                 <span class="visually-hidden"><?php echo Text::_('TPL_ACCESSIBILE_HIDE_NAV'); ?></span>
                                 <svg class="icon">
-                                  <use href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/svg/sprites.svg#it-close-big"></use>
+                                  <use href="<?= $this->baseurl ?>/media/templates/site/<?= $this->template ?>/svg/sprites.svg#it-close-big"></use>
                                 </svg>
                               </button>
                             </div>
@@ -398,7 +398,7 @@ $wa->addInlineStyle($inlineCss);
 									<li>
 									  <a href="<?php echo htmlspecialchars($social['url'], ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noopener noreferrer">
 										<svg class="icon icon-sm icon-white align-top">
-										  <use xlink:href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/svg/sprites.svg#<?php echo $social['icon']; ?>"></use>
+										  <use xlink:href="<?= $this->baseurl ?>/media/templates/site/<?= $this->template ?>/svg/sprites.svg#<?php echo $social['icon']; ?>"></use>
 										</svg>
 										<span class="visually-hidden"><?php echo $social['label']; ?></span>
 									  </a>
