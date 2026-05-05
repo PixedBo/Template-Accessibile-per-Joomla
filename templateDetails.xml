@@ -54,7 +54,7 @@
   <config>
     <fields name="params">
       <fieldset name="basic" label="TPL_ACCESSIBILE_BASIC_LABEL">
-        <field name="logotipo" type="media" label="TPL_ACCESSIBILE_LOGO_LABEL" directory="images" preview="true" description="TPL_ACCESSIBILE_LOGO_DESC" default="media/templates/site/templateaccessibileperjoomla/images/logo-comune.svg#joomlaImage://local-media/templates/site/templateaccessibileperjoomla/images/logo-comune.svg?width=100&amp;height=100" />
+        <field name="logotipo" type="media" label="TPL_ACCESSIBILE_LOGO_LABEL" directory="images" preview="true" description="TPL_ACCESSIBILE_LOGO_DESC" default="media/templates/site/templateaccessibileperjoomla/images/logo-comune.svg#joomlaImage://local-media/templates/site/templateaccessibileperjoomla/images/logo-comune.svg?width=273&amp;height=401" />
         <field name="favicon_svg" type="media" label="TPL_ACCESSIBILE_FAVICON_SVG_LABEL" directory="images" description="TPL_ACCESSIBILE_FAVICON_SVG_DESC" />
         <field name="favicon_png" type="media" label="TPL_ACCESSIBILE_FAVICON_PNG_LABEL" directory="images" description="TPL_ACCESSIBILE_FAVICON_PNG_DESC" />
         <field name="nomesito" type="text" default="Il mio Comune" label="TPL_ACCESSIBILE_SITENAME_LABEL" description="TPL_ACCESSIBILE_SITENAME_DESC" size="20" />
