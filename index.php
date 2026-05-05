@@ -101,7 +101,7 @@ if (!empty($faviconPng)) {
 $wa = $this->getWebAssetManager();
 
 // Costruiamo il percorso corretto alla cartella del template
-$tplPath = 'templates/' . $this->template;
+$tplPath = 'media/templates/site/' . $this->template;
 
 if ($wa->assetExists('style', 'fontawesome')) {
 	$wa->useStyle('fontawesome');
@@ -119,7 +119,7 @@ if ((int) $params->get('mostra_feedback', 0) === 1
     $wa->registerAndUseScript('template.feedback', $tplPath . '/js/feedback-chiarezza.js', [], ['defer' => true]);
 }
 
-if (file_exists(JPATH_ROOT . '/templates/' . $this->template . '/css/custom.css')) {
+if (file_exists(JPATH_ROOT . '/media/templates/site/' . $this->template . '/css/custom.css')) {
     $wa->registerAndUseStyle('template.custom', $tplPath . '/css/custom.css', [], [], ['template.comuni']);
 }
 // Mappa degli sfondi in base al colore scelto
@@ -131,7 +131,7 @@ $mappaSfondi = [
     '#7d2670' => 'viola-musei.jpg'
 ];
 $sfondoScelto = $mappaSfondi[$colore] ?? 'blu-default.jpg';
-$urlSfondoEvidenza = $this->baseurl . '/templates/' . $this->template . '/images/' . $sfondoScelto;
+$urlSfondoEvidenza = $this->baseurl . '/media/templates/site/' . $this->template . '/images/' . $sfondoScelto;
 
 // INIEZIONE VARIABILI CSS DINAMICHE
 $hex = ltrim($colore, '#');
@@ -580,7 +580,7 @@ $tplSvg = $this->baseurl . '/templates/' . $this->template . '/svg/sprites.svg';
           <div class="row">
             <div class="col-12 footer-items-wrapper logo-wrapper">
               <?php if ($this->params->get('mostra_logo_ue', 1)) : ?>
-              <img class="ue-logo" src="<?= $this->baseurl ?>/templates/<?= $this->template ?>/images/logo-eu-inverted.svg" alt="<?php echo Text::_('TPL_ACCESSIBILE_EU_LOGO_ALT'); ?>">
+              <img class="ue-logo" src="<?= $this->baseurl ?>/media/templates/site/<?= $this->template ?>/images/logo-eu-inverted.svg" alt="<?php echo Text::_('TPL_ACCESSIBILE_EU_LOGO_ALT'); ?>">
               <?php endif; ?>
 				<div class="it-brand-wrapper">
 				  <a href="<?php echo $this->baseurl; ?>">
@@ -606,7 +606,7 @@ $tplSvg = $this->baseurl . '/templates/' . $this->template . '/svg/sprites.svg';
 							   class="text-white"
 							   aria-label="<?php echo htmlspecialchars($social['label'], ENT_QUOTES, 'UTF-8'); ?> - <?php echo Text::_('TPL_ACCESSIBILE_NEW_WINDOW'); ?>">
 								<svg class="icon icon-sm align-top" aria-hidden="true" style="fill: currentColor;">
-									<use xlink:href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/svg/sprites.svg#<?php echo $social['icon']; ?>"></use>
+									<use xlink:href="<?= $this->baseurl ?>/media/templates/site/<?= $this->template ?>/svg/sprites.svg#<?php echo $social['icon']; ?>"></use>
 								</svg>
 								<span class="visually-hidden"><?php echo htmlspecialchars($social['label'], ENT_QUOTES, 'UTF-8'); ?></span>
 							</a>
