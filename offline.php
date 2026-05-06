@@ -6,12 +6,14 @@ use Joomla\CMS\Language\Text;
 
 $app = Factory::getApplication();
 $wa = $app->getDocument()->getWebAssetManager();
-$tplPath = 'templates/' . $app->getTemplate();
+$tplPath = 'templates/site/' . $this->template;
+$mediaPath = 'media/templates/site/' . $this->template;
+$baseMediaUrl = $this->baseurl . '/' . $mediaPath;
 
-$wa->registerAndUseStyle('template.styles', $tplPath . '/css/bootstrap-italia.min.css')
-   ->registerAndUseStyle('template.comuni', $tplPath . '/css/bootstrap-italia-comuni.css', [], [], ['template.styles'])
-   ->registerAndUseStyle('template.fonts', $tplPath . '/css/fonts.css')
-   ->registerAndUseScript('template.scripts', $tplPath . '/js/bootstrap-italia.bundle.min.js', [], ['defer' => true]);
+$wa->registerAndUseStyle('template.styles', $mediaPath . '/css/bootstrap-italia.min.css')
+   ->registerAndUseStyle('template.comuni', $mediaPath . '/css/bootstrap-italia-comuni.css', [], [], ['template.styles'])
+   ->registerAndUseStyle('template.fonts', $mediaPath . '/css/fonts.css')
+   ->registerAndUseScript('template.scripts', $mediaPath . '/js/bootstrap-italia.bundle.min.js', [], ['defer' => true]);
 
 ?><!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">

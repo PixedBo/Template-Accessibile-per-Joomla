@@ -71,7 +71,9 @@ if (!empty($faviconPng)) {
 
 // INSERIMENTO ASSET E FONT-AWESOME
 $wa = $this->getWebAssetManager();
-$tplPath = 'templates/' . $this->template;
+$tplPath = 'templates/site/' . $this->template;
+$mediaPath = 'media/templates/site/' . $this->template;
+$baseMediaUrl = $this->baseurl . '/' . $mediaPath;
 
 if ($wa->assetExists('style', 'fontawesome')) {
     $wa->useStyle('fontawesome');
@@ -79,10 +81,10 @@ if ($wa->assetExists('style', 'fontawesome')) {
     $wa->registerAndUseStyle('fa-base', 'media/vendor/fontawesome-free/css/fontawesome.min.css');
 }
 
-$wa->registerAndUseStyle('template.styles', $tplPath . '/css/bootstrap-italia.min.css')
-    ->registerAndUseStyle('template.comuni', $tplPath . '/css/bootstrap-italia-comuni.css', [], [], ['template.styles'])
-   ->registerAndUseStyle('template.fonts', $tplPath . '/css/fonts.css')
-   ->registerAndUseScript('template.scripts', $tplPath . '/js/bootstrap-italia.bundle.min.js', [], ['defer' => true]);
+$wa->registerAndUseStyle('template.styles', $mediaPath . '/css/bootstrap-italia.min.css')
+    ->registerAndUseStyle('template.comuni', $mediaPath . '/css/bootstrap-italia-comuni.css', [], [], ['template.styles'])
+   ->registerAndUseStyle('template.fonts', $mediaPath . '/css/fonts.css')
+   ->registerAndUseScript('template.scripts', $mediaPath . '/js/bootstrap-italia.bundle.min.js', [], ['defer' => true]);
 
 // INIEZIONE VARIABILI CSS DINAMICHE
 $hex = ltrim($colore, '#');
@@ -148,7 +150,7 @@ $wa->addInlineStyle($inlineCss);
                                 ?>
                                 <a class="btn btn-primary btn-icon btn-full" href="<?php echo $loginUrl; ?>" data-element="personal-area-login" aria-label="<?php echo $loginText; ?>">
                                     <span class="rounded-icon" aria-hidden="true">
-                                        <svg class="icon icon-primary"><use xlink:href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/svg/sprites.svg#it-user"></use></svg>
+                                        <svg class="icon icon-primary"><use xlink:href="<?= $baseMediaUrl ?>/svg/sprites.svg#it-user"></use></svg>
                                     </span>
                                     <span aria-hidden="true" class="d-none d-lg-block"><?php echo $loginText; ?></span>
                                 </a>
@@ -187,7 +189,7 @@ $wa->addInlineStyle($inlineCss);
                                                 <?php foreach ($socialLinks as $social) : ?>
                                                     <li>
                                                         <a href="<?php echo htmlspecialchars($social['url'], ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noopener noreferrer">
-                                                            <svg class="icon icon-sm icon-white align-top"><use xlink:href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/svg/sprites.svg#<?php echo $social['icon']; ?>"></use></svg>
+                                                            <svg class="icon icon-sm icon-white align-top"><use xlink:href="<?= $baseMediaUrl ?>/svg/sprites.svg#<?php echo $social['icon']; ?>"></use></svg>
                                                             <span class="visually-hidden"><?php echo $social['label']; ?></span>
                                                         </a>
                                                     </li>
@@ -208,14 +210,14 @@ $wa->addInlineStyle($inlineCss);
                         <div class="col-12">
                             <div class="navbar navbar-expand-lg has-megamenu">
                                 <button class="custom-navbar-toggler" type="button" aria-controls="nav4" aria-expanded="false" aria-label="<?php echo Text::_('TPL_ACCESSIBILE_TOGGLE_NAV'); ?>" data-bs-target="#nav4" data-bs-toggle="navbarcollapsible">
-                                    <svg class="icon"><use href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/svg/sprites.svg#it-burger"></use></svg>
+                                    <svg class="icon"><use href="<?= $baseMediaUrl ?>/svg/sprites.svg#it-burger"></use></svg>
                                 </button>
                                 <div class="navbar-collapsable" id="nav4">
                                     <div class="overlay" style="display: none;"></div>
                                     <div class="close-div">
                                         <button class="btn close-menu" type="button">
                                             <span class="visually-hidden"><?php echo Text::_('TPL_ACCESSIBILE_HIDE_NAV'); ?></span>
-                                            <svg class="icon"><use href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/svg/sprites.svg#it-close-big"></use></svg>
+                                            <svg class="icon"><use href="<?= $baseMediaUrl ?>/svg/sprites.svg#it-close-big"></use></svg>
                                         </button>
                                     </div>
                                     <div class="menu-wrapper">
@@ -281,7 +283,7 @@ $wa->addInlineStyle($inlineCss);
             <div class="container">
                 <div class="row">
                     <div class="col-12 footer-items-wrapper logo-wrapper">
-                        <img class="ue-logo" src="<?= $this->baseurl ?>/templates/<?= $this->template ?>/images/logo-eu-inverted.svg" alt="logo Unione Europea">
+                        <img class="ue-logo" src="<?= $baseMediaUrl ?>/images/logo-eu-inverted.svg" alt="logo Unione Europea">
                         <div class="it-brand-wrapper">
                             <a href="<?php echo $this->baseurl; ?>">
                                 <?php if ($logoUrl) : ?>
