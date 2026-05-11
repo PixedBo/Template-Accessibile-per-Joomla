@@ -169,6 +169,9 @@
         <field name="cf_stato" type="sql" label="TPL_ACCESSIBILE_CF_STATO_LABEL" description="TPL_ACCESSIBILE_CF_STATO_DESC" key_field="id" value_field="title" query="SELECT id, title FROM #__fields WHERE state = 1 AND context = 'com_content.article' ORDER BY title ASC" default="">
           <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
         </field>
+		<field name="cf_motivo_stato_servizio" type="sql" label="TPL_ACCESSIBILE_CF_MOTIVO_STATO_SERVIZIO_LABEL" description="TPL_ACCESSIBILE_CF_MOTIVO_STATO_SERVIZIO_DESC" key_field="id" value_field="title" query="SELECT id, title FROM #__fields WHERE state = 1 AND context = 'com_content.article' ORDER BY title ASC" default="">
+          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>        
         <field name="cf_a_chi_rivolto" type="sql" label="TPL_ACCESSIBILE_CF_A_CHI_RIVOLTO_LABEL" description="TPL_ACCESSIBILE_CF_A_CHI_RIVOLTO_DESC" key_field="id" value_field="title" query="SELECT id, title FROM #__fields WHERE state = 1 AND context = 'com_content.article' ORDER BY title ASC" default="">
           <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
         </field>
