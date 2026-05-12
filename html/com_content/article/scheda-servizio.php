@@ -62,7 +62,7 @@ $menuAreaObj  = $menuItemArea ? $menu->getItem($menuItemArea) : null;
 $urlArea      = $menuAreaObj  ? Route::_('index.php?Itemid=' . $menuItemArea) : '';
 $titleArea    = $menuAreaObj  ? $menuAreaObj->title : '';
 
-$spritePath = Uri::base(true) . 'media/templates/site/' . $app->getTemplate() . '/svg/sprites.svg';
+$spritePath = Uri::base(true) . 'media/templates/site/templateaccessibileperjoomla/svg/sprites.svg';
 
 $hasRightColumn = $document->countModules('colonna-destra') > 0;
 $centerColClass = $hasRightColumn ? 'col-lg-6' : 'col-lg-9';

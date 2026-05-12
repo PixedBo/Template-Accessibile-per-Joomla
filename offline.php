@@ -63,13 +63,13 @@ if (!empty($faviconPng)) {
 // INSERIMENTO ASSET E FONT-AWESOME
 $wa = $this->getWebAssetManager();
 $tplPath = 'templates/site/' . $this->template;
-$mediaPath = 'media/templates/site/' . $this->template;
+$mediaPath = 'media/templates/site/templateaccessibileperjoomla';
 $baseMediaUrl = $this->baseurl . '/' . $mediaPath;
 
-$wa->registerAndUseStyle('template.styles', $mediaPath . '/css/bootstrap-italia.min.css')
-   ->registerAndUseStyle('template.comuni', $mediaPath . '/css/bootstrap-italia-comuni.css', [], [], ['template.styles'])
-   ->registerAndUseStyle('template.fonts', $mediaPath . '/css/fonts.css')
-   ->registerAndUseScript('template.scripts', $mediaPath . '/js/bootstrap-italia.bundle.min.js', [], ['defer' => true]);
+$wa->registerAndUseStyle('template.styles', 'bootstrap-italia.min.css')
+   ->registerAndUseStyle('template.comuni', 'bootstrap-italia-comuni.css', [], [], ['template.styles'])
+   ->registerAndUseStyle('template.fonts', 'fonts.css')
+   ->registerAndUseScript('template.scripts', 'bootstrap-italia.bundle.min.js', [], ['defer' => true]);
 
 // CSS variabili colore
 $hex = ltrim($colore, '#');

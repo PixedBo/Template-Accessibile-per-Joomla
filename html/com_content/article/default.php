@@ -97,7 +97,7 @@ $rightColClass = 'col-lg-3';
             </div>
             
             <div class="col-lg-3 offset-lg-1">
-                <?php $spritePath = Uri::base(true) . 'media/templates/site/' . $app->getTemplate() . '/svg/sprites.svg'; ?>
+                <?php $spritePath = Uri::base(true) . 'media/templates/site/templateaccessibileperjoomla/svg/sprites.svg'; ?>
                 
                 <?php // Blocco Condividi ?>
                 <div class="d-flex align-items-center mb-3">

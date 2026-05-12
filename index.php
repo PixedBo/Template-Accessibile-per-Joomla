@@ -108,31 +108,31 @@ $wa = $this->getWebAssetManager();
 
 // Costruiamo i percorsi della cartella del template
 $tplPath = 'templates/site/' . $this->template;
-$mediaPath = 'media/templates/site/' . $this->template;
+$mediaPath = 'media/templates/site/templateaccessibileperjoomla';
 $baseMediaUrl = $this->baseurl . '/' . $mediaPath;
 
 if ($wa->assetExists('style', 'fontawesome')) {
 	$wa->useStyle('fontawesome');
 } else {
-	$wa->registerAndUseStyle('fa-base', 'media/vendor/fontawesome-free/css/fontawesome.min.css');
+	$wa->registerAndUseStyle('fa-base', 'fontawesome.min.css');
 }
 
-$wa->registerAndUseStyle('template.styles', $mediaPath . '/css/bootstrap-italia.min.css')
-   ->registerAndUseStyle('template.comuni', $mediaPath . '/css/bootstrap-italia-comuni.css', [], [], ['template.styles'])
-   ->registerAndUseStyle('template.fonts', $mediaPath . '/css/fonts.css')
-   ->registerAndUseScript('template.scripts', $mediaPath . '/js/bootstrap-italia.bundle.min.js', [], ['defer' => true]);
+$wa->registerAndUseStyle('template.styles', 'bootstrap-italia.min.css')
+   ->registerAndUseStyle('template.comuni', 'bootstrap-italia-comuni.css', [], [], ['template.styles'])
+   ->registerAndUseStyle('template.fonts', 'fonts.css')
+   ->registerAndUseScript('template.scripts', 'bootstrap-italia.bundle.min.js', [], ['defer' => true]);
 
 if ((int) $params->get('mostra_feedback', 0) === 1
     && $app->input->get('option') === 'com_content') {
-    $wa->registerAndUseScript('template.feedback', $mediaPath . '/js/feedback-chiarezza.js', [], ['defer' => true]);
+    $wa->registerAndUseScript('template.feedback', 'feedback-chiarezza.js', [], ['defer' => true]);
 }
 
 if ($scrollTop === 1 && $scrollTipo === 'flottante') {
-    $wa->registerAndUseScript('template.scroll-top', $tplPath . '/js/scroll-to-top.js', [], ['defer' => true]);
+    $wa->registerAndUseScript('template.scroll-top', 'scroll-to-top.js', [], ['defer' => true]);
 }
 
 if (file_exists(JPATH_ROOT . '/' . $mediaPath . '/css/custom.css')) {
-    $wa->registerAndUseStyle('template.custom', $mediaPath . '/css/custom.css', [], [], ['template.comuni']);
+    $wa->registerAndUseStyle('template.custom', 'custom.css', [], [], ['template.comuni']);
 }
 // Mappa degli sfondi in base al colore scelto
 $mappaSfondi = [
