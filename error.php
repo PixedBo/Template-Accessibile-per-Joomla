@@ -10,6 +10,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Language\Text;
 
@@ -278,12 +279,91 @@ $wa->addInlineStyle($inlineCss);
         </div>
     </main>
 
+<?php
+$faqId         = (int) $params->get('footer_faq');
+$contactsId    = (int) $params->get('footer_contacts');
+$phone         = trim((string) $params->get('footer_phone'));
+$appointmentId = (int) $params->get('footer_appointment_booking');
+$reportId      = (int) $params->get('footer_report');
+
+$showContatta  = $faqId || $contactsId || $phone || $appointmentId || $reportId;
+
+if ($showContatta) :
+    $faqUrl         = $faqId         ? Route::_('index.php?Itemid=' . $faqId)         : '';
+    $contactsUrl    = $contactsId    ? Route::_('index.php?Itemid=' . $contactsId)    : '';
+    $appointmentUrl = $appointmentId ? Route::_('index.php?Itemid=' . $appointmentId) : '';
+    $reportUrl      = $reportId      ? Route::_('index.php?Itemid=' . $reportId)      : '';
+endif;
+$tplSvg = $this->baseurl . '/templates/' . $this->template . '/svg/sprites.svg';
+?>
+<?php if ($showContatta) : ?>
+<div class="bg-grey-card" id="contatta-il-comune">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-6 offset-lg-3 py-5">
+                <div class="cmp-contacts">
+                    <div class="card w-100">
+                        <div class="card-body">
+                            <h2 class="title-medium-2-semi-bold"><?php echo Text::_('TPL_ACCESSIBILE_CONTACT_BLOCK_HEADING'); ?></h2>
+                            <ul class="contact-list p-0">
+                                <?php if ($faqUrl) : ?>
+                                <li>
+                                    <a class="list-item" href="<?php echo $faqUrl; ?>">
+                                        <svg class="icon icon-primary icon-sm" aria-hidden="true"><use href="<?php echo $tplSvg; ?>#it-help-circle"></use></svg>
+                                        <span><?php echo Text::_('TPL_ACCESSIBILE_CONTACT_FAQ_TEXT'); ?></span>
+                                    </a>
+                                </li>
+                                <?php endif; ?>
+                                <?php if ($contactsUrl) : ?>
+                                <li>
+                                    <a class="list-item" href="<?php echo $contactsUrl; ?>" data-element="contacts">
+                                        <svg class="icon icon-primary icon-sm" aria-hidden="true"><use href="<?php echo $tplSvg; ?>#it-mail"></use></svg>
+                                        <span><?php echo Text::_('TPL_ACCESSIBILE_CONTACT_ASSISTANCE_TEXT'); ?></span>
+                                    </a>
+                                </li>
+                                <?php endif; ?>
+                                <?php if ($phone) : ?>
+                                <li>
+                                    <a class="list-item" href="tel:<?php echo htmlspecialchars($phone, ENT_QUOTES, 'UTF-8'); ?>">
+                                        <svg class="icon icon-primary icon-sm" aria-hidden="true"><use href="<?php echo $tplSvg; ?>#it-hearing"></use></svg>
+                                        <span><?php echo Text::_('TPL_ACCESSIBILE_CONTACT_PHONE_PREFIX'); ?> <?php echo htmlspecialchars($phone, ENT_QUOTES, 'UTF-8'); ?></span>
+                                    </a>
+                                </li>
+                                <?php endif; ?>
+                                <?php if ($appointmentUrl) : ?>
+                                <li>
+                                    <a class="list-item" href="<?php echo $appointmentUrl; ?>" data-element="appointment-booking">
+                                        <svg class="icon icon-primary icon-sm" aria-hidden="true"><use href="<?php echo $tplSvg; ?>#it-calendar"></use></svg>
+                                        <span><?php echo Text::_('TPL_ACCESSIBILE_CONTACT_APPOINTMENT_TEXT'); ?></span>
+                                    </a>
+                                </li>
+                                <?php endif; ?>
+                                <?php if ($reportUrl) : ?>
+                                <li>
+                                    <a class="list-item" href="<?php echo $reportUrl; ?>">
+                                        <svg class="icon icon-primary icon-sm" aria-hidden="true"><use href="<?php echo $tplSvg; ?>#it-map-marker-circle"></use></svg>
+                                        <span><?php echo Text::_('TPL_ACCESSIBILE_CONTACT_REPORT_TEXT'); ?></span>
+                                    </a>
+                                </li>
+                                <?php endif; ?>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php endif; ?>
+
     <footer class="it-footer" id="footer">
         <div class="it-footer-main">
             <div class="container">
                 <div class="row">
                     <div class="col-12 footer-items-wrapper logo-wrapper">
-                        <img class="ue-logo" src="<?= $baseMediaUrl ?>/images/logo-eu-inverted.svg" alt="logo Unione Europea">
+                        <?php if ($params->get('mostra_logo_ue', 1)) : ?>
+                        <img class="ue-logo" src="<?= $baseMediaUrl ?>/images/logo-eu-inverted.svg" alt="<?php echo Text::_('TPL_ACCESSIBILE_EU_LOGO_ALT'); ?>">
+                        <?php endif; ?>
                         <div class="it-brand-wrapper">
                             <a href="<?php echo $this->baseurl; ?>">
                                 <?php if ($logoUrl) : ?>

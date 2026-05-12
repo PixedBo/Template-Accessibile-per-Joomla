@@ -26,6 +26,12 @@ $telegram  = $this->params->get('telegram');
 $whatsapp  = $this->params->get('whatsapp');
 $linkedin  = $this->params->get('linkedin');
 
+// Scroll to top
+$scrollTop       = (int) $params->get('scroll_top', 0);
+$scrollTipo      = $scrollTop ? $this->params->get('scroll_top_tipo', 'flottante') : '';
+$scrollPosizione = ($scrollTop && $scrollTipo === 'flottante')
+                   ? $this->params->get('scroll_top_posizione', 'destra') : '';
+
 // Costruzione lista social
 $socialLinks = [];
 
@@ -121,6 +127,10 @@ if ((int) $params->get('mostra_feedback', 0) === 1
     $wa->registerAndUseScript('template.feedback', $mediaPath . '/js/feedback-chiarezza.js', [], ['defer' => true]);
 }
 
+if ($scrollTop === 1 && $scrollTipo === 'flottante') {
+    $wa->registerAndUseScript('template.scroll-top', $tplPath . '/js/scroll-to-top.js', [], ['defer' => true]);
+}
+
 if (file_exists(JPATH_ROOT . '/' . $mediaPath . '/css/custom.css')) {
     $wa->registerAndUseStyle('template.custom', $mediaPath . '/css/custom.css', [], [], ['template.comuni']);
 }
@@ -191,7 +201,7 @@ $wa->addInlineStyle($inlineCss);
     <jdoc:include type="head" />
 </head>
   <body>
-    
+    <span id="top" tabindex="-1" class="visually-hidden"></span>
     <div class="skiplinks visually-hidden-focusable">
         <a href="#main"><?php echo Text::_('TPL_ACCESSIBILE_SKIP_MAIN'); ?></a>
         <a href="#header-nav-wrapper"><?php echo Text::_('TPL_ACCESSIBILE_SKIP_MENU'); ?></a>
@@ -479,7 +489,7 @@ $wa->addInlineStyle($inlineCss);
 	<?php endif; ?>
 	<?php if ($this->countModules('bottom')) : ?>
 	<section class="bottom-section ">
-      <div class="bg-primary py-5 pb-lg-80 px-lg-5 position-relative">
+      <div class="bg-primary py-5 px-lg-5 position-relative">
         <div class="container">
 			<jdoc:include type="modules" name="bottom" style="html5" />
         </div>
@@ -555,18 +565,15 @@ $baseMediaSvg = $baseMediaUrl . '/svg/sprites.svg';
                                     </a>
                                 </li>
                                 <?php endif; ?>
-                            </ul>
-                            <?php if ($reportUrl) : ?>
-                            <h2 class="title-medium-2-semi-bold mt-4"><?php echo Text::_('TPL_ACCESSIBILE_CONTACT_PROBLEMS_HEADING'); ?></h2>
-                            <ul class="contact-list p-0">
+                                <?php if ($reportUrl) : ?>
                                 <li>
                                     <a class="list-item" href="<?php echo $reportUrl; ?>">
                                         <svg class="icon icon-primary icon-sm" aria-hidden="true"><use href="<?php echo $baseMediaSvg; ?>#it-map-marker-circle"></use></svg>
                                         <span><?php echo Text::_('TPL_ACCESSIBILE_CONTACT_REPORT_TEXT'); ?></span>
                                     </a>
                                 </li>
+                                <?php endif; ?>
                             </ul>
-                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
@@ -629,14 +636,31 @@ $baseMediaSvg = $baseMediaUrl . '/svg/sprites.svg';
 				<jdoc:include type="modules" name="footer2" style="html5" />
 			  </div>
 		  <?php endif; ?>
+        <?php if ($scrollTop === 1 && $scrollTipo === 'statico') : ?>
+        <div class="row">
+          <div class="col-12 text-center py-3">
+            <a href="#top" class="scroll-top-static">
+              <svg class="icon icon-sm icon-light" aria-hidden="true">
+                <use xlink:href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/svg/sprites.svg#it-arrow-up"></use>
+              </svg>
+              <span><?php echo Text::_('TPL_ACCESSIBILE_SCROLL_TOP_TEXT'); ?></span>
+            </a>
+          </div>
+        </div>
+        <?php endif; ?>
         </div>
       </div>
     </footer>
 
-    <?php if ($this->params->get('backTop') == 1) : ?>
-        <a href="#top" id="back-top" class="back-to-top-link" aria-label="<?php echo Text::_('TPL_CASSIOPEIA_BACKTOTOP'); ?>">
-            <span class="icon-arrow-up icon-fw" aria-hidden="true"></span>
-        </a>
+    <?php if ($scrollTop === 1 && $scrollTipo === 'flottante') : ?>
+    <a href="#top"
+       class="back-to-top shadow<?php echo $scrollPosizione === 'sinistra' ? ' back-to-top-left' : ''; ?>"
+       data-bs-toggle="backtotop"
+       aria-label="<?php echo Text::_('TPL_ACCESSIBILE_SCROLL_TOP_ARIA'); ?>">
+      <svg class="icon icon-light" aria-hidden="true">
+        <use xlink:href="<?= $this->baseurl ?>/templates/<?= $this->template ?>/svg/sprites.svg#it-arrow-up"></use>
+      </svg>
+    </a>
     <?php endif; ?>
 
     <jdoc:include type="modules" name="debug" style="none" />

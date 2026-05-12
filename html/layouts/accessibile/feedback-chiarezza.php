@@ -46,7 +46,7 @@ $negativeAnswers = [
     <div class="container">
         <div class="row d-flex justify-content-center bg-primary">
             <div class="col-12 col-lg-6 p-lg-0 px-3">
-                <div class="cmp-rating pt-lg-80 pb-lg-80" id="<?php echo $uid; ?>" data-feedback-widget>
+                <div class="cmp-rating pt-lg-80" id="<?php echo $uid; ?>" data-feedback-widget>
                     <div class="card shadow card-wrapper" data-element="feedback">
 
                         <div class="alert alert-warning rounded-0 m-0 mb-0 border-0 border-bottom" role="status">

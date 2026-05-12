@@ -49,6 +49,7 @@
 	<position>colonna-destra</position>
 	<position>footer1</position>
 	<position>footer2</position>
+  	<position>debug</position>
 	<position>cerca-servizi</position>
   </positions>
   <config>
@@ -101,9 +102,22 @@
           <option value="1">JYES</option>
           <option value="0">JNO</option>
         </field>
-      </fieldset>
 
-      <fieldset name="contatta" label="TPL_ACCESSIBILE_CONTATTA_FIELDSET_LABEL">
+        <field name="scroll_top" type="radio" default="0" label="TPL_ACCESSIBILE_SCROLL_TOP_LABEL" description="TPL_ACCESSIBILE_SCROLL_TOP_DESC" class="btn-group btn-group-yesno">
+          <option value="1">JYES</option>
+          <option value="0">JNO</option>
+        </field>
+        <field name="scroll_top_tipo" type="list" default="flottante" label="TPL_ACCESSIBILE_SCROLL_TOP_TIPO_LABEL" description="TPL_ACCESSIBILE_SCROLL_TOP_TIPO_DESC" showon="scroll_top:1">
+          <option value="flottante">TPL_ACCESSIBILE_SCROLL_TOP_FLOTTANTE</option>
+          <option value="statico">TPL_ACCESSIBILE_SCROLL_TOP_STATICO</option>
+        </field>
+        <field name="scroll_top_posizione" type="list" default="destra" label="TPL_ACCESSIBILE_SCROLL_TOP_POS_LABEL" description="TPL_ACCESSIBILE_SCROLL_TOP_POS_DESC" showon="scroll_top:1[AND]scroll_top_tipo:flottante">
+          <option value="destra">TPL_ACCESSIBILE_SCROLL_TOP_DESTRA</option>
+          <option value="sinistra">TPL_ACCESSIBILE_SCROLL_TOP_SINISTRA</option>
+        </field>
+
+        <field type="note" label="TPL_ACCESSIBILE_CONTATTA_NOTE_LABEL" description="TPL_ACCESSIBILE_CONTATTA_NOTE_DESC" class="alert alert-info" />
+
         <field name="footer_faq" type="menuitem" label="TPL_ACCESSIBILE_FOOTER_FAQ_LABEL" description="TPL_ACCESSIBILE_FOOTER_FAQ_DESC" default="">
           <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
         </field>
