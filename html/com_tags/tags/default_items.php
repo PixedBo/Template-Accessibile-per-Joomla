@@ -10,11 +10,14 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Tags\Site\Helper\RouteHelper;
+
+Factory::getApplication()->getLanguage()->load('tpl_templateaccessibileperjoomla', JPATH_SITE);
 
 /** @var \Joomla\Component\Tags\Site\View\Tags\HtmlView $this */
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */

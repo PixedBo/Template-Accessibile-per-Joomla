@@ -19,6 +19,8 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
+Factory::getApplication()->getLanguage()->load('tpl_templateaccessibileperjoomla', JPATH_SITE);
+
 /** @var \Joomla\Component\Content\Site\View\Featured\HtmlView $this */
 $params = &$this->item->params;
 $canEdit = $this->item->params->get('access-edit');

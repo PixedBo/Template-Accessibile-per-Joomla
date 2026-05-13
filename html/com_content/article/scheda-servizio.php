@@ -22,6 +22,7 @@ use Joomla\CMS\Uri\Uri;
 /** @var \Joomla\Component\Content\Site\View\Article\HtmlView $this */
 
 $app      = Factory::getApplication();
+$app->getLanguage()->load('tpl_templateaccessibileperjoomla', JPATH_SITE);
 $document = $app->getDocument();
 $params   = $this->item->params;
 $canEdit  = $params->get('access-edit');

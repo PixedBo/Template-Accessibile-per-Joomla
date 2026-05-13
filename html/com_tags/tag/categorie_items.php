@@ -20,6 +20,8 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Content\Site\Helper\RouteHelper as ContentRouteHelper;
 
+Factory::getApplication()->getLanguage()->load('tpl_templateaccessibileperjoomla', JPATH_SITE);
+
 /** @var \Joomla\Component\Tags\Site\View\Tag\HtmlView $this */
 $user = $this->getCurrentUser();
 

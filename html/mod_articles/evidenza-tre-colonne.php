@@ -14,6 +14,8 @@ use Joomla\Component\Content\Site\Helper\RouteHelper as ContentRouteHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 
+Factory::getApplication()->getLanguage()->load('tpl_templateaccessibileperjoomla', JPATH_SITE);
+
 if (empty($list)) {
     return;
 }

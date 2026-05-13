@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
 $app        = Factory::getApplication();
+$app->getLanguage()->load('tpl_templateaccessibileperjoomla', JPATH_SITE);
 $template   = $app->getTemplate();
 $spritePath = Uri::base(true) . '/templates/' . $template . '/svg/sprites.svg';
 

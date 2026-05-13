@@ -23,6 +23,7 @@ if (empty($list)) {
 
 $totalArticles = count($list);
 $app           = Factory::getApplication();
+$app->getLanguage()->load('tpl_templateaccessibileperjoomla', JPATH_SITE);
 $template      = $app->getTemplate();
 $spriteUrl     = Uri::base(true) . '/templates/' . $template . '/svg/sprites.svg';
 

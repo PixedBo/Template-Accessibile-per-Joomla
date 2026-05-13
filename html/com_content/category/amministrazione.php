@@ -17,6 +17,7 @@ use Joomla\CMS\Layout\FileLayout;
 use Joomla\Registry\Registry;
 
 $app = Factory::getApplication();
+$app->getLanguage()->load('tpl_templateaccessibileperjoomla', JPATH_SITE);
 
 /** @var \Joomla\Component\Content\Site\View\Category\HtmlView $this */
 $this->category->text = $this->category->description;
