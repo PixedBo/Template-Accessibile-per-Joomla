@@ -91,7 +91,7 @@ $document->addCustomTag('<script type="application/ld+json" data-element="metata
 			<?php
 			$stato_raw = $cfRaw('cf_stato');
 			$stato     = $cfVal('cf_stato');
-			$isNo = strtolower(trim((string)$stato_raw)) === 'no';
+			$isNo = (string)$stato_raw === '0';
 			$motivazioni = $cfVal('cf_motivo_stato_servizio');
 
 			if ($stato) : 
