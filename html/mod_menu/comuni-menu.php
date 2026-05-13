@@ -10,7 +10,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 
 $app = Factory::getApplication();
-$spritePath = Uri::base(true) . '/templates/' . $app->getTemplate() . '/svg/sprites.svg';
+$spritePath = Uri::base(true) . 'media/templates/site/templateaccessibileperjoomla/svg/sprites.svg';
 
 // 1. LA MAGIA: Disabilitiamo lo script nativo di Joomla per evitare conflitti con Bootstrap Italia!
 $wa = $app->getDocument()->getWebAssetManager();
