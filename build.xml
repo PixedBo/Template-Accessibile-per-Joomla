@@ -25,6 +25,7 @@
                 <include name="error.php"/>
                 <include name="index.php"/>
                 <include name="offline.php"/>
+                <include name="script.php"/>
                 <include name="templateDetails.xml"/>
                 <include name="assets/**"/>
                 <include name="css/**"/>

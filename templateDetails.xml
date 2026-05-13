@@ -14,11 +14,13 @@
     <dependency type="core" operator=">=">5.0.0</dependency>
     <dependency type="php" operator=">=">8.2.0</dependency>
   </dependencies>
+  <scriptfile>script.php</scriptfile>
   <files>
     <filename>README.md</filename>
     <filename>error.php</filename>
     <filename>index.php</filename>
     <filename>offline.php</filename>
+    <filename>script.php</filename>
     <filename>templateDetails.xml</filename>
     <folder>html</folder>
   </files>
