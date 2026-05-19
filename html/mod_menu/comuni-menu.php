@@ -44,7 +44,7 @@ foreach ([
 }
 ?>
 
-<nav aria-label="Principale">
+
   <ul class="navbar-nav <?php echo htmlspecialchars($class_sfx); ?>" data-element="main-navigation" <?php echo $menuId; ?>>
     
     <?php foreach ($list as $i => &$item) :
@@ -124,4 +124,3 @@ foreach ([
     endforeach; ?>
     
   </ul>
-</nav>

@@ -118,7 +118,7 @@ if ($wa->assetExists('style', 'fontawesome')) {
 }
 
 $wa->registerAndUseStyle('template.styles', 'bootstrap-italia.min.css')
-   ->registerAndUseStyle('template.comuni', 'bootstrap-italia-comuni.css', [], [], ['template.styles'])
+   ->registerAndUseStyle('template.comuni', 'template-comuni.css', [], [], ['template.styles'])
    ->registerAndUseStyle('template.fonts', 'fonts.css')
    ->registerAndUseScript('template.scripts', 'bootstrap-italia.bundle.min.js', [], ['defer' => true]);
 
@@ -290,14 +290,16 @@ $wa->addInlineStyle($inlineCss);
                         <div class="it-header-center-content-wrapper">
 							<div class="it-brand-wrapper">
 							  <a href="<?php echo $this->baseurl; ?>">
-								<?php if ($logoUrl) : ?>
-								  <svg width="82" height="82" class="icon" aria-hidden="true">
-									<image xlink:href="<?php echo htmlspecialchars($logoUrl, ENT_QUOTES, 'UTF-8'); ?>" />
-								  </svg>
-								<?php endif; ?>
-								<div class="it-brand-text">
-								  <div class="it-brand-title"><?php echo htmlspecialchars($this->params->get('nomesito', 'Il mio Comune')); ?></div>
-								  <div class="it-brand-tagline d-none d-md-block"><?php echo htmlspecialchars($this->params->get('payoff', 'Un comune da vivere')); ?></div>
+								<div class="it-brand-text d-flex align-items-center">
+								  <?php if ($logoUrl) : ?>
+									<svg width="82" height="82" class="icon" aria-hidden="true">
+									  <image xlink:href="<?php echo htmlspecialchars($logoUrl, ENT_QUOTES, 'UTF-8'); ?>" width="82" height="82" />
+									</svg>
+								  <?php endif; ?>
+								  <div>
+									<div class="it-brand-title"><?php echo htmlspecialchars($this->params->get('nomesito', 'Il mio Comune')); ?></div>
+									<div class="it-brand-tagline d-none d-md-block"><?php echo htmlspecialchars($this->params->get('payoff', 'Un comune da vivere')); ?></div>
+								  </div>
 								</div>
 							  </a>
 							</div>
@@ -308,7 +310,7 @@ $wa->addInlineStyle($inlineCss);
 <?php if (!empty($socialLinks)) : ?>
     <div class="it-socials d-none d-lg-flex">
       <span><?php echo Text::_('TPL_ACCESSIBILE_FOLLOW_US'); ?></span>
-      <ul>
+      <ul class="list-unstyled">
         <?php foreach ($socialLinks as $social) : ?>
           <li>
             <a href="<?php echo htmlspecialchars($social['url'], ENT_QUOTES, 'UTF-8'); ?>" 
@@ -388,16 +390,13 @@ $wa->addInlineStyle($inlineCss);
                             </div>
                             <div class="menu-wrapper">
 							  <a href="<?php echo $this->baseurl; ?>" class="logo-hamburger">
-								  <?php if ($logoUrl) : ?>
-									<svg width="32" height="32" class="icon" aria-hidden="true">
-									  <image xlink:href="<?php echo htmlspecialchars($logoUrl, ENT_QUOTES, 'UTF-8'); ?>" width="32" height="32" />
-									</svg>
-								  <?php endif; ?>
 								  <div class="it-brand-text">
 									<div class="it-brand-title"><?php echo htmlspecialchars($this->params->get('nomesito', 'Il mio Comune')); ?></div>
 								  </div>
 								</a>
-							  <jdoc:include type="modules" name="menu-principale" />
+							  <nav aria-label="Principale">
+								<jdoc:include type="modules" name="menu-principale" />
+							  </nav>
 							  <nav aria-label="Secondaria">
 								<jdoc:include type="modules" name="menu-secondario" />
 							  </nav>
@@ -405,7 +404,7 @@ $wa->addInlineStyle($inlineCss);
 							  <?php if (!empty($socialLinks)) : ?>
 							  <div class="it-socials">
 								<span><?php echo Text::_('TPL_ACCESSIBILE_FOLLOW_US'); ?></span>
-								<ul>
+								<ul class="list-unstyled">
 								  <?php foreach ($socialLinks as $social) : ?>
 									<li>
 									  <a href="<?php echo htmlspecialchars($social['url'], ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noopener noreferrer">
@@ -419,6 +418,8 @@ $wa->addInlineStyle($inlineCss);
 								</ul>
 							  </div>
 							  <?php endif; ?>
+
+
 							</div>
                           </div>
                         </div>

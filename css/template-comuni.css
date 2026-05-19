@@ -1,0 +1,539 @@
+/* ==========================================================================
+   template-comuni.css
+   CSS specifico del template Accessibile per Joomla.
+   NON contiene codice del framework Bootstrap Italia (vendor).
+   Dipende da bootstrap-italia.min.css caricato prima.
+   ========================================================================== */
+
+/* Overlay geometrici */
+.bg-evidenza {
+    background-image: url('../img/evidenza-header.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.card-image.card-image-rounded img {
+  width: 100%;
+}
+
+/* ==========================================================================
+   GESTINE HEADER E MENU MOBILE
+   ========================================================================== */
+
+.it-header-wrapper .navbar-collapsable .it-socials ul {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.it-header-wrapper .navbar-collapsable .logo-hamburger {
+    display: flex;
+    align-items: center;
+    color: #007a52;
+    padding: 32px 50px 16px 24px;
+}
+
+.it-header-wrapper .navbar-collapsable .it-socials {
+    margin-top: 30px;
+    padding: 0 24px;
+    color: #007a52;
+}
+
+.it-header-wrapper .navbar-collapsable .logo-hamburger .it-brand-title {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 1.167;
+    max-width: 200px;
+}
+
+.it-header-wrapper .it-brand-wrapper .icon image {
+    width: 48px;
+    height: 48px;
+}
+
+.navbar .navbar-collapsable.expanded .menu-wrapper {
+    transform: translateX(0);
+    transition: all .3s cubic-bezier(.29, .85, .5, .99);
+}
+
+.navbar-nav {
+    --bs-nav-link-padding-x: 0;
+    --bs-nav-link-padding-y: 0.5rem;
+    --bs-nav-link-color: var(--bs-navbar-color);
+    --bs-nav-link-hover-color: var(--bs-navbar-hover-color);
+    --bs-nav-link-disabled-color: var(--bs-navbar-disabled-color);
+    display: flex;
+    flex-direction: column;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+}
+
+.it-header-wrapper .navbar .navbar-collapsable .navbar-nav li.nav-item a.nav-link {
+    font-weight: 600;
+    padding: 12px 16px;
+}
+
+@media (min-width: 992px) {
+    .it-header-wrapper .navbar-collapsable .it-socials {
+        display: none;
+    }
+    .it-header-wrapper .it-brand-wrapper .icon image {
+        width: 82px;
+        height: 82px;
+    }
+    .it-header-wrapper .navbar-collapsable .logo-hamburger {
+        display: none;
+    }
+    .it-header-wrapper .navbar-collapsable .menu-wrapper {
+        background: 0 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+    }
+    .navbar .navbar-collapsable .menu-wrapper {
+        position: inherit;
+        top: auto;
+        bottom: auto;
+        right: auto;
+        left: auto;
+        overflow-y: visible;
+    }
+    .it-header-wrapper .navbar .navbar-collapsable .menu-wrapper .navbar-nav {
+        padding: 0;
+    }
+}
+
+/* ==========================================================================
+   GESTINE FOOTER
+   ========================================================================== */
+
+  .it-footer-main, .it-footer-small-prints {
+    background-color: #202a2e;
+  }
+
+  .it-footer-main .it-brand-wrapper a .icon image {
+    height: 100%;
+    width: 100%;
+  }
+
+  .it-footer .logo-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      padding-top: 32px;
+      padding-bottom: 32px;
+  }
+
+  .it-footer .it-brand-wrapper {
+    padding: 0;
+}
+
+  @media (min-width: 576px) {
+      .it-footer .logo-wrapper {
+          flex-direction: row;
+          align-items: flex-start;
+      }
+  }
+
+/* ==========================================================================
+   COLORI DINAMICI TEMPLATE
+   Queste regole usano le variabili CSS iniettate dinamicamente dall'index.php
+   ========================================================================== */
+
+/* Header specifici che non usano le variabili di default */
+.it-header-center-wrapper,
+.navbar,
+.navbar-collapsable .menu-wrapper {
+    background-color: var(--bs-primary) !important;
+}
+
+@media (min-width: 992px) {
+    .it-header-navbar-wrapper,
+    .navbar {
+        background-color: var(--bs-primary) !important;
+    }
+}
+
+/* Category link nelle card */
+.card .card-body .category-top a.category {
+    color: var(--bs-primary) !important;
+}
+
+/* Bottoni */
+.btn-primary,
+.btn-info {
+    background-color: var(--bs-primary) !important;
+    border-color: var(--bs-primary) !important;
+}
+.btn-info {
+    color: #fff !important;
+}
+.btn-dropdown,
+.accordion-header .accordion-button,
+.link-list-wrapper ul li a span,
+.navbar.it-navscroll-wrapper .link-list-wrapper ul li a.active span,
+.link-list-wrapper ul li a.active span,
+a.read-more {
+    color: var(--bs-primary) !important;
+}
+.dropdown .btn-dropdown {
+    --bs-btn-hover-color: var(--bs-btn-hover-color) !important;
+}
+
+/* Hover per i bottoni */
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-secondary:hover,
+.btn-secondary:focus,
+.btn-info:hover,
+.btn-info:focus {
+    background-color: var(--bs-btn-hover-color) !important;
+    border-color: var(--bs-btn-hover-color) !important;
+    color: #fff !important;
+}
+
+/* Icone e bordi */
+.icon-primary,
+a.read-more .icon {
+    fill: var(--bs-primary) !important;
+}
+aside .cmp-navscroll .navbar.it-navscroll-wrapper .link-list-wrapper ul li a.active {
+    border-left: 2px solid var(--bs-primary) !important;
+}
+
+/* Testo bianco per bg-primary */
+.bg-primary > .container > .moduletable > h1,
+.bg-primary > .container > .moduletable > h2,
+.bg-primary > .container > .moduletable > h3,
+.bg-primary > .container > .moduletable > h4,
+.bg-primary > .container > .moduletable > h5,
+.bg-primary > .container > .moduletable > h6,
+.bg-primary > .container > h1,
+.bg-primary > .container > h2,
+.bg-primary > .container > h3,
+.bg-primary > .container > h4,
+.bg-primary > .container > h5,
+.bg-primary > .container > h6,
+.bg-primary > .container > p,
+.bg-primary > .container > .moduletable > p {
+    color: #fff !important;
+}
+
+/* Menu mobile */
+.navbar-collapsable .menu-wrapper .nav-link:hover,
+.navbar-collapsable .menu-wrapper .nav-link:focus,
+.navbar-collapsable .menu-wrapper .nav-link.active,
+.navbar-collapsable .menu-wrapper .nav-item.active .nav-link {
+    background-color: var(--bs-btn-hover-color) !important;
+    color: #fff !important;
+}
+
+/* ========================================= */
+/* OVERRIDE ARTICOLO SINGOLO                 */
+/* ========================================= */
+
+/* Distanziamento flessibile per i Tag di Joomla */
+.comuni-tags ul.tags {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.comuni-tags ul.tags li {
+    margin: 0;
+}
+
+/* Bottoni Condividi e Azioni */
+.btn-action-icon {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: 1px solid var(--bs-primary) !important;
+    background-color: transparent;
+    transition: all 0.2s ease-in-out;
+}
+.btn-action-icon svg.icon {
+    fill: var(--bs-primary);
+    transition: fill 0.2s ease-in-out;
+}
+.btn-action-icon:hover,
+.btn-action-icon:focus {
+    background-color: var(--bs-primary) !important;
+}
+.btn-action-icon:hover svg.icon,
+.btn-action-icon:focus svg.icon {
+    fill: #ffffff;
+}
+
+/* ========================================= */
+/* FIX MENU MOBILE (OVERLAP BACKDROP)        */
+/* ========================================= */
+
+/* Porta l'intero header sopra la coperta scura (che di solito ha z-index 1040) */
+.it-header-wrapper {
+    z-index: 1050 !important;
+}
+
+/* Assicura che il menu a comparsa sia in primissimo piano */
+.navbar .navbar-collapsable {
+    z-index: 1055 !important;
+}
+
+/* La "X" di chiusura deve scavalcare assolutamente tutto */
+.navbar .close-div {
+    z-index: 1060 !important;
+}
+
+/* ========================================= */
+/* FIX COLORI MENU MOBILE (ALTO CONTRASTO)   */
+/* ========================================= */
+
+/* Applichiamo queste regole SOLO sugli schermi più piccoli di 992px (Tablet e Smartphone) */
+@media (max-width: 991.98px) {
+    /* Forza il testo bianco per tutti i link, i titoli e i testi nel menu mobile */
+    .navbar-collapsable .menu-wrapper .nav-link,
+    .navbar-collapsable .menu-wrapper .nav-link span,
+    .navbar-collapsable .menu-wrapper .list-item,
+    .navbar-collapsable .menu-wrapper .list-item span,
+    .navbar-collapsable .menu-wrapper .it-brand-title,
+    .navbar-collapsable .menu-wrapper .it-socials span {
+        color: #ffffff !important;
+    }
+
+    /* Forza il riempimento bianco per tutte le icone e le freccette SVG */
+    .navbar-collapsable .menu-wrapper .icon,
+    .navbar-collapsable .menu-wrapper .nav-link svg,
+    .navbar-collapsable .menu-wrapper .list-item svg {
+        fill: #ffffff !important;
+    }
+
+    /* Rende i bordi separatori tra le voci di menu di un bianco semi-trasparente elegante */
+    .navbar-collapsable .menu-wrapper .nav-item,
+    .navbar-collapsable .menu-wrapper .dropdown-menu .link-list-wrapper ul li a.list-item {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
+    }
+
+    /* Disabilita lo sfondo bianco predefinito del dropdown aperto su mobile */
+    .navbar-collapsable .menu-wrapper .dropdown-menu {
+        background-color: transparent !important;
+        box-shadow: none !important;
+    }
+
+    .it-header-wrapper .navbar-collapsable .logo-hamburger {
+        color: white;
+    }
+
+    .navbar .navbar-collapsable .navbar-nav li a.nav-link.active {
+        border-left: 3px solid white;
+    }
+
+    .it-header-wrapper .navbar-collapsable .it-socials ul li a svg {
+        fill: white !important;
+    }
+
+    .navbar-collapsable.expanded .menu-wrapper nav[aria-label="Secondaria"] nav[aria-label="Principale"] {
+        padding-left: 0px;
+    }
+
+    .dropdown-menu.show .link-list-wrapper li a.list-item {
+        border-bottom: none !important;
+    }
+}
+
+@media (max-width:700px) {
+	#main-container {
+		padding:0px;
+	}
+	#main-container .container.pt-4 {
+		padding:0px;
+	}
+}
+
+@media print {
+  .cmp-navscroll,
+  .dropdown,
+  [data-element="personal-area-login"],
+  footer,
+  header nav {
+    display: none !important;
+  }
+  .it-header-wrapper {
+    print-color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+  }
+  .it-header-navbar-wrapper {
+    display: none !important;
+    width: 0 !important;
+  }
+  .it-header-center-wrapper,
+  .it-header-wrapper .it-nav-wrapper .it-brand-wrapper {
+    padding-left: 0 !important;
+  }
+  .it-search-wrapper {
+    display: none !important;
+  }
+}
+
+/* ============================================================
+   Paginazione articoli prev/next (com_content)
+   ============================================================ */
+span.pagination {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* ============================================================
+   Carousel Evidenza (mod_articles layout: evidenza-singolo)
+   ============================================================ */
+.it-carousel-evidenza.splide {
+  padding-bottom: 0 !important;
+}
+.it-carousel-evidenza .splide__track {
+  padding-top: 0 !important;
+}
+.it-carousel-evidenza .splide__pagination {
+  display: none !important;
+}
+.it-carousel-evidenza .splide__arrow--prev,
+.it-carousel-evidenza .splide__arrow--next {
+  width: 3rem;
+  height: 3rem;
+  padding: 0;
+  z-index: 10;
+}
+.it-carousel-evidenza .splide__arrow--prev { left: -0.5rem; }
+.it-carousel-evidenza .splide__arrow--next { right: -0.5rem; }
+@media (min-width: 992px) {
+  .it-carousel-evidenza .splide__arrow--prev { left: -3.5rem; }
+  .it-carousel-evidenza .splide__arrow--next { right: -3.5rem; }
+}
+/* Password toggle button — icona visibile su sfondo trasparente */
+.input-group .input-password-toggle {
+  background-color: transparent;
+  border-top: 0;
+  border-right: 0;
+  border-bottom: 1px solid #5d7083;
+  border-left: 0;
+  border-radius: 0;
+  color: #5d7083;
+  box-shadow: none;
+  padding: 0 0.75rem;
+  display: flex;
+  align-items: center;
+}
+.input-group .input-password-toggle:hover {
+  background-color: transparent;
+  color: #1a1a1a;
+  border-bottom-color: #1a1a1a;
+}
+.input-group .input-password-toggle:focus {
+  box-shadow: inset 0 0 0 2px #995c00;
+  outline: 0;
+}
+.input-group .input-password-toggle .icon-eye,
+.input-group .input-password-toggle .icon-eye-slash {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.com-tags-tag__items {
+  margin-top:30px;
+}
+
+/* Tag chip-list del modulo evidenza: adattato al contenuto e testo centrato */
+.mod-pa-chips-list .chip {
+  min-width: 0;
+  height: auto;
+  padding: 4px 12px;
+}
+.mod-pa-chips-list .chip .chip-label {
+  height: auto;
+  transform: none;
+  line-height: 1.2;
+}
+
+/* Layout Servizi — sezione "Esplora tutti i servizi" a sfondo grigio full-width.
+   Il box-shadow espande il colore oltre i bordi del container Bootstrap;
+   clip-path lo limita verticalmente all'altezza della sezione e
+   orizzontalmente a 100vw per ogni lato, prevenendo lo scrollbar. */
+.blog-servizi .servizi-explore,
+.blog-notizie .notizie-explore,
+.blog-amministrazione .amministrazione-evidenza,
+.blog-vivere .vivere-eventi,
+.blog-vivere .vivere-luoghi {
+  background-color: #f5f5f5;
+  box-shadow: 0 0 0 100vw #f5f5f5;
+  clip-path: inset(0 -100vw);
+}
+
+/* ============================================================
+   FRONTEND EDITING — pulsanti modifica (visibili solo da admin)
+   ============================================================ */
+a.btn.jmodedit,
+a.jmodedit {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background-color: #0066cc;
+  color: #fff !important;
+  border: 2px solid #fff;
+  border-radius: 4px;
+  padding: 2px 10px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1.5;
+  text-decoration: none !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  opacity: 0.9;
+  transition: opacity 0.15s ease;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+a.btn.jmodedit:hover,
+a.btn.jmodedit:focus,
+a.jmodedit:hover,
+a.jmodedit:focus {
+  opacity: 1;
+  color: #fff !important;
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+a.jmodedit .visually-hidden {
+  position: static !important;
+  width: auto !important;
+  height: auto !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: visible !important;
+  clip: auto !important;
+  clip-path: none !important;
+  white-space: normal !important;
+  border: 0 !important;
+}
+
+a.jmodedit .icon-edit {
+  color: #fff;
+}
+
+a.jmodedit + div[role="tooltip"] {
+  display: inline-block;
+  vertical-align: middle;
+  background: rgba(33, 37, 41, 0.93);
+  color: #f8f9fa;
+  border-radius: 6px;
+  padding: 5px 10px;
+  font-size: 0.74rem;
+  line-height: 1.5;
+  max-width: 240px;
+  margin-left: 0.4rem;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  pointer-events: none;
+}
