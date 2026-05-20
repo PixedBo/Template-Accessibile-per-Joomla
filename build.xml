@@ -29,6 +29,7 @@
                 <include name="templateDetails.xml"/>
                 <include name="assets/**"/>
                 <include name="css/**"/>
+                <include name="helpers/**"/>
                 <include name="html/**"/>
                 <include name="js/**"/>
                 <include name="language/**"/>

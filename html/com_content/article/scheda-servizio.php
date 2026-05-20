@@ -23,6 +23,10 @@ use Joomla\CMS\Uri\Uri;
 
 $app      = Factory::getApplication();
 $app->getLanguage()->load('tpl_templateaccessibileperjoomla', JPATH_SITE);
+
+$_parentTpl = \Joomla\CMS\Factory::getApplication()->getTemplate(true)->parent
+    ?: \Joomla\CMS\Factory::getApplication()->getTemplate();
+require_once JPATH_SITE . '/templates/' . $_parentTpl . '/helpers/TplAccessibileHelper.php';
 $document = $app->getDocument();
 $params   = $this->item->params;
 $canEdit  = $params->get('access-edit');
@@ -62,8 +66,6 @@ $menu         = $app->getMenu();
 $menuAreaObj  = $menuItemArea ? $menu->getItem($menuItemArea) : null;
 $urlArea      = $menuAreaObj  ? Route::_('index.php?Itemid=' . $menuItemArea) : '';
 $titleArea    = $menuAreaObj  ? $menuAreaObj->title : '';
-
-$spritePath = Uri::base(true) . 'media/templates/site/templateaccessibileperjoomla/svg/sprites.svg';
 
 $hasRightColumn = $document->countModules('colonna-destra') > 0;
 $centerColClass = $hasRightColumn ? 'col-lg-6' : 'col-lg-9';
@@ -143,28 +145,28 @@ $document->addCustomTag('<script type="application/ld+json" data-element="metata
                        target="_blank" rel="noopener noreferrer"
                        title="<?php echo Text::_('TPL_ACCESSIBILE_SHARE_ON_FACEBOOK'); ?>"
                        aria-label="<?php echo Text::_('TPL_ACCESSIBILE_SHARE_ON_FACEBOOK'); ?> - <?php echo Text::_('TPL_ACCESSIBILE_NEW_WINDOW'); ?>">
-                        <svg class="icon icon-sm" aria-hidden="true"><use href="<?php echo $spritePath; ?>#it-facebook"></use></svg>
+                        <svg class="icon icon-sm" aria-hidden="true"><use href="<?php echo TplAccessibileHelper::spriteUrl('it-facebook'); ?>"></use></svg>
                     </a>
                     <a class="btn btn-action-icon d-flex align-items-center justify-content-center rounded"
                        href="https://twitter.com/intent/tweet?text=<?php echo urlencode(Uri::current()); ?>"
                        target="_blank" rel="noopener noreferrer"
                        title="<?php echo Text::_('TPL_ACCESSIBILE_SHARE_ON_X'); ?>"
                        aria-label="<?php echo Text::_('TPL_ACCESSIBILE_SHARE_ON_X'); ?> - <?php echo Text::_('TPL_ACCESSIBILE_NEW_WINDOW'); ?>">
-                        <svg class="icon icon-sm" aria-hidden="true"><use href="<?php echo $spritePath; ?>#it-twitter"></use></svg>
+                        <svg class="icon icon-sm" aria-hidden="true"><use href="<?php echo TplAccessibileHelper::spriteUrl('it-twitter'); ?>"></use></svg>
                     </a>
                     <a class="btn btn-action-icon d-flex align-items-center justify-content-center rounded"
                        href="https://www.linkedin.com/shareArticle?url=<?php echo urlencode(Uri::current()); ?>"
                        target="_blank" rel="noopener noreferrer"
                        title="<?php echo Text::_('TPL_ACCESSIBILE_SHARE_ON_LINKEDIN'); ?>"
                        aria-label="<?php echo Text::_('TPL_ACCESSIBILE_SHARE_ON_LINKEDIN'); ?> - <?php echo Text::_('TPL_ACCESSIBILE_NEW_WINDOW'); ?>">
-                        <svg class="icon icon-sm" aria-hidden="true"><use href="<?php echo $spritePath; ?>#it-linkedin"></use></svg>
+                        <svg class="icon icon-sm" aria-hidden="true"><use href="<?php echo TplAccessibileHelper::spriteUrl('it-linkedin'); ?>"></use></svg>
                     </a>
                     <a class="btn btn-action-icon d-flex align-items-center justify-content-center rounded"
                        href="https://api.whatsapp.com/send?text=<?php echo urlencode(Uri::current()); ?>"
                        target="_blank" rel="noopener noreferrer"
                        title="<?php echo Text::_('TPL_ACCESSIBILE_SHARE_ON_WHATSAPP'); ?>"
                        aria-label="<?php echo Text::_('TPL_ACCESSIBILE_SHARE_ON_WHATSAPP'); ?> - <?php echo Text::_('TPL_ACCESSIBILE_NEW_WINDOW'); ?>">
-                        <svg class="icon icon-sm" aria-hidden="true"><use href="<?php echo $spritePath; ?>#it-whatsapp"></use></svg>
+                        <svg class="icon icon-sm" aria-hidden="true"><use href="<?php echo TplAccessibileHelper::spriteUrl('it-whatsapp'); ?>"></use></svg>
                     </a>
                 </div>
             </div>
@@ -177,13 +179,13 @@ $document->addCustomTag('<script type="application/ld+json" data-element="metata
                             onclick="window.print();"
                             title="<?php echo Text::_('TPL_ACCESSIBILE_PRINT_PAGE'); ?>"
                             aria-label="<?php echo Text::_('TPL_ACCESSIBILE_PRINT_PAGE'); ?>">
-                        <svg class="icon icon-sm" aria-hidden="true"><use href="<?php echo $spritePath; ?>#it-print"></use></svg>
+                        <svg class="icon icon-sm" aria-hidden="true"><use href="<?php echo TplAccessibileHelper::spriteUrl('it-print'); ?>"></use></svg>
                     </button>
                     <a class="btn btn-action-icon d-flex align-items-center justify-content-center rounded"
                        href="mailto:?subject=<?php echo urlencode($this->item->title); ?>&amp;body=<?php echo urlencode(Uri::current()); ?>"
                        title="<?php echo Text::_('TPL_ACCESSIBILE_SEND_EMAIL'); ?>"
                        aria-label="<?php echo Text::_('TPL_ACCESSIBILE_SEND_EMAIL'); ?>">
-                        <svg class="icon icon-sm" aria-hidden="true"><use href="<?php echo $spritePath; ?>#it-mail"></use></svg>
+                        <svg class="icon icon-sm" aria-hidden="true"><use href="<?php echo TplAccessibileHelper::spriteUrl('it-mail'); ?>"></use></svg>
                     </a>
                     <?php if ($canEdit) : ?>
                         <div class="d-inline-block ms-1">
@@ -472,7 +474,7 @@ $document->addCustomTag('<script type="application/ld+json" data-element="metata
                        data-element="service-file"
                        class="d-inline-flex align-items-center gap-2">
                         <svg class="icon icon-sm" aria-hidden="true">
-                            <use href="<?php echo $spritePath; ?>#it-clip"></use>
+                            <use href="<?php echo TplAccessibileHelper::spriteUrl('it-clip'); ?>"></use>
                         </svg>
                         <?php echo Text::_('TPL_ACCESSIBILE_SERVICE_CONDITIONS_FILE'); ?>
                     </a>
@@ -489,7 +491,7 @@ $document->addCustomTag('<script type="application/ld+json" data-element="metata
                                 <a href="<?php echo $urlArea; ?>"
                                    class="d-inline-flex align-items-center gap-2 fw-semibold">
                                     <svg class="icon icon-sm icon-primary" aria-hidden="true">
-                                        <use href="<?php echo $spritePath; ?>#it-pa"></use>
+                                        <use href="<?php echo TplAccessibileHelper::spriteUrl('it-pa'); ?>"></use>
                                     </svg>
                                     <?php echo $this->escape($titleArea); ?>
                                 </a>
@@ -517,7 +519,7 @@ $document->addCustomTag('<script type="application/ld+json" data-element="metata
                                     <a href="<?php echo $urlContatti; ?>" data-element="contacts"
                                        class="d-inline-flex align-items-center gap-2">
                                         <svg class="icon icon-sm icon-primary" aria-hidden="true">
-                                            <use href="<?php echo $spritePath; ?>#it-mail"></use>
+                                            <use href="<?php echo TplAccessibileHelper::spriteUrl('it-mail'); ?>"></use>
                                         </svg>
                                         <?php echo Text::_('TPL_ACCESSIBILE_SERVICE_CONTACT_LINK'); ?>
                                     </a>
@@ -529,7 +531,7 @@ $document->addCustomTag('<script type="application/ld+json" data-element="metata
                                        data-element="appointment-booking"
                                        class="d-inline-flex align-items-center gap-2">
                                         <svg class="icon icon-sm icon-primary" aria-hidden="true">
-                                            <use href="<?php echo $spritePath; ?>#it-calendar"></use>
+                                            <use href="<?php echo TplAccessibileHelper::spriteUrl('it-calendar'); ?>"></use>
                                         </svg>
                                         <?php echo Text::_('TPL_ACCESSIBILE_SERVICE_APPOINTMENT_LINK'); ?>
                                     </a>

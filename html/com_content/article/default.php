@@ -19,6 +19,10 @@ use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 Factory::getApplication()->getLanguage()->load('tpl_templateaccessibileperjoomla', JPATH_SITE);
 
+$_parentTpl = \Joomla\CMS\Factory::getApplication()->getTemplate(true)->parent
+    ?: \Joomla\CMS\Factory::getApplication()->getTemplate();
+require_once JPATH_SITE . '/templates/' . $_parentTpl . '/helpers/TplAccessibileHelper.php';
+
 /** @var \Joomla\Component\Content\Site\View\Article\HtmlView $this */
 
 $params  = $this->item->params;
@@ -44,7 +48,7 @@ $rightColClass = 'col-lg-3';
 
 $document->getWebAssetManager()->registerAndUseScript(
     'template.article-toc',
-    'media/templates/site/templateaccessibileperjoomla/js/article-toc.js',
+    TplAccessibileHelper::mediaUrl('js/article-toc.js'),
     [],
     ['defer' => true]
 );
@@ -106,8 +110,6 @@ $document->getWebAssetManager()->registerAndUseScript(
             </div>
             
             <div class="col-lg-3 offset-lg-1">
-                <?php $spritePath = Uri::base(true) . 'media/templates/site/templateaccessibileperjoomla/svg/sprites.svg'; ?>
-                
                 <?php // Blocco Condividi ?>
                 <div class="d-flex align-items-center mb-3">
                     <span class="subtitle-small fw-semibold text-muted me-3 mb-0"><?php echo Text::_('TPL_ACCESSIBILE_SHARE'); ?>:</span>
@@ -117,28 +119,28 @@ $document->getWebAssetManager()->registerAndUseScript(
                            target="_blank" rel="noopener noreferrer" 
                            title="<?php echo Text::_('TPL_ACCESSIBILE_SHARE_ON_FACEBOOK'); ?>"
                            aria-label="<?php echo Text::_('TPL_ACCESSIBILE_SHARE_ON_FACEBOOK'); ?> - <?php echo Text::_('TPL_ACCESSIBILE_NEW_WINDOW'); ?>">
-                            <svg class="icon icon-sm" aria-hidden="true"><use href="<?php echo $spritePath; ?>#it-facebook"></use></svg>
+                            <svg class="icon icon-sm" aria-hidden="true"><use href="<?php echo TplAccessibileHelper::spriteUrl('it-facebook'); ?>"></use></svg>
                         </a>
                         <a class="btn btn-action-icon d-flex align-items-center justify-content-center rounded" 
                            href="https://twitter.com/intent/tweet?text=<?php echo urlencode(Uri::current()); ?>" 
                            target="_blank" rel="noopener noreferrer" 
                            title="<?php echo Text::_('TPL_ACCESSIBILE_SHARE_ON_X'); ?>"
                            aria-label="<?php echo Text::_('TPL_ACCESSIBILE_SHARE_ON_X'); ?> - <?php echo Text::_('TPL_ACCESSIBILE_NEW_WINDOW'); ?>">
-                            <svg class="icon icon-sm" aria-hidden="true"><use href="<?php echo $spritePath; ?>#it-twitter"></use></svg>
+                            <svg class="icon icon-sm" aria-hidden="true"><use href="<?php echo TplAccessibileHelper::spriteUrl('it-twitter'); ?>"></use></svg>
                         </a>
                         <a class="btn btn-action-icon d-flex align-items-center justify-content-center rounded" 
                            href="https://www.linkedin.com/shareArticle?url=<?php echo urlencode(Uri::current()); ?>" 
                            target="_blank" rel="noopener noreferrer" 
                            title="<?php echo Text::_('TPL_ACCESSIBILE_SHARE_ON_LINKEDIN'); ?>"
                            aria-label="<?php echo Text::_('TPL_ACCESSIBILE_SHARE_ON_LINKEDIN'); ?> - <?php echo Text::_('TPL_ACCESSIBILE_NEW_WINDOW'); ?>">
-                            <svg class="icon icon-sm" aria-hidden="true"><use href="<?php echo $spritePath; ?>#it-linkedin"></use></svg>
+                            <svg class="icon icon-sm" aria-hidden="true"><use href="<?php echo TplAccessibileHelper::spriteUrl('it-linkedin'); ?>"></use></svg>
                         </a>
                         <a class="btn btn-action-icon d-flex align-items-center justify-content-center rounded" 
                            href="https://api.whatsapp.com/send?text=<?php echo urlencode(Uri::current()); ?>" 
                            target="_blank" rel="noopener noreferrer" 
                            title="<?php echo Text::_('TPL_ACCESSIBILE_SHARE_ON_WHATSAPP'); ?>"
                            aria-label="<?php echo Text::_('TPL_ACCESSIBILE_SHARE_ON_WHATSAPP'); ?> - <?php echo Text::_('TPL_ACCESSIBILE_NEW_WINDOW'); ?>">
-                            <svg class="icon icon-sm" aria-hidden="true"><use href="<?php echo $spritePath; ?>#it-whatsapp"></use></svg>
+                            <svg class="icon icon-sm" aria-hidden="true"><use href="<?php echo TplAccessibileHelper::spriteUrl('it-whatsapp'); ?>"></use></svg>
                         </a>
                     </div>
                 </div>
@@ -151,13 +153,13 @@ $document->getWebAssetManager()->registerAndUseScript(
                                 onclick="window.print();" 
                                 title="<?php echo Text::_('TPL_ACCESSIBILE_PRINT_PAGE'); ?>"
                                 aria-label="<?php echo Text::_('TPL_ACCESSIBILE_PRINT_PAGE'); ?>">
-                            <svg class="icon icon-sm" aria-hidden="true"><use href="<?php echo $spritePath; ?>#it-print"></use></svg>
+                            <svg class="icon icon-sm" aria-hidden="true"><use href="<?php echo TplAccessibileHelper::spriteUrl('it-print'); ?>"></use></svg>
                         </button>
                         <a class="btn btn-action-icon d-flex align-items-center justify-content-center rounded" 
                            href="mailto:?subject=<?php echo urlencode($this->item->title); ?>&amp;body=<?php echo urlencode(Uri::current()); ?>" 
                            title="<?php echo Text::_('TPL_ACCESSIBILE_SEND_EMAIL'); ?>"
                            aria-label="<?php echo Text::_('TPL_ACCESSIBILE_SEND_EMAIL'); ?>">
-                            <svg class="icon icon-sm" aria-hidden="true"><use href="<?php echo $spritePath; ?>#it-mail"></use></svg>
+                            <svg class="icon icon-sm" aria-hidden="true"><use href="<?php echo TplAccessibileHelper::spriteUrl('it-mail'); ?>"></use></svg>
                         </a>
                         <?php if ($canEdit) : ?>
                             <div class="d-inline-block ms-1">
@@ -210,7 +212,6 @@ $document->getWebAssetManager()->registerAndUseScript(
                                                         aria-controls="collapse-one" aria-expanded="true" 
                                                         data-bs-toggle="collapse" data-bs-target="#collapse-one">
                                                     <?php echo Text::_('TPL_ACCESSIBILE_PAGE_INDEX'); ?>
-                                                    <i class="fa-solid fa-chevron-down icon-sm icon-primary align-top" aria-hidden="true"></i>
                                                 </button>
                                             </span>
                                             <div class="progress">

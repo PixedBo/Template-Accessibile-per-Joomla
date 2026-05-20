@@ -12,7 +12,11 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper as ContentRouteHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\HTML\HTMLHelper;
+
+$_parentTpl = \Joomla\CMS\Factory::getApplication()->getTemplate(true)->parent
+    ?: \Joomla\CMS\Factory::getApplication()->getTemplate();
+require_once JPATH_SITE . '/templates/' . $_parentTpl . '/helpers/TplAccessibileHelper.php';
 
 Factory::getApplication()->getLanguage()->load('tpl_templateaccessibileperjoomla', JPATH_SITE);
 
@@ -22,11 +26,6 @@ if (empty($list)) {
 
 // Parametro per troncare l'intro
 $maxChars = 160;
-
-// URL base per i percorsi SVG
-$template  = Factory::getApplication()->getTemplate();
-$baseurl   = Uri::base(true);
-$spriteUrl = $baseurl . '/templates/' . $template . '/svg/sprites.svg';
 
 // Estraiamo il parametro del tag per il titolo (default: h4)
 $itemHeading = $params->get('item_heading', 'h4');
@@ -43,7 +42,7 @@ $cleanText = static function (?string $html): string {
 };
 
 ?>
-<div class="card-wrapper px-0 card-teaser-wrapper card-teaser-wrapper-equal card-teaser-block-3">
+<div class="row g-4">
     <?php 
     // Mostriamo fino a un massimo di 3 articoli
     $articlesToDisplay = array_slice($list, 0, 3);
@@ -59,67 +58,62 @@ $cleanText = static function (?string $html): string {
 
         // Routing sicuro
         $link = $item->link ?? Route::_(ContentRouteHelper::getArticleRoute($item->slug ?? $item->id, $item->catid, $item->language));
+        $categoryLink = $item->catid ? Route::_(ContentRouteHelper::getCategoryRoute($item->catid, $item->language)) : '';
 
-        // Regola originale: se è la prima card, e ha l'immagine, applichiamo lo stile con immagine
-        $isFirstAndHasImage = ($index === 0 && !empty($imgUrl));
+        $displayDate = '';
+        if (!empty($item->publish_up)) {
+            $displayDate = strtoupper(Factory::getDate($item->publish_up)->format('d M y'));
+        }
     ?>
-    
-    <?php if ($isFirstAndHasImage) : ?>
-        <div class="card card-teaser card-teaser-image card-flex no-after rounded shadow-sm border border-light mb-0">
-            <div class="card-image-wrapper with-read-more">
-                <div class="card-body p-3 pb-5">
-                    <div class="category-top">
-                        <span class="title-xsmall-semi-bold fw-semibold">
-                            <?= htmlspecialchars($item->category_title ?? '', ENT_QUOTES, 'UTF-8'); ?>
-                        </span>
+    <div class="col-md-6 col-xl-4">
+        <div class="card-wrapper border border-light rounded shadow-sm">
+            <div class="card no-after rounded">
+                <?php if ($imgUrl) : ?>
+                    <div class="img-responsive-wrapper">
+                        <div class="img-responsive img-responsive-panoramic">
+                            <figure class="img-wrapper">
+                                <a href="<?= $link; ?>">
+                                    <img src="<?= htmlspecialchars($imgUrl, ENT_QUOTES, 'UTF-8'); ?>"
+                                         alt="<?= htmlspecialchars($imgAlt, ENT_QUOTES, 'UTF-8'); ?>"
+                                         title="<?= htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>">
+                                </a>
+                            </figure>
+                        </div>
                     </div>
-                    <<?= $itemHeading ?> class="card-title text-paragraph-medium u-grey-light">
-                        <?= htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
-                    </<?= $itemHeading ?>>
+                <?php endif; ?>
+
+                <div class="card-body">
+                    <div class="category-top">
+                        <?php if ($item->category_title) : ?>
+                            <?php if ($categoryLink) : ?>
+                                <a class="category text-decoration-none" href="<?= $categoryLink; ?>">
+                                    <?= strtoupper(htmlspecialchars($item->category_title, ENT_QUOTES, 'UTF-8')); ?>
+                                </a>
+                            <?php else : ?>
+                                <span class="category">
+                                    <?= strtoupper(htmlspecialchars($item->category_title, ENT_QUOTES, 'UTF-8')); ?>
+                                </span>
+                            <?php endif; ?>
+                        <?php endif; ?>
+                        <?php if ($displayDate) : ?>
+                            <span class="data"><?= $displayDate; ?></span>
+                        <?php endif; ?>
+                    </div>
+
+                    <a class="text-decoration-none" href="<?= $link; ?>">
+                        <<?= $itemHeading ?> class="card-title">
+                            <?= htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
+                        </<?= $itemHeading ?>>
+                    </a>
+
                     <?php if ($introTruncated !== '') : ?>
-                        <p class="text-paragraph-card u-grey-light m-0"><?= htmlspecialchars($introTruncated, ENT_QUOTES, 'UTF-8'); ?></p>
+                        <p class="card-text text-secondary">
+                            <?= htmlspecialchars($introTruncated, ENT_QUOTES, 'UTF-8'); ?>
+                        </p>
                     <?php endif; ?>
                 </div>
-
-                <div class="card-image card-image-rounded pb-5">
-                    <img src="<?= htmlspecialchars($imgUrl, ENT_QUOTES, 'UTF-8'); ?>"
-                         alt="<?= htmlspecialchars($imgAlt, ENT_QUOTES, 'UTF-8'); ?>">
-                </div>
             </div>
-
-            <a class="read-more ps-3" href="<?= $link; ?>">
-                <span class="text"><?= Text::_('JGLOBAL_READ_MORE') ?: 'Vai alla pagina'; ?></span>
-                <svg class="icon" aria-hidden="true">
-                    <use href="<?= $spriteUrl ?>#it-arrow-right"></use>
-                </svg>
-                <span class="visually-hidden"><?= Text::_('JGLOBAL_READ_MORE'); ?></span>
-            </a>
         </div>
-        
-    <?php else : ?>
-        <div class="card card-teaser no-after rounded shadow-sm mb-0 border border-light">
-            <div class="card-body pb-5">
-                <div class="category-top">
-                    <span class="title-xsmall-semi-bold fw-semibold">
-                        <?= htmlspecialchars($item->category_title ?? '', ENT_QUOTES, 'UTF-8'); ?>
-                    </span>
-                </div>
-                <<?= $itemHeading ?> class="card-title text-paragraph-medium u-grey-light">
-                    <?= htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
-                </<?= $itemHeading ?>>
-                <?php if ($introTruncated !== '') : ?>
-                    <p class="text-paragraph-card u-grey-light m-0"><?= htmlspecialchars($introTruncated, ENT_QUOTES, 'UTF-8'); ?></p>
-                <?php endif; ?>
-            </div>
-            <a class="read-more" href="<?= $link; ?>">
-                <span class="text"><?= Text::_('JGLOBAL_READ_MORE') ?: 'Vai alla pagina'; ?></span>
-                <svg class="icon ms-0" aria-hidden="true">
-                    <use href="<?= $spriteUrl ?>#it-arrow-right"></use>
-                </svg>
-                <span class="visually-hidden"><?= Text::_('JGLOBAL_READ_MORE'); ?></span>
-            </a>
-        </div>
-    <?php endif; ?>
-    
+    </div>
     <?php endforeach; ?>
 </div>

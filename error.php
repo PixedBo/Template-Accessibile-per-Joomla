@@ -14,6 +14,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Language\Text;
 
+$_parentTpl = \Joomla\CMS\Factory::getApplication()->getTemplate(true)->parent
+    ?: \Joomla\CMS\Factory::getApplication()->getTemplate();
+require_once JPATH_SITE . '/templates/' . $_parentTpl . '/helpers/TplAccessibileHelper.php';
+
 $app       = Factory::getApplication();
 $doc       = $app->getDocument();
 $template  = $app->getTemplate();
@@ -72,9 +76,6 @@ if (!empty($faviconPng)) {
 
 // INSERIMENTO ASSET E FONT-AWESOME
 $wa = $this->getWebAssetManager();
-$tplPath = 'templates/site/' . $this->template;
-$mediaPath = 'media/templates/site/templateaccessibileperjoomla';
-$baseMediaUrl = $this->baseurl . '/' . $mediaPath;
 
 if ($wa->assetExists('style', 'fontawesome')) {
     $wa->useStyle('fontawesome');
@@ -151,7 +152,7 @@ $wa->addInlineStyle($inlineCss);
                                 ?>
                                 <a class="btn btn-primary btn-icon btn-full" href="<?php echo $loginUrl; ?>" data-element="personal-area-login" aria-label="<?php echo $loginText; ?>">
                                     <span class="rounded-icon" aria-hidden="true">
-                                        <svg class="icon icon-primary"><use xlink:href="<?= $baseMediaUrl ?>/svg/sprites.svg#it-user"></use></svg>
+                                        <svg class="icon icon-primary"><use xlink:href="<?= TplAccessibileHelper::spriteUrl('it-user') ?>"></use></svg>
                                     </span>
                                     <span aria-hidden="true" class="d-none d-lg-block"><?php echo $loginText; ?></span>
                                 </a>
@@ -190,7 +191,7 @@ $wa->addInlineStyle($inlineCss);
                                                 <?php foreach ($socialLinks as $social) : ?>
                                                     <li>
                                                         <a href="<?php echo htmlspecialchars($social['url'], ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noopener noreferrer">
-                                                            <svg class="icon icon-sm icon-white align-top"><use xlink:href="<?= $baseMediaUrl ?>/svg/sprites.svg#<?php echo $social['icon']; ?>"></use></svg>
+                                                            <svg class="icon icon-sm icon-white align-top"><use xlink:href="<?= TplAccessibileHelper::spriteUrl($social['icon']) ?>"></use></svg>
                                                             <span class="visually-hidden"><?php echo $social['label']; ?></span>
                                                         </a>
                                                     </li>
@@ -211,14 +212,14 @@ $wa->addInlineStyle($inlineCss);
                         <div class="col-12">
                             <div class="navbar navbar-expand-lg has-megamenu">
                                 <button class="custom-navbar-toggler" type="button" aria-controls="nav4" aria-expanded="false" aria-label="<?php echo Text::_('TPL_ACCESSIBILE_TOGGLE_NAV'); ?>" data-bs-target="#nav4" data-bs-toggle="navbarcollapsible">
-                                    <svg class="icon"><use href="<?= $baseMediaUrl ?>/svg/sprites.svg#it-burger"></use></svg>
+                                    <svg class="icon"><use href="<?= TplAccessibileHelper::spriteUrl('it-burger') ?>"></use></svg>
                                 </button>
                                 <div class="navbar-collapsable" id="nav4">
                                     <div class="overlay" style="display: none;"></div>
                                     <div class="close-div">
                                         <button class="btn close-menu" type="button">
                                             <span class="visually-hidden"><?php echo Text::_('TPL_ACCESSIBILE_HIDE_NAV'); ?></span>
-                                            <svg class="icon"><use href="<?= $baseMediaUrl ?>/svg/sprites.svg#it-close-big"></use></svg>
+                                            <svg class="icon"><use href="<?= TplAccessibileHelper::spriteUrl('it-close-big') ?>"></use></svg>
                                         </button>
                                     </div>
                                     <div class="menu-wrapper">
@@ -294,7 +295,6 @@ if ($showContatta) :
     $appointmentUrl = $appointmentId ? Route::_('index.php?Itemid=' . $appointmentId) : '';
     $reportUrl      = $reportId      ? Route::_('index.php?Itemid=' . $reportId)      : '';
 endif;
-$tplSvg = $this->baseurl . '/templates/' . $this->template . '/svg/sprites.svg';
 ?>
 <?php if ($showContatta) : ?>
 <div class="bg-grey-card" id="contatta-il-comune">
@@ -309,7 +309,7 @@ $tplSvg = $this->baseurl . '/templates/' . $this->template . '/svg/sprites.svg';
                                 <?php if ($faqUrl) : ?>
                                 <li>
                                     <a class="list-item" href="<?php echo $faqUrl; ?>">
-                                        <svg class="icon icon-primary icon-sm" aria-hidden="true"><use href="<?php echo $tplSvg; ?>#it-help-circle"></use></svg>
+                                        <svg class="icon icon-primary icon-sm" aria-hidden="true"><use href="<?= TplAccessibileHelper::spriteUrl('it-help-circle') ?>"></use></svg>
                                         <span><?php echo Text::_('TPL_ACCESSIBILE_CONTACT_FAQ_TEXT'); ?></span>
                                     </a>
                                 </li>
@@ -317,7 +317,7 @@ $tplSvg = $this->baseurl . '/templates/' . $this->template . '/svg/sprites.svg';
                                 <?php if ($contactsUrl) : ?>
                                 <li>
                                     <a class="list-item" href="<?php echo $contactsUrl; ?>" data-element="contacts">
-                                        <svg class="icon icon-primary icon-sm" aria-hidden="true"><use href="<?php echo $tplSvg; ?>#it-mail"></use></svg>
+                                        <svg class="icon icon-primary icon-sm" aria-hidden="true"><use href="<?= TplAccessibileHelper::spriteUrl('it-mail') ?>"></use></svg>
                                         <span><?php echo Text::_('TPL_ACCESSIBILE_CONTACT_ASSISTANCE_TEXT'); ?></span>
                                     </a>
                                 </li>
@@ -325,7 +325,7 @@ $tplSvg = $this->baseurl . '/templates/' . $this->template . '/svg/sprites.svg';
                                 <?php if ($phone) : ?>
                                 <li>
                                     <a class="list-item" href="tel:<?php echo htmlspecialchars($phone, ENT_QUOTES, 'UTF-8'); ?>">
-                                        <svg class="icon icon-primary icon-sm" aria-hidden="true"><use href="<?php echo $tplSvg; ?>#it-hearing"></use></svg>
+                                        <svg class="icon icon-primary icon-sm" aria-hidden="true"><use href="<?= TplAccessibileHelper::spriteUrl('it-hearing') ?>"></use></svg>
                                         <span><?php echo Text::_('TPL_ACCESSIBILE_CONTACT_PHONE_PREFIX'); ?> <?php echo htmlspecialchars($phone, ENT_QUOTES, 'UTF-8'); ?></span>
                                     </a>
                                 </li>
@@ -333,7 +333,7 @@ $tplSvg = $this->baseurl . '/templates/' . $this->template . '/svg/sprites.svg';
                                 <?php if ($appointmentUrl) : ?>
                                 <li>
                                     <a class="list-item" href="<?php echo $appointmentUrl; ?>" data-element="appointment-booking">
-                                        <svg class="icon icon-primary icon-sm" aria-hidden="true"><use href="<?php echo $tplSvg; ?>#it-calendar"></use></svg>
+                                        <svg class="icon icon-primary icon-sm" aria-hidden="true"><use href="<?= TplAccessibileHelper::spriteUrl('it-calendar') ?>"></use></svg>
                                         <span><?php echo Text::_('TPL_ACCESSIBILE_CONTACT_APPOINTMENT_TEXT'); ?></span>
                                     </a>
                                 </li>
@@ -341,7 +341,7 @@ $tplSvg = $this->baseurl . '/templates/' . $this->template . '/svg/sprites.svg';
                                 <?php if ($reportUrl) : ?>
                                 <li>
                                     <a class="list-item" href="<?php echo $reportUrl; ?>">
-                                        <svg class="icon icon-primary icon-sm" aria-hidden="true"><use href="<?php echo $tplSvg; ?>#it-map-marker-circle"></use></svg>
+                                        <svg class="icon icon-primary icon-sm" aria-hidden="true"><use href="<?= TplAccessibileHelper::spriteUrl('it-map-marker-circle') ?>"></use></svg>
                                         <span><?php echo Text::_('TPL_ACCESSIBILE_CONTACT_REPORT_TEXT'); ?></span>
                                     </a>
                                 </li>
@@ -362,7 +362,7 @@ $tplSvg = $this->baseurl . '/templates/' . $this->template . '/svg/sprites.svg';
                 <div class="row">
                     <div class="col-12 footer-items-wrapper logo-wrapper">
                         <?php if ($params->get('mostra_logo_ue', 1)) : ?>
-                        <img class="ue-logo" src="<?= $baseMediaUrl ?>/images/logo-eu-inverted.svg" alt="<?php echo Text::_('TPL_ACCESSIBILE_EU_LOGO_ALT'); ?>">
+                        <img class="ue-logo" src="<?= TplAccessibileHelper::mediaUrl('images/logo-eu-inverted.svg') ?>" alt="<?php echo Text::_('TPL_ACCESSIBILE_EU_LOGO_ALT'); ?>">
                         <?php endif; ?>
                         <div class="it-brand-wrapper">
                             <a href="<?php echo $this->baseurl; ?>">

@@ -22,6 +22,7 @@
     <filename>offline.php</filename>
     <filename>script.php</filename>
     <filename>templateDetails.xml</filename>
+    <folder>helpers</folder>
     <folder>html</folder>
   </files>
   <media destination="templates/site/templateaccessibileperjoomla" folder="media">

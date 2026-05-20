@@ -9,8 +9,11 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 
+$_parentTpl = \Joomla\CMS\Factory::getApplication()->getTemplate(true)->parent
+    ?: \Joomla\CMS\Factory::getApplication()->getTemplate();
+require_once JPATH_SITE . '/templates/' . $_parentTpl . '/helpers/TplAccessibileHelper.php';
+
 $app = Factory::getApplication();
-$spritePath = Uri::base(true) . 'media/templates/site/templateaccessibileperjoomla/svg/sprites.svg';
 
 // 1. LA MAGIA: Disabilitiamo lo script nativo di Joomla per evitare conflitti con Bootstrap Italia!
 $wa = $app->getDocument()->getWebAssetManager();
@@ -90,7 +93,7 @@ foreach ([
 
         echo '<a class="' . trim($linkClass) . '" href="' . $href . '" data-bs-toggle="dropdown" aria-expanded="false" id="menu-dropdown-' . $item->id . '"' . $deAttr . $ariaCurrent . '>';
         echo '<span>' . $item->title . '</span>';
-        echo '<svg class="icon icon-xs ms-1" aria-hidden="true"><use href="' . $spritePath . '#it-expand"></use></svg>';
+        echo '<svg class="icon icon-xs ms-1" aria-hidden="true"><use href="' . TplAccessibileHelper::spriteUrl('it-expand') . '"></use></svg>';
         echo '</a>';
 
         echo '<div class="dropdown-menu" aria-labelledby="menu-dropdown-' . $item->id . '">';

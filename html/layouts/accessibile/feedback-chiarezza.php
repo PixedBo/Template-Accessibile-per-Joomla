@@ -20,7 +20,10 @@ use Joomla\CMS\Uri\Uri;
 $app        = Factory::getApplication();
 $app->getLanguage()->load('tpl_templateaccessibileperjoomla', JPATH_SITE);
 $template   = $app->getTemplate();
-$spritePath = Uri::base(true) . '/templates/' . $template . '/svg/sprites.svg';
+
+$_parentTpl = \Joomla\CMS\Factory::getApplication()->getTemplate(true)->parent
+    ?: \Joomla\CMS\Factory::getApplication()->getTemplate();
+require_once JPATH_SITE . '/templates/' . $_parentTpl . '/helpers/TplAccessibileHelper.php';
 
 $uid       = uniqid('rating_');
 $starName  = 'ratingA_' . $uid;
@@ -43,7 +46,7 @@ $negativeAnswers = [
     Text::_('TPL_ACCESSIBILE_FEEDBACK_NEG_5'),
 ];
 ?>
-<div class="bg-primary tpl-accessibile-feedback-wrapper">
+<div class="bg-primary tpl-accessibile-feedback-wrapper py-5 px-lg-5">
     <div class="container">
         <div class="row d-flex justify-content-center bg-primary">
             <div class="col-12 col-lg-6 p-lg-0 px-3">
@@ -71,7 +74,7 @@ $negativeAnswers = [
                                     <label for="<?php echo $radioId; ?>" data-element="feedback-rate-<?php echo $i; ?>">
                                         <span class="visually-hidden"><?php echo Text::sprintf('TPL_ACCESSIBILE_FEEDBACK_RATE_N_OF_5', $i); ?></span>
                                         <svg class="icon icon-primary" aria-hidden="true">
-                                            <use href="<?php echo $spritePath; ?>#it-star-full"></use>
+                                            <use href="<?php echo TplAccessibileHelper::spriteUrl('it-star-full'); ?>"></use>
                                         </svg>
                                     </label>
                                     <?php endfor; ?>

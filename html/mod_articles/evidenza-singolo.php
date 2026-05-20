@@ -17,6 +17,10 @@ use Joomla\Component\Content\Site\Helper\RouteHelper as ContentRouteHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 
+$_parentTpl = \Joomla\CMS\Factory::getApplication()->getTemplate(true)->parent
+    ?: \Joomla\CMS\Factory::getApplication()->getTemplate();
+require_once JPATH_SITE . '/templates/' . $_parentTpl . '/helpers/TplAccessibileHelper.php';
+
 if (empty($list)) {
     return;
 }
@@ -25,7 +29,6 @@ $totalArticles = count($list);
 $app           = Factory::getApplication();
 $app->getLanguage()->load('tpl_templateaccessibileperjoomla', JPATH_SITE);
 $template      = $app->getTemplate();
-$spriteUrl     = Uri::base(true) . '/templates/' . $template . '/svg/sprites.svg';
 
 // Estraiamo il parametro del tag per il titolo (default: h4 come da XML nativo)
 $itemHeading   = $params->get('item_heading', 'h4');
@@ -73,13 +76,13 @@ if ($totalArticles === 1) :
         <h2 class="visually-hidden"><?= htmlspecialchars($sectionHeading, ENT_QUOTES, 'UTF-8') ?></h2>
     <?php endif; ?>
 
-    <div class="row align-items-center">
+    <div class="row align-items-stretch">
         <div class="<?= $leftColClass ?>">
             <div class="card mb-0 shadow-none bg-transparent">
                 <div class="card-body pb-3 px-0">
                     <div class="category-top">
                         <svg class="icon icon-sm" aria-hidden="true">
-                            <use href="<?= $spriteUrl ?>#it-calendar"></use>
+                            <use href="<?= TplAccessibileHelper::spriteUrl('it-calendar') ?>"></use>
                         </svg>
                         <span class="visually-hidden"><?php echo Text::_('TPL_ACCESSIBILE_PUBLISH_DATE_AND_CATEGORY'); ?></span>
                         
@@ -131,7 +134,8 @@ if ($totalArticles === 1) :
                 <img src="<?= htmlspecialchars($imgUrl, ENT_QUOTES, 'UTF-8'); ?>"
                      title="<?= htmlspecialchars($imgTitle, ENT_QUOTES, 'UTF-8'); ?>"
                      alt="<?= htmlspecialchars($imgAlt, ENT_QUOTES, 'UTF-8'); ?>"
-                     class="img-fluid mod-pa-featured-img rounded shadow-sm" />
+                     class="w-100 h-100 mod-pa-featured-img rounded shadow-sm"
+                     style="object-fit: cover; min-height: 300px;" />
             </div>
         <?php endif; ?>
     </div>
@@ -158,7 +162,7 @@ else :
                     type="button"
                     aria-label="<?php echo Text::_('TPL_ACCESSIBILE_PREV_SLIDE'); ?>" aria-controls="<?= $carouselId ?>-track">
                 <svg class="icon icon-white" aria-hidden="true">
-                    <use href="<?= $spriteUrl ?>#it-chevron-left"></use>
+                    <use href="<?= TplAccessibileHelper::spriteUrl('it-chevron-left') ?>"></use>
                 </svg>
             </button>
 
@@ -166,7 +170,7 @@ else :
                     type="button"
                     aria-label="<?php echo Text::_('TPL_ACCESSIBILE_NEXT_SLIDE'); ?>" aria-controls="<?= $carouselId ?>-track">
                 <svg class="icon icon-white" aria-hidden="true">
-                    <use href="<?= $spriteUrl ?>#it-chevron-right"></use>
+                    <use href="<?= TplAccessibileHelper::spriteUrl('it-chevron-right') ?>"></use>
                 </svg>
             </button>
         </div>
@@ -208,13 +212,13 @@ else :
                 
                 <li class="splide__slide" role="group" aria-roledescription="slide" aria-label="Slide <?= $slideNum ?> di <?= $totalArticles ?>">
                     <div class="it-single-slide-wrapper">
-                        <div class="row align-items-center">
+                        <div class="row align-items-stretch">
                             <div class="<?= $leftColClass ?>">
                                 <div class="card mb-0 shadow-none bg-transparent">
                                     <div class="card-body pb-3 px-0">
                                         <div class="category-top">
                                             <svg class="icon icon-sm" aria-hidden="true">
-                                                <use href="<?= $spriteUrl ?>#it-calendar"></use>
+                                                <use href="<?= TplAccessibileHelper::spriteUrl('it-calendar') ?>"></use>
                                             </svg>
                                             <span class="visually-hidden"><?php echo Text::_('TPL_ACCESSIBILE_PUBLISH_DATE_AND_CATEGORY'); ?></span>
                                             
@@ -266,7 +270,8 @@ else :
                                     <img src="<?= htmlspecialchars($imgUrl, ENT_QUOTES, 'UTF-8'); ?>"
                                          title="<?= htmlspecialchars($imgTitle, ENT_QUOTES, 'UTF-8'); ?>"
                                          alt="<?= htmlspecialchars($imgAlt, ENT_QUOTES, 'UTF-8'); ?>"
-                                         class="img-fluid mod-pa-featured-img rounded shadow-sm" />
+                                         class="w-100 h-100 mod-pa-featured-img rounded shadow-sm"
+                                         style="object-fit: cover; min-height: 300px;" />
                                 </div>
                             <?php endif; ?>
                         </div>

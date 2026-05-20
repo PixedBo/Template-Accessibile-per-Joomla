@@ -13,8 +13,120 @@
     background-repeat: no-repeat;
 }
 
+.mb-30 {
+    margin-bottom: 30px !important;
+}
+
+.it-hero-wrapper .it-hero-text-wrapper :last-child {
+    margin-bottom: 0;
+}
+
+.cmp-hero .it-hero-wrapper .it-hero-text-wrapper .hero-text p {
+    font-size: 1.25rem;
+    line-height: 1.5;
+    color: #30475f;
+    font-family: Titillium Web, Geneva, Tahoma, sans-serif;
+}
+
+.cmp-hero .it-hero-wrapper .it-hero-text-wrapper .hero-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 48px;
+    margin-bottom: 1rem;
+}
+
+.cmp-hero .it-hero-wrapper .it-hero-text-wrapper {
+    padding: 48px 0;
+}
+
+.cmp-hero .it-hero-wrapper {
+    min-height: unset;
+}
+
+@media (min-width: 576px) {
+    .cmp-hero .it-hero-wrapper .it-hero-text-wrapper .hero-text p {
+        font-size: 1.5rem;
+    }
+}
+
+@media (min-width: 576px) {
+    .cmp-hero .it-hero-wrapper .it-hero-text-wrapper .hero-title {
+        font-size: 3rem;
+    }
+}
+
+@media (min-width: 992px) {
+    .it-hero-wrapper .it-hero-text-wrapper h1, .it-hero-wrapper .it-hero-text-wrapper .h1 {
+        font-size: 3rem;
+    }
+}
+
+/* ==========================================================================
+   GESTINE CARD
+   ========================================================================== */
+
+.bg-grey-card {
+    background: #ebeef0;
+}
+
 .card-image.card-image-rounded img {
   width: 100%;
+}
+
+dd, ol, ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    list-style-position: initial;
+    list-style-image: initial;
+    list-style-type: none;
+}
+
+.cmp-contacts .contact-list li {
+    font-size: 1rem;
+    margin: 1rem 0;
+    color: #007a52;
+    font-weight: 400;
+}
+
+.card-wrapper {
+    padding-bottom:0px;
+}
+
+.card {
+    --bs-card-spacer-y: 1rem;
+    --bs-card-spacer-x: 2rem;
+    --bs-card-title-spacer-y: 0.5rem;
+    --bs-card-border-width: 0px;
+    --bs-card-border-color: #c5c7c9;
+    --bs-card-border-radius: 0;
+    --bs-card-inner-border-radius: -1px;
+    --bs-card-cap-padding-y: 0.5rem;
+    --bs-card-cap-padding-x: 2rem;
+    --bs-card-cap-bg: transparent;
+    --bs-card-bg: #fff;
+    --bs-card-img-overlay-padding: 1rem;
+    --bs-card-group-margin: 12px;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    height: var(--bs-card-height);
+    word-wrap: break-word;
+    background-color: var(--bs-card-bg);
+    background-clip: border-box;
+    border: var(--bs-card-border-width) solid var(--bs-card-border-color);
+    border-radius: var(--bs-card-border-radius);
+    box-shadow: var(--bs-card-box-shadow);
+}
+
+@media (min-width: 992px) {
+    .card {
+        border: none;
+    }
+}
+
+.cmp-contacts .card:after {
+    content: unset;
 }
 
 /* ==========================================================================
@@ -104,6 +216,169 @@
         padding: 0;
     }
 }
+
+/* ==========================================================================
+   GESTIONE BREADCRUMB
+   ========================================================================== */
+
+@media (min-width: 768px) {
+    .cmp-breadcrumbs {
+        margin-top: 2rem;
+    }
+}
+
+@media (min-width: 992px) {
+    .px-lg-4 {
+        padding-right: 1.5rem !important;
+        padding-left: 1.5rem !important;
+    }
+}
+
+#percorso-section {
+    padding-left:2rem;
+}
+
+/* ==========================================================================
+   GESTIONE IMMAGINE DI COPERTINA SINGOLO ARTICOLO
+   ========================================================================== */
+
+    .figure.img-full, .figure.img-full .item-image {
+        width: 100%;
+    }
+
+    .figure.img-full img {
+        width: 100%;
+        height: 100%;
+        min-height: 300px;
+        -o-object-fit: cover;
+        object-fit: cover;
+    }
+
+    @media (min-width: 992px) {
+    .figure.img-full img {
+        height: 600px;
+    }
+}
+
+/* ==========================================================================
+   GESTINE SIDEBAR LEFT SINGOLO ARTICOLO
+   ========================================================================== */
+
+.cmp-navscroll .navbar.it-navscroll-wrapper {
+    display: block;
+    flex-wrap: unset;
+    align-items: unset;
+    justify-content: unset;
+}
+
+/* ==========================================================================
+   GESTINE CSS SINGOLA PAGNIA SERVIZI
+   ========================================================================== */
+
+   .calendar-vertical .calendar-date .calendar-date-description .calendar-date-description-content {
+        padding: 1rem 1.5rem;
+        position: relative;
+        z-index: 0;
+        color: #30475f;
+    }
+
+    .calendar-vertical .calendar-date .calendar-date-description {
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.17);
+        width: 100%;
+        margin: 0 0 1.5rem 0.875rem;
+        overflow: hidden;
+    }
+
+    .rounded {
+        border-radius: var(--bs-border-radius) !important;
+    }
+
+    .calendar-vertical .calendar-date .calendar-date-day {
+        width: 4rem;
+        flex-shrink: 0;
+        position: relative;
+        z-index: 0;
+        padding-right: 1rem;
+        margin-bottom: 0;
+        color: #007a52;
+    }
+
+    .calendar-vertical .calendar-date {
+        display: flex;
+    }
+
+    .calendar-vertical .calendar-date .calendar-date-description .calendar-date-description-content:before {
+        content: "";
+        width: 0.5rem;
+        height: 120%;
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: #f0f8f5;
+    }
+
+    .calendar-vertical .calendar-date .calendar-date-day:before {
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        right: 5px;
+        width: 2px;
+        height: 100%;
+        background-color: #007a52;
+        content: "";
+    }
+
+    .title-xxlarge-regular {
+        font-size: 2rem;
+        font-weight: 400;
+        line-height: 1.25;
+    }
+
+    .has-bg-grey {
+        background-color: rgba(0, 122, 82, 0.05);
+    }
+
+    .calendar-vertical .calendar-date .calendar-date-day__month {
+        font-weight: 600;
+        display: flex;
+        justify-content: center;
+    }
+
+    .calendar-vertical .calendar-date .calendar-date-day .small, .calendar-vertical .calendar-date .calendar-date-day small {
+        font-size: 0.875rem;
+        line-height: 1;
+    }
+
+    .calendar-vertical .calendar-date .calendar-date-day:after {
+        content: "";
+        width: 0.625rem;
+        height: 0.625rem;
+        position: absolute;
+        z-index: 1;
+        top: 1.875rem;
+        right: 1px;
+        background-color: #007a52;
+        border-radius: 5px;
+    }
+
+    .title-medium-2 {
+        font-size: 1.25rem;
+        font-weight: 400;
+        line-height: 1.25;
+    }
+
+    @media (min-width: 576px) {
+        .title-xxlarge-regular {
+            font-size: 2.5rem;
+        }
+        .calendar-vertical .calendar-date .calendar-date-day .small, .calendar-vertical .calendar-date .calendar-date-day small {
+            font-size: 0.875rem;
+        }
+        .title-medium-2 {
+            font-size: 1.5rem;
+        }
+    }
 
 /* ==========================================================================
    GESTINE FOOTER
