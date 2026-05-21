@@ -18,6 +18,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Registry\Registry;
 
+$_parentTpl = \Joomla\CMS\Factory::getApplication()->getTemplate(true)->parent
+    ?: \Joomla\CMS\Factory::getApplication()->getTemplate();
+require_once JPATH_SITE . '/templates/' . $_parentTpl . '/helpers/TplAccessibileHelper.php';
+
 $app = Factory::getApplication();
 $app->getLanguage()->load('tpl_templateaccessibileperjoomla', JPATH_SITE);
 
@@ -225,7 +229,7 @@ $luoghiUrl = $luoghiCatId > 0
                                            aria-label="<?php echo Text::_('TPL_ACCESSIBILE_VIVERE_LEGGI_ARIA') . ' ' . $this->escape($item->title); ?>">
                                             <span class="text"><?php echo Text::_('TPL_ACCESSIBILE_VIVERE_LEGGI_DI_PIU'); ?></span>
                                             <svg class="icon icon-primary icon-xs ms-2" aria-hidden="true">
-                                                <use href="#it-arrow-right"></use>
+                                                <use href="<?= TplAccessibileHelper::spriteUrl('it-arrow-right') ?>"></use>
                                             </svg>
                                         </a>
                                     </div>
@@ -241,7 +245,7 @@ $luoghiUrl = $luoghiCatId > 0
                                 onclick="location.href='<?php echo $eventiUrl; ?>'">
                             <?php echo Text::_('TPL_ACCESSIBILE_VIVERE_TUTTI_EVENTI'); ?>
                             <svg class="icon icon-primary icon-xs ms-2" aria-hidden="true">
-                                <use href="#it-arrow-right"></use>
+                                <use href="<?= TplAccessibileHelper::spriteUrl('it-arrow-right') ?>"></use>
                             </svg>
                         </button>
                     </div>
@@ -306,7 +310,7 @@ $luoghiUrl = $luoghiCatId > 0
                                            aria-label="<?php echo Text::_('TPL_ACCESSIBILE_VIVERE_LEGGI_ARIA') . ' ' . $this->escape($item->title); ?>">
                                             <span class="text"><?php echo Text::_('TPL_ACCESSIBILE_VIVERE_LEGGI_DI_PIU'); ?></span>
                                             <svg class="icon icon-primary icon-xs ms-2" aria-hidden="true">
-                                                <use href="#it-arrow-right"></use>
+                                                <use href="<?= TplAccessibileHelper::spriteUrl('it-arrow-right') ?>"></use>
                                             </svg>
                                         </a>
                                     </div>
@@ -322,7 +326,7 @@ $luoghiUrl = $luoghiCatId > 0
                                 onclick="location.href='<?php echo $luoghiUrl; ?>'">
                             <?php echo Text::_('TPL_ACCESSIBILE_VIVERE_TUTTI_LUOGHI'); ?>
                             <svg class="icon icon-primary icon-xs ms-2" aria-hidden="true">
-                                <use href="#it-arrow-right"></use>
+                                <use href="<?= TplAccessibileHelper::spriteUrl('it-arrow-right') ?>"></use>
                             </svg>
                         </button>
                     </div>

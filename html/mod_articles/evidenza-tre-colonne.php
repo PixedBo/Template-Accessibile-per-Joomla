@@ -24,11 +24,21 @@ if (empty($list)) {
     return;
 }
 
-// Parametro per troncare l'intro
-$maxChars = 160;
-
-// Estraiamo il parametro del tag per il titolo (default: h4)
-$itemHeading = $params->get('item_heading', 'h4');
+// item_heading: stringa h1–h6 o "div" (XML default: h4)
+$itemHeading       = $params->get('item_heading', 'h4');
+$maxChars          = (int)  $params->get('introtext_limit', 160);
+$showAuthor        = (bool) $params->get('show_author', 0);
+$showCategory      = (bool) $params->get('show_category', 0);
+$showCategoryLink  = (bool) $params->get('show_category_link', 0);
+$showDate          = (bool) $params->get('show_date', 0);
+$showDateField     = $params->get('show_date_field', 'publish_up');
+$showDateFormat    = $params->get('show_date_format', '');
+$showReadmore      = (bool) $params->get('show_readmore', 0);
+$showReadmoreTitle = (bool) $params->get('show_readmore_title', 1);
+$readmoreLimit     = (int)  $params->get('readmore_limit', 15);
+$_allowedTags      = ['h1','h2','h3','h4','h5','h6','p','div'];
+$headerTag         = in_array($params->get('header_tag', 'h3'), $_allowedTags, true)
+                         ? $params->get('header_tag', 'h3') : 'h3';
 
 $truncate = static function (string $text, int $limit): string {
     if ($limit <= 0 || mb_strlen($text) <= $limit) return $text;
@@ -42,6 +52,12 @@ $cleanText = static function (?string $html): string {
 };
 
 ?>
+<?php if (empty($module->showtitle)) :
+    $sectionHeading = !empty($module->title) ? $module->title : Text::_('TPL_ACCESSIBILE_FEATURED_ARTICLES');
+?>
+    <<?= $headerTag ?> class="visually-hidden"><?= htmlspecialchars($sectionHeading, ENT_QUOTES, 'UTF-8') ?></<?= $headerTag ?>>
+<?php endif; ?>
+<div class="cmp-evidenza-title">
 <div class="row g-4">
     <?php 
     // Mostriamo fino a un massimo di 3 articoli
@@ -61,8 +77,11 @@ $cleanText = static function (?string $html): string {
         $categoryLink = $item->catid ? Route::_(ContentRouteHelper::getCategoryRoute($item->catid, $item->language)) : '';
 
         $displayDate = '';
-        if (!empty($item->publish_up)) {
-            $displayDate = strtoupper(Factory::getDate($item->publish_up)->format('d M y'));
+        $_rawDate = $item->{$showDateField} ?? null;
+        if (!empty($_rawDate)) {
+            $displayDate = $showDateFormat !== ''
+                ? Factory::getDate($_rawDate)->format($showDateFormat)
+                : strtoupper(Factory::getDate($_rawDate)->format('d M y'));
         }
     ?>
     <div class="col-md-6 col-xl-4">
@@ -84,8 +103,8 @@ $cleanText = static function (?string $html): string {
 
                 <div class="card-body">
                     <div class="category-top">
-                        <?php if ($item->category_title) : ?>
-                            <?php if ($categoryLink) : ?>
+                        <?php if ($showCategory && $item->category_title) : ?>
+                            <?php if ($showCategoryLink && $categoryLink) : ?>
                                 <a class="category text-decoration-none" href="<?= $categoryLink; ?>">
                                     <?= strtoupper(htmlspecialchars($item->category_title, ENT_QUOTES, 'UTF-8')); ?>
                                 </a>
@@ -95,9 +114,18 @@ $cleanText = static function (?string $html): string {
                                 </span>
                             <?php endif; ?>
                         <?php endif; ?>
-                        <?php if ($displayDate) : ?>
+                        <?php if ($showDate && $displayDate) : ?>
                             <span class="data"><?= $displayDate; ?></span>
                         <?php endif; ?>
+                        <?php if ($showAuthor) :
+                            $authorDisplay = ($item->created_by_alias ?? '') ?: ($item->author ?? '');
+                            if ($authorDisplay !== '') : ?>
+                                <span class="author">
+                                    <span class="visually-hidden"><?= Text::_('JAUTHOR'); ?>: </span>
+                                    <?= htmlspecialchars($authorDisplay, ENT_QUOTES, 'UTF-8'); ?>
+                                </span>
+                        <?php   endif;
+                        endif; ?>
                     </div>
 
                     <a class="text-decoration-none" href="<?= $link; ?>">
@@ -111,9 +139,25 @@ $cleanText = static function (?string $html): string {
                             <?= htmlspecialchars($introTruncated, ENT_QUOTES, 'UTF-8'); ?>
                         </p>
                     <?php endif; ?>
+                    <?php if ($showReadmore) :
+                        $srText = $showReadmoreTitle && !empty($item->title)
+                            ? Text::sprintf('JGLOBAL_READ_MORE_TITLE', mb_strlen($item->title) > $readmoreLimit
+                                ? rtrim(mb_substr($item->title, 0, $readmoreLimit)) . '…'
+                                : $item->title)
+                            : Text::_('JGLOBAL_READ_MORE');
+                    ?>
+                        <a href="<?= $link; ?>" class="read-more mt-2 d-inline-flex align-items-center"
+                           aria-label="<?= htmlspecialchars($srText, ENT_QUOTES, 'UTF-8'); ?>">
+                            <span aria-hidden="true"><?= Text::_('JGLOBAL_READ_MORE'); ?></span>
+                            <svg class="icon icon-sm ms-1" aria-hidden="true">
+                                <use href="<?= TplAccessibileHelper::spriteUrl('it-arrow-right') ?>"></use>
+                            </svg>
+                        </a>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
     </div>
     <?php endforeach; ?>
+</div>
 </div>

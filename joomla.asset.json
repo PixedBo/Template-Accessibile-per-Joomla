@@ -1,0 +1,56 @@
+{
+  "$schema": "https://developer.joomla.org/schemas/asset-jsonschema.json",
+  "name": "templateaccessibileperjoomla",
+  "version": "@version@",
+  "description": "Asset definitions for Template Accessibile per Joomla",
+  "license": "GPL-2.0-or-later",
+  "assets": [
+    {
+      "name": "fontawesome",
+      "type": "style",
+      "uri": "system/joomla-fontawesome.min.css"
+    },
+    {
+      "name": "template.styles",
+      "type": "style",
+      "uri": "bootstrap-italia.min.css"
+    },
+    {
+      "name": "template.comuni",
+      "type": "style",
+      "uri": "template-comuni.css",
+      "dependencies": [
+        "template.styles"
+      ]
+    },
+    {
+      "name": "template.fonts",
+      "type": "style",
+      "uri": "fonts.css"
+    },
+    {
+      "name": "template.scripts",
+      "type": "script",
+      "uri": "bootstrap-italia.bundle.min.js",
+      "attributes": {
+        "defer": true
+      }
+    },
+    {
+      "name": "template.feedback",
+      "type": "script",
+      "uri": "feedback-chiarezza.js",
+      "attributes": {
+        "defer": true
+      }
+    },
+    {
+      "name": "template.scroll-top",
+      "type": "script",
+      "uri": "scroll-to-top.js",
+      "attributes": {
+        "defer": true
+      }
+    }
+  ]
+}

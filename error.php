@@ -74,19 +74,18 @@ if (!empty($faviconPng)) {
     $doc->addHeadLink($this->baseurl . '/' . ltrim($favPng->url, '/'), $relType, 'rel', ['type' => 'image/png']);
 }
 
-// INSERIMENTO ASSET E FONT-AWESOME
+// INSERIMENTO ASSET
 $wa = $this->getWebAssetManager();
 
-if ($wa->assetExists('style', 'fontawesome')) {
-    $wa->useStyle('fontawesome');
-} else {
-    $wa->registerAndUseStyle('fa-base', 'media/vendor/fontawesome-free/css/fontawesome.min.css');
-}
+$wa->useStyle('fontawesome')
+   ->useStyle('template.styles')
+   ->useStyle('template.comuni')
+   ->useStyle('template.fonts')
+   ->useScript('template.scripts');
 
-$wa->registerAndUseStyle('template.styles', 'bootstrap-italia.min.css')
-    ->registerAndUseStyle('template.comuni', 'template-comuni.css', [], [], ['template.styles'])
-   ->registerAndUseStyle('template.fonts', 'fonts.css')
-   ->registerAndUseScript('template.scripts', 'bootstrap-italia.bundle.min.js', [], ['defer' => true]);
+if (TplAccessibileHelper::mediaExists('css/custom.css')) {
+    $wa->registerAndUseStyle('template.custom', 'custom.css', [], [], ['template.comuni']);
+}
 
 // INIEZIONE VARIABILI CSS DINAMICHE
 $hex = ltrim($colore, '#');
@@ -370,7 +369,7 @@ endif;
                                     <svg class="icon" aria-hidden="true"><image xlink:href="<?php echo htmlspecialchars($logoUrl, ENT_QUOTES, 'UTF-8'); ?>" /></svg>
                                 <?php endif; ?>
                                 <div class="it-brand-text">
-                                    <div class="it-brand-title"><?php echo htmlspecialchars($params->get('nomesito', 'Il mio Comune')); ?></div>
+                                    <div class="it-brand-title h2"><?php echo htmlspecialchars($params->get('nomesito', 'Il mio Comune')); ?></div>
                                     <div class="it-brand-tagline d-none d-md-block"><?php echo htmlspecialchars($params->get('payoff', 'Un comune da vivere')); ?></div>
                                 </div>
                             </a>

@@ -56,7 +56,7 @@ $document->getWebAssetManager()->registerAndUseScript(
     
     <div class="container pt-4">
         <div class="row">
-            <div class="col-lg-8 px-lg-4 py-lg-2">
+            <div class="col-lg-8 px-lg-4 py-lg-2 mb-3">
                 <?php if ($params->get('show_title')) : ?>
                     <?php echo '<' . $htag . '>'; ?>
                         <?php echo $this->escape($this->item->title); ?>
@@ -109,7 +109,7 @@ $document->getWebAssetManager()->registerAndUseScript(
                 </div>
             </div>
             
-            <div class="col-lg-3 offset-lg-1">
+            <div class="col-lg-3 offset-lg-1 header-laterale">
                 <?php // Blocco Condividi ?>
                 <div class="d-flex align-items-center mb-3">
                     <span class="subtitle-small fw-semibold text-muted me-3 mb-0"><?php echo Text::_('TPL_ACCESSIBILE_SHARE'); ?>:</span>

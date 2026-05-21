@@ -24,6 +24,7 @@
                 <include name="README.md"/>
                 <include name="error.php"/>
                 <include name="index.php"/>
+                <include name="joomla.asset.json"/>
                 <include name="offline.php"/>
                 <include name="script.php"/>
                 <include name="templateDetails.xml"/>

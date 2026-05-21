@@ -30,8 +30,21 @@ $app           = Factory::getApplication();
 $app->getLanguage()->load('tpl_templateaccessibileperjoomla', JPATH_SITE);
 $template      = $app->getTemplate();
 
-// Estraiamo il parametro del tag per il titolo (default: h4 come da XML nativo)
-$itemHeading   = $params->get('item_heading', 'h4');
+// item_heading: stringa h1–h6 o "div" (XML default: h4)
+$itemHeading       = $params->get('item_heading', 'h4');
+$introLimit        = (int)  $params->get('introtext_limit', 100);
+$showAuthor        = (bool) $params->get('show_author', 0);
+$showCategory      = (bool) $params->get('show_category', 0);
+$showCategoryLink  = (bool) $params->get('show_category_link', 0);
+$showDate          = (bool) $params->get('show_date', 0);
+$showDateField     = $params->get('show_date_field', 'publish_up');
+$showDateFormat    = $params->get('show_date_format', '');
+$showReadmore      = (bool) $params->get('show_readmore', 0);
+$showReadmoreTitle = (bool) $params->get('show_readmore_title', 1);
+$readmoreLimit     = (int)  $params->get('readmore_limit', 15);
+$_allowedTags      = ['h1','h2','h3','h4','h5','h6','p','div'];
+$headerTag         = in_array($params->get('header_tag', 'h3'), $_allowedTags, true)
+                         ? $params->get('header_tag', 'h3') : 'h3';
 
 // ==============================================================================
 // LOGICA 1: SE C'È UN SOLO ARTICOLO -> LAYOUT STATICO NATIVO (NO SLIDER)
@@ -39,10 +52,11 @@ $itemHeading   = $params->get('item_heading', 'h4');
 if ($totalArticles === 1) : 
     $item = $list[0];
 
-    $publishedOn = $item->publish_up ?: $item->created;
-    $niceDate    = HTMLHelper::_('date', $publishedOn, Text::_('DATE_FORMAT_LC3')); 
+    $_rawDate    = $item->{$showDateField} ?? null;
+    $publishedOn = $_rawDate ?: ($item->publish_up ?: $item->created);
+    $niceDate    = HTMLHelper::_('date', $publishedOn, $showDateFormat ?: Text::_('DATE_FORMAT_LC3'));
 
-    $safeLimit = 1000;
+    $safeLimit = $introLimit;
     $rawIntro  = $item->introtext ?? '';
     $plainLen  = mb_strlen(trim(strip_tags($rawIntro)));
     if ($plainLen > $safeLimit) {
@@ -69,11 +83,12 @@ if ($totalArticles === 1) :
     $leftColClass = $imgUrl ? 'col-lg-6 order-2 order-lg-1' : 'col-12';
     $link = $item->link ?? Route::_(ContentRouteHelper::getArticleRoute($item->slug ?? $item->id, $item->catid, $item->language));
     ?>
+<div class="cmp-evidenza-title">
 
     <?php if (empty($module->showtitle)) :
         $sectionHeading = !empty($module->title) ? $module->title : Text::_('TPL_ACCESSIBILE_FEATURED_ARTICLES');
     ?>
-        <h2 class="visually-hidden"><?= htmlspecialchars($sectionHeading, ENT_QUOTES, 'UTF-8') ?></h2>
+        <<?= $headerTag ?> class="visually-hidden"><?= htmlspecialchars($sectionHeading, ENT_QUOTES, 'UTF-8') ?></<?= $headerTag ?>>
     <?php endif; ?>
 
     <div class="row align-items-stretch">
@@ -86,17 +101,32 @@ if ($totalArticles === 1) :
                         </svg>
                         <span class="visually-hidden"><?php echo Text::_('TPL_ACCESSIBILE_PUBLISH_DATE_AND_CATEGORY'); ?></span>
                         
-                        <?php if (!empty($item->category_title)) : ?>
-                            <a class="text-decoration-none" href="<?= Route::_(ContentRouteHelper::getCategoryRoute($item->catid)); ?>">
+                        <?php if ($showCategory && !empty($item->category_title)) : ?>
+                            <?php if ($showCategoryLink) : ?>
+                                <a class="text-decoration-none" href="<?= Route::_(ContentRouteHelper::getCategoryRoute($item->catid)); ?>">
+                                    <span class="title-xsmall-semi-bold fw-semibold">
+                                        <?= htmlspecialchars($item->category_title, ENT_QUOTES, 'UTF-8'); ?>
+                                    </span>
+                                </a>
+                            <?php else : ?>
                                 <span class="title-xsmall-semi-bold fw-semibold">
                                     <?= htmlspecialchars($item->category_title, ENT_QUOTES, 'UTF-8'); ?>
                                 </span>
-                            </a>
+                            <?php endif; ?>
                         <?php endif; ?>
 
-                        <?php if (!empty($niceDate)) : ?>
+                        <?php if ($showDate && !empty($niceDate)) : ?>
                             <span class="data fw-normal"><?= htmlspecialchars($niceDate, ENT_QUOTES, 'UTF-8'); ?></span>
                         <?php endif; ?>
+                        <?php if ($showAuthor) :
+                            $authorDisplay = ($item->created_by_alias ?? '') ?: ($item->author ?? '');
+                            if ($authorDisplay !== '') : ?>
+                                <span class="author">
+                                    <span class="visually-hidden"><?= Text::_('JAUTHOR'); ?>: </span>
+                                    <?= htmlspecialchars($authorDisplay, ENT_QUOTES, 'UTF-8'); ?>
+                                </span>
+                        <?php   endif;
+                        endif; ?>
                     </div>
 
                     <a href="<?= $link; ?>" class="text-decoration-none">
@@ -125,6 +155,21 @@ if ($totalArticles === 1) :
                             <?php endforeach; ?>
                         </ul>
                     <?php endif; ?>
+                    <?php if ($showReadmore) :
+                        $srText = $showReadmoreTitle && !empty($item->title)
+                            ? Text::sprintf('JGLOBAL_READ_MORE_TITLE', mb_strlen($item->title) > $readmoreLimit
+                                ? rtrim(mb_substr($item->title, 0, $readmoreLimit)) . '…'
+                                : $item->title)
+                            : Text::_('JGLOBAL_READ_MORE');
+                    ?>
+                        <a href="<?= $link; ?>" class="read-more mt-3 d-inline-flex align-items-center"
+                           aria-label="<?= htmlspecialchars($srText, ENT_QUOTES, 'UTF-8'); ?>">
+                            <span aria-hidden="true"><?= Text::_('JGLOBAL_READ_MORE'); ?></span>
+                            <svg class="icon icon-sm ms-1" aria-hidden="true">
+                                <use href="<?= TplAccessibileHelper::spriteUrl('it-arrow-right') ?>"></use>
+                            </svg>
+                        </a>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -139,6 +184,7 @@ if ($totalArticles === 1) :
             </div>
         <?php endif; ?>
     </div>
+</div>
 
 <?php
 // ==============================================================================
@@ -147,11 +193,12 @@ if ($totalArticles === 1) :
 else :
     $carouselId = 'carousel-evidenza-' . $module->id;
 ?>
+<div class="cmp-evidenza-title">
 
     <?php if (empty($module->showtitle)) :
         $sectionHeading = !empty($module->title) ? $module->title : Text::_('TPL_ACCESSIBILE_FEATURED_ARTICLES');
     ?>
-        <h2 class="visually-hidden"><?= htmlspecialchars($sectionHeading, ENT_QUOTES, 'UTF-8') ?></h2>
+        <<?= $headerTag ?> class="visually-hidden"><?= htmlspecialchars($sectionHeading, ENT_QUOTES, 'UTF-8') ?></<?= $headerTag ?>>
     <?php endif; ?>
 
     <div id="<?= $carouselId ?>" class="it-carousel-wrapper it-carousel-evidenza splide position-relative" data-bs-carousel-splide
@@ -180,10 +227,11 @@ else :
                 
                 <?php foreach ($list as $index => $item) : 
                     
-                    $publishedOn = $item->publish_up ?: $item->created;
-                    $niceDate    = HTMLHelper::_('date', $publishedOn, Text::_('DATE_FORMAT_LC3')); 
+                    $_rawDate    = $item->{$showDateField} ?? null;
+                    $publishedOn = $_rawDate ?: ($item->publish_up ?: $item->created);
+                    $niceDate    = HTMLHelper::_('date', $publishedOn, $showDateFormat ?: Text::_('DATE_FORMAT_LC3'));
 
-                    $maxChars = 260;
+                    $maxChars = $introLimit;
                     $intro = trim(strip_tags($item->introtext ?? ''));
                     if (mb_strlen($intro) > $maxChars) {
                         $intro = rtrim(mb_substr($intro, 0, $maxChars)) . '…';
@@ -222,17 +270,32 @@ else :
                                             </svg>
                                             <span class="visually-hidden"><?php echo Text::_('TPL_ACCESSIBILE_PUBLISH_DATE_AND_CATEGORY'); ?></span>
                                             
-                                            <?php if (!empty($item->category_title)) : ?>
-                                                <a class="text-decoration-none" href="<?= Route::_(ContentRouteHelper::getCategoryRoute($item->catid)); ?>">
+                                            <?php if ($showCategory && !empty($item->category_title)) : ?>
+                                                <?php if ($showCategoryLink) : ?>
+                                                    <a class="text-decoration-none" href="<?= Route::_(ContentRouteHelper::getCategoryRoute($item->catid)); ?>">
+                                                        <span class="title-xsmall-semi-bold fw-semibold">
+                                                            <?= htmlspecialchars($item->category_title, ENT_QUOTES, 'UTF-8'); ?>
+                                                        </span>
+                                                    </a>
+                                                <?php else : ?>
                                                     <span class="title-xsmall-semi-bold fw-semibold">
                                                         <?= htmlspecialchars($item->category_title, ENT_QUOTES, 'UTF-8'); ?>
                                                     </span>
-                                                </a>
+                                                <?php endif; ?>
                                             <?php endif; ?>
 
-                                            <?php if (!empty($niceDate)) : ?>
+                                            <?php if ($showDate && !empty($niceDate)) : ?>
                                                 <span class="data fw-normal"><?= htmlspecialchars($niceDate, ENT_QUOTES, 'UTF-8'); ?></span>
                                             <?php endif; ?>
+                                            <?php if ($showAuthor) :
+                                                $authorDisplay = ($item->created_by_alias ?? '') ?: ($item->author ?? '');
+                                                if ($authorDisplay !== '') : ?>
+                                                    <span class="author">
+                                                        <span class="visually-hidden"><?= Text::_('JAUTHOR'); ?>: </span>
+                                                        <?= htmlspecialchars($authorDisplay, ENT_QUOTES, 'UTF-8'); ?>
+                                                    </span>
+                                            <?php   endif;
+                                            endif; ?>
                                         </div>
 
                                         <a href="<?= $link; ?>" class="text-decoration-none">
@@ -261,6 +324,21 @@ else :
                                                 <?php endforeach; ?>
                                             </ul>
                                         <?php endif; ?>
+                                        <?php if ($showReadmore) :
+                                            $srText = $showReadmoreTitle && !empty($item->title)
+                                                ? Text::sprintf('JGLOBAL_READ_MORE_TITLE', mb_strlen($item->title) > $readmoreLimit
+                                                    ? rtrim(mb_substr($item->title, 0, $readmoreLimit)) . '…'
+                                                    : $item->title)
+                                                : Text::_('JGLOBAL_READ_MORE');
+                                        ?>
+                                            <a href="<?= $link; ?>" class="read-more mt-2 d-inline-flex align-items-center"
+                                               aria-label="<?= htmlspecialchars($srText, ENT_QUOTES, 'UTF-8'); ?>">
+                                                <span aria-hidden="true"><?= Text::_('JGLOBAL_READ_MORE'); ?></span>
+                                                <svg class="icon icon-sm ms-1" aria-hidden="true">
+                                                    <use href="<?= TplAccessibileHelper::spriteUrl('it-arrow-right') ?>"></use>
+                                                </svg>
+                                            </a>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                             </div>
@@ -283,5 +361,6 @@ else :
             </ul>
         </div>
     </div>
+</div>
 
 <?php endif; ?>

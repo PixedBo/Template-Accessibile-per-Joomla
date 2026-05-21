@@ -107,28 +107,22 @@ if (!empty($faviconPng)) {
     $doc->addHeadLink($this->baseurl . '/' . ltrim($favPng->url, '/'), $relType, 'rel', ['type' => 'image/png']);
 }
 
-// INSERIMENTO ASSET E FONT-AWESOME
+// INSERIMENTO ASSET
 $wa = $this->getWebAssetManager();
 
-
-if ($wa->assetExists('style', 'fontawesome')) {
-	$wa->useStyle('fontawesome');
-} else {
-	$wa->registerAndUseStyle('fa-base', 'fontawesome.min.css');
-}
-
-$wa->registerAndUseStyle('template.styles', 'bootstrap-italia.min.css')
-   ->registerAndUseStyle('template.comuni', 'template-comuni.css', [], [], ['template.styles'])
-   ->registerAndUseStyle('template.fonts', 'fonts.css')
-   ->registerAndUseScript('template.scripts', 'bootstrap-italia.bundle.min.js', [], ['defer' => true]);
+$wa->useStyle('fontawesome')
+   ->useStyle('template.styles')
+   ->useStyle('template.comuni')
+   ->useStyle('template.fonts')
+   ->useScript('template.scripts');
 
 if ((int) $params->get('mostra_feedback', 0) === 1
     && $app->input->get('option') === 'com_content') {
-    $wa->registerAndUseScript('template.feedback', 'feedback-chiarezza.js', [], ['defer' => true]);
+    $wa->useScript('template.feedback');
 }
 
 if ($scrollTop === 1 && $scrollTipo === 'flottante') {
-    $wa->registerAndUseScript('template.scroll-top', 'scroll-to-top.js', [], ['defer' => true]);
+    $wa->useScript('template.scroll-top');
 }
 
 if (TplAccessibileHelper::mediaExists('css/custom.css')) {
@@ -477,7 +471,7 @@ $wa->addInlineStyle($inlineCss);
       </section>
 	  <?php endif; ?>
 	  <main id="main" class="main-section">
-	  <div class="section py-1 pb-lg-80 px-lg-5 position-relative">
+	  <div class="section py-5 pb-lg-80 px-lg-5 position-relative">
 		<div class="container" id="main-container">
 			<jdoc:include type="component" />
 		</div>
@@ -599,7 +593,7 @@ endif;
 					  </svg>
 					<?php endif; ?>
 					<div class="it-brand-text">
-					  <div class="it-brand-title"><?php echo htmlspecialchars($this->params->get('nomesito', 'Il mio Comune')); ?></div>
+					  <div class="it-brand-title h2"><?php echo htmlspecialchars($this->params->get('nomesito', 'Il mio Comune')); ?></div>
 					  <div class="it-brand-tagline d-none d-md-block"><?php echo htmlspecialchars($this->params->get('payoff', 'Un comune da vivere')); ?></div>
 					</div>
 				  </a>

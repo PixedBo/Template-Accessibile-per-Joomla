@@ -85,7 +85,7 @@ $document->addCustomTag('<script type="application/ld+json" data-element="metata
 
 <div class="container pt-4">
     <div class="row">
-        <div class="col-lg-8 px-lg-4 py-lg-2">
+        <div class="col-lg-8 px-lg-4 py-lg-2 mb-3">
 
             <h1 class="mb-2" data-element="service-title">
                 <?php echo $this->escape($this->item->title); ?>
@@ -134,7 +134,7 @@ $document->addCustomTag('<script type="application/ld+json" data-element="metata
 
         </div>
 
-        <div class="col-lg-3 offset-lg-1">
+        <div class="col-lg-3 offset-lg-1 header-laterale">
 
             <?php // Condividi ?>
             <div class="d-flex align-items-center mb-3">
