@@ -504,12 +504,11 @@ a.read-more {
 .btn-primary:focus,
 .btn-secondary:hover,
 .btn-secondary:focus,
-.btn-info:hover,
-.btn-info:focus,
 .btn-outline-primary:hover,
-.btn-outline-primary:focus {
-    background-color: var(--bs-btn-hover-color) !important;
-    border-color: var(--bs-btn-hover-color) !important;
+.btn-outline-primary:focus,
+.btn-info:hover,
+.btn-info:focus {
+    background-color: #2c2c2c !important;
     color: #fff !important;
 }
 
