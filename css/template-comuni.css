@@ -81,6 +81,10 @@
   width: 100%;
 }
 
+.card .card-body .card-text {
+    padding-bottom:20px;
+}
+
 dd, ol, ul {
     margin: 0;
     padding: 0;
@@ -767,12 +771,21 @@ span.pagination {
 .mod-pa-chips-list .chip {
   min-width: 0;
   height: auto;
-  padding: 4px 12px;
+  padding: 0px 12px;
+  border-radius: 18px;
+  background-color: var(--bs-primary);
+  border:none;
 }
+
 .mod-pa-chips-list .chip .chip-label {
   height: auto;
   transform: none;
-  line-height: 1.2;
+  line-height: unset;
+  color:white;
+}
+
+.mod-pa-chips-list .chip:hover .chip-label, .mod-pa-chips-list .chip .chip-label:hover {
+  text-decoration: underline;
 }
 
 /* Layout Servizi — sezione "Esplora tutti i servizi" a sfondo grigio full-width.

@@ -85,7 +85,7 @@ $cleanText = static function (?string $html): string {
         }
     ?>
     <div class="col-md-6 col-xl-4">
-        <div class="card-wrapper border border-light rounded shadow-sm">
+        <div class="card-wrapper rounded shadow-sm">
             <div class="card no-after rounded">
                 <?php if ($imgUrl) : ?>
                     <div class="img-responsive-wrapper">

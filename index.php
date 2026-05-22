@@ -179,6 +179,7 @@ $inlineCss = "
   background-size: cover !important;
   background-position: center !important;
   background-repeat: no-repeat !important;
+  background-color:var(--bs-primary);
 }
 .bg-evidenza::before, .bg-evidenza::after {
   display: none !important;
@@ -471,17 +472,12 @@ $wa->addInlineStyle($inlineCss);
       </section>
 	  <?php endif; ?>
 	  <main id="main" class="main-section">
-	  <div class="section py-5 pb-lg-80 px-lg-5 position-relative">
+	  <div class="section pt-3 pb-5 pb-lg-80 px-lg-5 position-relative">
 		<div class="container" id="main-container">
 			<jdoc:include type="component" />
 		</div>
 	  </div>
 	  </main>
-	<?php // Widget Valutazione chiarezza pagina (C.SI.2.5) - su tutte le pagine com_content ?>
-	<?php if ((int) $params->get('mostra_feedback', 0) === 1
-		&& $app->input->get('option') === 'com_content') : ?>
-		<?php echo LayoutHelper::render('accessibile.feedback-chiarezza'); ?>
-	<?php endif; ?>
 	<?php if ($this->countModules('bottom')) : ?>
 	<section class="bottom-section ">
       <div class="bg-primary py-5 px-lg-5 position-relative">
@@ -500,7 +496,11 @@ $wa->addInlineStyle($inlineCss);
       </div>
 	</section>
 	  <?php endif; ?>
-
+	<?php // Widget Valutazione chiarezza pagina (C.SI.2.5) - su tutte le pagine com_content ?>
+	<?php if ((int) $params->get('mostra_feedback', 0) === 1
+		&& $app->input->get('option') === 'com_content') : ?>
+		<?php echo LayoutHelper::render('accessibile.feedback-chiarezza'); ?>
+	<?php endif; ?>
 <?php
 $faqId         = (int) $params->get('footer_faq');
 $contactsId    = (int) $params->get('footer_contacts');
