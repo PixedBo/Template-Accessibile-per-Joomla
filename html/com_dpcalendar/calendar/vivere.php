@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Menu\Menu;
+use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 $_parentTpl = \Joomla\CMS\Factory::getApplication()->getTemplate(true)->parent
     ?: \Joomla\CMS\Factory::getApplication()->getTemplate();
@@ -304,14 +305,11 @@ if (empty($pageDesc) && isset($this->category->description)) {
                         <?php
                         if ($isContentLuoghi) :
                             // Rendering per articoli com_content
-                            if (!class_exists('ContentHelperRoute')) {
-                                require_once JPATH_SITE . '/components/com_content/helpers/route.php';
-                            }
                             $images = json_decode($item->images ?? '');
                             $imgSrc = $images->image_intro ?? '';
                             $imgAlt = $images->image_intro_alt ?? $item->title;
-                            $url    = Route::_(Joomla\Component\Content\Site\Helper\RouteHelper::getArticleRoute($item->slug, $item->catid, $item->language));
-                            $catUrl = Route::_(Joomla\Component\Content\Site\Helper\RouteHelper::getCategoryRoute($item->catid));
+                            $url    = Route::_(RouteHelper::getArticleRoute($item->slug, $item->catid, $item->language));
+                            $catUrl = Route::_(RouteHelper::getCategoryRoute($item->catid));
                             $title  = $item->title;
                             $catTitle = $item->category_title;
                             $introText = HTMLHelper::_('string.truncate', strip_tags($item->introtext ?? ''), 150);
