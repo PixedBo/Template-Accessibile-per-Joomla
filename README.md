@@ -93,13 +93,18 @@ Il template include override per i principali componenti Joomla (articoli, menu,
 | `mod_articles/evidenza-tre-colonne` | Modulo articoli: layout a 3 colonne card |
 | `mod_menu/comuni-menu` | Layout menu obbligatorio per header Bootstrap Italia |
 | `mod_breadcrumbs/default` | Breadcrumb con microdata schema.org e `data-element` |
+| `com_dpcalendar/calendar/vivere` | *(DPCalendar)* Pagina "Vivere il Comune" con eventi e luoghi da DPCalendar |
+| `com_dpcalendar/list/eventi` | *(DPCalendar)* Lista eventi con carousel "In evidenza", filtro e paginazione |
+| `com_dpcalendar/event/default` | *(DPCalendar)* Scheda singolo evento con TOC, mappa, prenotazione e Vertical Calendar |
+| `mod_dpcalendar_upcoming/joomlaPA` | *(DPCalendar)* Modulo "prossimi eventi" con card Bootstrap Italia |
 
 **→ Guida all'inserimento articoli:** [`doc/it/inserimento-articoli.md`](doc/it/inserimento-articoli.md)  
 **→ Layout Notizie:** [`doc/it/layout-notizie.md`](doc/it/layout-notizie.md)  
 **→ Layout Servizi:** [`doc/it/layout-servizi.md`](doc/it/layout-servizi.md)  
 **→ Layout Amministrazione:** [`doc/it/layout-amministrazione.md`](doc/it/layout-amministrazione.md)  
-**→ Layout Vivere il Comune:** [`doc/it/layout-vivere.md`](doc/it/layout-vivere.md)  
-**→ Scheda Servizio:** [`doc/it/scheda-servizio.md`](doc/it/scheda-servizio.md)
+**→ Layout Vivere il Comune (articoli):** [`doc/it/layout-vivere.md`](doc/it/layout-vivere.md)  
+**→ Scheda Servizio:** [`doc/it/scheda-servizio.md`](doc/it/scheda-servizio.md)  
+**→ Integrazione DPCalendar:** [`doc/it/integrazione-DPCalendar.md`](doc/it/integrazione-DPCalendar.md)
 
 ---
 
@@ -129,7 +134,8 @@ Il template implementa tutti i `data-element` richiesti:
 - ✅ Layout Scheda Servizio (C.SI.1.3) con tutti i `data-element` e JSON-LD
 - ✅ Layout Notizie, Amministrazione, Vivere il Comune
 - ✅ Widget feedback (C.SI.2.5/2.6) — struttura HTML completa con tutti i `data-element` richiesti
-- 🚧 Layout specializzati per Ufficio, Documento, Luogo, Evento, Persona, Notizia (articolo singolo) non ancora implementati
+- ✅ Integrazione DPCalendar: scheda evento con Vertical Calendar, mappa, prenotazione; lista eventi con carousel e filtro
+- 🚧 Layout specializzati per Ufficio, Documento, Luogo, Evento (articolo nativo), Persona, Notizia (articolo singolo) non ancora implementati
 
 ---
 

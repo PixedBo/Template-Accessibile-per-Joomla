@@ -84,8 +84,13 @@ The template includes overrides for the main Joomla components (articles, menus,
 | `mod_articles/evidenza-tre-colonne` | Article module: 3-column card layout |
 | `mod_menu/comuni-menu` | Mandatory menu layout for Bootstrap Italia header |
 | `mod_breadcrumbs/default` | Breadcrumbs with schema.org microdata and `data-element` |
+| `com_dpcalendar/calendar/vivere` | *(DPCalendar)* "Vivere il Comune" page with events and locations from DPCalendar |
+| `com_dpcalendar/list/eventi` | *(DPCalendar)* Events list with featured carousel, filter and accessible pagination |
+| `com_dpcalendar/event/default` | *(DPCalendar)* Single event sheet with TOC, map, booking and Vertical Calendar component |
+| `mod_dpcalendar_upcoming/joomlaPA` | *(DPCalendar)* "Upcoming events" module with Bootstrap Italia card layout |
 
-**→ Documentation (IT):** [`doc/it/`](doc/it/)
+**→ Documentation (IT):** [`doc/it/`](doc/it/)  
+**→ DPCalendar integration guide (IT):** [`doc/it/integrazione-DPCalendar.md`](doc/it/integrazione-DPCalendar.md)
 
 ---
 
@@ -115,7 +120,8 @@ The template implements all required `data-element` attributes:
 - ✅ Service Sheet layout (C.SI.1.3) with all `data-element`s and JSON-LD
 - ✅ News, Administration, Vivere il Comune category layouts
 - ✅ Feedback widget (C.SI.2.5/2.6) — full HTML structure with all required `data-element`s
-- 🚧 Specialized layouts for Ufficio, Documento, Luogo, Evento, Persona, Notizia (single article) not yet implemented
+- ✅ DPCalendar integration: event sheet with Vertical Calendar, map and booking; events list with featured carousel and filter
+- 🚧 Specialized layouts for Ufficio, Documento, Luogo, Evento (native article), Persona, Notizia (single article) not yet implemented
 
 ---
 

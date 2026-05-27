@@ -25,14 +25,18 @@
     margin-bottom: 0;
 }
 
-.cmp-hero .it-hero-wrapper .it-hero-text-wrapper .hero-text p {
+.cmp-hero .it-hero-wrapper .it-hero-text-wrapper .hero-text,
+.cmp-hero .it-hero-wrapper .it-hero-text-wrapper .hero-text p,
+.com-dpcalendar-vivere .cmp-hero .it-hero-wrapper .it-hero-text-wrapper .hero-text,
+.com-dpcalendar-vivere .cmp-hero .it-hero-wrapper .it-hero-text-wrapper .hero-text p {
     font-size: 1.25rem;
     line-height: 1.5;
     color: #30475f;
     font-family: Titillium Web, Geneva, Tahoma, sans-serif;
 }
 
-.cmp-hero .it-hero-wrapper .it-hero-text-wrapper .hero-title {
+.cmp-hero .it-hero-wrapper .it-hero-text-wrapper .hero-title,
+.com-dpcalendar-vivere .cmp-hero .it-hero-wrapper .it-hero-text-wrapper .hero-title {
     font-size: 2.5rem;
     font-weight: 700;
     line-height: 48px;
@@ -48,13 +52,17 @@
 }
 
 @media (min-width: 576px) {
-    .cmp-hero .it-hero-wrapper .it-hero-text-wrapper .hero-text p {
+    .cmp-hero .it-hero-wrapper .it-hero-text-wrapper .hero-text,
+    .cmp-hero .it-hero-wrapper .it-hero-text-wrapper .hero-text p,
+    .com-dpcalendar-vivere .cmp-hero .it-hero-wrapper .it-hero-text-wrapper .hero-text,
+    .com-dpcalendar-vivere .cmp-hero .it-hero-wrapper .it-hero-text-wrapper .hero-text p {
         font-size: 1.5rem;
     }
 }
 
 @media (min-width: 576px) {
-    .cmp-hero .it-hero-wrapper .it-hero-text-wrapper .hero-title {
+    .cmp-hero .it-hero-wrapper .it-hero-text-wrapper .hero-title,
+    .com-dpcalendar-vivere .cmp-hero .it-hero-wrapper .it-hero-text-wrapper .hero-title {
         font-size: 3rem;
     }
 }
@@ -857,4 +865,107 @@ a.jmodedit + div[role="tooltip"] {
     margin-left: 0;
     margin-right: 0;
     padding-top:1rem;
+}
+
+/* ============================================================
+   MODULO CALENDARIO 
+   ============================================================ */
+
+.card .card-calendar {
+    top:20px;
+    right:20px;
+}
+
+/* Fix sovrapposizione "Leggi di più" in mod_dpcalendar_upcoming */
+.mod-dpcalendar-upcoming-joomlaPA .card-body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.mod-dpcalendar-upcoming-joomlaPA .read-more {
+    margin-top: auto;
+    padding-top: 1.5rem;
+}
+
+.mod-dpcalendar-upcoming-joomlaPA__location {
+    margin-bottom: 1rem !important;
+}
+
+/* ── DPCalendar lista eventi (layout alternativo "eventi" — sezione 5.3 Modello Comuni) ── */
+
+.tpl-event-list {
+    padding-left: 0;
+}
+
+.tpl-event-list__item:last-child {
+    border-bottom: 0 !important;
+}
+
+.tpl-event-card-row {
+    border: 0;
+}
+
+.tpl-event-img-col {
+    min-height: 180px;
+}
+
+.tpl-event-img-cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.tpl-event-no-img {
+    width: 100%;
+    height: 100%;
+    min-height: 180px;
+    background-color: var(--bs-primary);
+    opacity: 0.12;
+}
+
+/* Override Bootstrap Italia .card-calendar dimensioni nella colonna immagine */
+.tpl-event-img-col .card-calendar {
+    top: 12px;
+    right: 12px;
+    width: auto;
+    height: auto;
+    max-height: none;
+    padding: 6px 10px;
+    min-width: 48px;
+    color: var(--bs-primary);
+}
+
+.tpl-event-evidenza {
+    background-color: var(--bs-primary);
+    box-shadow: 0 0 0 100vw var(--bs-primary);
+    clip-path: inset(0 -100vw);
+}
+
+.tpl-event-evidenza .card a {
+    color: var(--bs-primary);
+}
+
+.tpl-event-evidenza .card a:hover,
+.tpl-event-evidenza .card a:focus {
+    color: var(--bs-primary);
+    opacity: 0.8;
+}
+
+.tpl-event-evidenza .carousel-indicators button {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.tpl-event-evidenza .carousel-indicators button.active {
+    background-color: #fff;
+}
+
+/* ── Filtro eventi: animazione collapse ── */
+
+/* Garantisce l'animazione height di Bootstrap durante apertura/chiusura del filtro,
+   indipendentemente da eventuali override di Bootstrap Italia su .collapsing globale */
+.com-dpcalendar-list-eventi .collapsing {
+    overflow: hidden;
+    transition: height 0.35s ease;
 }

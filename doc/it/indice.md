@@ -67,13 +67,19 @@ Queste guide si applicano a **qualsiasi sito** che usa questo template, indipend
 | [Layout Amministrazione](layout-amministrazione.md) | La categoria Amministrazione con sezione "In evidenza" e sottocategorie |
 | [Layout Notizie](layout-notizie.md) | La categoria Notizie con articoli "In evidenza" in cima |
 | [Layout Servizi](layout-servizi.md) | La categoria Servizi con ricerca, lista e sottocategorie |
-| [Layout Vivere il Comune](layout-vivere.md) | La pagina "Vivere il Comune" con eventi e luoghi in evidenza |
+| [Layout Vivere il Comune (articoli)](layout-vivere.md) | La pagina "Vivere il Comune" con eventi e luoghi gestiti come articoli Joomla — senza calendario/mappe. Vedi anche: [Integrazione DPCalendar](integrazione-DPCalendar.md) per la versione avanzata |
 
 ### Layout specializzati per articolo
 
 | Guida | Cosa impara |
 |-------|-------------|
 | [Scheda Servizio](scheda-servizio.md) | Il layout per descrivere un servizio comunale (C.SI.1.3) |
+
+### Integrazioni con componenti di terze parti
+
+| Guida | Cosa impara |
+|-------|-------------|
+| [Integrazione DPCalendar](integrazione-DPCalendar.md) | Come usare DPCalendar (free) per la sezione eventi: pagina "Vivere il Comune" con dati reali, lista eventi con carousel e filtro, scheda singolo evento con mappa e prenotazione |
 
 ### Verifica e conformità
 

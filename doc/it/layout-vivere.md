@@ -1,5 +1,18 @@
 # Layout Categoria Vivere il Comune
 
+> ⚠️ **Attenzione — due approcci disponibili per la sezione "Vivere il Comune"**
+>
+> Questa guida spiega come gestire eventi e luoghi tramite **articoli nativi di Joomla**.
+> Questo approccio è semplice da configurare, ma ha limitazioni importanti:
+> - **Nessun calendario interattivo** — le date mostrate sono solo la data di pubblicazione dell'articolo
+> - **Nessuna mappa** — i luoghi non hanno coordinate geografiche native
+> - **Nessun ordinamento per data reale** dell'evento — gli articoli sono ordinati per data di pubblicazione
+> - **Nessuna prenotazione** — funzione non disponibile con i soli articoli Joomla
+>
+> Se vuoi una gestione avanzata degli eventi con **calendario, mappe, prenotazioni e ordine cronologico reale degli eventi**, usa invece l'integrazione con **DPCalendar** (componente gratuito di terze parti):
+>
+> **→ [Integrazione DPCalendar (Modello Comuni)](integrazione-DPCalendar.md)**
+
 > **Modello Comuni** — Questa guida è specifica per i siti web dei Comuni italiani.
 
 Il layout `vivere` è il layout specializzato per la pagina **Vivere il Comune** del Modello Comuni. Mostra due sezioni parallele: una con gli eventi in evidenza e una con i luoghi in evidenza. I link e i pulsanti generati hanno gli attributi `data-element` richiesti dall'App Valutazione Modelli.

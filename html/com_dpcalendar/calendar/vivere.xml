@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+    <layout title="Vivere il Comune - DPCalendar (Modello PA)" option="Vivere il Comune - DPCalendar (Modello PA)">
+        <help key="DPCalendar:Calendar" />
+        <message>
+            <![CDATA[Layout dedicato alla pagina "Vivere il Comune" usando DPCalendar. Mostra eventi e luoghi in evidenza (featured) con i data-element richiesti dall'App Valutazione Modelli.]]>
+        </message>
+    </layout>
+
+    <fields name="request">
+    </fields>
+
+    <fields name="params">
+
+        <fieldset name="vivere_params" label="Opzioni layout Vivere il Comune">
+
+            <field
+                name="vivere_menu_tutti_eventi"
+                type="menuitem"
+                label="Voce di menu «Tutti gli eventi»"
+                description="Seleziona la voce di menu che punta alla lista completa degli eventi."
+            />
+
+            <field
+                name="vivere_menu_tutti_luoghi"
+                type="menuitem"
+                label="Voce di menu «Tutti i luoghi»"
+                description="Seleziona la voce di menu che punta alla lista completa dei luoghi."
+            />
+
+            <field
+                name="vivere_description"
+                type="textarea"
+                label="Descrizione intro"
+                description="Testo da mostrare nella sezione Hero (se non vuoto, sovrascrive la descrizione della categoria)."
+                rows="5"
+                cols="50"
+                filter="safehtml"
+            />
+
+            <field
+                name="vivere_count"
+                type="number"
+                default="3"
+                min="1"
+                max="12"
+                label="Numero di card per sezione"
+                description="Quante card mostrare nella sezione «In evidenza» per eventi e luoghi (default: 3)."
+            />
+
+            <field
+                name="vivere_luoghi_sottocategorie"
+                type="radio"
+                label="Includi sottocategorie nei luoghi"
+                description="Se attivo, gli articoli in evidenza vengono cercati anche nelle sottocategorie della categoria selezionata. Valido solo quando la voce di menu «Tutti i luoghi» punta a una categoria com_content."
+                default="0"
+                class="btn-group btn-group-yesno"
+            >
+                <option value="0">JNO</option>
+                <option value="1">JYES</option>
+            </field>
+
+        </fieldset>
+
+        <fieldset name="basic" label="JGLOBAL_CATEGORY_OPTIONS">
+
+            <field
+                name="show_category_title"
+                type="list"
+                label="JGLOBAL_SHOW_CATEGORY_TITLE"
+                default="1"
+            >
+                <option value="0">JHIDE</option>
+                <option value="1">JSHOW</option>
+            </field>
+
+            <field
+                name="show_description"
+                type="list"
+                label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
+                default="1"
+            >
+                <option value="0">JHIDE</option>
+                <option value="1">JSHOW</option>
+            </field>
+
+        </fieldset>
+    </fields>
+</metadata>
