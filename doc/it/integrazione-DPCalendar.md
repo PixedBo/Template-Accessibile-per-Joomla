@@ -101,6 +101,11 @@ Tutte le funzioni native di DPCalendar sono integrate nel layout:
 -   **Prenotazioni (Booking)**: Se l'evento è prenotabile, il modulo e i pulsanti CTA appaiono nella sezione dedicata.
 -   **Serie**: Gli eventi ricorrenti mostrano le altre date nella sezione "Informazioni".
 
+### Campi Aggiuntivi DPCalendar
+E' possibile settare dei campi aggiuntivi agli eventi di DPCalendar, questi saranno renderizzati nell'evento con titolo e contenuto:
+-   **URL**: in caso di URL Youtube o Vimeo sarà fatto l'embed automatico.
+-   **SUBFORM CON IMMAGINI**: Se è presente un subform con immagini verrà visualizzata una gallery come da sito demo.
+
 ---
 
 ## 4. Personalizzazioni CSS
