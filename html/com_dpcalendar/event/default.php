@@ -323,23 +323,31 @@ if ($readingTime < 1) $readingTime = 1;
 
                 <div class="calendar-vertical mb-3">
                     <?php
-                    $startDate    = Factory::getDate($event->start_date);
-                    $endDate      = Factory::getDate($event->end_date);
-                    $isAllDay     = (bool)$event->all_day;
-                    $isSameDay    = ($startDate->format('Y-m-d') === $endDate->format('Y-m-d'));
+                    $isAllDay = (bool)$event->all_day;
+                    if ($isAllDay) {
+                        $startDate = Factory::getDate($event->start_date);
+                        $endDate   = Factory::getDate($event->end_date);
+                    } else {
+                        $tz        = new \DateTimeZone(Factory::getApplication()->get('offset', 'UTC'));
+                        $startDate = Factory::getDate($event->start_date);
+                        $startDate->setTimezone($tz);
+                        $endDate   = Factory::getDate($event->end_date);
+                        $endDate->setTimezone($tz);
+                    }
+                    $isSameDay = ($startDate->format('Y-m-d', true) === $endDate->format('Y-m-d', true));
 
-                    $startDay      = $startDate->format('j');
-                    $startMonthNum = (int)$startDate->format('n');
+                    $startDay      = $startDate->format('j', true);
+                    $startMonthNum = (int)$startDate->format('n', true);
                     $startMonth    = $monthNames[$startMonthNum] ?? '';
-                    $startYear     = $startDate->format('Y');
-                    $startTime     = $startDate->format('H:i');
-                    $endTime       = $endDate->format('H:i');
+                    $startYear     = $startDate->format('Y', true);
+                    $startTime     = $startDate->format('H:i', true);
+                    $endTime       = $endDate->format('H:i', true);
 
                     if (!$isSameDay) {
-                        $endDay      = $endDate->format('j');
-                        $endMonthNum = (int)$endDate->format('n');
+                        $endDay      = $endDate->format('j', true);
+                        $endMonthNum = (int)$endDate->format('n', true);
                         $endMonth    = $monthNames[$endMonthNum] ?? '';
-                        $endYear     = $endDate->format('Y');
+                        $endYear     = $endDate->format('Y', true);
                     }
                     ?>
 

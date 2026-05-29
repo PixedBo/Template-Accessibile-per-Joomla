@@ -60,6 +60,18 @@
                 <option value="1">JYES</option>
             </field>
 
+            <field
+                name="vivere_mostra_immagine"
+                type="radio"
+                label="Mostra immagine nelle card"
+                description="Se attivo mostra l'immagine intro degli eventi e dei luoghi nelle card. Se l'immagine non è stata caricata viene usato lo sfondo evidenza del template al posto. Se disattivo le card sono solo testo e la data appare come etichetta sopra il titolo."
+                default="1"
+                class="btn-group btn-group-yesno"
+            >
+                <option value="0">JNO</option>
+                <option value="1">JYES</option>
+            </field>
+
         </fieldset>
 
         <fieldset name="basic" label="JGLOBAL_CATEGORY_OPTIONS">

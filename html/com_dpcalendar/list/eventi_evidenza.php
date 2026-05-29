@@ -57,13 +57,22 @@ $carouselId = 'eventi-evidenza-carousel';
                                     $imgAlt   = $images->image_intro_alt ?? $event->title;
                                     $eventUrl = Route::_('index.php?option=com_dpcalendar&view=event&id=' . $event->id . '&calid=' . $event->catid);
 
-                                    $startDate  = Factory::getDate($event->start_date);
-                                    $startDay   = $startDate->format('j');
-                                    $startMonth = $monthNames[(int) $startDate->format('n')] ?? '';
-                                    $startYear  = $startDate->format('Y');
-
-                                    $endDateObj = !empty($event->end_date) ? Factory::getDate($event->end_date) : null;
-                                    $isMultiDay = $endDateObj && $startDate->format('Y-m-d') !== $endDateObj->format('Y-m-d');
+                                    if ((bool)$event->all_day) {
+                                        $startDate  = Factory::getDate($event->start_date);
+                                        $endDateObj = !empty($event->end_date) ? Factory::getDate($event->end_date) : null;
+                                    } else {
+                                        $tz         = new \DateTimeZone(Factory::getApplication()->get('offset', 'UTC'));
+                                        $startDate  = Factory::getDate($event->start_date);
+                                        $startDate->setTimezone($tz);
+                                        $endDateObj = !empty($event->end_date) ? Factory::getDate($event->end_date) : null;
+                                        if ($endDateObj) {
+                                            $endDateObj->setTimezone($tz);
+                                        }
+                                    }
+                                    $startDay   = $startDate->format('j', true);
+                                    $startMonth = $monthNames[(int) $startDate->format('n', true)] ?? '';
+                                    $startYear  = $startDate->format('Y', true);
+                                    $isMultiDay = $endDateObj && $startDate->format('Y-m-d', true) !== $endDateObj->format('Y-m-d', true);
                                     $calTitle   = !empty($event->category_title)
                                         ? (string) $event->category_title
                                         : ($calTitlesMap[(string) ($event->catid ?? '')] ?? '');
@@ -73,6 +82,7 @@ $carouselId = 'eventi-evidenza-carousel';
                                             <div class="card card-bg h-100 no-after">
 
                                                 <?php if ($mostraImmagine && $imgSrc) : ?>
+                                                    <!-- Caso A: immagine reale -->
                                                     <div class="img-responsive-wrapper">
                                                         <div class="img-responsive img-responsive-panoramic">
                                                             <figure class="img-wrapper">
@@ -82,7 +92,17 @@ $carouselId = 'eventi-evidenza-carousel';
                                                             </figure>
                                                         </div>
                                                     </div>
+                                                <?php elseif ($mostraImmagine) : ?>
+                                                    <!-- Caso B: immagine abilitata ma assente → placeholder bg-evidenza + data centrata -->
+                                                    <div class="tpl-event-placeholder bg-evidenza rounded-top" aria-hidden="true">
+                                                        <time class="card-calendar d-flex flex-column justify-content-center align-items-center"
+                                                              datetime="<?php echo $startDate->format('Y-m-d', true); ?>">
+                                                            <span class="card-date"><?php echo $startDay; ?></span>
+                                                            <span class="card-day"><?php echo $startMonth; ?></span>
+                                                        </time>
+                                                    </div>
                                                 <?php endif; ?>
+                                                <!-- Caso C: $mostraImmagine=0 → nessun blocco immagine; data pill sotto il titolo -->
 
                                                 <div class="card-body">
 
@@ -102,17 +122,34 @@ $carouselId = 'eventi-evidenza-carousel';
                                                         </a>
                                                     </h3>
 
+                                                    <?php if ($mostraImmagine) : ?>
+                                                    <!-- Casi A e B: data come testo sotto il titolo -->
                                                     <p class="card-text text-muted small mb-0">
                                                         <?php if ($isMultiDay) : ?>
                                                             <span class="visually-hidden"><?php echo Text::_('TPL_ACCESSIBILE_DPCALENDAR_FROM_DATE'); ?></span>
                                                             <?php echo $startDay . ' ' . $startMonth . ' ' . $startYear; ?>
                                                             &rarr;
                                                             <span class="visually-hidden"><?php echo Text::_('TPL_ACCESSIBILE_DPCALENDAR_TO_DATE'); ?></span>
-                                                            <?php echo $endDateObj->format('j') . ' ' . ($monthNames[(int) $endDateObj->format('n')] ?? '') . ' ' . $endDateObj->format('Y'); ?>
+                                                            <?php echo $endDateObj->format('j', true) . ' ' . ($monthNames[(int) $endDateObj->format('n', true)] ?? '') . ' ' . $endDateObj->format('Y', true); ?>
                                                         <?php else : ?>
                                                             <?php echo $startDay . ' ' . $startMonth . ' ' . $startYear; ?>
                                                         <?php endif; ?>
                                                     </p>
+                                                    <?php else : ?>
+                                                    <!-- Caso C: data pill -->
+                                                    <time class="tpl-event-date-pill mt-1" datetime="<?php echo $startDate->format('Y-m-d', true); ?>">
+                                                        <svg class="icon icon-sm" aria-hidden="true" style="fill: currentColor;">
+                                                            <use href="<?php echo TplAccessibileHelper::spriteUrl('it-calendar'); ?>"></use>
+                                                        </svg>
+                                                        <span>
+                                                            <?php if ($isMultiDay) : ?>
+                                                                <?php echo $startDay . ' ' . $startMonth; ?> &rarr; <?php echo $endDateObj->format('j', true) . ' ' . ($monthNames[(int) $endDateObj->format('n', true)] ?? ''); ?>
+                                                            <?php else : ?>
+                                                                <?php echo $startDay . ' ' . $startMonth . ' ' . $startYear; ?>
+                                                            <?php endif; ?>
+                                                        </span>
+                                                    </time>
+                                                    <?php endif; ?>
 
                                                 </div>
                                             </div>

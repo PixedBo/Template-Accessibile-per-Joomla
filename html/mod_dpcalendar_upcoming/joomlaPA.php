@@ -6,7 +6,7 @@
  * Layout alternativo per Modello Comuni — card "Evento" (sezione 2.1.6)
  */
 
-\defined('_JEXEC') or die();
+defined('_JEXEC') or die();
 
 use DigitalPeak\Component\DPCalendar\Administrator\Helper\Booking;
 use DigitalPeak\Component\DPCalendar\Administrator\Helper\DPCalendarHelper;
@@ -65,14 +65,16 @@ for ($m = 1; $m <= 12; $m++) {
 						$calendar = null;
 					}
 
-					$imgSrc = $event->images->image_intro ?? '';
-					$imgAlt = $event->images->image_intro_alt ?: htmlspecialchars($event->title, ENT_QUOTES, 'UTF-8');
+					$imgSrc  = $event->images->image_intro ?? '';
+					$imgAlt  = $event->images->image_intro_alt ?: htmlspecialchars($event->title, ENT_QUOTES, 'UTF-8');
+					$showImg = (bool) $params->get('show_image', 1);
 				?>
 			<div class="col-lg-6 col-xl-4">
 				<div class="card-wrapper shadow-sm rounded border border-light">
 					<div class="card no-after rounded dp-event dp-event_<?php echo $event->ongoing_start_date ? ($event->ongoing_end_date ? 'started' : 'finished') : 'future'; ?>">
 
-						<?php if ($params->get('show_image', 1) && $imgSrc) { ?>
+						<?php if ($showImg && $imgSrc) : ?>
+						<?php /* Caso A: immagine reale */ ?>
 						<div class="img-responsive-wrapper">
 							<div class="img-responsive img-responsive-panoramic">
 								<figure class="img-wrapper">
@@ -83,15 +85,35 @@ for ($m = 1; $m <= 12; $m++) {
 								</figure>
 							</div>
 						</div>
-						<?php } ?>
-
 						<time class="card-calendar d-flex flex-column justify-content-center"
 							  datetime="<?php echo $isoDate; ?>">
 							<span class="card-date"><?php echo $dayNum; ?></span>
 							<span class="card-day"><?php echo htmlspecialchars($monthLabel, ENT_QUOTES, 'UTF-8'); ?></span>
 						</time>
 
+						<?php elseif ($showImg) : ?>
+						<?php /* Caso B: immagine abilitata ma assente → placeholder bg-evidenza + data top-right */ ?>
+						<div class="tpl-event-placeholder bg-evidenza rounded-top" aria-hidden="true"></div>
+						<time class="card-calendar d-flex flex-column justify-content-center"
+							  datetime="<?php echo $isoDate; ?>">
+							<span class="card-date"><?php echo $dayNum; ?></span>
+							<span class="card-day"><?php echo htmlspecialchars($monthLabel, ENT_QUOTES, 'UTF-8'); ?></span>
+						</time>
+
+						<?php endif; ?>
+						<?php /* Caso C: $showImg=false → nessun blocco immagine; la data va nel card-body */ ?>
+
 						<div class="card-body">
+
+							<?php if (!$showImg) : ?>
+							<?php /* Caso C: data pill nel corpo card */ ?>
+							<time class="tpl-event-date-pill" datetime="<?php echo $isoDate; ?>">
+								<svg class="icon icon-sm icon-primary" aria-hidden="true">
+									<use href="<?php echo TplAccessibileHelper::spriteUrl('it-calendar'); ?>"></use>
+								</svg>
+								<span><?php echo $dayNum . ' ' . htmlspecialchars($monthLabel, ENT_QUOTES, 'UTF-8'); ?></span>
+							</time>
+							<?php endif; ?>
 
 							<?php if ($params->get('show_display_events') && $event->displayEvent->afterDisplayTitle) { ?>
 								<div class="dp-event-display-after-title"><?php echo $event->displayEvent->afterDisplayTitle; ?></div>

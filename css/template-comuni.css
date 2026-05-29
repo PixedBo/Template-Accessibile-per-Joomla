@@ -908,15 +908,35 @@ a.jmodedit + div[role="tooltip"] {
     border: 0;
 }
 
-.tpl-event-img-col {
-    min-height: 180px;
+.tpl-event-card-row--no-img {
+    border-left: 4px solid var(--bs-primary) !important;
 }
 
+.tpl-event-img-col {
+    min-height: 229px; /* mobile fallback; desktop: si allunga fino all'altezza della card */
+    overflow: hidden;
+}
+
+/* L'immagine riempie tutta la colonna in assoluto (colonna è position-relative) */
 .tpl-event-img-cover {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
     display: block;
+}
+
+/* Il placeholder bg-evidenza riempie anch'esso l'intera colonna */
+.tpl-event-img-col .tpl-event-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    min-height: unset; /* disabilita il 229px fisso del placeholder generico */
 }
 
 .tpl-event-no-img {
@@ -937,6 +957,29 @@ a.jmodedit + div[role="tooltip"] {
     padding: 6px 10px;
     min-width: 48px;
     color: var(--bs-primary);
+}
+
+/* ── DPCalendar: placeholder bg-evidenza (immagine abilitata ma assente) ── */
+.tpl-event-placeholder {
+    position: relative;
+    width: 100%;
+    height: 229px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+
+/* ── DPCalendar: data pill (immagine disabilitata — caso C) ── */
+.tpl-event-date-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--bs-primary);
+    margin-bottom: 0.5rem;
 }
 
 .tpl-event-evidenza {
@@ -963,6 +1006,31 @@ a.jmodedit + div[role="tooltip"] {
     background-color: #fff;
 }
 
+/* ── Event card images: altezza fissa 229px (≈ 406×229 — 16:9) ──
+   Sovrascrive il sistema padding-top di Bootstrap Italia (.img-responsive-panoramic)
+   per garantire card allineate indipendentemente dall'immagine. */
+.mod-dpcalendar-upcoming-joomlaPA .img-responsive-wrapper {
+    height: 229px;
+    overflow: hidden;
+}
+
+.mod-dpcalendar-upcoming-joomlaPA .img-responsive-panoramic,
+.vivere-eventi .img-responsive-panoramic,
+.tpl-event-evidenza .img-responsive-panoramic {
+    padding-top: 0 !important;
+    height: 229px;
+}
+
+/* L'immagine dentro il wrapper assoluto di Bootstrap Italia riempie il box */
+.mod-dpcalendar-upcoming-joomlaPA .img-wrapper img,
+.vivere-eventi .img-wrapper img,
+.tpl-event-evidenza .img-wrapper img {
+    object-fit: cover;
+    object-position: center;
+    width: 100%;
+    height: 100%;
+}
+
 /* ── Filtro eventi: animazione collapse ── */
 
 /* Garantisce l'animazione height di Bootstrap durante apertura/chiusura del filtro,
@@ -973,18 +1041,18 @@ a.jmodedit + div[role="tooltip"] {
 }
 
 /* ── Leaflet: icona pulsante fullscreen ──
-   Il CSS del plugin leaflet.fullscreen referenzia un'immagine con path relativo
-   che non si risolve nel contesto Joomla; forniamo l'icona via SVG data URI. */
-.leaflet-control-fullscreen-icon {
-    display: block;
-    width: 26px;
-    height: 26px;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 14px 14px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Cpath d='M1 1h5V0H0v6h1V1zm11-1v1h5v5h1V0H12zm5 17h-5v1h6v-6h-1v5zM1 12H0v6h6v-1H1v-5z'/%3E%3C/svg%3E");
+   Stessa tecnica del componente DPCalendar: mask-image con SVG reale da /images/icons/. */
+.leaflet-control-fullscreen a .leaflet-control-fullscreen-icon {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin: 7px;
+    background-color: #000;
+    mask-image: url("/media/com_dpcalendar/images/icons/up-right-and-down-left-from-center.svg");
+    mask-repeat: no-repeat;
+    mask-position: center;
 }
 
-.leaflet-fullscreen-on .leaflet-control-fullscreen-icon {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Cpath d='M1 7H0V0h7v1H1v6zm11-6h-5V0h6v6h-1V1zM1 12v5h6v1H0v-6h1zm16 0v6h-6v-1h5v-5h1z'/%3E%3C/svg%3E");
+.leaflet-fullscreen-on .leaflet-control-fullscreen a .leaflet-control-fullscreen-icon {
+    mask-image: url("/media/com_dpcalendar/images/icons/down-left-and-up-right-to-center.svg");
 }

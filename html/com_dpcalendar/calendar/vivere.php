@@ -28,6 +28,7 @@ $app->getLanguage()->load('tpl_templateaccessibileperjoomla', JPATH_SITE);
 // Parametri configurabili dal menu item
 $count                = max(1, (int) $this->params->get('vivere_count', 3));
 $includeSubcategorie  = (bool) $this->params->get('vivere_luoghi_sottocategorie', 0);
+$mostraImmagine       = (bool) $this->params->get('vivere_mostra_immagine', 1);
 
 $menuTuttiEventiId = (int) $this->params->get('vivere_menu_tutti_eventi', 0);
 $menuTuttiLuoghiId = (int) $this->params->get('vivere_menu_tutti_luoghi', 0);
@@ -228,9 +229,15 @@ if (empty($pageDesc) && isset($this->category->description)) {
                         $eventUrl  = Route::_('index.php?option=com_dpcalendar&view=event&id=' . $item->id . '&calid=' . $item->catid);
                         $catUrl    = Route::_('index.php?option=com_dpcalendar&view=calendar&id=' . $item->catid);
                         
-                        $startDate = Factory::getDate($item->start_date);
-                        $day       = $startDate->format('j');
-                        $monthNum  = (int)$startDate->format('n');
+                        if ((bool)$item->all_day) {
+                            $startDate = Factory::getDate($item->start_date);
+                        } else {
+                            $tz        = new \DateTimeZone(Factory::getApplication()->get('offset', 'UTC'));
+                            $startDate = Factory::getDate($item->start_date);
+                            $startDate->setTimezone($tz);
+                        }
+                        $day       = $startDate->format('j', true);
+                        $monthNum  = (int)$startDate->format('n', true);
                         $monthLabel = $monthNames[$monthNum] ?? '';
                         
                         $desc = strip_tags($item->description ?? '');
@@ -239,7 +246,9 @@ if (empty($pageDesc) && isset($this->category->description)) {
                         <div class="col-lg-6 col-xl-4">
                             <div class="card-wrapper shadow-sm rounded border border-light">
                                 <div class="card no-after rounded">
-                                    <?php if ($imgSrc) : ?>
+
+                                    <?php if ($mostraImmagine && $imgSrc) : ?>
+                                        <!-- Caso A: immagine reale -->
                                         <div class="img-responsive-wrapper">
                                             <div class="img-responsive img-responsive-panoramic">
                                                 <figure class="img-wrapper">
@@ -253,8 +262,27 @@ if (empty($pageDesc) && isset($this->category->description)) {
                                                 </div>
                                             </div>
                                         </div>
+                                    <?php elseif ($mostraImmagine) : ?>
+                                        <!-- Caso B: immagine abilitata ma assente → placeholder bg-evidenza + data top-right -->
+                                        <div class="tpl-event-placeholder bg-evidenza rounded-top" aria-hidden="true"></div>
+                                        <time class="card-calendar d-flex flex-column justify-content-center"
+                                              datetime="<?php echo $startDate->format('Y-m-d', true); ?>">
+                                            <span class="card-date"><?php echo $day; ?></span>
+                                            <span class="card-day"><?php echo htmlspecialchars($monthLabel, ENT_QUOTES, 'UTF-8'); ?></span>
+                                        </time>
                                     <?php endif; ?>
+                                    <!-- Caso C: $mostraImmagine=false → nessun blocco immagine; data pill nel card-body -->
+
                                     <div class="card-body">
+                                        <?php if (!$mostraImmagine) : ?>
+                                            <!-- Caso C: data pill -->
+                                            <time class="tpl-event-date-pill" datetime="<?php echo $startDate->format('Y-m-d', true); ?>">
+                                                <svg class="icon icon-sm icon-primary" aria-hidden="true">
+                                                    <use href="<?php echo TplAccessibileHelper::spriteUrl('it-calendar'); ?>"></use>
+                                                </svg>
+                                                <span><?php echo $day . ' ' . htmlspecialchars($monthLabel, ENT_QUOTES, 'UTF-8'); ?></span>
+                                            </time>
+                                        <?php endif; ?>
                                         <div class="category-top">
                                             <a class="category text-decoration-none" href="<?php echo $catUrl; ?>">
                                                 <?php echo htmlspecialchars($item->category_title, ENT_QUOTES, 'UTF-8'); ?>
@@ -328,7 +356,9 @@ if (empty($pageDesc) && isset($this->category->description)) {
                         <div class="col-lg-6 col-xl-4">
                             <div class="card-wrapper shadow-sm rounded border border-light">
                                 <div class="card no-after rounded">
-                                    <?php if ($imgSrc) : ?>
+
+                                    <?php if ($mostraImmagine && $imgSrc) : ?>
+                                        <!-- Caso A: immagine reale -->
                                         <div class="img-responsive-wrapper">
                                             <div class="img-responsive img-responsive-panoramic">
                                                 <figure class="img-wrapper">
@@ -338,7 +368,13 @@ if (empty($pageDesc) && isset($this->category->description)) {
                                                 </figure>
                                             </div>
                                         </div>
+                                    <?php elseif ($mostraImmagine) : ?>
+                                        <!-- Caso B: immagine abilitata ma assente → placeholder bg-evidenza (no data per i luoghi) -->
+                                        <div class="tpl-event-placeholder bg-evidenza rounded-top" aria-hidden="true"
+                                             style="min-height:120px;"></div>
                                     <?php endif; ?>
+                                    <!-- Caso C: $mostraImmagine=false → nessun blocco immagine -->
+
                                     <div class="card-body">
                                         <?php if ($catTitle) : ?>
                                             <div class="category-top">

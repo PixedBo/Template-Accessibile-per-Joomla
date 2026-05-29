@@ -51,10 +51,16 @@ if (!empty($this->calendars)) {
                 $imgSrc  = $images->image_intro ?? '';
                 $imgAlt  = $images->image_intro_alt ?? $event->title;
 
-                $startDate  = Factory::getDate($event->start_date);
-                $startDay   = $startDate->format('j');
-                $startMonth = $monthNames[(int) $startDate->format('n')] ?? '';
-                $startYear  = $startDate->format('Y');
+                if ((bool)$event->all_day) {
+                    $startDate = Factory::getDate($event->start_date);
+                } else {
+                    $tz        = new \DateTimeZone(Factory::getApplication()->get('offset', 'UTC'));
+                    $startDate = Factory::getDate($event->start_date);
+                    $startDate->setTimezone($tz);
+                }
+                $startDay   = $startDate->format('j', true);
+                $startMonth = $monthNames[(int) $startDate->format('n', true)] ?? '';
+                $startYear  = $startDate->format('Y', true);
 
                 $firstLocation = !empty($event->locations) ? reset($event->locations) : null;
                 $calTitle = !empty($event->category_title)
@@ -67,22 +73,25 @@ if (!empty($this->calendars)) {
                 }
             ?>
                 <li class="tpl-event-list__item border-bottom py-3">
-                    <div class="card shadow-sm rounded overflow-hidden tpl-event-card-row">
+                    <div class="card no-after shadow-sm rounded overflow-hidden tpl-event-card-row<?php echo !$mostraImmagine ? ' tpl-event-card-row--no-img' : ''; ?>">
                         <div class="row g-0">
 
-                            <!-- COLONNA SINISTRA: immagine + badge data sovrapposto -->
-                            <div class="col-12 col-md-4 position-relative tpl-event-img-col">
+                            <?php if ($mostraImmagine) : ?>
+                            <!-- COLONNA SINISTRA: immagine o placeholder bg-evidenza + badge data -->
+                            <div class="col-12 col-md-4 position-relative tpl-event-img-col<?php echo !$imgSrc ? ' tpl-event-img-col--placeholder' : ''; ?>">
 
-                                <?php if ($mostraImmagine && $imgSrc) : ?>
+                                <?php if ($imgSrc) : ?>
+                                    <!-- Caso A: immagine reale -->
                                     <img src="<?php echo htmlspecialchars($imgSrc, ENT_QUOTES, 'UTF-8'); ?>"
                                          loading="lazy"
                                          alt="<?php echo htmlspecialchars($imgAlt, ENT_QUOTES, 'UTF-8'); ?>"
                                          class="tpl-event-img-cover">
                                 <?php else : ?>
-                                    <div class="tpl-event-no-img" aria-hidden="true"></div>
+                                    <!-- Caso B: placeholder bg-evidenza -->
+                                    <div class="tpl-event-placeholder bg-evidenza w-100 h-100" aria-hidden="true"></div>
                                 <?php endif; ?>
 
-                                <!-- badge data: posizione assoluta top-right sull'immagine -->
+                                <!-- badge data: top-right su immagine; centrato su placeholder via CSS -->
                                 <time class="card-calendar d-flex flex-column justify-content-center"
                                       datetime="<?php echo $startDate->format('Y-m-d'); ?>">
                                     <span class="card-date"><?php echo $startDay; ?></span>
@@ -90,10 +99,21 @@ if (!empty($this->calendars)) {
                                 </time>
 
                             </div>
+                            <?php endif; ?>
 
-                            <!-- COLONNA DESTRA: corpo card -->
-                            <div class="col-12 col-md-8">
+                            <!-- COLONNA DESTRA: corpo card (full-width se immagine disabilitata) -->
+                            <div class="col-12 <?php echo $mostraImmagine ? 'col-md-8' : ''; ?>">
                                 <div class="card-body d-flex flex-column h-100 p-3 p-md-4">
+
+                                    <?php if (!$mostraImmagine) : ?>
+                                    <!-- Caso C: data pill (immagine disabilitata) -->
+                                    <time class="tpl-event-date-pill" datetime="<?php echo $startDate->format('Y-m-d'); ?>">
+                                        <svg class="icon icon-sm icon-primary" aria-hidden="true">
+                                            <use href="<?php echo TplAccessibileHelper::spriteUrl('it-calendar'); ?>"></use>
+                                        </svg>
+                                        <span><?php echo $startDay . ' ' . $startMonth . ' ' . $startYear; ?></span>
+                                    </time>
+                                    <?php endif; ?>
 
                                     <?php if ($mostraCategoria && $calTitle !== '') : ?>
                                         <div class="mb-1">
