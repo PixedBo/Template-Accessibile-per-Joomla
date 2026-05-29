@@ -319,38 +319,81 @@ if ($readingTime < 1) $readingTime = 1;
             <?php endif; ?>
 
             <section class="it-page-section anchor-offset mb-30" id="date-orari">
-                <h2 class="mb-3"><?php echo Text::_('TPL_ACCESSIBILE_SERVICE_DEADLINES'); ?></h2>
+                <h2 class="mb-3"><?php echo Text::_('TPL_ACCESSIBILE_EVENT_DATE_ORARI'); ?></h2>
 
                 <div class="calendar-vertical mb-3">
                     <?php
-                    // Mostriamo la data principale dell'evento
-                    $startDate = Factory::getDate($event->start_date);
-                    $day       = $startDate->format('j');
-                    $monthNum  = (int)$startDate->format('n');
-                    $monthName = $monthNames[$monthNum] ?? '';
-                    $year      = $startDate->format('Y');
+                    $startDate    = Factory::getDate($event->start_date);
+                    $endDate      = Factory::getDate($event->end_date);
+                    $isAllDay     = (bool)$event->all_day;
+                    $isSameDay    = ($startDate->format('Y-m-d') === $endDate->format('Y-m-d'));
 
-                    $timeString = $this->dateHelper->getDateStringFromEvent(
-                        $event,
-                        $params->get('event_date_format'),
-                        $params->get('event_time_format')
-                    );
+                    $startDay      = $startDate->format('j');
+                    $startMonthNum = (int)$startDate->format('n');
+                    $startMonth    = $monthNames[$startMonthNum] ?? '';
+                    $startYear     = $startDate->format('Y');
+                    $startTime     = $startDate->format('H:i');
+                    $endTime       = $endDate->format('H:i');
+
+                    if (!$isSameDay) {
+                        $endDay      = $endDate->format('j');
+                        $endMonthNum = (int)$endDate->format('n');
+                        $endMonth    = $monthNames[$endMonthNum] ?? '';
+                        $endYear     = $endDate->format('Y');
+                    }
                     ?>
+
+                    <?php if ($isSameDay) : ?>
                     <div class="calendar-date">
-                        <div class="calendar-date-day">
-                            <small class="calendar-date-day__year"><?php echo $year; ?></small>
-                            <span class="title-xxlarge-regular d-flex justify-content-center"><?php echo $day; ?></span>
-                            <small class="calendar-date-day__month"><?php echo $monthName; ?></small>
+                        <div class="calendar-date-day text-center">
+                            <small class="calendar-date-day__year"><?php echo $startYear; ?></small>
+                            <span class="title-xxlarge-regular d-flex justify-content-center"><?php echo $startDay; ?></span>
+                            <small class="calendar-date-day__month"><?php echo $startMonth; ?></small>
                         </div>
                         <div class="calendar-date-description rounded">
                             <div class="calendar-date-description-content">
-                                <h3 class="title-medium-2 mb-0"><?php echo $timeString; ?></h3>
-                                <?php if ($event->all_day) : ?>
-                                    <div class="info-text mt-1 mb-0"><?php echo Text::_('MOD_DPCALENDAR_UPCOMING_ALL_DAY'); ?></div>
+                                <?php if ($isAllDay) : ?>
+                                    <h3 class="title-medium-2 mb-0"><?php echo Text::_('TPL_ACCESSIBILE_EVENT_ALL_DAY'); ?></h3>
+                                <?php else : ?>
+                                    <h3 class="title-medium-2 mb-0"><?php echo Text::sprintf('TPL_ACCESSIBILE_EVENT_TIME_RANGE', '<strong>' . $startTime . '</strong>', '<strong>' . $endTime . '</strong>'); ?></h3>
                                 <?php endif; ?>
                             </div>
                         </div>
                     </div>
+                    <?php else : ?>
+                    <div class="calendar-date mb-3">
+                        <div class="calendar-date-day text-center">
+                            <small class="calendar-date-day__year"><?php echo $startYear; ?></small>
+                            <span class="title-xxlarge-regular d-flex justify-content-center"><?php echo $startDay; ?></span>
+                            <small class="calendar-date-day__month"><?php echo $startMonth; ?></small>
+                        </div>
+                        <div class="calendar-date-description rounded">
+                            <div class="calendar-date-description-content">
+                                <?php if ($isAllDay) : ?>
+                                    <h3 class="title-medium-2 mb-0"><?php echo Text::_('TPL_ACCESSIBILE_EVENT_ALL_DAY'); ?></h3>
+                                <?php else : ?>
+                                    <h3 class="title-medium-2 mb-0"><?php echo Text::sprintf('TPL_ACCESSIBILE_EVENT_START_TIME', '<strong>' . $startTime . '</strong>'); ?></h3>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="calendar-date">
+                        <div class="calendar-date-day text-center">
+                            <small class="calendar-date-day__year"><?php echo $endYear; ?></small>
+                            <span class="title-xxlarge-regular d-flex justify-content-center"><?php echo $endDay; ?></span>
+                            <small class="calendar-date-day__month"><?php echo $endMonth; ?></small>
+                        </div>
+                        <div class="calendar-date-description rounded">
+                            <div class="calendar-date-description-content">
+                                <?php if ($isAllDay) : ?>
+                                    <h3 class="title-medium-2 mb-0"><?php echo Text::_('TPL_ACCESSIBILE_EVENT_ALL_DAY'); ?></h3>
+                                <?php else : ?>
+                                    <h3 class="title-medium-2 mb-0"><?php echo Text::sprintf('TPL_ACCESSIBILE_EVENT_END_TIME', '<strong>' . $endTime . '</strong>'); ?></h3>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+                    <?php endif; ?>
                 </div>
             </section>
 

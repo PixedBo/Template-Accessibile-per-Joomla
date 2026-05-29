@@ -313,8 +313,10 @@ dd, ol, ul {
     .calendar-vertical .calendar-date .calendar-date-description {
         box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.17);
         width: 100%;
-        margin: 0 0 1.5rem 0.875rem;
+        margin: 0 0 0 0.875rem;
         overflow: hidden;
+        display: flex;
+    align-items: center;
     }
 
     .rounded {
@@ -968,4 +970,21 @@ a.jmodedit + div[role="tooltip"] {
 .com-dpcalendar-list-eventi .collapsing {
     overflow: hidden;
     transition: height 0.35s ease;
+}
+
+/* ── Leaflet: icona pulsante fullscreen ──
+   Il CSS del plugin leaflet.fullscreen referenzia un'immagine con path relativo
+   che non si risolve nel contesto Joomla; forniamo l'icona via SVG data URI. */
+.leaflet-control-fullscreen-icon {
+    display: block;
+    width: 26px;
+    height: 26px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 14px 14px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Cpath d='M1 1h5V0H0v6h1V1zm11-1v1h5v5h1V0H12zm5 17h-5v1h6v-6h-1v5zM1 12H0v6h6v-1H1v-5z'/%3E%3C/svg%3E");
+}
+
+.leaflet-fullscreen-on .leaflet-control-fullscreen-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Cpath d='M1 7H0V0h7v1H1v6zm11-6h-5V0h6v6h-1V1zM1 12v5h6v1H0v-6h1zm16 0v6h-6v-1h5v-5h1z'/%3E%3C/svg%3E");
 }
