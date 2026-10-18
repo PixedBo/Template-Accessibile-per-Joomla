@@ -12,7 +12,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -46,17 +48,38 @@ $cfRaw = function (string $param) use ($cf): string {
     $f = $cf($param);
     return $f ? (string) $f->rawvalue : '';
 };
-// Restituisce l'URL dal rawvalue, gestendo sia campi URL (stringa) che Media (JSON)
-$cfUrl = function (string $param) use ($cfRaw): string {
-    $raw = $cfRaw($param);
-    if (!$raw) {
-        return '';
+// Estrae URL e testo del link dal rawvalue di un custom field. Formati supportati
+// (verificati nel sorgente di Joomla, plg_fields_media + AccessiblemediaField):
+// - campo URL (Joomla 5.x / 6.0): stringa semplice, assoluta o relativa alla root;
+// - campo Media "Documento" (media_document, Joomla 6.1+): JSON {"file": "...", "linktext": "..."};
+// - campo Media immagine: JSON {"imagefile": "...", "alt_text": "..."}.
+// Il suffisso "#joomlaImage://..." aggiunto dal Media Manager viene rimosso con
+// MediaHelper::getCleanMediaFieldValue() (disponibile da Joomla 4.0): taglia dal primo "#",
+// a differenza di HTMLHelper::cleanImageURL() che lo lascia se non c'è un "?".
+$cfFile = function (string $param) use ($cfRaw): array {
+    $info = ['url' => '', 'text' => ''];
+    $raw  = trim($cfRaw($param));
+    if ($raw === '') {
+        return $info;
     }
+    $url  = $raw;
     $data = json_decode($raw, true);
-    return (is_array($data) && !empty($data['file']))
-        ? Uri::root() . $data['file']
-        : $raw;
+    if (is_array($data)) {
+        $url          = (string) ($data['file'] ?? $data['imagefile'] ?? '');
+        $info['text'] = trim((string) ($data['linktext'] ?? ''));
+    }
+    $url = MediaHelper::getCleanMediaFieldValue($url);
+    if ($url === '') {
+        return $info;
+    }
+    // Percorsi relativi (es. "files/doc.pdf") resi assoluti rispetto alla root del sito
+    if (!preg_match('#^(?:[a-z][a-z0-9+.-]*:|/)#i', $url)) {
+        $url = Uri::root() . ltrim($url, '/');
+    }
+    $info['url'] = $url;
+    return $info;
 };
+$cfUrl = fn (string $param): string => $cfFile($param)['url'];
 
 $menuItemContatti    = (int) $tplParams->get('menuitem_contatti', 0);
 $menuItemArea        = (int) $tplParams->get('menuitem_contatti_area', 0);
@@ -112,9 +135,10 @@ $document->addCustomTag('<script type="application/ld+json" data-element="metata
 			<?php endif; ?>
 
             <?php if ($this->item->introtext) : ?>
-                <p class="lead mb-0" data-element="service-description">
+                <?php // <div>, non <p>: content.prepare restituisce già paragrafi e un <p> annidato è HTML invalido ?>
+                <div class="lead mb-0" data-element="service-description">
                     <?php echo HTMLHelper::_('content.prepare', $this->item->introtext); ?>
-                </p>
+                </div>
             <?php endif; ?>
 
             <?php
@@ -257,7 +281,7 @@ $document->addCustomTag('<script type="application/ld+json" data-element="metata
                                                     </li>
                                                     <?php if (!empty($this->item->fulltext)) : ?>
                                                     <li class="nav-item">
-                                                        <a class="nav-link" href="#descrizione">
+                                                        <a class="nav-link" href="#description">
                                                             <span><?php echo Text::_('TPL_ACCESSIBILE_SERVICE_DESCRIPTION'); ?></span>
                                                         </a>
                                                     </li>
@@ -359,7 +383,6 @@ $document->addCustomTag('<script type="application/ld+json" data-element="metata
                 <?php endif; ?>
 
                 <?php
-                    $itMonths    = ['01' => 'Gen', '02' => 'Feb', '03' => 'Mar', '04' => 'Apr', '05' => 'Mag', '06' => 'Giu', '07' => 'Lug', '08' => 'Ago', '09' => 'Set', '10' => 'Ott', '11' => 'Nov', '12' => 'Dic'];
                     $kTitolo      = (string) (int) $tplParams->get('cf_tempi_lista_key_titolo', 0);
                     $kData        = (string) (int) $tplParams->get('cf_tempi_lista_key_data', 0);
                     $kNumero      = (string) (int) $tplParams->get('cf_tempi_lista_key_numero', 0);
@@ -387,10 +410,13 @@ $document->addCustomTag('<script type="application/ld+json" data-element="metata
                                 $anno = $giorno = $mese = '';
                                 if ($isDate) {
                                     try {
-                                        $dt     = new \DateTime($item[$fData]);
-                                        $anno   = $dt->format('Y');
-                                        $giorno = $dt->format('d');
-                                        $mese   = $itMonths[$dt->format('m')] ?? $dt->format('M');
+                                        // Data "pura" (senza orario): la si legge e formatta in UTC per
+                                        // evitare slittamenti di giorno. 'M' con translate=true restituisce
+                                        // il mese abbreviato nella lingua del sito (costanti core *_SHORT).
+                                        $dt     = new Date($item[$fData], new \DateTimeZone('UTC'));
+                                        $anno   = $dt->format('Y', false, false);
+                                        $giorno = $dt->format('d', false, false);
+                                        $mese   = $dt->format('M', false, true);
                                     } catch (\Exception $e) {
                                         $isDate = false;
                                     }
@@ -469,14 +495,21 @@ $document->addCustomTag('<script type="application/ld+json" data-element="metata
                         <?php echo $condizioni; ?>
                     </div>
                 <?php endif; ?>
-                <?php $urlFile = $cfUrl('cf_condizioni_file'); if ($urlFile) : ?>
-                    <a href="<?php echo $this->escape($urlFile); ?>"
+                <?php
+                    $fileCondizioni = $cfFile('cf_condizioni_file');
+                    if ($fileCondizioni['url']) :
+                        // Testo del link: quello impostato nel campo Documento (Joomla 6.1+), con il
+                        // segnaposto {filename} come nel plugin core, altrimenti la stringa del template.
+                        $testoFile = $fileCondizioni['text'] ?: Text::_('TPL_ACCESSIBILE_SERVICE_CONDITIONS_FILE');
+                        $testoFile = str_replace('{filename}', basename(parse_url($fileCondizioni['url'], PHP_URL_PATH) ?: ''), $testoFile);
+                ?>
+                    <a href="<?php echo $this->escape($fileCondizioni['url']); ?>"
                        data-element="service-file"
                        class="d-inline-flex align-items-center gap-2">
                         <svg class="icon icon-sm" aria-hidden="true">
                             <use href="<?php echo TplAccessibileHelper::spriteUrl('it-clip'); ?>"></use>
                         </svg>
-                        <?php echo Text::_('TPL_ACCESSIBILE_SERVICE_CONDITIONS_FILE'); ?>
+                        <?php echo $this->escape($testoFile); ?>
                     </a>
                 <?php endif; ?>
             </section>

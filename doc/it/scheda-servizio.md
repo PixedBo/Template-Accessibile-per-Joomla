@@ -122,7 +122,7 @@ Per il campo **Lista Tempistiche** (Subform):
 - Per ogni riga, compila Titolo e poi: o la **Data** (per una data specifica) o **Numero giorni/mesi + Unità di misura** (es. `30` giorni)
 - La **Descrizione** è opzionale per ogni riga
 
-Per il campo **Condizioni di servizio - FILE**: clicca sul campo per aprire il Media Manager e carica o seleziona il PDF con le condizioni di servizio.
+Per il campo **Condizioni di servizio - FILE**: su Joomla 6.1 o superiore è un campo di tipo **Documento**, quindi clicca sul campo, scegli o carica il PDF nella cartella Documenti e, se vuoi, compila il **Testo del link**. Su Joomla 5.x / 6.0 è un campo di tipo **URL**: carica prima il PDF da **Contenuti → Media** (cartella Documenti), copia il suo indirizzo e incollalo nel campo. I dettagli sono in [custom-field-articoli.md](custom-field-articoli.md).
 
 > *Screenshot — Scheda "Servizi - Modello Comuni" nell'editor articolo con i campi visibili e alcuni compilati*
 

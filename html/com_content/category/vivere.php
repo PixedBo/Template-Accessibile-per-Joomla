@@ -12,11 +12,14 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Registry\Registry;
+use Joomla\Database\DatabaseInterface;
+use Joomla\Database\ParameterType;
 
 $_parentTpl = \Joomla\CMS\Factory::getApplication()->getTemplate(true)->parent
     ?: \Joomla\CMS\Factory::getApplication()->getTemplate();
@@ -57,9 +60,9 @@ $queryCategory = static function (int $catId, int $limit): array {
     }
 
     try {
-        $db       = Factory::getDbo();
+        $db       = Factory::getContainer()->get(DatabaseInterface::class);
+        $viewLevels = Factory::getApplication()->getIdentity()->getAuthorisedViewLevels();
         $now      = Factory::getDate()->toSql();
-        $nullDate = $db->getNullDate();
 
         $query = $db->getQuery(true)
             ->select([
@@ -78,6 +81,10 @@ $queryCategory = static function (int $catId, int $limit): array {
             ->join('INNER', $db->quoteName('#__categories', 'c'), $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid'))
             ->where($db->quoteName('a.featured') . ' = 1')
             ->where($db->quoteName('a.state') . ' = 1')
+            // Come ArticlesModel di com_content: categoria pubblicata e livelli di accesso dell'utente corrente
+            ->where($db->quoteName('c.published') . ' = 1')
+            ->whereIn($db->quoteName('a.access'), $viewLevels)
+            ->whereIn($db->quoteName('c.access'), $viewLevels)
             ->where($db->quoteName('a.catid') . ' = ' . $catId)
             ->where(
                 '(' .
@@ -88,11 +95,15 @@ $queryCategory = static function (int $catId, int $limit): array {
             ->where(
                 '(' .
                 $db->quoteName('a.publish_down') . ' IS NULL OR ' .
-                $db->quoteName('a.publish_down') . ' = ' . $db->quote($nullDate) . ' OR ' .
                 $db->quoteName('a.publish_down') . ' > ' . $db->quote($now) .
                 ')'
             )
             ->order($db->quoteName('a.publish_up') . ' DESC');
+
+        // Siti multilingua: solo articoli nella lingua corrente o in tutte le lingue
+        if (Multilanguage::isEnabled()) {
+            $query->whereIn($db->quoteName('a.language'), [Factory::getApplication()->getLanguage()->getTag(), '*'], ParameterType::STRING);
+        }
 
         $db->setQuery($query, 0, $limit);
         $rows = $db->loadObjectList() ?: [];

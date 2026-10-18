@@ -50,7 +50,7 @@ Di seguito trovi tutti i campi necessari per la Scheda Servizio, con il tipo Joo
 | Accesso online | URL | Servizi | Link al portale online |
 | Testo - Accesso Online | Testo | Servizi | Etichetta del pulsante |
 | Condizioni di servizio - Introduzione | Editor | Servizi | Testo HTML delle condizioni |
-| Condizioni di servizio - FILE | Document | Servizi | File PDF da allegare |
+| Condizioni di servizio - FILE | Documento (Joomla 6.1+) oppure URL | Servizi | PDF delle condizioni, vedi la sezione dedicata sotto |
 | Prenota un appuntamento | URL | Servizi | Link alla prenotazione |
 
 I campi dentro la subform (Titolo, Data, ecc.) sono spiegati in una sezione separata.
@@ -94,7 +94,7 @@ Ripeti il processo per tutti gli altri campi di tipo Editor.
 
 ## Come creare un campo di tipo URL
 
-Usato per: **Accesso online**, **Prenota un appuntamento**
+Usato per: **Accesso online**, **Prenota un appuntamento** e, su Joomla 5.x / 6.0, **Condizioni di servizio - FILE**
 
 1. Vai su **Contenuti → Campi → Nuovo**
 2. Nel campo **Titolo**, inserisci il nome del campo (es. `Accesso online`)
@@ -105,22 +105,35 @@ Usato per: **Accesso online**, **Prenota un appuntamento**
 
 ---
 
-## Come creare un campo di tipo Document
+## Il campo "Condizioni di servizio - FILE": Documento oppure URL
 
-Usato per: **Condizioni di servizio - FILE**
+Il tipo di campo da usare dipende dalla versione di Joomla.
 
-Il tipo Document permette di allegare un file (tipicamente un PDF) direttamente all'articolo. Il file viene caricato nel Media Manager di Joomla e il campo salva il percorso del file.
+### Joomla 6.1 o superiore: campo di tipo Documento
+
+Dalla 6.1 il plugin dei campi Media offre quattro tipi: Immagine (`media`), Audio (`media_audio`), Video (`media_video`) e **Documento (`media_document`)**. Il tipo Documento apre il Media Manager sulla cartella **Documenti** e permette di scegliere o caricare un PDF.
 
 1. Vai su **Contenuti → Campi → Nuovo**
 2. Nel campo **Titolo**, inserisci `Condizioni di servizio - FILE`
-3. Nel campo **Tipo**, seleziona **Document** (potrebbe chiamarsi "Documento" nella versione italiana)
+3. Nel campo **Tipo**, seleziona **Documento (media_document)**
 4. Nel campo **Gruppo**, seleziona **Servizi - Modello Comuni**
 5. Nel campo **Categoria**, seleziona **Servizi**
 6. Clicca **Salva e chiudi**
 
-> *Screenshot — Backend "Nuovo campo" con il tipo "Document" selezionato*
+Nell'articolo, oltre al file, il campo offre un **Testo del link**: se lo compili, il template lo usa come testo del link nella sezione "Condizioni di servizio"; se lo lasci vuoto usa il testo predefinito del template. Il segnaposto `{filename}` viene sostituito con il nome del file, come fa Joomla.
 
-**Come usarlo nell'articolo:** quando compili questo campo in un articolo, si aprirà il Media Manager. Carica il PDF (o selezionalo se già presente) e confermalo. Il template genererà un link scaricabile nella sezione "Condizioni di servizio" della Scheda Servizio.
+### Joomla 5.x e 6.0: campo di tipo URL
+
+In queste versioni il campo di tipo **Media** mostra nel Media Manager **solo immagini** (il campo sottostante usa il filtro predefinito `images`), quindi un PDF non è selezionabile. Usa un campo di tipo **URL** che punta al PDF caricato nel Media Manager:
+
+1. Vai su **Contenuti → Media** e apri la cartella **Documenti** (`files`) oppure una sottocartella dedicata, ad esempio `files/condizioni-servizio`
+2. Carica il PDF con **Carica**
+3. Clicca sul file e copia il suo indirizzo (voce **Copia URL** nell'anteprima, oppure annota il percorso, ad esempio `files/condizioni-servizio/asilo-nido.pdf`)
+4. Nell'articolo, incolla l'indirizzo nel campo **Condizioni di servizio - FILE**
+
+In entrambi i casi il template accetta sia l'indirizzo completo (`https://www.comune.esempio.it/files/...`) sia il percorso relativo alla root del sito (`files/...`): nel secondo caso lo completa da solo. Nella sezione "Condizioni di servizio" della Scheda Servizio comparirà il link con `data-element="service-file"`.
+
+> Se cambi tipo di campo (per esempio da URL a Documento dopo un aggiornamento a Joomla 6.1), ricorda di aggiornare il mapping nelle opzioni del template e di ricompilare il campo negli articoli: i valori salvati con un tipo non vengono convertiti nell'altro.
 
 ---
 
