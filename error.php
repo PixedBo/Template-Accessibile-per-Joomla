@@ -147,7 +147,7 @@ $wa->addInlineStyle($inlineCss);
                                 <?php
                                 $mostraLogin = $params->get('mostra_login', 0);
                                 if ($mostraLogin == 1) :
-                                    $user = Factory::getUser();
+                                    $user = $app->getIdentity();
                                     $loginText = $user->guest ? Text::_('TPL_ACCESSIBILE_LOGIN') : Text::_('TPL_ACCESSIBILE_PERSONAL_AREA');
                                     // Semplificato per la pagina di errore
                                     $loginUrl = $this->baseurl . '/index.php?option=com_users&view=login';
@@ -287,7 +287,8 @@ $wa->addInlineStyle($inlineCss);
                             <?php if ($errorCode == '404') : ?>
                                 <?php echo Text::_('TPL_ACCESSIBILE_ERROR_NOT_FOUND'); ?>
                             <?php else : ?>
-                                Si è verificato un errore imprevisto (<?php echo htmlspecialchars($errorMessage, ENT_QUOTES, 'UTF-8'); ?>).
+                                <?php // Nessun dettaglio dell'eccezione fuori dal debug: può contenere percorsi o query ?>
+                                <?php echo Text::_('TPL_ACCESSIBILE_ERROR_GENERIC'); ?>
                             <?php endif; ?><br>
                             <a href="javascript:history.back()"><?php echo Text::_('TPL_ACCESSIBILE_GO_BACK'); ?></a> <?php echo Text::_('TPL_ACCESSIBILE_ERROR_NAVIGATE'); ?>
                         </p>

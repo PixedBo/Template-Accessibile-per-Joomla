@@ -2,7 +2,7 @@
 <project name="tpl_templateaccessibileperjoomla" default="dist" basedir=".">
 
     <!-- Project properties -->
-    <property name="VERSION" value="1.2.0"/>
+    <property name="VERSION" value="1.2.1"/>
     <tstamp>
         <format property="DATE" pattern="yyyy-MM-dd"/>
     </tstamp>

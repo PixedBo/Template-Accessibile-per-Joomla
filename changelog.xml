@@ -2,6 +2,19 @@
 <changelog>
     <element>templateaccessibileperjoomla</element>
     <type>template</type>
+    <version>1.2.1</version>
+    <fix>
+        <item><![CDATA[index.php: aggiunto <jdoc:include type="message" /> dentro #main-container. I messaggi di sistema di Joomla (login fallito, esito dei form, avvisi di com_users) non venivano mai mostrati sulle pagine normali]]></item>
+        <item><![CDATA[error.php: per gli errori diversi da 404 non viene più stampato il messaggio grezzo dell'eccezione (possibile esposizione di percorsi o query). Nuovo testo generico TPL_ACCESSIBILE_ERROR_GENERIC (it-IT / en-GB); il dettaglio resta visibile solo con il debug attivo]]></item>
+        <item><![CDATA[index.php, error.php: Factory::getUser() (deprecata dalla 4.3, emette un avviso E_USER_DEPRECATED a ogni chiamata; rimozione prevista in Joomla 7) sostituita con $app->getIdentity()]]></item>
+        <item><![CDATA[html/com_content/category/blog_children.php: aggiunto l'import mancante di Joomla\CMS\Language\Text, che causava un fatal error con sottocategorie annidate e maxLevel > 1]]></item>
+        <item><![CDATA[css/template-comuni.css: aggiunte le regole .back-to-top-left e .scroll-top-static, dichiarate nel changelog 1.0.16 ma mai presenti nel CSS. L'opzione "Posizione: sinistra" e la variante "statico" del pulsante Torna in cima ora hanno effetto]]></item>
+        <item><![CDATA[language/en-GB: aggiunte TPL_ACCESSIBILE_LOCATION e TPL_ACCESSIBILE_LOCATION_DETAILS, finora presenti solo in it-IT (chiave grezza nella scheda evento in inglese)]]></item>
+    </fix>
+</changelog>
+<changelog>
+    <element>templateaccessibileperjoomla</element>
+    <type>template</type>
     <version>1.2.0</version>
     <addition>
         <item><![CDATA[Integrazione DPCalendar (Modello Comuni): override completi del componente per gestire gli eventi secondo la sezione 5.3 del Modello Comuni (Designers Italia), realizzando il content-type evento della Fase 4 della roadmap]]></item>

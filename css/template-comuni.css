@@ -1117,3 +1117,30 @@ a.jmodedit + div[role="tooltip"] {
     border: 1px solid #dee2e6;
     min-height: 400px;
 }
+/* ── Torna in cima: variante flottante a sinistra e variante statica nel footer ──
+   Le classi sono emesse da index.php (parametri scroll_top_tipo / scroll_top_posizione).
+   .back-to-top di Bootstrap Italia e' fissato a destra (16px, 40px da md in su). */
+.back-to-top.back-to-top-left {
+  right: auto;
+  left: 16px;
+}
+@media (min-width: 768px) {
+  .back-to-top.back-to-top-left {
+    left: 40px;
+  }
+}
+.scroll-top-static {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #fff;
+  text-decoration: underline;
+}
+.scroll-top-static:hover,
+.scroll-top-static:focus {
+  color: #fff;
+  text-decoration: none;
+}
+.scroll-top-static .icon {
+  fill: currentColor;
+}

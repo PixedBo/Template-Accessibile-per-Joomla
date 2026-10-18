@@ -242,7 +242,7 @@ $wa->addInlineStyle($inlineCss);
   if ($mostraLogin == 1) :
       $tipoLogin = $this->params->get('tipo_login', 'standard');
       $menuitemLogin = $this->params->get('menuitem_login', 0);
-      $user = Factory::getUser();
+      $user = $app->getIdentity();
       
       if ($user->guest) {
           // Utente non loggato - mostra link login
@@ -492,6 +492,7 @@ $wa->addInlineStyle($inlineCss);
 	  <main id="main" class="main-section">
 	  <div class="section pt-3 pb-5 pb-lg-80 px-lg-5 position-relative">
 		<div class="container" id="main-container">
+			<jdoc:include type="message" />
 			<jdoc:include type="component" />
 		</div>
 	  </div>
