@@ -12,8 +12,8 @@ Quando assegni il layout `scheda-servizio` a un articolo, il template genera aut
 
 - Una **hero** con titolo, badge di stato e testo introduttivo del servizio
 - Un **breadcrumb** con il percorso di categoria, che include la voce "Servizi" e la sottocategoria del servizio
-- Un **indice di pagina laterale** (scrollspy) con i link alle 8 sezioni principali
-- **9 sezioni** in ordine fisso, ognuna con il `data-element` corretto per la validazione
+- Un **indice di pagina laterale** (scrollspy) con i link alle 8 sezioni principali (più "Descrizione" se l'articolo ha un corpo)
+- Fino a **10 sezioni** in ordine fisso, ognuna con il `data-element` corretto per la validazione
 - Un blocco **JSON-LD** schema.org (`GovernmentService`) per i motori di ricerca
 - Il **widget feedback chiarezza** in fondo (se abilitato nelle impostazioni del template)
 
@@ -53,6 +53,7 @@ Dopo aver creato i campi, devi collegare ciascun campo alla sezione corrisponden
 | Riga nel template | Campo da selezionare |
 |-------------------|---------------------|
 | Campo per lo Stato | Stato |
+| Campo Motivo stato servizio | Motivo stato servizio |
 | Campo A chi è rivolto | A chi è rivolto |
 | Campo Come fare | Come fare |
 | Campo Cosa serve | Cosa serve |
@@ -113,7 +114,9 @@ Se hai anche del testo nel corpo dell'articolo (la parte dopo "Leggi di più"), 
 ### 3d. Compila i custom field
 
 1. Clicca sulla scheda **Servizi - Modello Comuni** (o il nome del gruppo di campi che hai creato)
-2. Compila tutti i campi rilevanti per questo servizio. Non è obbligatorio compilare tutti i campi: le sezioni con campo vuoto non vengono renderizzate.
+2. Compila tutti i campi rilevanti per questo servizio. Attenzione: solo **Quanto costa** scompare quando il campo è vuoto. Le altre sezioni mostrano comunque il titolo, quindi un campo lasciato vuoto produce una sezione senza contenuto (e il validatore la segnala).
+
+Per il campo **Stato** scegli *Servizio attivo* o *Servizio non attivo*. Con *non attivo* il badge diventa rosso e, se compilato, viene mostrato il testo del campo **Motivo stato servizio**.
 
 Per ogni campo di tipo Editor, usa l'editor visuale per formattare il testo (elenchi puntati, grassetti, link, ecc.).
 
@@ -144,21 +147,24 @@ I tag dell'articolo vengono mostrati nella sidebar destra della Scheda Servizio 
 
 ---
 
-## Struttura delle 9 sezioni della Scheda Servizio
+## Struttura delle sezioni della Scheda Servizio
 
-Le sezioni della scheda appaiono sempre in questo ordine fisso, indipendentemente dall'ordine dei campi. Le sezioni con campo vuoto vengono saltate — non viene mostrato nemmeno il titolo della sezione.
+Le sezioni della scheda appaiono sempre in questo ordine fisso, indipendentemente dall'ordine dei campi. Solo due sezioni sono condizionali: **Descrizione** (presente se l'articolo ha un corpo dopo "Leggi di più") e **Quanto costa** (presente se il campo è compilato). Tutte le altre vengono sempre mostrate con il loro titolo, anche se il campo è vuoto.
 
-| # | Titolo sezione | Campo corrispondente | data-element |
-|---|---------------|---------------------|-------------|
-| 1 | A chi è rivolto | A chi è rivolto | `service-addressed` |
-| 2 | Come fare | Come fare | `service-how-to` |
-| 3 | Cosa serve | Cosa serve | `service-needed` |
-| 4 | Cosa si ottiene | Cosa si ottiene | `service-achieved` |
-| 5 | Tempi e scadenze | Tempi e scadenze + Lista Tempistiche | `service-calendar-text` / `service-calendar-list` |
-| 6 | Quanto costa | Quanto costa | `service-cost` |
-| 7 | Accedi al servizio | Accesso online + Prenota un appuntamento | `service-online-access` / `service-booking-access` |
-| 8 | Condizioni di servizio | Condizioni (testo) + Condizioni (file) | `service-file` |
-| 9 | Contatti | Voce di menu ufficio + Voce di menu contatti | `service-area` / `contacts` |
+| # | Titolo sezione | Campo corrispondente | data-element | Sempre presente |
+|---|---------------|---------------------|-------------|-----------------|
+| 1 | A chi è rivolto | A chi è rivolto | `service-addressed` | Sì |
+| 2 | Descrizione | Corpo dell'articolo | `service-extended-description` | Solo se c'è il corpo |
+| 3 | Come fare | Come fare | `service-how-to` | Sì |
+| 4 | Cosa serve | Cosa serve | `service-needed` | Sì |
+| 5 | Cosa si ottiene | Cosa si ottiene | `service-achieved` | Sì |
+| 6 | Tempi e scadenze | Tempi e scadenze + Lista Tempistiche | `service-calendar-text` / `service-calendar-list` | Sì |
+| 7 | Quanto costa | Quanto costa | `service-cost` | Solo se compilato |
+| 8 | Accedi al servizio | Accesso online + Prenota un appuntamento | `service-generic-access` / `service-online-access` / `service-booking-access` | Sì |
+| 9 | Condizioni di servizio | Condizioni (testo) + Condizioni (file) | `service-file` | Sì |
+| 10 | Contatti | Voce di menu ufficio + Voce di menu contatti | `service-area` / `contacts` | Sì |
+
+Se l'articolo ha un livello di accesso riservato e in Joomla è attiva l'opzione **Mostra link non autorizzati**, chi non ha accesso vede solo titolo e testo introduttivo, con un avviso e il link per accedere.
 
 ---
 
@@ -178,6 +184,8 @@ Accedi al servizio
 Condizioni di servizio
 Contatti
 ```
+
+Se l'articolo ha un corpo, tra "A chi è rivolto" e "Come fare" compare anche la voce **Descrizione**.
 
 **Nota:** la sezione "Quanto costa" non appare nell'indice (è considerata sezione secondaria dal Modello Comuni), ma viene comunque mostrata nel corpo della pagina.
 

@@ -8,8 +8,8 @@ Il template include 5 palette colore preimpostate, pensate per diversi tipi di e
 
 | Colore HEX | Nome | Pensato per |
 |------------|------|-------------|
-| `#0066CC` | Blu istituzionale | Generico / default |
-| `#007a52` | Verde Comuni | Comuni |
+| `#0066CC` | Blu istituzionale | Generico |
+| `#007a52` | Verde Comuni | Comuni (colore preselezionato a una nuova installazione) |
 | `#d1344c` | Rosso Scuole | Istituti scolastici |
 | `#07768d` | Verde Acqua ASL | Aziende sanitarie |
 | `#7d2670` | Viola Musei | Musei e beni culturali |
@@ -43,6 +43,8 @@ Il template inietta automaticamente nella `<head>` di ogni pagina delle variabil
 - L'`header slim` (la banda sottile in cima) usa una versione leggermente scurita del colore tramite `color-mix()`
 
 Questo significa che tutti gli elementi Bootstrap Italia che usano la classe `btn-primary`, `text-primary`, `bg-primary`, ecc. cambiano colore automaticamente.
+
+Dalla versione 1.2.1 seguono il colore scelto anche gli elementi che prima restavano sempre verdi: il blocco "Contatta il Comune", il logo e i social del menu mobile, il calendario "Tempi e scadenze" della Scheda Servizio e gli sfondi `.has-bg-grey`.
 
 ### 2. Immagine di sfondo della sezione "Evidenza"
 

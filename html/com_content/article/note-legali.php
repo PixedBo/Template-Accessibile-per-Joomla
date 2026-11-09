@@ -18,7 +18,8 @@ Factory::getApplication()->getLanguage()->load('tpl_templateaccessibileperjoomla
 
 /** @var \Joomla\Component\Content\Site\View\Article\HtmlView $this */
 ?>
-<main id="main-container" class="container my-5">
+<?php // <div>, non <main>: index.php apre già <main id="main"> e il contenitore #main-container ?>
+<div class="container my-5">
     <article class="it-single-article note-legali">
         <header>
             <h1><?php echo $this->escape($this->item->title); ?></h1>
@@ -30,7 +31,8 @@ Factory::getApplication()->getLanguage()->load('tpl_templateaccessibileperjoomla
             </div>
         <?php endif; ?>
 
-        <?php if (!empty($this->item->fulltext)) : ?>
+        <?php // Con "Mostra link non autorizzati" attivo, chi non ha accesso vede solo l'introduzione ?>
+        <?php if (!empty($this->item->fulltext) && $this->item->params->get('access-view')) : ?>
             <div class="article-body">
                 <?php echo HTMLHelper::_('content.prepare', $this->item->fulltext); ?>
             </div>
@@ -41,4 +43,4 @@ Factory::getApplication()->getLanguage()->load('tpl_templateaccessibileperjoomla
             <p><?php echo Text::_('TPL_ACCESSIBILE_NOTE_LEGALI_CC_BY'); ?></p>
         </section>
     </article>
-</main>
+</div>

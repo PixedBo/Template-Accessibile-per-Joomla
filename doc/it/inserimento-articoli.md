@@ -14,7 +14,7 @@ Il layout standard include automaticamente queste funzionalità:
 - **Indice di pagina con scrollspy** — se l'articolo contiene sottotitoli (H2, H3), viene generato un indice laterale navigabile che evidenzia la sezione corrente durante lo scroll. L'attributo `data-element="page-index"` viene emesso automaticamente.
 - **Pulsanti di condivisione social** — Facebook, X (Twitter), LinkedIn, WhatsApp. Presenti nella sidebar destra dell'articolo.
 - **Pulsanti stampa e invia via email** — nella stessa sidebar destra.
-- **Widget feedback chiarezza** — appare in fondo all'articolo se abilitato nelle impostazioni del template (vedi [valutazione-modelli.md](valutazione-modelli.md)).
+- **Widget feedback chiarezza** — appare in fondo a tutte le pagine di contenuto (articoli e liste di categoria) se abilitato nelle impostazioni del template (vedi [valutazione-modelli.md](valutazione-modelli.md)).
 - **Paginazione** — se l'articolo fa parte di una categoria, possono comparire link all'articolo precedente e successivo.
 
 > *Screenshot — Articolo standard renderizzato con il template: header articolo, sidebar destra con social, indice di pagina a sinistra, corpo del testo*
@@ -43,7 +43,7 @@ Usato per gli articoli che descrivono i servizi del comune. Richiede la creazion
 
 **Quando usarlo:** per ogni articolo nella categoria Servizi che deve essere conforme al criterio C.SI.1.3 del Modello Comuni.
 
-**Cosa genera:** una pagina strutturata con titolo, badge di stato, indice di pagina laterale, 9 sezioni fisse con i contenuti del servizio, pulsanti di accesso, e blocco JSON-LD per i motori di ricerca.
+**Cosa genera:** una pagina strutturata con titolo, badge di stato, indice di pagina laterale, fino a 10 sezioni in ordine fisso con i contenuti del servizio, pulsanti di accesso, e blocco JSON-LD per i motori di ricerca.
 
 Per la guida completa con tutti i passaggi: [scheda-servizio.md](scheda-servizio.md).
 

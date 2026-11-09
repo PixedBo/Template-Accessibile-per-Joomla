@@ -19,6 +19,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Content\Site\Helper\RouteHelper as ContentRouteHelper;
+use Joomla\Database\DatabaseInterface;
 
 Factory::getApplication()->getLanguage()->load('tpl_templateaccessibileperjoomla', JPATH_SITE);
 
@@ -46,7 +47,7 @@ if (!empty($this->items)) {
 // Recupera i titoli delle categorie dal database
 $categoryTitles = [];
 if (!empty($categoryIds)) {
-    $db = Factory::getDbo();
+    $db = Factory::getContainer()->get(DatabaseInterface::class);
     $query = $db->getQuery(true)
         ->select($db->quoteName(['id', 'title', 'alias', 'language']))
         ->from($db->quoteName('#__categories'))

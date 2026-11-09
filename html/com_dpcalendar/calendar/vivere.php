@@ -12,11 +12,14 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Menu\Menu;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
+use Joomla\Database\DatabaseInterface;
+use Joomla\Database\ParameterType;
 
 $_parentTpl = \Joomla\CMS\Factory::getApplication()->getTemplate(true)->parent
     ?: \Joomla\CMS\Factory::getApplication()->getTemplate();
@@ -42,12 +45,29 @@ if (!class_exists('DPCalendarHelperRoute')) {
 }
 
 /**
+ * Filtri di accesso e lingua per le tabelle di DPCalendar.
+ * Le colonne "access" e "language" vengono lette dallo schema reale della tabella,
+ * così il filtro si applica solo dove esistono (dipende dalla versione di DPCalendar).
+ */
+$applyAccessFilters = function ($db, $query, string $table, string $alias) use ($app) {
+    $columns = $db->getTableColumns($table);
+
+    if (isset($columns['access'])) {
+        $query->whereIn($db->quoteName($alias . '.access'), $app->getIdentity()->getAuthorisedViewLevels());
+    }
+
+    if (isset($columns['language']) && Multilanguage::isEnabled()) {
+        $query->whereIn($db->quoteName($alias . '.language'), [$app->getLanguage()->getTag(), '*'], ParameterType::STRING);
+    }
+};
+
+/**
  * Funzione per recuperare eventi in evidenza (DPCalendar)
  */
-$queryFeaturedEvents = function (int $limit) {
-    $db = Factory::getDbo();
+$queryFeaturedEvents = function (int $limit) use ($app, $applyAccessFilters) {
+    $db = Factory::getContainer()->get(DatabaseInterface::class);
     $now = Factory::getDate()->toSql();
-    
+
     $query = $db->getQuery(true)
         ->select([
             'e.id', 'e.title', 'e.alias', 'e.catid', 'e.start_date', 'e.all_day',
@@ -57,10 +77,15 @@ $queryFeaturedEvents = function (int $limit) {
         ->join('INNER', $db->quoteName('#__categories', 'c'), 'c.id = e.catid')
         ->where('e.featured = 1')
         ->where('e.state = 1')
+        // Calendario (categoria) pubblicato e visibile all'utente corrente
+        ->where($db->quoteName('c.published') . ' = 1')
+        ->whereIn($db->quoteName('c.access'), $app->getIdentity()->getAuthorisedViewLevels())
         ->where('(e.publish_up IS NULL OR e.publish_up <= ' . $db->quote($now) . ')')
         ->where('(e.publish_down IS NULL OR e.publish_down >= ' . $db->quote($now) . ')')
         ->order('e.start_date ASC');
-        
+
+    $applyAccessFilters($db, $query, '#__dpcalendar_events', 'e');
+
     $db->setQuery($query, 0, $limit);
     return $db->loadObjectList() ?: [];
 };
@@ -68,15 +93,17 @@ $queryFeaturedEvents = function (int $limit) {
 /**
  * Funzione per recuperare luoghi in evidenza (DPCalendar)
  */
-$queryFeaturedLocations = function (int $limit) {
-    $db = Factory::getDbo();
-    
+$queryFeaturedLocations = function (int $limit) use ($applyAccessFilters) {
+    $db = Factory::getContainer()->get(DatabaseInterface::class);
+
     $query = $db->getQuery(true)
         ->select(['l.id', 'l.title', 'l.alias', 'l.description', 'l.params'])
         ->from($db->quoteName('#__dpcalendar_locations', 'l'))
         ->where('l.state = 1')
         ->order('l.title ASC');
-        
+
+    $applyAccessFilters($db, $query, '#__dpcalendar_locations', 'l');
+
     $db->setQuery($query, 0, $limit);
     return $db->loadObjectList() ?: [];
 };
@@ -90,11 +117,12 @@ $queryFeaturedLocations = function (int $limit) {
  *                                  discendenti tramite il modello Nested Set di Joomla
  *                                  (#__categories.lft / rgt).
  */
-$queryFeaturedArticles = function (int $catId, int $limit, bool $includeSubcategorie = false) {
+$queryFeaturedArticles = function (int $catId, int $limit, bool $includeSubcategorie = false) use ($app) {
     if ($catId <= 0) return [];
 
-    $db  = Factory::getDbo();
-    $now = Factory::getDate()->toSql();
+    $db         = Factory::getContainer()->get(DatabaseInterface::class);
+    $now        = Factory::getDate()->toSql();
+    $viewLevels = $app->getIdentity()->getAuthorisedViewLevels();
 
     $query = $db->getQuery(true)
         ->select([
@@ -105,6 +133,10 @@ $queryFeaturedArticles = function (int $catId, int $limit, bool $includeSubcateg
         ->join('INNER', $db->quoteName('#__categories', 'c'), 'c.id = a.catid')
         ->where('a.featured = 1')
         ->where('a.state = 1')
+        // Come ArticlesModel di com_content: categoria pubblicata e livelli di accesso dell'utente corrente
+        ->where($db->quoteName('c.published') . ' = 1')
+        ->whereIn($db->quoteName('a.access'), $viewLevels)
+        ->whereIn($db->quoteName('c.access'), $viewLevels)
         // Parentesi obbligatorie: senza di esse l'OR rompe la precedenza AND e azzera
         // tutti i filtri (catid, featured, state) per le righe che hanno publish_down != NULL.
         ->where('(a.publish_up IS NULL OR a.publish_up <= ' . $db->quote($now) . ')')
@@ -124,6 +156,11 @@ $queryFeaturedArticles = function (int $catId, int $limit, bool $includeSubcateg
               ->where('c.extension = ' . $db->quote('com_content'));
     } else {
         $query->where('a.catid = ' . (int) $catId);
+    }
+
+    // Siti multilingua: solo articoli nella lingua corrente o in tutte le lingue
+    if (Multilanguage::isEnabled()) {
+        $query->whereIn($db->quoteName('a.language'), [$app->getLanguage()->getTag(), '*'], ParameterType::STRING);
     }
 
     $db->setQuery($query, 0, $limit);

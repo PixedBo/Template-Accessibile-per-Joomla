@@ -8,7 +8,7 @@
 
 This is the template aimed at integrating the **Universal Model** and the design system of **Designers Italia** natively on **Joomla 5+**. The template is primarily built for **Italian Public Administration** (Municipalities, Schools, Healthcare, Museums), but it is suitable for any site that wants to follow the same high accessibility standards.
 
-Designed without heavy external frameworks (zero jQuery, pure vanilla CSS and native JavaScript), it aims at a highly **accessible user experience (WCAG 2.1 AA/AAA)**, performant and future-proof. The structure is based on **Bootstrap Italia 2.9.0** and leverages modern *Web Asset Manager* and native Joomla 5 namespaces.
+Designed without heavy external frameworks (zero jQuery, pure vanilla CSS and native JavaScript), it aims at a highly **accessible user experience (WCAG 2.1 AA/AAA)**, performant and future-proof. The structure is based on **Bootstrap Italia 2.18.1** and leverages modern *Web Asset Manager* and native Joomla 5 namespaces.
 
 ## 🛠 System Requirements
 
@@ -20,7 +20,7 @@ Designed without heavy external frameworks (zero jQuery, pure vanilla CSS and na
 Installation follows the classic standard Joomla procedure. No coding required.
 
 1. Go to the [Releases](https://github.com/PixedBo/Template-Accessibile-per-Joomla/releases) page of this repository.
-2. Download the latest version of the installation package (e.g., `tpl_accessibile_vX.X.X.zip`).
+2. Download the latest version of the installation package (e.g., `tpl_templateaccessibileperjoomla_vX.X.X.zip`).
 3. Log in to your Joomla site backend.
 4. Navigate to **System** > **Install** > **Extensions**.
 5. Drag the downloaded `.zip` file into the upload area.
@@ -53,7 +53,7 @@ Main options include logo, entity name, primary color (5 accessible color themes
 
 The template declares the following native module positions:
 
-`selezione-lingua` · `menu-principale` · `menu-secondario` · `percorso` · `top` · `top-muted` · `evidenza` · `calendario` · `colonna-sinistra` · `colonna-destra` · `bottom` · `bottom2` · `footer1` · `footer2`
+`selezione-lingua` · `menu-principale` · `menu-secondario` · `avvisi` · `percorso` · `top` · `top-muted` · `evidenza` · `calendario` · `colonna-sinistra` · `colonna-destra` · `bottom` · `bottom2` · `footer1` · `footer2` · `cerca-servizi` · `debug`
 
 Menu modules must use the `comuni-menu` alternative layout.
 
@@ -63,7 +63,7 @@ Menu modules must use the `comuni-menu` alternative layout.
 
 ## 💻 Custom CSS
 
-To add custom CSS rules without modifying the original files, create the file `/templates/tpl_accessibile/css/custom.css`. The system auto-detects and loads it last, giving your rules absolute priority.
+To add custom CSS rules without modifying the original files, create the file `/media/templates/site/templateaccessibileperjoomla/css/custom.css` (with a child template, use the child's `css/` folder under `/media/templates/site/`). The system auto-detects and loads it last, giving your rules absolute priority.
 
 ---
 
@@ -104,7 +104,7 @@ The template **passes the automated validation** of the App Valutazione Modelli 
 The template implements all required `data-element` attributes:
 
 - Menu item → functional `data-element` mapping (tab "Valutazione Comuni")
-- "Page clarity feedback" widget (C.SI.2.5/2.6) — full HTML structure with all required `data-element`s
+- "Page clarity feedback" widget (C.SI.2.5/2.6) — full HTML structure with all required `data-element`s; answers are not yet sent or stored anywhere
 - Service Sheet layout (C.SI.1.3) with all `data-element`s and `GovernmentService` JSON-LD
 - Legal Notes page (C.SI.3.4) with non-editable CC-BY 4.0 text
 

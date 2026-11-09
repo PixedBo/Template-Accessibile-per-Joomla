@@ -23,6 +23,14 @@ Per assegnare un modulo a una posizione, apri il modulo in modifica e vai nella 
 | `menu-principale` | Navbar a sinistra | Menu di navigazione principale — **obbligatorio il layout `comuni-menu`** |
 | `menu-secondario` | Navbar a destra | Menu di navigazione secondario — **obbligatorio il layout `comuni-menu`** |
 
+### Avvisi
+
+| Posizione | Area nella pagina | Uso tipico |
+|-----------|-------------------|------------|
+| `avvisi` | Subito sotto l'intestazione, a tutta larghezza, prima del breadcrumb | Banner di comunicazione: manutenzioni, disservizi, allerte |
+
+Colori e uso di più banner sono descritti in [avvisi.md](avvisi.md).
+
 ### Breadcrumb (percorso di navigazione)
 
 | Posizione | Area nella pagina | Uso tipico |
@@ -60,6 +68,12 @@ Queste posizioni si trovano attorno all'area principale della pagina (la parte c
 | `cerca-servizi` | Sopra la lista servizi | Modulo Smart Search filtrato alla categoria Servizi |
 
 Questa posizione appare solo all'interno del layout categoria `servizi`. Se nessun modulo è pubblicato in `cerca-servizi`, l'area non viene mostrata.
+
+### Debug
+
+| Posizione | Area nella pagina | Uso tipico |
+|-----------|-------------------|------------|
+| `debug` | In fondo alla pagina, dopo il footer | Riservata all'output di debug di Joomla; non usarla per i contenuti |
 
 ---
 

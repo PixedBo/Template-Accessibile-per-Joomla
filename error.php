@@ -264,7 +264,8 @@ $wa->addInlineStyle($inlineCss);
                                 <a href="<?php echo $this->baseurl; ?>/"><?php echo Text::_('TPL_ACCESSIBILE_HOME'); ?></a><span class="separator">/</span>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">
-                                <?php echo $errorCode; ?> <?php echo $errorMessage; ?>
+                                <?php // Messaggio dell'eccezione solo per il 404 (testo fisso) o in debug: può contenere percorsi o query ?>
+                                <?php echo (int) $errorCode; ?><?php if ($errorCode == '404' || $this->debug) : ?> <?php echo htmlspecialchars($errorMessage, ENT_QUOTES, 'UTF-8'); ?><?php endif; ?>
                             </li>
                         </ol>
                     </nav>

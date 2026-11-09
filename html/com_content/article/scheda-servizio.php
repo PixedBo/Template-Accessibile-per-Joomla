@@ -72,14 +72,27 @@ $cfFile = function (string $param) use ($cfRaw): array {
     if ($url === '') {
         return $info;
     }
-    // Percorsi relativi (es. "files/doc.pdf") resi assoluti rispetto alla root del sito
-    if (!preg_match('#^(?:[a-z][a-z0-9+.-]*:|/)#i', $url)) {
+    if (preg_match('#^[a-z][a-z0-9+.-]*:#i', $url)) {
+        // URL con schema: ammessi solo quelli sicuri. Gli altri (javascript:, data:, ...) vengono
+        // scartati perché il valore finisce in href e in location.href.
+        if (!preg_match('#^(?:https?://|mailto:|tel:)#i', $url)) {
+            return $info;
+        }
+    } elseif ($url[0] !== '/') {
+        // Percorsi relativi (es. "files/doc.pdf") resi assoluti rispetto alla root del sito
         $url = Uri::root() . ltrim($url, '/');
     }
     $info['url'] = $url;
     return $info;
 };
 $cfUrl = fn (string $param): string => $cfFile($param)['url'];
+// URL per un gestore onclick: prima stringa JavaScript (json_encode), poi escape per l'attributo HTML.
+// Il solo escape HTML non basta: le entità vengono decodificate prima che il JS sia eseguito.
+$jsUrl = fn (string $url): string => htmlspecialchars(json_encode($url, JSON_UNESCAPED_SLASHES | JSON_HEX_TAG), ENT_QUOTES, 'UTF-8');
+
+// Con "Mostra link non autorizzati" attivo la view non blocca chi non ha accesso:
+// tocca al layout mostrare solo titolo e introduzione (vedi HtmlView di com_content).
+$canView = (bool) $params->get('access-view');
 
 $menuItemContatti    = (int) $tplParams->get('menuitem_contatti', 0);
 $menuItemArea        = (int) $tplParams->get('menuitem_contatti_area', 0);
@@ -102,7 +115,8 @@ $jsonLd = json_encode([
     'serviceType' => $this->item->category_title ?? '',
     'areaServed'  => $tplParams->get('nomesito', ''),
     'url'         => Uri::current(),
-], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+// JSON_HEX_TAG/AMP: un "</script>" nel titolo o nel nome del sito non deve chiudere il tag
+], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP);
 $document->addCustomTag('<script type="application/ld+json" data-element="metatag">' . $jsonLd . '</script>');
 ?>
 
@@ -115,8 +129,8 @@ $document->addCustomTag('<script type="application/ld+json" data-element="metata
             </h1>
 
 			<?php
-			$stato_raw = $cfRaw('cf_stato');
-			$stato     = $cfVal('cf_stato');
+			$stato_raw = $canView ? $cfRaw('cf_stato') : '';
+			$stato     = $canView ? $cfVal('cf_stato') : '';
 			$isNo = (string)$stato_raw === '0';
 			$motivazioni = $cfVal('cf_motivo_stato_servizio');
 
@@ -142,14 +156,14 @@ $document->addCustomTag('<script type="application/ld+json" data-element="metata
             <?php endif; ?>
 
             <?php
-                $urlOnlineHeader   = $cfUrl('cf_accedi_online');
+                $urlOnlineHeader   = $canView ? $cfUrl('cf_accedi_online') : '';
                 $testoOnlineHeader = $cfVal('cf_accedi_online_testo');
                 if ($urlOnlineHeader) :
             ?>
                 <div class="mt-4">
                     <button type="button"
                             class="btn btn-primary mobile-full"
-                            onclick="location.href='<?php echo $this->escape($urlOnlineHeader); ?>';"
+                            onclick="location.href=<?php echo $jsUrl($urlOnlineHeader); ?>;"
                             data-focus-mouse="false">
                         <span><?php echo $testoOnlineHeader ?: Text::_('TPL_ACCESSIBILE_SERVICE_ONLINE_ACCESS'); ?></span>
                     </button>
@@ -243,6 +257,16 @@ $document->addCustomTag('<script type="application/ld+json" data-element="metata
     </div>
 </div>
 
+<?php if (!$canView) : ?>
+<div class="container">
+    <div class="alert alert-warning mt-4" role="alert">
+        <?php echo Text::_('JERROR_ALERTNOAUTHOR'); ?>
+        <?php if ($app->getIdentity()->guest) : ?>
+            <a href="<?php echo Route::_('index.php?option=com_users&view=login&return=' . base64_encode(Uri::getInstance()->toString())); ?>"><?php echo Text::_('JLOGIN'); ?></a>
+        <?php endif; ?>
+    </div>
+</div>
+<?php else : ?>
 <div class="container">
     <div class="row border-top border-light row-column-border row-column-menu-left mt-4 mt-lg-80 pb-lg-80 pb-40">
 
@@ -437,7 +461,7 @@ $document->addCustomTag('<script type="application/ld+json" data-element="metata
                                     <div class="calendar-date-description-content">
                                         <h3 class="title-medium-2 mb-0"><?php echo $kTitolo ? $this->escape($item[$fTitolo] ?? '') : ''; ?></h3>
                                         <?php if ($kDescrizione && !empty($item[$fDescrizione])) : ?>
-                                            <div class="info-text mt-1 mb-0"><?php echo $item[$fDescrizione]; ?></div>
+                                            <div class="info-text mt-1 mb-0"><?php echo nl2br($this->escape($item[$fDescrizione])); ?></div>
                                         <?php endif; ?>
                                     </div>
                                 </div>
@@ -466,7 +490,7 @@ $document->addCustomTag('<script type="application/ld+json" data-element="metata
                     <?php $testoOnline = $cfVal('cf_accedi_online_testo'); ?>
                     <button type="button"
                             class="btn btn-primary mobile-full me-3 mt-2"
-                            onclick="location.href='<?php echo $this->escape($urlOnline); ?>';"
+                            onclick="location.href=<?php echo $jsUrl($urlOnline); ?>;"
                             data-element="service-online-access"
                             data-focus-mouse="false">
                         <span><?php echo $testoOnline ?: Text::_('TPL_ACCESSIBILE_SERVICE_ONLINE_ACCESS'); ?></span>
@@ -480,7 +504,7 @@ $document->addCustomTag('<script type="application/ld+json" data-element="metata
                 <?php if ($urlAppuntamento) : ?>
                     <button type="button"
                             class="btn btn-outline-primary bg-white t-primary mobile-full mt-2"
-                            onclick="location.href='<?php echo $this->escape($urlAppuntamento); ?>';"
+                            onclick="location.href=<?php echo $jsUrl($urlAppuntamento); ?>;"
                             data-element="service-booking-access"
                             data-focus-mouse="false">
                         <span><?php echo Text::_('TPL_ACCESSIBILE_SERVICE_BOOK_APPOINTMENT'); ?></span>
@@ -587,5 +611,6 @@ $document->addCustomTag('<script type="application/ld+json" data-element="metata
 
     </div>
 </div>
+<?php endif; ?>
 
 

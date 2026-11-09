@@ -38,6 +38,7 @@ Queste guide si applicano a **qualsiasi sito** che usa questo template, indipend
 | [Header](header.md) | Logo, nome ente, payoff, social, bottoni login e ricerca |
 | [Menu di navigazione](menu.md) | Come creare i menu principale e secondario |
 | [Posizioni modulo](moduli.md) | Dove si può posizionare ogni modulo nel layout della pagina |
+| [Banner di avviso](avvisi.md) | Come pubblicare comunicazioni urgenti nella posizione `avvisi`, sotto l'intestazione |
 | [Footer](footer.md) | Le due colonne del footer, logo UE, social, blocco "Contatta" |
 
 ### Gestione dei contenuti

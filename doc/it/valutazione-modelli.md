@@ -34,9 +34,9 @@ Questa sezione contiene una serie di campi dropdown. Per ognuno, devi selezionar
 | Campo nel template | data-element emesso | Pagina da collegare |
 |-------------------|---------------------|---------------------|
 | Amministrazione | `management` | La sezione Amministrazione del comune |
-| Notizie | `news` | La sezione Novità/Notizie |
+| Novità | `news` | La sezione Novità/Notizie |
 | Tutti i servizi | `all-services` | La sezione Servizi |
-| Novità | `live` | La sezione "Vivere il Comune" o Novità |
+| Vivere il Comune | `live` | La sezione "Vivere il Comune" |
 | FAQ | `faq` | La pagina delle domande frequenti |
 | Segnala disservizio | `report-inefficiency` | La pagina per segnalare disservizi |
 | Dichiarazione accessibilità | `accessibility-link` | La dichiarazione di accessibilità |
@@ -60,7 +60,7 @@ Questa sezione contiene una serie di campi dropdown. Per ognuno, devi selezionar
 
 ## Sezione: Widget feedback chiarezza (C.SI.2.5 / C.SI.2.6)
 
-Il widget di valutazione della chiarezza della pagina appare in fondo agli articoli quando l'utente visualizza una scheda articolo o una scheda servizio.
+Il widget di valutazione della chiarezza della pagina appare in fondo a tutte le pagine di contenuto: articoli, schede servizio e liste di categoria.
 
 ### Come abilitarlo
 
@@ -68,7 +68,7 @@ Il widget di valutazione della chiarezza della pagina appare in fondo agli artic
 2. Seleziona **Sì**
 3. Salva
 
-Il widget viene caricato automaticamente su tutte le pagine articolo (`com_content`, vista `article`): sia nel layout standard `default` che nel layout `scheda-servizio`.
+Il widget viene caricato automaticamente su tutte le pagine del componente Articoli (`com_content`): articoli singoli con qualsiasi layout, categorie e articoli in evidenza. Non compare sulle pagine di altri componenti (per esempio gli eventi di DPCalendar).
 
 ### Come funziona il widget
 

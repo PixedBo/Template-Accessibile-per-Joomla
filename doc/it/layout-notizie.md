@@ -42,8 +42,10 @@ Nella stessa voce di menu, alla scheda **Opzioni layout Notizie**, trovi i param
 |-----------|-------------|---------|
 | Mostra sezione «In evidenza» | Se Sì, mostra la sezione con le notizie in evidenza in cima (solo pagina 1) | Sì |
 | Numero notizie in evidenza | Quante notizie in evidenza mostrare (da 1 a 12) | 3 |
+| Modalità intestazione | Controlla il titolo (H2) sopra l'elenco completo: **Default** mostra «Esplora tutte le novità», **Nascondi** lo rimuove, **Personalizzata** usa un testo a scelta | Default |
+| Testo intestazione personalizzata | Il titolo da mostrare al posto di «Esplora tutte le novità» | — |
 
-Il campo **Numero notizie in evidenza** è visibile solo se **Mostra sezione «In evidenza»** è impostato su Sì.
+Il campo **Numero notizie in evidenza** è visibile solo se **Mostra sezione «In evidenza»** è impostato su Sì. Il campo **Testo intestazione personalizzata** è visibile solo se **Modalità intestazione** è impostata su Personalizzata.
 
 **Come configurarli:**
 1. Modifica la voce di menu della categoria Notizie
@@ -51,7 +53,7 @@ Il campo **Numero notizie in evidenza** è visibile solo se **Mostra sezione «I
 3. Modifica i valori
 4. Salva
 
-> *Screenshot — Scheda "Opzioni layout Notizie" con i due parametri visibili*
+> *Screenshot — Scheda "Opzioni layout Notizie" con i parametri visibili*
 
 ---
 

@@ -39,7 +39,8 @@ Di seguito trovi tutti i campi necessari per la Scheda Servizio, con il tipo Joo
 
 | Nome campo | Tipo Joomla | Categoria campo | Note |
 |------------|-------------|-----------------|------|
-| Stato | Testo | Servizi | Valore breve, es. "Attivo" |
+| Stato | Radio | Servizi | Due opzioni: "Servizio attivo" con valore `1`, "Servizio non attivo" con valore `0` |
+| Motivo stato servizio | Area di testo | Servizi | Mostrato solo quando lo Stato è "non attivo" |
 | A chi è rivolto | Editor | Servizi | Testo HTML |
 | Come fare | Editor | Servizi | Testo HTML |
 | Cosa serve | Editor | Servizi | Testo HTML |
@@ -59,10 +60,12 @@ I campi dentro la subform (Titolo, Data, ecc.) sono spiegati in una sezione sepa
 
 ## Come creare un campo di tipo Testo
 
-Usato per: **Stato**, **Testo - Accesso Online**
+Usato per: **Testo - Accesso Online**
+
+> Il campo **Stato** non è di tipo Testo ma **Radio**: creane uno con due opzioni, *Servizio attivo* (valore `1`) e *Servizio non attivo* (valore `0`). Il template considera il servizio non attivo solo quando il valore salvato è `0`: in quel caso il badge diventa rosso e viene mostrato il campo **Motivo stato servizio** (tipo Area di testo).
 
 1. Vai su **Contenuti → Campi → Nuovo**
-2. Nel campo **Titolo**, inserisci il nome del campo (es. `Stato`)
+2. Nel campo **Titolo**, inserisci il nome del campo (es. `Testo - Accesso Online`)
 3. Nel campo **Tipo**, seleziona **Testo**
 4. Nel campo **Gruppo**, seleziona **Servizi - Modello Comuni**
 5. Nel campo **Categoria**, seleziona la categoria **Servizi** (così il campo appare solo sugli articoli di quella categoria)
@@ -240,7 +243,7 @@ Una volta creati e mappati i campi, quando apri un articolo in modifica troverai
 
 ## Note
 
-- I campi mostrano il loro contenuto nel frontend solo se compilati. Le sezioni della Scheda Servizio con campo vuoto non vengono renderizzate — non viene mostrato nemmeno il titolo della sezione.
-- Il campo **Stato** viene visualizzato come badge nell'intestazione della scheda servizio (es. "Attivo", "In manutenzione", "Sospeso").
+- Solo la sezione **Quanto costa** scompare quando il campo è vuoto. Le altre sezioni della Scheda Servizio mostrano sempre il titolo: un campo lasciato vuoto produce una sezione senza contenuto.
+- Il campo **Stato** viene visualizzato come badge nell'intestazione della scheda servizio: verde per "Servizio attivo" (valore `1`), rosso per "Servizio non attivo" (valore `0`).
 - Il validatore del Modello Comuni richiede che le sezioni principali abbiano contenuto di almeno 3 caratteri. Un campo compilato con solo uno spazio non supererebbe la verifica.
 - I campi creati qui appaiono solo negli articoli della categoria **Servizi** (o di tutte le categorie, per il Subform). Non compaiono negli articoli di altre categorie.
