@@ -31,7 +31,8 @@ $app->getLanguage()->load('tpl_templateaccessibileperjoomla', JPATH_SITE);
 $template      = $app->getTemplate();
 
 // item_heading: stringa h1–h6 o "div" (XML default: h4)
-$itemHeading       = $params->get('item_heading', 'h4');
+$itemHeading       = (string) $params->get('item_heading', 'h4');
+$itemHeading       = in_array($itemHeading, ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'div'], true) ? $itemHeading : 'h4';
 $introLimit        = (int)  $params->get('introtext_limit', 100);
 $showAuthor        = (bool) $params->get('show_author', 0);
 $showCategory      = (bool) $params->get('show_category', 0);

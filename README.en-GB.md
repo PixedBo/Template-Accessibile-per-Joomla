@@ -12,7 +12,7 @@ Designed without heavy external frameworks (zero jQuery, pure vanilla CSS and na
 
 ## 🛠 System Requirements
 
-- **Joomla!**: 5.0.0 or higher
+- **Joomla!**: 5.4.0 or higher
 - **PHP**: 8.2.0 or higher
 
 ## 🚀 Installation
@@ -34,6 +34,10 @@ A pre-configured Akeeba backup package (`.jpa`) is available to get a fully work
 
 - **[📦 Download Quickstart package](doc/quickstart/quickstart-JoomlaPA-Akeeba.jpa)**
 - **[📖 Installation instructions](doc/quickstart/istruzioni.md)** *(currently in Italian only)*
+
+If you already have a Joomla site and only need the structure for an **Italian municipality website** (categories, custom fields, menus, modules, institutional pages), install the `plg_sampledata_templateaccessibile` plugin attached to the release: it adds its entries to the "Sample Data" dashboard module and can be run again without creating duplicates.
+
+- **[🧩 Sample data guide](doc/it/dati-di-esempio.md)** *(currently in Italian only)*
 
 ---
 
@@ -86,7 +90,7 @@ The template includes overrides for the main Joomla components (articles, menus,
 | `mod_breadcrumbs/default` | Breadcrumbs with schema.org microdata and `data-element` |
 | `com_dpcalendar/calendar/vivere` | *(DPCalendar)* "Vivere il Comune" page with events and locations from DPCalendar |
 | `com_dpcalendar/list/eventi` | *(DPCalendar)* Events list with featured carousel, filter and accessible pagination |
-| `com_dpcalendar/event/default` | *(DPCalendar)* Single event sheet with TOC, map, booking and Vertical Calendar component |
+| `com_dpcalendar/event/default` | *(DPCalendar)* Single event page with page index, map, booking and Modello Comuni sections (costs, attachments, contacts) from custom fields |
 | `mod_dpcalendar_upcoming/joomlaPA` | *(DPCalendar)* "Upcoming events" module with Bootstrap Italia card layout |
 
 **→ Documentation (IT):** [`doc/it/`](doc/it/)  
@@ -120,7 +124,7 @@ The template implements all required `data-element` attributes:
 - ✅ Service Sheet layout (C.SI.1.3) with all `data-element`s and JSON-LD
 - ✅ News, Administration, Vivere il Comune category layouts
 - ✅ Feedback widget (C.SI.2.5/2.6) — full HTML structure with all required `data-element`s
-- ✅ DPCalendar integration: event sheet with Vertical Calendar, map and booking; events list with featured carousel and filter
+- ✅ DPCalendar integration: event page with Modello Comuni sections, map and booking; events list with featured carousel and filter
 - 🚧 Specialized layouts for Ufficio, Documento, Luogo, Evento (native article), Persona, Notizia (single article) not yet implemented
 
 ---

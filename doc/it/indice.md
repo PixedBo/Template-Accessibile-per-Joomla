@@ -81,6 +81,7 @@ Queste guide si applicano a **qualsiasi sito** che usa questo template, indipend
 | Guida | Cosa impara |
 |-------|-------------|
 | [Integrazione DPCalendar](integrazione-DPCalendar.md) | Come usare DPCalendar (free) per la sezione eventi: pagina "Vivere il Comune" con dati reali, lista eventi con carousel e filtro, scheda singolo evento con mappa e prenotazione |
+| [Scheda Evento](scheda-evento.md) | Le sezioni della scheda evento e i campi personalizzati di DPCalendar da creare e associare (A chi è rivolto, Costi, Allegati, Contatti, Patrocinio, Sponsor) |
 
 ### Verifica e conformità
 
@@ -98,6 +99,12 @@ Per saltare la configurazione manuale e avere subito un sito di esempio funziona
 |---------|-------------|
 | [📦 Pacchetto Quickstart](../quickstart/quickstart-JoomlaPA-Akeeba.jpa) | Backup Akeeba `.jpa` con Joomla + template già configurato |
 | [📖 Istruzioni di installazione](../quickstart/istruzioni.md) | Guida passo-passo all'installazione tramite Akeeba Kickstart |
+
+Se hai già un sito Joomla e vuoi solo la struttura (categorie, campi, menu, pagine) per il sito di un Comune, usa invece il plugin dei dati di esempio:
+
+| Risorsa | Descrizione |
+|---------|-------------|
+| [🧩 Dati di esempio (sito di un Comune)](dati-di-esempio.md) | Plugin che crea categorie, campi personalizzati, menu, moduli e pagine istituzionali, a blocchi e senza duplicati |
 
 ---
 

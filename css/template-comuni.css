@@ -574,6 +574,40 @@ aside .cmp-navscroll .navbar.it-navscroll-wrapper .link-list-wrapper ul li a.act
 /* OVERRIDE ARTICOLO SINGOLO                 */
 /* ========================================= */
 
+/* Intestazione di pagina (dalla 1.3.0): menu "Condividi" / "Vedi azioni" e chip "Argomenti",
+   resi dai partial html/layouts/accessibile/azioni-pagina.php e argomenti.php. */
+
+/* Bootstrap Italia fissa l'altezza della chip a 24px e non manda a capo l'etichetta:
+   un argomento lungo, o il testo ingrandito al 200%, verrebbe tagliato. */
+.header-laterale .chip {
+    height: auto;
+    min-height: 24px;
+    max-width: 100%;
+}
+.header-laterale .chip .chip-label {
+    height: auto;
+    transform: none;
+    padding: 1px 0;
+}
+
+/* Elenco puntato "Date e orari" (point-list): Bootstrap Italia fissa il blu #06c,
+   qui segue il colore primario del tema. */
+.point-list-wrapper .point-list .point-list-aside.point-list-primary {
+    color: var(--bs-primary);
+    border-color: var(--bs-primary);
+}
+.point-list-wrapper .point-list .point-list-aside.point-list-primary:after {
+    background-color: var(--bs-primary);
+}
+.point-list-wrapper .point-list + .point-list {
+    margin-top: 1rem;
+}
+
+/* --- Mantenuto per compatibilità con gli override precedenti alla 1.3.0 ---
+   Le due regole che seguono (.comuni-tags, .btn-action-icon) non sono più usate dai layout
+   del template, ma lo sono dagli override e dai layout alternativi copiati dalle versioni
+   precedenti (template figli compresi). Non rimuovere. */
+
 /* Distanziamento flessibile per i Tag di Joomla */
 .comuni-tags ul.tags {
     list-style: none;

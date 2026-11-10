@@ -19,7 +19,7 @@ $doc       = $app->getDocument();
 $template  = $app->getTemplate();
 $params    = $app->getTemplate(true)->params;
 
-$colore    = $params->get('coloreprimario', '#0066CC');
+$colore    = TplAccessibileHelper::primaryColor($params);
 $baseurl   = Uri::base();
 $logo = $this->params->get('logotipo');
 $logoUrl = '';
@@ -219,7 +219,7 @@ $wa->addInlineStyle($inlineCss);
 
 						if (!empty($nomeRegione)) :
 							if (!empty($linkRegione)) : ?>
-								<a class="d-lg-block navbar-brand" target="_blank" href="<?php echo htmlspecialchars($linkRegione, ENT_QUOTES, 'UTF-8'); ?>" 
+								<a class="d-lg-block navbar-brand" target="_blank" rel="noopener noreferrer" href="<?php echo htmlspecialchars($linkRegione, ENT_QUOTES, 'UTF-8'); ?>" 
                   aria-label="<?php echo Text::sprintf('TPL_ACCESSIBILE_GO_TO_PORTAL', htmlspecialchars($nomeRegione)) . ' - ' . Text::_('TPL_ACCESSIBILE_EXTERNAL_LINK'); ?>" 
                   title="<?php echo Text::sprintf('TPL_ACCESSIBILE_GO_TO_PORTAL', htmlspecialchars($nomeRegione)); ?>">
                   <?php echo htmlspecialchars($nomeRegione); ?>
@@ -241,7 +241,7 @@ $wa->addInlineStyle($inlineCss);
   
   if ($mostraLogin == 1) :
       $tipoLogin = $this->params->get('tipo_login', 'standard');
-      $menuitemLogin = $this->params->get('menuitem_login', 0);
+      $menuitemLogin = (int) $this->params->get('menuitem_login', 0);
       $user = $app->getIdentity();
       
       if ($user->guest) {
@@ -335,7 +335,7 @@ $wa->addInlineStyle($inlineCss);
   
   if ($mostraRicerca == 1) :
       $tipoRicerca = $this->params->get('tipo_ricerca', 'smartsearch');
-      $menuitemRicerca = $this->params->get('menuitem_ricerca', 0);
+      $menuitemRicerca = (int) $this->params->get('menuitem_ricerca', 0);
       
       if ($tipoRicerca == 'menuitem' && $menuitemRicerca > 0) {
           $ricercaUrl = Route::_('index.php?Itemid=' . $menuitemRicerca); // <-- MODIFICATO
@@ -469,7 +469,7 @@ $wa->addInlineStyle($inlineCss);
 	   
 	   <?php if ($this->countModules('evidenza')) : ?>
 	   <section id="evidenza" class="evidence-section">
-		<div class="section py-5 pb-lg-80 px-lg-5 position-relative bg-evidenza bg-evidenza-<?php echo $this->params->get('coloreprimario', 'blu'); ?>">
+		<div class="section py-5 pb-lg-80 px-lg-5 position-relative bg-evidenza">
                 
 	<div class="container">
 			<div class="row">

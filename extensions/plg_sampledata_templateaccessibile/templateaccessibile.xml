@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="plugin" group="sampledata" method="upgrade">
+	<name>plg_sampledata_templateaccessibile</name>
+	<author>Pixed Web Development</author>
+	<creationDate>@date@</creationDate>
+	<copyright>Copyright (C) 2025 Pixed Web Development. All rights reserved.</copyright>
+	<license>GNU General Public License version 3 or later; see LICENSE.txt</license>
+	<authorEmail>info@pixed.it</authorEmail>
+	<authorUrl>https://www.pixed.it</authorUrl>
+	<version>@version@</version>
+	<description>PLG_SAMPLEDATA_TEMPLATEACCESSIBILE_XML_DESCRIPTION</description>
+	<namespace path="src">Pixed\Plugin\SampleData\TemplateAccessibile</namespace>
+	<scriptfile>script.php</scriptfile>
+	<files>
+		<folder plugin="templateaccessibile">services</folder>
+		<folder>src</folder>
+		<folder>language</folder>
+	</files>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field type="note" label="PLG_SAMPLEDATA_TEMPLATEACCESSIBILE_CONFIG_NOTE_LABEL" description="PLG_SAMPLEDATA_TEMPLATEACCESSIBILE_CONFIG_NOTE_DESC" class="alert alert-info" />
+			</fieldset>
+		</fields>
+	</config>
+	<updateservers>
+		<server type="extension" name="Dati di esempio - Template Accessibile">https://raw.githubusercontent.com/PixedBo/Template-Accessibile-per-Joomla/main/updateserver-plugin.xml</server>
+	</updateservers>
+</extension>

@@ -100,4 +100,53 @@ class TplAccessibileHelper
     {
         return self::mediaUrl('svg/sprites.svg') . '#' . $icon;
     }
+
+    /**
+     * Colore primario scelto nei parametri del template, solo se è un esadecimale a sei cifre.
+     * Il valore finisce nel CSS in linea: qualsiasi altra cosa viene sostituita dal blu predefinito.
+     *
+     * @param   \Joomla\Registry\Registry  $params  parametri dello stile del template
+     */
+    public static function primaryColor($params): string
+    {
+        $color = trim((string) $params->get('coloreprimario', '#0066CC'));
+
+        return preg_match('/^#[0-9a-f]{6}$/i', $color) ? $color : '#0066CC';
+    }
+
+    /**
+     * Mappa "ID voce di menu => valore data-element" richiesta dal Modello Comuni
+     * (App Valutazione Modelli). Le voci si scelgono nei parametri del template,
+     * scheda "Valutazione". Usata dai layout di mod_menu (comuni-menu, comuni-footer).
+     *
+     * @return  array<int, string>
+     */
+    public static function menuDataElements(): array
+    {
+        $params = Factory::getApplication()->getTemplate(true)->params;
+        $map    = [];
+
+        foreach (
+            [
+                'de_management'          => 'management',
+                'de_news'                => 'news',
+                'de_all_services'        => 'all-services',
+                'de_live'                => 'live',
+                'de_faq'                 => 'faq',
+                'de_report_inefficiency' => 'report-inefficiency',
+                'de_accessibility_link'  => 'accessibility-link',
+                'de_privacy_policy_link' => 'privacy-policy-link',
+                'de_all_topics'          => 'all-topics',
+                'de_legal_notes'         => 'legal-notes',
+            ] as $param => $value
+        ) {
+            $itemId = (int) $params->get($param, 0);
+
+            if ($itemId > 0) {
+                $map[$itemId] = $value;
+            }
+        }
+
+        return $map;
+    }
 }

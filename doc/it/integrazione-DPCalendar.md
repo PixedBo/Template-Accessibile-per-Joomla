@@ -82,29 +82,32 @@ Nei campi DPCalendar standard della tab **Opzioni**:
 
 ## 3. Pagina Singolo Evento ("Scheda Evento")
 
-Il layout del singolo evento è stato completamente riscritto per seguire il pattern **"Scheda Servizio"** richiesto dal Modello Comuni.
+Il layout del singolo evento segue la tipologia "evento" del Modello Comuni. La guida completa, con i campi da creare e come associarli, è in **[Scheda Evento](scheda-evento.md)**.
 
 ### Struttura della pagina
-La pagina è divisa in due colonne:
--   **Sinistra (Indice)**: Un menu "Table of Contents" appiccicoso che permette di navigare rapidamente tra le sezioni (Descrizione, Date, Luogo, Prenotazione, Informazioni).
--   **Destra (Contenuto)**: Le sezioni informative separate da titoli H2.
+-   **Intestazione**: calendario di appartenenza, titolo, date, testo introduttivo; a destra i menu **Condividi** e **Vedi azioni** (stampa, invio per email) e gli **Argomenti** (tag dell'evento).
+-   **Immagine**: l'immagine completa dell'evento, a tutta larghezza.
+-   **Sinistra (Indice)**: indice della pagina, che elenca solo le sezioni presenti.
+-   **Destra (Contenuto)**: le sezioni, in ordine fisso: Cos'è, A chi è rivolto, Luogo, Date e orari, Costi, Prenotazione, Allegati, Contatti, Ulteriori informazioni.
 
-### Sezione "Date e Orari"
-Questa sezione utilizza il componente grafico **Vertical Calendar**:
--   Mostra il **giorno** e il **mese** con font grande e stile evidenziato.
--   Include l'orario specifico dell'evento recuperato automaticamente da DPCalendar.
--   Gestisce automaticamente gli eventi "tutto il giorno".
+### Sezione "Date e orari"
+-   Mostra giorno e mese di inizio e fine con l'orario, e gestisce gli eventi "tutto il giorno".
+-   Per gli eventi ricorrenti indica la regola di ricorrenza.
+-   In fondo c'è il pulsante **Aggiungi al calendario** (Google Calendar o file .ics), se l'opzione di esportazione di DPCalendar è attiva.
 
-### Integrazione Funzionalità DPCalendar
-Tutte le funzioni native di DPCalendar sono integrate nel layout:
--   **Mappa**: Appare automaticamente nella sezione "Luogo" se configurata nell'evento.
--   **Prenotazioni (Booking)**: Se l'evento è prenotabile, il modulo e i pulsanti CTA appaiono nella sezione dedicata.
--   **Serie**: Gli eventi ricorrenti mostrano le altre date nella sezione "Informazioni".
+### Funzionalità di DPCalendar integrate
+-   **Mappa**: appare nella sezione "Luogo" se l'evento ha un luogo e la mappa è attiva.
+-   **Prenotazioni**: se l'evento è prenotabile, modulo e pulsanti appaiono nella sezione "Prenotazione".
+-   **Prezzi**: compaiono nella sezione "Costi".
+-   **Organizzatori e autore**: compaiono nella sezione "Contatti".
+-   **Serie**: gli eventi ricorrenti mostrano le altre date in "Ulteriori informazioni".
 
-### Campi Aggiuntivi DPCalendar
-E' possibile settare dei campi aggiuntivi agli eventi di DPCalendar, questi saranno renderizzati nell'evento con titolo e contenuto:
--   **URL**: in caso di URL Youtube o Vimeo sarà fatto l'embed automatico.
--   **SUBFORM CON IMMAGINI**: Se è presente un subform con immagini verrà visualizzata una gallery come da sito demo.
+### Campi aggiuntivi DPCalendar
+I campi personalizzati dell'evento possono essere associati a una sezione dai parametri del template (scheda **Scheda Evento**): vedi [Scheda Evento](scheda-evento.md).
+
+I campi non associati vengono mostrati ciascuno come sezione a sé, con titolo e contenuto:
+-   **URL o testo con un indirizzo YouTube o Vimeo**: il video viene incorporato.
+-   **Subform con immagini**: viene mostrata una galleria.
 
 ---
 

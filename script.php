@@ -16,6 +16,8 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Version;
 use Joomla\Database\DatabaseInterface;
 
+\defined('_JEXEC') or die;
+
 return new class implements InstallerScriptInterface
 {
     /**
@@ -23,8 +25,8 @@ return new class implements InstallerScriptInterface
      */
     public function preflight(string $type, InstallerAdapter $adapter): bool
     {
-        if (!(new Version())->isCompatible('5.0.0')) {
-            Log::add('Template Accessibile richiede Joomla 5.0.0 o superiore.', Log::ERROR, 'tpl_accessibile');
+        if (!(new Version())->isCompatible('5.4.0')) {
+            Log::add('Template Accessibile richiede Joomla 5.4.0 o superiore.', Log::ERROR, 'tpl_accessibile');
 
             return false;
         }

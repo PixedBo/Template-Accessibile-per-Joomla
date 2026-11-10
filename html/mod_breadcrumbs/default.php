@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 Factory::getApplication()->getLanguage()->load('tpl_templateaccessibileperjoomla', JPATH_SITE);
 
@@ -46,7 +47,7 @@ if ($count === 0) {
                         <span class="separator" aria-hidden="true">/</span>
                     <?php endif; ?>
                     <?php if ($item->link !== '' && !$isLast) : ?>
-                        <a href="<?php echo $item->link; ?>"<?php echo $isFirst ? ' rel="home"' : ''; ?> itemprop="item">
+                        <a href="<?php echo Route::_($item->link); ?>"<?php echo $isFirst ? ' rel="home"' : ''; ?> itemprop="item">
                             <span itemprop="name"><?php echo $item->name; ?></span>
                         </a>
                     <?php else : ?>

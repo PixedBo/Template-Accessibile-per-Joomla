@@ -1,6 +1,8 @@
 CLAUDE.md
+RELEASE.md
 .claude/
 _build/
 _dist/
 examples/
-TEMP/
+TEMP/_build_plugin/
+_build_plugin/

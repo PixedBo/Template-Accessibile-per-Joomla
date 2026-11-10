@@ -2,7 +2,7 @@
 <project name="tpl_templateaccessibileperjoomla" default="dist" basedir=".">
 
     <!-- Project properties -->
-    <property name="VERSION" value="1.2.1"/>
+    <property name="VERSION" value="1.3.0"/>
     <tstamp>
         <format property="DATE" pattern="yyyy-MM-dd"/>
     </tstamp>
@@ -55,18 +55,43 @@
         </copy>
     </target>
 
-    <!-- Create distribution ZIP -->
-    <target name="dist" depends="init, prepare">
+    <!-- Create distribution ZIP (template) and the sample data plugin ZIP -->
+    <target name="dist" depends="init, prepare, plugin-sampledata">
         <zip destfile="${dist}/${filename}">
             <fileset dir="${build}"/>
         </zip>
         <echo message="Package created: ${dist}/${filename}"/>
     </target>
 
+    <!-- Sample data plugin (extensions/plg_sampledata_templateaccessibile): separate ZIP,
+         same version as the template. It is NOT part of the template ZIP. -->
+    <property name="plugin.src" value="extensions/plg_sampledata_templateaccessibile"/>
+    <property name="plugin.build" value="_build_plugin"/>
+    <property name="plugin.filename" value="plg_sampledata_templateaccessibile_v${VERSION}.zip"/>
+
+    <target name="plugin-sampledata" depends="init">
+        <mkdir dir="${plugin.build}"/>
+        <copy todir="${plugin.build}">
+            <fileset dir="${plugin.src}"/>
+            <filterchain>
+                <replacetokens>
+                    <token key="version" value="${VERSION}"/>
+                    <token key="date" value="${DATE}"/>
+                </replacetokens>
+            </filterchain>
+        </copy>
+        <zip destfile="${dist}/${plugin.filename}">
+            <fileset dir="${plugin.build}"/>
+        </zip>
+        <delete dir="${plugin.build}"/>
+        <echo message="Package created: ${dist}/${plugin.filename}"/>
+    </target>
+
     <!-- Clean build directories -->
     <target name="clean" description="Clean build directories">
         <delete dir="${build}"/>
         <delete dir="${dist}"/>
+        <delete dir="${plugin.build}"/>
     </target>
 
 </project>

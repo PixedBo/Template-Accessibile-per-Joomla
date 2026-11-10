@@ -18,6 +18,8 @@ Questo sistema ti permette di rinominare i campi come vuoi, e di riutilizzare gl
 
 ---
 
+> **Scorciatoia:** il plugin [Dati di esempio](dati-di-esempio.md) crea tutti i campi di questa pagina e li associa nei parametri del template. Questa guida resta utile per capire cosa viene creato o per farlo a mano.
+
 ## Prima di iniziare: crea un Gruppo di Campi
 
 Joomla permette di raggruppare i campi personalizzati in "Gruppi di Campi" (visibili come schede nell'editor articolo). Prima di creare i singoli campi, crea un gruppo dedicato per tenerli organizzati.
@@ -175,7 +177,7 @@ Crea i seguenti campi (nell'ordine non importa, ma è utile crearli tutti prima 
 4. Salva e chiudi
 
 **Sotto-campo 5: Descrizione**
-1. **Contenuti → Campi → Nuovo** → Tipo: **Editor**
+1. **Contenuti → Campi → Nuovo** → Tipo: **Area di testo** (non Editor: la descrizione viene mostrata come testo semplice, e con un Editor comparirebbero i tag HTML)
 2. Titolo: `Descrizione`, Gruppo: `Servizi - Modello Comuni`, Categoria: `Servizi`
 3. Scheda **Opzioni** → **Solo sottomodulo**: **Sì**
 4. Salva e chiudi

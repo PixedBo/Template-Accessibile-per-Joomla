@@ -22,29 +22,11 @@ if ($wa->assetExists('script', 'mod_menu.menu')) {
 }
 
 $start = (int) $params->get('startLevel', 1);
-$menuId = $params->get('tag_id') ? 'id="' . $params->get('tag_id') . '"' : '';
+$menuId = $params->get('tag_id') ? 'id="' . htmlspecialchars((string) $params->get('tag_id'), ENT_QUOTES, 'UTF-8') . '"' : '';
 
 // Mappa menu_item_id => valore data-element richiesto dal modello PA (Designers Italia).
 // I valori sono configurati nella tab "Criteri valutazione - Comune" delle opzioni del template.
-$tplParams = $app->getTemplate(true)->params;
-$dataElementMap = [];
-foreach ([
-    'de_management'          => 'management',
-    'de_news'                => 'news',
-    'de_all_services'        => 'all-services',
-    'de_live'                => 'live',
-    'de_faq'                 => 'faq',
-    'de_report_inefficiency' => 'report-inefficiency',
-    'de_accessibility_link'  => 'accessibility-link',
-    'de_privacy_policy_link' => 'privacy-policy-link',
-    'de_all_topics'          => 'all-topics',
-    'de_legal_notes'         => 'legal-notes',
-] as $paramName => $deValue) {
-    $itemId = (int) $tplParams->get($paramName, 0);
-    if ($itemId > 0) {
-        $dataElementMap[$itemId] = $deValue;
-    }
-}
+$dataElementMap = TplAccessibileHelper::menuDataElements();
 ?>
 
 

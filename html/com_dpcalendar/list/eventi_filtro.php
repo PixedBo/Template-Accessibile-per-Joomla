@@ -90,6 +90,8 @@ $calendars = $this->calendars ?? [];
                     <?php foreach ($calendars as $cal) : ?>
                         <?php
                         $calId     = $cal->getId();
+                        // I calendari esterni hanno un ID testuale: escape per gli attributi
+                        $calIdAttr = $this->escape((string) $calId);
                         $calTitle  = $this->escape($cal->getTitle());
                         // Checked solo se c'è un filtro attivo E questo calendario è incluso.
                         // null = nessun filtro → tutti i checkbox vuoti (mostra tutti gli eventi).
@@ -99,10 +101,10 @@ $calendars = $this->calendars ?? [];
                         ?>
                         <div class="d-flex align-items-center gap-2">
                             <input class="form-check-input flex-shrink-0" type="checkbox"
-                                   name="filter[calendars][]" value="<?php echo $calId; ?>"
-                                   id="cal-<?php echo $calId; ?>"
+                                   name="filter[calendars][]" value="<?php echo $calIdAttr; ?>"
+                                   id="cal-<?php echo $calIdAttr; ?>"
                                    <?php echo $isChecked ? 'checked' : ''; ?>>
-                            <label class="form-check-label mb-0" for="cal-<?php echo $calId; ?>">
+                            <label class="form-check-label mb-0" for="cal-<?php echo $calIdAttr; ?>">
                                 <?php echo $calTitle; ?>
                             </label>
                         </div>

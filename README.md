@@ -22,7 +22,7 @@ Progettato senza framework pesanti (zero jQuery, CSS vanilla e JavaScript nativo
 
 ## 🛠 Requisiti di sistema
 
-- **Joomla!**: 5.0.0 o superiore
+- **Joomla!**: 5.4.0 o superiore
 - **PHP**: 8.2.0 o superiore
 
 ## 🚀 Installazione
@@ -44,6 +44,10 @@ Per avere un sito di esempio già configurato senza partire da zero, è disponib
 
 - **[📦 Scarica il pacchetto Quickstart](doc/quickstart/quickstart-JoomlaPA-Akeeba.jpa)**
 - **[📖 Istruzioni di installazione](doc/quickstart/istruzioni.md)**
+
+Se hai già un sito Joomla e ti serve solo la struttura per il **sito di un Comune** (categorie, campi personalizzati, menu, moduli, pagine istituzionali), installa il plugin `plg_sampledata_templateaccessibile` allegato alla release: aggiunge le sue voci al modulo "Dati di esempio" del pannello di controllo e può essere rilanciato senza creare duplicati.
+
+- **[🧩 Guida ai dati di esempio](doc/it/dati-di-esempio.md)**
 
 ---
 
@@ -95,7 +99,7 @@ Il template include override per i principali componenti Joomla (articoli, menu,
 | `mod_breadcrumbs/default` | Breadcrumb con microdata schema.org e `data-element` |
 | `com_dpcalendar/calendar/vivere` | *(DPCalendar)* Pagina "Vivere il Comune" con eventi e luoghi da DPCalendar |
 | `com_dpcalendar/list/eventi` | *(DPCalendar)* Lista eventi con carousel "In evidenza", filtro e paginazione |
-| `com_dpcalendar/event/default` | *(DPCalendar)* Scheda singolo evento con TOC, mappa, prenotazione e Vertical Calendar |
+| `com_dpcalendar/event/default` | *(DPCalendar)* Scheda singolo evento con indice, mappa, prenotazione e sezioni del Modello Comuni (costi, allegati, contatti) da campi personalizzati |
 | `mod_dpcalendar_upcoming/joomlaPA` | *(DPCalendar)* Modulo "prossimi eventi" con card Bootstrap Italia |
 
 **→ Guida all'inserimento articoli:** [`doc/it/inserimento-articoli.md`](doc/it/inserimento-articoli.md)  
@@ -134,7 +138,7 @@ Il template implementa tutti i `data-element` richiesti:
 - ✅ Layout Scheda Servizio (C.SI.1.3) con tutti i `data-element` e JSON-LD
 - ✅ Layout Notizie, Amministrazione, Vivere il Comune
 - ✅ Widget feedback (C.SI.2.5/2.6) — struttura HTML completa con tutti i `data-element` richiesti
-- ✅ Integrazione DPCalendar: scheda evento con Vertical Calendar, mappa, prenotazione; lista eventi con carousel e filtro
+- ✅ Integrazione DPCalendar: scheda evento con sezioni del Modello Comuni, mappa, prenotazione; lista eventi con carousel e filtro
 - 🚧 Layout specializzati per Ufficio, Documento, Luogo, Evento (articolo nativo), Persona, Notizia (articolo singolo) non ancora implementati
 
 ---

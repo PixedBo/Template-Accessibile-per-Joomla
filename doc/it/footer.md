@@ -44,7 +44,13 @@ Tipicamente nel footer si inseriscono (usando moduli di tipo **HTML personalizza
 - Informazioni di contatto dell'ente
 - Menu secondari o link rapidi
 
-**Nota per il Modello Comuni:** i link istituzionali (FAQ, Accessibilità, Privacy, ecc.) non sono inseriti automaticamente dal template. Vanno aggiunti come moduli nel footer **e poi** mappati nella scheda **Valutazione Comuni** del template per associarli ai corretti `data-element`. Vedi [valutazione-modelli.md](valutazione-modelli.md).
+**Nota per il Modello Comuni:** i link istituzionali (FAQ, Accessibilità, Privacy, Note legali, Segnalazione disservizio) non sono inseriti automaticamente dal template. Per farli riconoscere dall'App Valutazione Modelli:
+
+1. crea un menu con le voci e mostralo con un modulo **Menu** nella posizione `footer1` o `footer2`;
+2. nel modulo, scheda **Avanzate** → **Layout**, scegli **comuni-footer**: è il layout che aggiunge i `data-element` ai link (un modulo HTML personalizzato o un menu con il layout predefinito non li aggiungono);
+3. associa le voci nella scheda **Valutazione** del template. Vedi [valutazione-modelli.md](valutazione-modelli.md).
+
+Il plugin [Dati di esempio](dati-di-esempio.md) fa questi tre passi da solo.
 
 ---
 

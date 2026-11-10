@@ -78,6 +78,9 @@ $cfFile = function (string $param) use ($cfRaw): array {
         if (!preg_match('#^(?:https?://|mailto:|tel:)#i', $url)) {
             return $info;
         }
+    } elseif (preg_match('#^/[/\\\\]#', $url)) {
+        // "//host" e "/\host" non sono percorsi del sito: il browser li apre su un altro dominio
+        return $info;
     } elseif ($url[0] !== '/') {
         // Percorsi relativi (es. "files/doc.pdf") resi assoluti rispetto alla root del sito
         $url = Uri::root() . ltrim($url, '/');
@@ -174,83 +177,18 @@ $document->addCustomTag('<script type="application/ld+json" data-element="metata
 
         <div class="col-lg-3 offset-lg-1 header-laterale">
 
-            <?php // Condividi ?>
-            <div class="d-flex align-items-center mb-3">
-                <span class="subtitle-small fw-semibold text-muted me-3 mb-0"><?php echo Text::_('TPL_ACCESSIBILE_SHARE'); ?>:</span>
-                <div class="d-flex gap-2">
-                    <a class="btn btn-action-icon d-flex align-items-center justify-content-center rounded"
-                       href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode(Uri::current()); ?>"
-                       target="_blank" rel="noopener noreferrer"
-                       title="<?php echo Text::_('TPL_ACCESSIBILE_SHARE_ON_FACEBOOK'); ?>"
-                       aria-label="<?php echo Text::_('TPL_ACCESSIBILE_SHARE_ON_FACEBOOK'); ?> - <?php echo Text::_('TPL_ACCESSIBILE_NEW_WINDOW'); ?>">
-                        <svg class="icon icon-sm" aria-hidden="true"><use href="<?php echo TplAccessibileHelper::spriteUrl('it-facebook'); ?>"></use></svg>
-                    </a>
-                    <a class="btn btn-action-icon d-flex align-items-center justify-content-center rounded"
-                       href="https://twitter.com/intent/tweet?text=<?php echo urlencode(Uri::current()); ?>"
-                       target="_blank" rel="noopener noreferrer"
-                       title="<?php echo Text::_('TPL_ACCESSIBILE_SHARE_ON_X'); ?>"
-                       aria-label="<?php echo Text::_('TPL_ACCESSIBILE_SHARE_ON_X'); ?> - <?php echo Text::_('TPL_ACCESSIBILE_NEW_WINDOW'); ?>">
-                        <svg class="icon icon-sm" aria-hidden="true"><use href="<?php echo TplAccessibileHelper::spriteUrl('it-twitter'); ?>"></use></svg>
-                    </a>
-                    <a class="btn btn-action-icon d-flex align-items-center justify-content-center rounded"
-                       href="https://www.linkedin.com/shareArticle?url=<?php echo urlencode(Uri::current()); ?>"
-                       target="_blank" rel="noopener noreferrer"
-                       title="<?php echo Text::_('TPL_ACCESSIBILE_SHARE_ON_LINKEDIN'); ?>"
-                       aria-label="<?php echo Text::_('TPL_ACCESSIBILE_SHARE_ON_LINKEDIN'); ?> - <?php echo Text::_('TPL_ACCESSIBILE_NEW_WINDOW'); ?>">
-                        <svg class="icon icon-sm" aria-hidden="true"><use href="<?php echo TplAccessibileHelper::spriteUrl('it-linkedin'); ?>"></use></svg>
-                    </a>
-                    <a class="btn btn-action-icon d-flex align-items-center justify-content-center rounded"
-                       href="https://api.whatsapp.com/send?text=<?php echo urlencode(Uri::current()); ?>"
-                       target="_blank" rel="noopener noreferrer"
-                       title="<?php echo Text::_('TPL_ACCESSIBILE_SHARE_ON_WHATSAPP'); ?>"
-                       aria-label="<?php echo Text::_('TPL_ACCESSIBILE_SHARE_ON_WHATSAPP'); ?> - <?php echo Text::_('TPL_ACCESSIBILE_NEW_WINDOW'); ?>">
-                        <svg class="icon icon-sm" aria-hidden="true"><use href="<?php echo TplAccessibileHelper::spriteUrl('it-whatsapp'); ?>"></use></svg>
-                    </a>
-                </div>
-            </div>
+            <?php // Condividi + Vedi azioni (partial condiviso) ?>
+            <?php echo LayoutHelper::render('accessibile.azioni-pagina', [
+                'title'    => $this->item->title,
+                'editHtml' => $canEdit ? LayoutHelper::render('joomla.content.icons', ['params' => $params, 'item' => $this->item]) : '',
+            ]); ?>
 
-            <?php // Azioni ?>
-            <div class="d-flex align-items-center mb-4">
-                <span class="subtitle-small fw-semibold text-muted me-3 mb-0"><?php echo Text::_('TPL_ACCESSIBILE_ACTIONS'); ?>:</span>
-                <div class="d-flex gap-2 align-items-center">
-                    <button class="btn btn-action-icon d-flex align-items-center justify-content-center rounded"
-                            onclick="window.print();"
-                            title="<?php echo Text::_('TPL_ACCESSIBILE_PRINT_PAGE'); ?>"
-                            aria-label="<?php echo Text::_('TPL_ACCESSIBILE_PRINT_PAGE'); ?>">
-                        <svg class="icon icon-sm" aria-hidden="true"><use href="<?php echo TplAccessibileHelper::spriteUrl('it-print'); ?>"></use></svg>
-                    </button>
-                    <a class="btn btn-action-icon d-flex align-items-center justify-content-center rounded"
-                       href="mailto:?subject=<?php echo urlencode($this->item->title); ?>&amp;body=<?php echo urlencode(Uri::current()); ?>"
-                       title="<?php echo Text::_('TPL_ACCESSIBILE_SEND_EMAIL'); ?>"
-                       aria-label="<?php echo Text::_('TPL_ACCESSIBILE_SEND_EMAIL'); ?>">
-                        <svg class="icon icon-sm" aria-hidden="true"><use href="<?php echo TplAccessibileHelper::spriteUrl('it-mail'); ?>"></use></svg>
-                    </a>
-                    <?php if ($canEdit) : ?>
-                        <div class="d-inline-block ms-1">
-                            <?php echo LayoutHelper::render('joomla.content.icons', ['params' => $params, 'item' => $this->item]); ?>
-                        </div>
-                    <?php endif; ?>
-                </div>
-            </div>
-
-            <?php // Argomenti con data-element="service-topic" ?>
+            <?php // Argomenti con data-element="service-topic" (partial condiviso) ?>
             <?php if ($params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
-                <div class="mt-4 mb-4">
-                    <span class="subtitle-small mb-2 d-block fw-semibold text-muted"><?php echo Text::_('TPL_ACCESSIBILE_TAGS'); ?></span>
-                    <div class="comuni-tags">
-                        <ul class="tags list-inline">
-                            <?php foreach ($this->item->tags->itemTags as $tag) : ?>
-                                <li class="list-inline-item">
-                                    <a href="<?php echo Route::_('index.php?option=com_tags&view=tag&id=' . $tag->id . ':' . $tag->alias); ?>"
-                                       data-element="service-topic"
-                                       class="btn btn-sm btn-info">
-                                        <?php echo $this->escape($tag->title); ?>
-                                    </a>
-                                </li>
-                            <?php endforeach; ?>
-                        </ul>
-                    </div>
-                </div>
+                <?php echo LayoutHelper::render('accessibile.argomenti', [
+                    'tags'        => $this->item->tags->itemTags,
+                    'dataElement' => 'service-topic',
+                ]); ?>
             <?php endif; ?>
 
         </div>
