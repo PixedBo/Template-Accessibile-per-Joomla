@@ -34,7 +34,7 @@ Se il modulo non è visibile, aggiungilo dal pulsante **Aggiungi modulo al panne
 
 | Voce | Cosa crea |
 |---|---|
-| **Struttura** | Le categorie Amministrazione, Novità, Servizi e Vivere il Comune con le sottocategorie; il gruppo di campi "Servizi - Modello Comuni" con tutti i campi della Scheda Servizio; l'associazione dei campi nella scheda **Valutazione** del template |
+| **Struttura** | Le categorie Amministrazione, Novità, Servizi e Vivere il Comune con le sottocategorie; il gruppo di campi "Servizi - Modello Comuni" con tutti i campi della Scheda Servizio; l'associazione dei campi nella scheda **Valutazione - COMUNI** del template |
 | **Menu e moduli** | Tre menu (principale, secondario, footer) con le voci; i moduli che li mostrano nelle posizioni del template e il percorso di navigazione; l'associazione delle voci ai criteri di valutazione |
 | **Pagine istituzionali** | La categoria "Pagine istituzionali" con sette pagine segnaposto: Note legali, Informativa privacy, Dichiarazione di accessibilità, Domande frequenti, Contatti, Prenotazione appuntamento, Segnalazione disservizio |
 | **Campi DPCalendar** | I campi degli eventi usati dalla [Scheda Evento](scheda-evento.md) e la loro associazione nella scheda **Scheda Evento** del template. La voce compare solo se DPCalendar è installato |

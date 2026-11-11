@@ -27,7 +27,7 @@ La pagina generata da questo layout è strutturata così:
 2. **Sezione "Eventi in evidenza"** *(appare solo se la categoria eventi è configurata e ha articoli in evidenza)* — card degli eventi con immagine, badge data, titolo e testo introduttivo
 3. **Sezione "Luoghi in evidenza"** *(appare solo se la categoria luoghi è configurata e ha articoli in evidenza)* — card dei luoghi con immagine, titolo e testo introduttivo
 
-Ogni sezione termina con un pulsante "Esplora tutti gli eventi" / "Esplora tutti i luoghi" che porta alla pagina di lista della categoria corrispondente.
+Ogni sezione termina con un pulsante "Tutti gli eventi" / "Tutti i luoghi" che porta alla pagina di lista della categoria corrispondente.
 
 ---
 
@@ -46,15 +46,13 @@ Se una delle due categorie non ha articoli in evidenza, la sezione corrispondent
 
 Il layout si assegna alla **voce di menu** che punta alla categoria Vivere il Comune.
 
-1. Vai su **Menu → [il tuo menu principale] → Aggiungi voce di menu**
-2. In **Tipo voce di menu**, seleziona **Articoli → Blog categoria**
+1. Vai su **Menu → [il tuo menu principale] → Nuovo**
+2. In **Tipo di voce di menu**, clicca **Seleziona** e scegli **Articoli → Vivere il Comune (Modello PA)**: il layout del template compare nell'elenco come un tipo di voce a sé
 3. Nel campo **Categoria**, seleziona la categoria **Vivere il Comune**
-4. Clicca sulla scheda **Tipo di layout** (o "Layout")
-5. Nel campo **Layout alternativo**, seleziona **Vivere il Comune (Modello PA)**
-6. Prima di salvare, configura i parametri nella scheda dedicata (vedi sotto)
-7. Salva
+4. Prima di salvare, configura i parametri nella scheda dedicata (vedi sotto)
+5. Salva
 
-> *Screenshot — Scheda "Tipo di layout" della voce di menu, con il campo "Layout alternativo" impostato su "Vivere il Comune (Modello PA)"*
+![Voce di menu, scheda "Dettagli": campo "Tipo di voce di menu" impostato su "Vivere il Comune (Modello PA)"](../img/be-voce-menu-vivere-articoli-tipo.png)
 
 ---
 
@@ -76,7 +74,7 @@ Nella scheda **Opzioni layout Vivere il Comune** della voce di menu, trovi i par
 5. Nel campo **Numero di card per sezione**, inserisci quante card vuoi (default: 3)
 6. Salva
 
-> *Screenshot — Scheda "Opzioni layout Vivere il Comune" con i tre parametri configurati*
+![Scheda "Opzioni layout Vivere il Comune" con i tre parametri configurati](../img/be-voce-menu-vivere-articoli-opzioni.png)
 
 ---
 
@@ -87,14 +85,14 @@ Nella scheda **Opzioni layout Vivere il Comune** della voce di menu, trovi i par
 Le card degli eventi vengono popolate dagli articoli marcati come "In evidenza" della categoria **Eventi** (o della categoria che hai selezionato nel parametro). Gli articoli vengono ordinati per **data di pubblicazione decrescente** (gli eventi più recenti prima).
 
 Ogni card mostra:
-- **Immagine** — l'immagine introduttiva dell'articolo (se presente). Al centro in basso dell'immagine appare un **badge con il giorno e il mese** estratti dalla data di pubblicazione dell'articolo.
+- **Immagine** — l'immagine introduttiva dell'articolo (se presente). In alto a destra sull'immagine appare un **badge con il giorno e il mese** estratti dalla data di pubblicazione dell'articolo.
 - **Categoria** — il nome della categoria dell'articolo
 - **Titolo** — con link all'articolo, ha l'attributo `data-element="live-category-link"`
 - **Testo introduttivo** — troncato a 150 caratteri
 
 **Come marcare un evento come "In evidenza":**
 - Dalla lista articoli: clicca la stella nella colonna **In Evidenza**
-- Oppure dall'editor articolo: scheda **Pubblicazione** → **In Evidenza**: **Sì**
+- Oppure dall'editor articolo: scheda **Contenuto**, colonna destra → **In evidenza**: **Sì**
 
 **Come impostare l'immagine dell'evento:**
 - Nell'editor articolo, scheda **Immagini e link** → campo **Immagine introduttiva**: carica o seleziona l'immagine
@@ -103,7 +101,6 @@ Ogni card mostra:
 **Come impostare la data dell'evento:**
 - La data mostrata nel badge è la **data di pubblicazione** dell'articolo. Per impostare una data specifica: nell'editor articolo, scheda **Pubblicazione** → campo **Inizia la pubblicazione**: inserisci la data dell'evento.
 
-> *Screenshot — Card evento con immagine, badge data in sovrimpressione, categoria, titolo e introtext*
 
 ### Card luoghi
 
@@ -113,12 +110,12 @@ Le card dei luoghi funzionano in modo analogo agli eventi, ma:
 
 ---
 
-## Pulsanti "Esplora tutti"
+## Pulsanti "Tutti gli eventi" e "Tutti i luoghi"
 
 In fondo a ogni sezione appare un pulsante che porta alla pagina di lista della categoria:
 
-- **"Esplora tutti gli eventi"** → punta alla categoria **Eventi** (il link è generato automaticamente dalla categoria configurata nel parametro). Ha `data-element="live-button-events"`.
-- **"Esplora tutti i luoghi"** → punta alla categoria **Luoghi**. Ha `data-element="live-button-locations"`.
+- **"Tutti gli eventi"** → punta alla categoria **Eventi** (il link è generato automaticamente dalla categoria configurata nel parametro). Ha `data-element="live-button-events"`.
+- **"Tutti i luoghi"** → punta alla categoria **Luoghi**. Ha `data-element="live-button-locations"`.
 
 Questi pulsanti appaiono anche se la sezione non ha articoli in evidenza? No: se non ci sono articoli in evidenza, l'intera sezione (incluso il pulsante) non viene mostrata.
 
@@ -131,7 +128,7 @@ Questi attributi sono richiesti dall'App Valutazione Modelli:
 | Elemento | data-element |
 |----------|-------------|
 | Link titolo articolo (eventi e luoghi) | `live-category-link` |
-| Pulsante "Esplora tutti gli eventi" | `live-button-events` |
-| Pulsante "Esplora tutti i luoghi" | `live-button-locations` |
+| Pulsante "Tutti gli eventi" | `live-button-events` |
+| Pulsante "Tutti i luoghi" | `live-button-locations` |
 
-> *Screenshot — Pagina "Vivere il Comune" sul frontend con le due sezioni "Eventi in evidenza" e "Luoghi in evidenza" affiancate*
+![Pagina "Vivere il Comune" con il layout ad articoli: nel sito di esempio compare solo la sezione "Luoghi in evidenza", perché la categoria Eventi non ha articoli in evidenza](../img/fe-vivere-articoli-pagina.png)

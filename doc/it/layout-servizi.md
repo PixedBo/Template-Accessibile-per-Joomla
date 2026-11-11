@@ -21,14 +21,12 @@ La pagina generata da questo layout è strutturata così:
 
 Il layout si assegna alla **voce di menu** che punta alla categoria Servizi.
 
-1. Vai su **Menu → [il tuo menu principale] → Aggiungi voce di menu**
-2. In **Tipo voce di menu**, seleziona **Articoli → Blog categoria**
+1. Vai su **Menu → [il tuo menu principale] → Nuovo**
+2. In **Tipo di voce di menu**, clicca **Seleziona** e scegli **Articoli → Servizi (Modello PA)**: il layout del template compare nell'elenco come un tipo di voce a sé
 3. Nel campo **Categoria**, seleziona la categoria **Servizi**
-4. Clicca sulla scheda **Tipo di layout** (o "Layout")
-5. Nel campo **Layout alternativo**, seleziona **Servizi (Modello PA)**
-6. Salva
+4. Salva
 
-> *Screenshot — Scheda "Tipo di layout" della voce di menu, con il campo "Layout alternativo" impostato su "Servizi (Modello PA)"*
+![Voce di menu, scheda "Dettagli": campo "Tipo di voce di menu" impostato su "Servizi (Modello PA)"](../img/be-voce-menu-servizi-tipo.png)
 
 Puoi applicare questo layout anche alle **sottocategorie** di Servizi (es. la pagina della categoria "Ambiente" può avere il layout Servizi e mostrare la lista dei servizi ambientali).
 
@@ -41,11 +39,11 @@ Puoi applicare questo layout anche alle **sottocategorie** di Servizi (es. la pa
 La hero mostra il titolo della categoria, la descrizione (se presente e abilitata nelle opzioni della voce di menu) e i tag della categoria (se abilitati).
 
 Per aggiungere una descrizione alla categoria Servizi:
-1. Vai su **Contenuti → Categorie** e modifica la categoria "Servizi"
+1. Vai su **Contenuto → Categorie** e modifica la categoria "Servizi"
 2. Nel campo **Descrizione**, inserisci il testo
 3. Salva
 
-> *Screenshot — Hero della pagina Servizi con titolo "Servizi" e descrizione sottostante*
+![Hero della pagina Servizi con titolo "Servizi" e descrizione sottostante](../img/fe-servizi-hero.png)
 
 ### Colonna principale — Lista servizi
 
@@ -64,9 +62,9 @@ Questo significa che se sei nella pagina della categoria radice "Servizi", la si
 
 **Come aggiungere un servizio alla sidebar:**
 - Dalla lista articoli: clicca la stella nella colonna **In Evidenza** dell'articolo
-- Oppure dall'editor articolo: scheda **Pubblicazione** → **In Evidenza**: **Sì**
+- Oppure dall'editor articolo: scheda **Contenuto**, colonna destra → **In evidenza**: **Sì**
 
-> *Screenshot — Sidebar destra "Servizi in evidenza" con alcuni servizi elencati*
+![Sidebar destra "Servizi in evidenza" con alcuni servizi elencati](../img/fe-servizi-in-evidenza.png)
 
 ### Sezione "Esplora per categoria"
 
@@ -74,21 +72,20 @@ Se la categoria ha sottocategorie (es. "Ambiente", "Tributi", ecc.), in fondo al
 
 Non serve configurazione: le sottocategorie pubblicate compaiono automaticamente.
 
-> *Screenshot — Sezione "Esplora per categoria" con le sottocategorie di Servizi elencate come card*
+![Sezione "Esplora per categoria" con le sottocategorie di Servizi elencate come card](../img/fe-servizi-esplora-categorie.png)
 
 ---
 
 ## Aggiungere la ricerca (posizione `cerca-servizi`)
 
-Per aggiungere una barra di ricerca in cima alla lista dei servizi, pubblica un modulo Smart Search nella posizione `cerca-servizi`. Il modulo Smart Search è già incluso in Joomla.
+Per aggiungere una barra di ricerca in cima alla lista dei servizi, pubblica un modulo **Motore di ricerca** (Smart Search) nella posizione `cerca-servizi`. Il modulo è già incluso in Joomla.
 
-1. Prima di tutto, indicizza i contenuti con Smart Search: **Componenti → Smart Search → Indicizzazione** → clicca "Indicizza tutto"
-2. Vai su **Estensioni → Moduli → Nuovo** e seleziona **Smart Search**
-3. Nella scheda **Avanzate** → **Posizione modulo**: inserisci `cerca-servizi`
+1. Prima di tutto, crea l'indice: **Componenti → Motore di ricerca → Indice** → clicca **Indice** (i dettagli sono in [ricerca.md](ricerca.md))
+2. Vai su **Contenuto → Moduli sito → Nuovo** e seleziona **Motore di ricerca**
+3. Nella scheda **Modulo** → **Posizione** (colonna destra): inserisci `cerca-servizi`
 4. Nelle opzioni del modulo puoi limitare la ricerca alla sola categoria Servizi
 5. Pubblica il modulo
 
-> *Screenshot — Colonna principale della pagina Servizi con la barra di ricerca visibile sopra la lista*
 
 ---
 

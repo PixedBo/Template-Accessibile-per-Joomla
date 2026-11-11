@@ -8,11 +8,11 @@ Il template prevede due posizioni per i menu di navigazione nell'header: `menu-p
 
 Assicurati di aver già creato almeno un menu in Joomla con le voci di menu necessarie. Se non l'hai ancora fatto:
 
-1. Vai su **Menu → Gestione Menu → Aggiungi nuovo menu**
+1. Vai su **Menu → Gestione** e clicca **Nuovo**
 2. Dai un nome al menu (es. `Menu principale`)
-3. Salva, poi aggiungi le voci di menu da **Menu → [Nome menu] → Aggiungi voce di menu**
+3. Salva, poi aggiungi le voci di menu da **Menu → [Nome menu]** con il pulsante **Nuovo**
 
-> *Screenshot — Schermata "Gestione Menu" con un menu creato e le sue voci di menu elencate*
+![Schermata "Gestione Menu" con un menu creato e le sue voci di menu elencate](../img/be-menu-voci.png)
 
 ---
 
@@ -28,26 +28,26 @@ Se usi il layout default di Joomla invece di `comuni-menu`, il menu appare nell'
 
 Ripeti questi passaggi sia per il menu principale che per il menu secondario.
 
-1. Vai su **Estensioni → Moduli → Nuovo**
+1. Vai su **Contenuto → Moduli sito → Nuovo**
 2. Nella lista dei tipi di modulo, seleziona **Menu**
 
 3. Nella scheda **Modulo** del nuovo modulo, compila:
-   - **Titolo**: inserisci un titolo descrittivo (es. `Menu Principale`). Puoi nasconderlo dal frontend nella scheda Avanzate se preferisci.
-   - **Menu da mostrare**: seleziona il menu Joomla che vuoi mostrare (es. `Menu principale`)
-   - **Layout alternativo**: clicca sul menu a tendina e seleziona `comuni-menu`
+   - **Titolo**: inserisci un titolo descrittivo (es. `Menu Principale`). Puoi nasconderlo dal frontend con l'interruttore **Titolo** (Mostra/Nascondi), nella colonna destra.
+   - **Seleziona menu**: scegli il menu Joomla che vuoi mostrare (es. `Menu principale`)
+   - **Posizione** (colonna destra): digita o seleziona `menu-principale` (per il menu principale) oppure `menu-secondario` (per il menu secondario)
 
-4. Nella scheda **Assegnazione Menu**: scegli **Su tutte le pagine** (o le pagine specifiche dove vuoi il menu)
+4. Nella scheda **Assegnazione menu**: scegli **Su tutte le pagine** (o le pagine specifiche dove vuoi il menu)
 
 5. Nella scheda **Avanzate**:
-   - **Posizione modulo**: digita o seleziona `menu-principale` (per il menu principale) oppure `menu-secondario` (per il menu secondario)
+   - **Layout**: clicca sul menu a tendina e seleziona `comuni-menu`
 
 6. Imposta lo **Stato** su *Pubblicato*
 
 7. Clicca **Salva e chiudi**
 
-> *Screenshot — Scheda "Modulo" del modulo Menu, con i campi "Menu da mostrare" e "Layout alternativo" evidenziati. Il campo Layout alternativo mostra "comuni-menu" selezionato.*
+![Scheda "Modulo" del modulo Menu, con i campi "Seleziona menu" e "Posizione" (menu-principale) evidenziati](../img/be-modulo-menu.png)
 
-> *Screenshot — Scheda "Avanzate" con il campo "Posizione modulo" impostato su "menu-principale"*
+![Scheda "Avanzate" del modulo Menu, con il campo "Layout" impostato su "comuni-menu"](../img/be-modulo-menu-avanzate.png)
 
 ---
 
@@ -60,7 +60,9 @@ Ripeti questi passaggi sia per il menu principale che per il menu secondario.
 
 Entrambe le posizioni si trovano nella stessa barra (navbar) nell'header. La differenza è principalmente visiva e semantica.
 
-> *Screenshot — Navbar del sito con il menu principale evidenziato a sinistra e il menu secondario evidenziato a destra*
+![Navbar del sito con il menu principale e il menu secondario numerati](../img/fe-navbar-menu.png)
+
+*1 — Menu principale (posizione `menu-principale`) · 2 — Menu secondario (posizione `menu-secondario`)*
 
 ---
 
@@ -68,7 +70,7 @@ Entrambe le posizioni si trovano nella stessa barra (navbar) nell'header. La dif
 
 Su schermi piccoli (smartphone), la navbar mostra solo un pulsante hamburger (tre linee orizzontali). Cliccandolo si apre un pannello laterale che contiene entrambi i menu (principale e secondario).
 
-> *Screenshot — Schermo mobile con il pulsante hamburger nell'header, e pannello laterale aperto con le voci di menu*
+![Schermo mobile con il pulsante hamburger nell'header, e pannello laterale aperto con le voci di menu](../img/fe-menu-mobile.png)
 
 ---
 

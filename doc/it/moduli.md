@@ -2,13 +2,15 @@
 
 Il template definisce una serie di posizioni fisse dove puoi inserire i moduli Joomla. Ogni posizione corrisponde a un'area specifica della pagina.
 
-Per assegnare un modulo a una posizione, apri il modulo in modifica e vai nella scheda **Avanzate** → campo **Posizione modulo**.
+Per assegnare un modulo a una posizione, apri il modulo in modifica: nella scheda **Modulo**, colonna destra, trovi il campo **Posizione**.
 
-> *Screenshot — Backend di un modulo, scheda "Avanzate", con il campo "Posizione modulo" evidenziato e il valore "top" selezionato*
+![Backend di un modulo, scheda "Modulo", con il campo "Posizione" evidenziato e il valore "top" selezionato](../img/be-modulo-posizione.png)
 
 ---
 
 ## Mappa delle posizioni
+
+![Homepage del sito di esempio con l'anteprima delle posizioni modulo attiva (`?tp=1`): ogni riquadro riporta il nome della posizione](../img/fe-posizioni-homepage.png)
 
 ### Topbar (banda slim superiore)
 
@@ -41,31 +43,36 @@ Colori e uso di più banner sono descritti in [avvisi.md](avvisi.md).
 
 ### Area contenuto principale
 
-Queste posizioni si trovano attorno all'area principale della pagina (la parte che cambia in base alla voce di menu).
+Queste posizioni si trovano attorno all'area principale della pagina (la parte che cambia in base alla voce di menu). Sono elencate nell'ordine in cui compaiono, dall'alto verso il basso.
 
 | Posizione | Area nella pagina | Sfondo | Uso tipico |
 |-----------|-------------------|--------|------------|
-| `evidenza` | Sopra il contenuto, sfondo colorato | Immagine + colore primario | Hero/carosello con articoli in evidenza |
-| `top` | Sotto `evidenza`, sopra il contenuto | Bianco | Contenuto in evidenza, link rapidi |
-| `top-muted` | Sotto `top`, sopra il contenuto | Grigio chiaro | Sezioni di supporto |
-| `calendario` | Sotto `evidenza` | Bianco | Moduli calendario o eventi |
-| `colonna-sinistra` | Sidebar sinistra del contenuto | — | Indice della pagina, filtri |
-| `colonna-destra` | Sidebar destra del contenuto | — | Widget correlati, link rapidi |
-| `bottom` | Sotto il contenuto principale | Blu scuro | Call to action, link istituzionali |
+| `top` | Sotto il breadcrumb, prima di tutte le altre | Bianco | Contenuto in primo piano, hero o carosello |
+| `calendario` | Sotto `top` | Bianco | Moduli calendario o eventi |
+| `evidenza` | Sotto `calendario`, sopra il contenuto | Immagine + colore primario | Card con gli articoli in evidenza |
+| `top-muted` | Sotto `evidenza`, sopra il contenuto | Grigio chiaro | Sezioni di supporto |
+| `bottom` | Sotto il contenuto principale | Colore primario | Call to action, prossimi eventi |
 | `bottom2` | Sotto `bottom` | Grigio chiaro | Contenuto supplementare |
+
+Due posizioni esistono solo dentro le pagine degli articoli, non in tutto il sito:
+
+| Posizione | Dove compare | Uso tipico |
+|-----------|--------------|------------|
+| `colonna-sinistra` | Articolo singolo con il layout standard: nella colonna dell'indice di pagina | Link correlati, filtri |
+| `colonna-destra` | Articolo singolo con il layout standard e Scheda Servizio: colonna a destra del testo (compare solo se contiene moduli) | Widget correlati, link rapidi |
 
 ### Footer
 
 | Posizione | Area nella pagina | Uso tipico |
 |-----------|-------------------|------------|
-| `footer1` | Prima colonna del footer (sinistra) | Logo e testo istituzionale, menu |
-| `footer2` | Seconda colonna del footer (destra) | Link rapidi, contatti, link istituzionali |
+| `footer1` | Prima riga di moduli del footer | Menu istituzionali, contatti |
+| `footer2` | Seconda riga di moduli, sotto `footer1` | Link rapidi, contenuti aggiuntivi |
 
 ### Layout categoria Servizi (solo Modello Comuni)
 
 | Posizione | Area nella pagina | Uso tipico |
 |-----------|-------------------|------------|
-| `cerca-servizi` | Sopra la lista servizi | Modulo Smart Search filtrato alla categoria Servizi |
+| `cerca-servizi` | Sopra la lista servizi | Modulo Motore di ricerca (Smart Search) filtrato alla categoria Servizi |
 
 Questa posizione appare solo all'interno del layout categoria `servizi`. Se nessun modulo è pubblicato in `cerca-servizi`, l'area non viene mostrata.
 
@@ -85,19 +92,21 @@ Il template include due layout grafici alternativi per il modulo **mod_articles*
 
 1. Apri il modulo `mod_articles` in modifica
 2. Vai nella scheda **Avanzate**
-3. Nel campo **Layout alternativo**, seleziona il layout desiderato
+3. Nel campo **Layout**, seleziona il layout desiderato
 
-> *Screenshot — Scheda "Avanzate" del modulo Articoli, con il campo "Layout alternativo" espanso e i layout del template visibili nell'elenco*
+![Scheda "Avanzate" del modulo Articoli, con il campo "Layout" espanso e i layout del template visibili nell'elenco](../img/be-modulo-articoli-layout.png)
 
 ### Layout: `evidenza-singolo`
 
 **Cosa fa:** mostra un singolo articolo in evidenza, in formato "hero" con immagine grande, titolo e testo introduttivo.
 
-**Comportamento speciale:** se il modulo ha configurato più di un articolo, genera automaticamente un **carosello accessibile** con frecce di navigazione e indicatori circolari. Il carosello scorre automaticamente ogni pochi secondi ed è navigabile da tastiera.
+**Comportamento speciale:** se il modulo ha configurato più di un articolo, genera automaticamente un **carosello accessibile** con frecce di navigazione e indicatori circolari. Il carosello non scorre da solo: si naviga con le frecce, con gli indicatori o da tastiera.
 
-**Uso tipico:** assegnato alla posizione `evidenza` come slideshow degli articoli principali del sito (notizie in primo piano, iniziative speciali, ecc.).
+**Uso tipico:** assegnato alla posizione `top` o `evidenza` come slideshow degli articoli principali del sito (notizie in primo piano, iniziative speciali, ecc.).
 
-> *Screenshot — Posizione "evidenza" con il layout `evidenza-singolo` attivo: un singolo articolo grande, poi lo stesso con carosello su più articoli*
+![Layout `evidenza-singolo` con un singolo articolo in formato hero](../img/fe-evidenza-singolo.png)
+
+![Layout `evidenza-singolo` con più articoli: carosello con le frecce di navigazione](../img/fe-evidenza-carosello.png)
 
 ### Layout: `evidenza-tre-colonne`
 
@@ -105,7 +114,7 @@ Il template include due layout grafici alternativi per il modulo **mod_articles*
 
 **Uso tipico:** assegnato a `top`, `bottom` o `evidenza` per presentare le sezioni principali del sito o le ultime notizie in una griglia ordinata.
 
-> *Screenshot — Layout `evidenza-tre-colonne` con 3 card articolo affiancate*
+![Layout `evidenza-tre-colonne` con 3 card articolo affiancate](../img/fe-evidenza-tre-colonne.png)
 
 ---
 
@@ -114,7 +123,7 @@ Il template include due layout grafici alternativi per il modulo **mod_articles*
 Il template include un override automatico per il modulo `mod_breadcrumbs`. Questo override applica la struttura HTML e le classi CSS di Bootstrap Italia al breadcrumb.
 
 **Non è necessario** selezionare manualmente nessun layout alternativo. Basta:
-1. Creare un modulo di tipo **Percorso di navigazione** (`mod_breadcrumbs`)
+1. Creare un modulo di tipo **Percorso** (`mod_breadcrumbs`)
 2. Assegnarlo alla posizione `percorso`
 3. Pubblicarlo
 

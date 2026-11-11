@@ -48,7 +48,7 @@ Vai su **Componenti → DPCalendar → Campi** e crea i campi che ti servono. Il
 Per i campi **Subform**:
 
 1. Crea prima i sotto-campi, uno per volta, con l'opzione che li riserva all'uso nei Subform attiva.
-2. Crea poi il campo di tipo Subform, abilita **Ripetibile** (o **Aggiungibile**: il nome dipende dalla versione di Joomla) e aggiungi i sotto-campi **nell'ordine della tabella**.
+2. Crea poi il campo di tipo Subform (nell'interfaccia in italiano il tipo si chiama **Sottocampo (subform)**), imposta **Ripetibile** su **Sì** e aggiungi i sotto-campi **nell'ordine della tabella**.
 
 La procedura è la stessa descritta per gli articoli in [custom-field-articoli.md](custom-field-articoli.md), ma i campi vanno creati dentro DPCalendar.
 
@@ -64,7 +64,7 @@ Casi particolari:
 
 ## Passo 2 — Associa i campi nel template
 
-Vai su **Estensioni → Template → Stili**, clicca sul nome del template e apri la scheda **Scheda Evento**.
+Vai su **Sistema → Stili template sito**, clicca sul nome del template e apri la scheda **Scheda Evento**.
 
 Per ogni sezione scegli dall'elenco il campo che hai creato. Lascia "Non presente" le sezioni che non usi.
 

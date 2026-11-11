@@ -122,7 +122,7 @@ Comportamento:
 - **Senza JavaScript** l'icona è un normale link alla pagina di ricerca: la ricerca resta utilizzabile.
 - Il riquadro invia il testo alla pagina del Motore di ricerca. Se in **Pagina di ricerca** hai scelto una voce di menu che non è del Motore di ricerca (un altro componente), il riquadro non viene usato e l'icona resta un link a quella pagina.
 
-> *Screenshot — Riquadro di ricerca a tutta pagina con campo, pulsante Cerca e link Ricerca avanzata*
+![Riquadro di ricerca a tutta pagina con campo, pulsante Cerca e link Ricerca avanzata](../img/fe-ricerca-modale.png)
 
 ---
 
@@ -139,7 +139,7 @@ La pagina è quella del Motore di ricerca di Joomla, ridisegnata dal template.
 5. **Elenco dei risultati**: ogni risultato è un riquadro con, dall'alto, la categoria (o il tipo di contenuto, se non ha categoria), il titolo cliccabile, la data e un estratto del testo attorno alla parola cercata.
 6. **Paginazione**.
 
-> *Screenshot — Pagina dei risultati con filtri a sinistra e risultati a destra*
+![Pagina dei risultati con filtri a sinistra e risultati a destra](../img/fe-ricerca-risultati.png)
 
 ### Opzioni del Motore di ricerca rispettate
 

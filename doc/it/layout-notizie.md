@@ -23,14 +23,12 @@ Il layout si assegna alla **voce di menu** che punta alla categoria, non alla ca
 
 Puoi assegnare questo layout sia alla categoria radice **Novità** che a una sottocategoria specifica come **Notizie**, **Comunicati** o **Avvisi**.
 
-1. Vai su **Menu → [il tuo menu] → Aggiungi voce di menu**
-2. In **Tipo voce di menu**, seleziona **Articoli → Blog categoria**
+1. Vai su **Menu → [il tuo menu] → Nuovo**
+2. In **Tipo di voce di menu**, clicca **Seleziona** e scegli **Articoli → Notizie (Modello PA)**: il layout del template compare nell'elenco come un tipo di voce a sé
 3. Nel campo **Categoria**, seleziona la categoria desiderata (es. `Novità` oppure `Notizie`)
-4. Clicca sulla scheda **Tipo di layout** (o "Layout")
-5. Nel campo **Layout alternativo**, seleziona **Notizie (Modello PA)**
-6. Salva
+4. Salva
 
-> *Screenshot — Scheda "Tipo di layout" della voce di menu, con il campo "Layout alternativo" impostato su "Notizie (Modello PA)"*
+![Voce di menu, scheda "Dettagli": campo "Tipo di voce di menu" impostato su "Notizie (Modello PA)"](../img/be-voce-menu-notizie-tipo.png)
 
 ---
 
@@ -53,7 +51,7 @@ Il campo **Numero notizie in evidenza** è visibile solo se **Mostra sezione «I
 3. Modifica i valori
 4. Salva
 
-> *Screenshot — Scheda "Opzioni layout Notizie" con i parametri visibili*
+![Scheda "Opzioni layout Notizie" con i parametri visibili](../img/be-voce-menu-notizie-opzioni.png)
 
 ---
 
@@ -62,10 +60,10 @@ Il campo **Numero notizie in evidenza** è visibile solo se **Mostra sezione «I
 La sezione "In evidenza" mostra automaticamente gli articoli marcati come "In evidenza" (`featured = 1`) della categoria associata alla voce di menu. Gli articoli vengono ordinati per **data di pubblicazione decrescente** (le notizie più recenti prima).
 
 **Come marcare una notizia come "In evidenza":**
-- Dalla lista articoli (**Contenuti → Articoli**): clicca la stella nella colonna **In Evidenza**
-- Oppure dall'editor articolo: scheda **Pubblicazione** → campo **In Evidenza**: **Sì**
+- Dalla lista articoli (**Contenuto → Articoli**): clicca la stella nella colonna **In Evidenza**
+- Oppure dall'editor articolo: scheda **Contenuto**, colonna destra → **In evidenza**: **Sì**
 
-> *Screenshot — Lista articoli con la colonna "In Evidenza" e alcune stelle piene*
+![Lista articoli con la colonna "In Evidenza" e alcune stelle piene](../img/be-articoli-in-evidenza.png)
 
 **Attenzione:** la sezione "In evidenza" appare **solo sulla prima pagina** della paginazione. Se l'utente va alle pagine successive, la sezione non viene ripetuta.
 
@@ -77,7 +75,7 @@ Se la categoria associata alla voce di menu ha sottocategorie (es. la categoria 
 
 Non serve nessuna configurazione: basta che le sottocategorie esistano e siano pubblicate.
 
-> *Screenshot — Fondo della pagina Novità con la sezione "Esplora per categoria" che mostra Notizie, Comunicati, Avvisi*
+![Fondo della pagina Novità con la sezione "Esplora per categoria" che mostra Notizie, Comunicati, Avvisi](../img/fe-notizie-esplora-categorie.png)
 
 ---
 

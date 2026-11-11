@@ -20,14 +20,12 @@ La pagina generata da questo layout è strutturata così, dall'alto verso il bas
 
 Il layout si assegna alla **voce di menu** che punta alla categoria Amministrazione, non alla categoria stessa.
 
-1. Vai su **Menu → [il tuo menu principale] → Aggiungi voce di menu**
-2. In **Tipo voce di menu**, seleziona **Articoli → Blog categoria**
+1. Vai su **Menu → [il tuo menu principale] → Nuovo**
+2. In **Tipo di voce di menu**, clicca **Seleziona** e scegli **Articoli → Amministrazione (Modello PA)**: il layout del template compare nell'elenco come un tipo di voce a sé
 3. Nel campo **Categoria**, seleziona la categoria **Amministrazione**
-4. Clicca sulla scheda **Tipo di layout** (o "Layout")
-5. Nel campo **Layout alternativo**, seleziona **Amministrazione (Modello PA)**
-6. Salva
+4. Salva
 
-> *Screenshot — Scheda "Tipo di layout" della voce di menu, con il campo "Layout alternativo" impostato su "Amministrazione (Modello PA)"*
+![Voce di menu, scheda "Dettagli": campo "Tipo di voce di menu" impostato su "Amministrazione (Modello PA)"](../img/be-voce-menu-amministrazione-tipo.png)
 
 ---
 
@@ -46,7 +44,7 @@ Nella stessa voce di menu, alla scheda **Opzioni layout Amministrazione**, trovi
 3. Modifica i valori desiderati
 4. Salva
 
-> *Screenshot — Scheda "Opzioni layout Amministrazione" con i due parametri visibili*
+![Scheda "Opzioni layout Amministrazione" con i due parametri visibili](../img/be-voce-menu-amministrazione-opzioni.png)
 
 ---
 
@@ -57,10 +55,10 @@ La sezione "In evidenza" mostra automaticamente gli articoli marcati come "In ev
 Gli articoli vengono ordinati per data di pubblicazione decrescente (i più recenti prima).
 
 **Come marcare un articolo come "In evidenza":**
-- Dalla lista articoli (**Contenuti → Articoli**): clicca la stella nella colonna **In Evidenza**
-- Oppure dall'editor articolo: scheda **Pubblicazione** → campo **In Evidenza**: **Sì**
+- Dalla lista articoli (**Contenuto → Articoli**): clicca la stella nella colonna **In Evidenza**
+- Oppure dall'editor articolo: scheda **Contenuto**, colonna destra → **In evidenza**: **Sì**
 
-> *Screenshot — Lista articoli con la colonna "In Evidenza": alcune stelle piene (in evidenza) e alcune vuote (non in evidenza)*
+![Lista articoli con la colonna "In Evidenza": alcune stelle piene (in evidenza) e alcune vuote (non in evidenza)](../img/be-articoli-in-evidenza.png)
 
 ---
 
@@ -80,7 +78,7 @@ Ogni link a sottocategoria ha l'attributo `data-element="management-category-lin
 
 **Non è necessaria nessuna configurazione aggiuntiva**: le sottocategorie compaiono automaticamente se esistono e sono pubblicate. Se vuoi aggiungere una nuova sottocategoria, creala in Joomla come figlia di "Amministrazione" e apparirà automaticamente.
 
-> *Screenshot — Pagina Amministrazione sul frontend con la sezione "Esplora l'amministrazione" che mostra le sottocategorie come card o link*
+![Pagina Amministrazione sul frontend con la sezione "Esplora l'amministrazione" che mostra le sottocategorie come card o link](../img/fe-amministrazione-esplora.png)
 
 ---
 

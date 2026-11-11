@@ -19,12 +19,17 @@ Per un funzionamento ottimale e una navigazione coerente, si consiglia la seguen
 Una volta create le sotto-voci "Eventi" e "Luoghi", procedi a configurare la voce principale:
 1.  Vai in **Menu** -> **Crea nuova voce di menu**.
 2.  Tipo di voce di menu: **DPCalendar** -> **Vivere il Comune - DPCalendar (Modello PA)**.
+
+![Voce di menu, scheda "Dettagli": campo "Tipo di voce di menu" impostato su "Vivere il Comune - DPCalendar (Modello PA)"](../img/be-voce-menu-vivere-tipo.png)
+
 3.  Nella tab **Opzioni layout Vivere il Comune**, seleziona dalle tendine le due sotto-voci create in precedenza:
     *   **Voce di menu «Tutti gli eventi»**: seleziona la sotto-voce "Eventi".
     *   **Voce di menu «Tutti i luoghi»**: seleziona la sotto-voce "Luoghi".
     *   **Descrizione intro**: Un campo di testo libero (textarea) per inserire il testo che apparirà nella sezione "Hero" (testata) della pagina. Se compilato, sovrascrive la descrizione della categoria.
     *   **Numero di card per sezione**: Definisce quanti elementi mostrare (default: 3).
     *   **Includi sottocategorie nei luoghi**: Se attivo, gli articoli in evidenza vengono cercati anche nelle sottocategorie discendenti della categoria selezionata (valido solo quando "Tutti i luoghi" punta a una categoria `com_content`). Utile se la struttura delle categorie Luoghi ha più livelli.
+
+![Scheda "Opzioni layout Vivere il Comune" della voce di menu DPCalendar, con le voci «Tutti gli eventi» e «Tutti i luoghi» selezionate](../img/be-voce-menu-vivere-opzioni.png)
 
 ### Funzionamento "Luoghi" Dinamici
 Il layout implementa una logica intelligente per la sezione **Luoghi in evidenza**:
@@ -35,6 +40,10 @@ Il layout implementa una logica intelligente per la sezione **Luoghi in evidenza
 Per far apparire gli elementi nelle sezioni della pagina:
 -   **Eventi**: Devono essere marcati come **"In evidenza"** (Featured) dentro DPCalendar.
 -   **Luoghi (se articoli)**: Devono essere marcati come **"In evidenza"** (Featured) nella categoria selezionata.
+
+![Pagina "Vivere il Comune" alimentata da DPCalendar, con le sezioni "Eventi in evidenza" e "Luoghi in evidenza"](../img/fe-vivere-pagina.png)
+
+![Card di un evento DPCalendar con immagine, data dell'evento in sovrimpressione, calendario, titolo e testo introduttivo](../img/fe-vivere-card-evento.png)
 
 ---
 

@@ -35,9 +35,9 @@ Se non l'hai ancora fatto, vai su [custom-field-articoli.md](custom-field-artico
 
 Ricorda anche di creare il **Gruppo di Campi** "Servizi - Modello Comuni" prima di creare i singoli campi.
 
-Una volta creati, i campi saranno visibili nella lista **Contenuti → Campi**.
+Una volta creati, i campi saranno visibili nella lista **Contenuto → Campi aggiuntivi**.
 
-> *Screenshot — Lista "Contenuti → Campi" con tutti i campi del gruppo "Servizi - Modello Comuni" visibili*
+![Lista "Contenuto → Campi aggiuntivi" con tutti i campi del gruppo "Servizi - Modello Comuni" visibili](../img/be-campi-elenco.png)
 
 ---
 
@@ -45,45 +45,45 @@ Una volta creati, i campi saranno visibili nella lista **Contenuti → Campi**.
 
 Dopo aver creato i campi, devi collegare ciascun campo alla sezione corrispondente della Scheda Servizio nelle impostazioni del template.
 
-1. Vai su **Estensioni → Template → Stili** e clicca sul nome del template
-2. Clicca sulla scheda **Valutazione Comuni**
+1. Vai su **Sistema → Stili template sito** e clicca sul nome del template
+2. Clicca sulla scheda **Valutazione - COMUNI**
 3. Scorri fino alla sezione **Scheda Servizio**
 4. Per ogni riga, seleziona il campo corrispondente dal menu a tendina:
 
 | Riga nel template | Campo da selezionare |
 |-------------------|---------------------|
-| Campo per lo Stato | Stato |
-| Campo Motivo stato servizio | Motivo stato servizio |
-| Campo A chi è rivolto | A chi è rivolto |
-| Campo Come fare | Come fare |
-| Campo Cosa serve | Cosa serve |
-| Campo Cosa si ottiene | Cosa si ottiene |
-| Campo Tempi e scadenze (testo) | Tempi e scadenze |
-| Campo Subform per le tempistiche | Lista Tempistiche |
-| Campo Titolo (nel subform) | Titolo |
-| Campo Data (nel subform) | Data |
-| Campo Numero giorni/mesi (nel subform) | Numero giorni/mesi |
-| Campo Unità di misura (nel subform) | Unità di misura |
-| Campo Descrizione (nel subform) | Descrizione |
-| Campo Quanto costa | Quanto costa |
-| Campo URL accesso online | Accesso online |
-| Campo testo bottone accesso online | Testo - Accesso Online |
-| Campo URL prenotazione appuntamento | Prenota un appuntamento |
-| Campo condizioni di servizio (testo) | Condizioni di servizio - Introduzione |
-| Campo file condizioni di servizio | Condizioni di servizio - FILE |
+| Campo: Stato del servizio | Stato |
+| Campo: Motivo stato servizio | Motivo stato servizio |
+| Campo: A chi è rivolto | A chi è rivolto |
+| Campo: Come fare | Come fare |
+| Campo: Cosa serve | Cosa serve |
+| Campo: Cosa si ottiene | Cosa si ottiene |
+| Campo: Tempi e scadenze (testo) | Tempi e scadenze |
+| Campo Subform: Lista scadenze | Lista Tempistiche |
+| Sotto-campo: titolo della riga | Titolo |
+| Sotto-campo: data fissa | Data |
+| Sotto-campo: numero di giorni/mesi | Numero giorni/mesi |
+| Sotto-campo: unità di durata | Unità di misura |
+| Sotto-campo: testo descrittivo | Descrizione |
+| Campo: Quanto costa | Quanto costa |
+| Campo: URL accesso online | Accesso online |
+| Campo: Testo pulsante accesso online | Testo - Accesso Online |
+| Campo: URL prenotazione appuntamento | Prenota un appuntamento |
+| Campo: Condizioni di servizio - testo | Condizioni di servizio - Introduzione |
+| Campo: Condizioni di servizio - file | Condizioni di servizio - FILE |
 
-5. Scorri oltre nella stessa scheda per trovare anche i campi dei **Menu Item Contatti**:
+5. In fondo alla stessa scheda trovi le due voci di menu usate nella sezione Contatti:
 
 | Riga nel template | Cosa selezionare |
 |-------------------|-----------------|
-| Voce di menu ufficio/area | Voce di menu che porta all'ufficio o all'area responsabile del servizio |
-| Voce di menu contatti | Voce di menu che porta alla pagina Contatti generali dell'ente |
+| Voce di menu: Unità organizzativa responsabile | Voce di menu che porta all'ufficio o all'area responsabile del servizio |
+| Voce di menu: Pagina contatti generali | Voce di menu che porta alla pagina Contatti generali dell'ente |
 
 Questi menu item devono esistere già in Joomla. Se non li hai ancora creati, crea prima le pagine e le voci di menu corrispondenti, poi torna qui a completare il mapping.
 
 6. Clicca **Salva**
 
-> *Screenshot — Sezione "Scheda Servizio" nella scheda "Valutazione Comuni" del template, con tutti i dropdown compilati e visibili*
+![Sezione "Scheda Servizio" nella scheda "Valutazione - COMUNI" del template, con tutti i dropdown compilati e visibili](../img/be-template-scheda-servizio.png)
 
 ---
 
@@ -91,7 +91,7 @@ Questi menu item devono esistere già in Joomla. Se non li hai ancora creati, cr
 
 ### 3a. Crea un nuovo articolo
 
-1. Vai su **Contenuti → Articoli → Nuovo**
+1. Vai su **Contenuto → Articoli → Nuovo**
 2. Nel campo **Titolo**, inserisci il nome del servizio (es. `Iscrizione all'asilo nido`). Questo sarà il titolo mostrato nella hero con `data-element="service-title"`.
 3. Nel campo **Alias**, lascia quello generato automaticamente o personalizzalo
 4. Nel campo **Categoria**, seleziona la sottocategoria di Servizi corretta (es. `Educazione e formazione`). Il nome della categoria comparirà nel blocco JSON-LD come `serviceType`.
@@ -106,10 +106,12 @@ Se hai anche del testo nel corpo dell'articolo (la parte dopo "Leggi di più"), 
 
 ### 3c. Assegna il layout alternativo
 
-1. Clicca sulla scheda **Opzioni** (in basso sotto l'editor)
-2. Nel campo **Layout alternativo**, seleziona `scheda-servizio`
+1. Clicca sulla scheda **Opzioni** (tra le schede sopra l'editor)
+2. Nel campo **Layout**, seleziona `scheda-servizio`
 
-> *Screenshot — Scheda "Opzioni" dell'articolo con il campo "Layout alternativo" impostato su "scheda-servizio"*
+In alternativa puoi impostare il layout una volta sola per tutti i servizi: nella voce di menu della categoria Servizi, scheda **Opzioni**, campo **Scegli un layout**. Gli articoli che lasciano il campo su "Usa globali" lo ereditano.
+
+![Scheda "Opzioni" dell'articolo con il campo "Layout" impostato su "scheda-servizio"](../img/be-articolo-layout-scheda-servizio.png)
 
 ### 3d. Compila i custom field
 
@@ -125,20 +127,20 @@ Per il campo **Lista Tempistiche** (Subform):
 - Per ogni riga, compila Titolo e poi: o la **Data** (per una data specifica) o **Numero giorni/mesi + Unità di misura** (es. `30` giorni)
 - La **Descrizione** è opzionale per ogni riga
 
-Per il campo **Condizioni di servizio - FILE**: su Joomla 6.1 o superiore è un campo di tipo **Documento**, quindi clicca sul campo, scegli o carica il PDF nella cartella Documenti e, se vuoi, compila il **Testo del link**. Su Joomla 5.x / 6.0 è un campo di tipo **URL**: carica prima il PDF da **Contenuti → Media** (cartella Documenti), copia il suo indirizzo e incollalo nel campo. I dettagli sono in [custom-field-articoli.md](custom-field-articoli.md).
+Per il campo **Condizioni di servizio - FILE**: su Joomla 6.1 o superiore è un campo di tipo **Documento**, quindi clicca sul campo, scegli o carica il PDF nella cartella Documenti e, se vuoi, compila il **Testo del link**. Su Joomla 5.x / 6.0 è un campo di tipo **URL**: carica prima il PDF da **Contenuto → Media** (cartella Documenti), copia il suo indirizzo e incollalo nel campo. I dettagli sono in [custom-field-articoli.md](custom-field-articoli.md).
 
-> *Screenshot — Scheda "Servizi - Modello Comuni" nell'editor articolo con i campi visibili e alcuni compilati*
+![Scheda "Servizi - Modello Comuni" nell'editor articolo con i campi visibili e alcuni compilati](../img/be-articolo-campi-servizio.png)
 
 ### 3e. Imposta la visibilità nei Servizi in evidenza
 
 Se questo servizio deve apparire nella sidebar "Servizi in evidenza" nella pagina della categoria:
-- Nella scheda **Pubblicazione** → campo **In Evidenza**: seleziona **Sì**
+- Nella scheda **Contenuto**, colonna destra → **In evidenza**: **Sì**
 
 ### 3f. Aggiungi i tag (argomenti)
 
-I tag dell'articolo vengono mostrati nella sidebar destra della Scheda Servizio come "Argomenti", con `data-element="service-topic"`. È richiesto dall'App Valutazione Modelli che almeno un tag/argomento sia presente.
+I tag dell'articolo vengono mostrati nell'intestazione della Scheda Servizio, a destra, come "Argomenti", con `data-element="service-topic"`. È richiesto dall'App Valutazione Modelli che almeno un tag/argomento sia presente.
 
-- Nel campo **Tag** in cima all'editor, digita i tag del servizio (es. `anagrafe`, `certificati`, `documenti`) e premi Invio per ognuno
+- Nel campo **Tag** (scheda **Contenuto**, colonna destra), digita i tag del servizio (es. `anagrafe`, `certificati`, `documenti`) e premi Invio per ognuno
 
 ### 3g. Pubblica e salva
 
@@ -189,7 +191,7 @@ Se l'articolo ha un corpo, tra "A chi è rivolto" e "Come fare" compare anche la
 
 **Nota:** la sezione "Quanto costa" non appare nell'indice (è considerata sezione secondaria dal Modello Comuni), ma viene comunque mostrata nel corpo della pagina.
 
-> *Screenshot — Indice laterale scrollspy della Scheda Servizio su desktop, con una sezione evidenziata*
+![Indice laterale scrollspy della Scheda Servizio su desktop, con una sezione evidenziata](../img/fe-scheda-servizio-indice.png)
 
 ---
 
@@ -223,4 +225,8 @@ L'App Valutazione Modelli (Dipartimento per la Trasformazione Digitale) verifica
 - Almeno un tag/argomento deve essere presente (`data-element="service-topic"`)
 - Il blocco JSON-LD deve essere presente
 
-> *Screenshot — Report dell'App Valutazione Modelli con la sezione C.SI.1.3 superata*
+Nel report del sito dimostrativo il criterio C.SI.1.3 risulta superato: i due criteri non superati (C.SI.3.2 e C.SI.5.2) non riguardano la Scheda Servizio.
+
+![Report dell'App Valutazione Modelli: 18 criteri su 20 superati](../img/test-comuni-passato.jpg)
+
+![Criteri non superati nel report: C.SI.3.2 e C.SI.5.2](../img/criteri-non-superati.jpg)

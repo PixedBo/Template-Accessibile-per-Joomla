@@ -6,3 +6,4 @@ _dist/
 examples/
 TEMP/_build_plugin/
 _build_plugin/
+doc/tools/

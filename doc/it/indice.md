@@ -40,7 +40,7 @@ Queste guide si applicano a **qualsiasi sito** che usa questo template, indipend
 | [Posizioni modulo](moduli.md) | Dove si può posizionare ogni modulo nel layout della pagina |
 | [Ricerca nel sito](ricerca.md) | Icona e riquadro di ricerca, pagina dei risultati, filtri; come dipende dall'indice del Motore di ricerca di Joomla |
 | [Banner di avviso](avvisi.md) | Come pubblicare comunicazioni urgenti nella posizione `avvisi`, sotto l'intestazione |
-| [Footer](footer.md) | Le due colonne del footer, logo UE, social, blocco "Contatta" |
+| [Footer](footer.md) | Le due posizioni modulo del footer, logo UE, social, blocco "Contatta" |
 
 ### Gestione dei contenuti
 

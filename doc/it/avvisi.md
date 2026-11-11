@@ -8,7 +8,7 @@ Casi d'uso tipici: modalità dimostrativa, manutenzioni programmate, disservizi 
 
 ## Come pubblicare un avviso
 
-1. Vai su **Contenuto → Moduli → Nuovo** e scegli il tipo **HTML personalizzato** (o qualsiasi altro tipo di modulo che produce contenuto HTML).
+1. Vai su **Contenuto → Moduli sito → Nuovo** e scegli il tipo **Personalizzato** (o qualsiasi altro tipo di modulo che produce contenuto HTML).
 2. Inserisci il testo dell'avviso nel corpo del modulo.
 3. Nel campo **Titolo**, scrivi un titolo descrittivo (es. "Avviso manutenzione") — se non vuoi che appaia in pagina, imposta **Mostra titolo** su *Nascondi*.
 4. Nella scheda **Assegnazione menu**, scegli su quali pagine mostrare il banner (tutte le pagine, solo alcune, oppure escludi alcune voci).
@@ -42,7 +42,7 @@ Copia e adatta questo snippet nel corpo del modulo. Non includere classi di sfon
 ```html
 <div class="d-flex align-items-center gap-3">
   <svg class="icon icon-sm flex-shrink-0" aria-hidden="true" focusable="false">
-    <use href="/templates/templateaccessibileperjoomla/dist/svg/sprites.svg#it-warning-circle"></use>
+    <use href="/media/templates/site/templateaccessibileperjoomla/svg/sprites.svg#it-warning-circle"></use>
   </svg>
   <div>
     <strong>Sito in modalità dimostrativa.</strong>
