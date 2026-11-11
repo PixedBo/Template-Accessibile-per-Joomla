@@ -92,17 +92,28 @@ Questa scheda controlla i bottoni di login e ricerca che appaiono nell'header.
 
 > *Screenshot — Header con il bottone "Accedi all'area personale" visibile nell'angolo superiore destro*
 
-### Sezione: Ricerca
+---
 
-| Campo | Tipo | Appare quando | Descrizione |
-|-------|------|---------------|-------------|
-| Mostra bottone ricerca | Radio (Sì/No) | sempre | Abilita o disabilita il bottone di ricerca nell'header. Default: No. |
-| Tipo di ricerca | Lista | solo se Sì | `standard` = usa Smart Search integrato; `custom` = rimanda a una pagina. |
-| Voce di menu ricerca | Menu item | solo se tipo = custom | Seleziona la voce di menu della pagina di ricerca. |
+## Scheda: Ricerca
 
-**Come funziona:**
-- Se scegli **standard**, il bottone ricerca aprirà un campo di ricerca nell'header che usa il componente Smart Search di Joomla (`com_finder`). Per funzionare, Smart Search deve essere abilitato e indicizzato.
-- Se scegli **custom**, seleziona una voce di menu che porta alla tua pagina di ricerca personalizzata.
+Dalla 1.3.0 la ricerca ha una scheda propria. I tre campi che prima stavano in **Opzioni Header** (`mostra_ricerca`, `tipo_ricerca`, `menuitem_ricerca`) sono stati spostati qui senza cambiare nome: i valori già salvati restano validi.
+
+La ricerca usa il **Motore di ricerca** di Joomla (*Smart Search*, `com_finder`): il template ne ridisegna la pagina dei risultati e aggiunge un riquadro di ricerca a tutta pagina. Cosa viene trovato e quali voci compaiono nei filtri dipende dall'indice di Joomla, non dal template.
+
+> La guida completa, con i prerequisiti di Joomla, il funzionamento dei filtri, la manutenzione dell'indice e la risoluzione dei problemi, è in **[Ricerca nel sito](ricerca.md)**. Qui sotto c'è solo l'elenco dei campi.
+
+| Campo | Parametro | Predefinito | Descrizione |
+|-------|-----------|-------------|-------------|
+| Mostra pulsante Ricerca | `mostra_ricerca` | No | Mostra l'icona di ricerca nella testata. |
+| Al clic sull'icona | `ricerca_apertura` | Apri la pagina | `pagina` = apre la pagina di ricerca; `modale` = apre il riquadro a tutta pagina con campo, pulsante "Cerca" e link "Ricerca avanzata". |
+| Pagina di ricerca | `tipo_ricerca` | Smart Search standard | `smartsearch` = pagina dei risultati del Motore di ricerca; `menuitem` = una voce di menu. |
+| Seleziona menu per ricerca | `menuitem_ricerca` | — | La voce di menu della pagina di ricerca. Appare solo con `menuitem`. |
+| Suggerimenti durante la digitazione | `ricerca_suggerimenti` | No | Propone i termini mentre si scrive. Richiede anche l'opzione "Suggerimenti di ricerca" del Motore di ricerca. |
+| Mostra i filtri | `ricerca_filtri` | Sì | Colonna dei filtri a sinistra dei risultati. |
+| Filtro per tipologia | `ricerca_filtri_tipo` | Sì | Gruppo "Tipologie" (articoli, categorie, tag…). |
+| Filtro per categoria | `ricerca_filtri_cat` | Sì | Gruppo "Categorie". |
+| Categorie da mostrare | `ricerca_filtri_categorie` | vuoto (tutte) | Selezione multipla. Scegliendo una categoria compaiono anche le sue sottocategorie. |
+| Selezione inversa | `ricerca_filtri_categorie_inverti` | No | Le categorie scelte vengono nascoste e si mostrano tutte le altre. |
 
 ---
 

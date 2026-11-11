@@ -67,13 +67,19 @@ Il bottone ha l'attributo `data-element="personal-area-login"`, richiesto dall'A
 
 ### Bottone Ricerca
 
-Il bottone di ricerca è visibile solo se `mostra_ricerca = Sì` nella scheda **Opzioni Header**.
+Il bottone di ricerca è visibile solo se **Mostra pulsante Ricerca = Sì** nella scheda **Ricerca** dei parametri del template (fino alla 1.2.x questi campi stavano in **Opzioni Header**; i valori salvati restano validi).
 
-**Due modalità:**
-- **Standard**: espande un campo di ricerca in linea nell'header che usa lo Smart Search di Joomla. Per funzionare, il componente Smart Search deve essere abilitato e il suo indice deve essere aggiornato (**Componenti → Smart Search → Indicizzazione**).
-- **Custom**: rimanda alla voce di menu selezionata in `menuitem_ricerca`. Usa questa modalità se hai una pagina di ricerca con Smart Search in forma estesa, o un componente di ricerca diverso.
+**Al clic sull'icona** (`ricerca_apertura`):
+- **Apri la pagina di ricerca** (predefinito): l'icona è un link alla pagina di ricerca.
+- **Apri il riquadro di ricerca a tutta pagina**: si apre un modale con il campo di ricerca, il pulsante "Cerca" e il link "Ricerca avanzata" verso la pagina di ricerca. Si chiude con Esc o con il pulsante di chiusura; senza JavaScript l'icona resta un link alla pagina.
 
-> *Screenshot — Bottone di ricerca nell'header e campo di ricerca che appare al clic (modalità standard)*
+**Pagina di ricerca** (`tipo_ricerca`):
+- **Smart Search standard**: la pagina dei risultati di Smart Search di Joomla.
+- **Voce di menu**: la voce scelta in `menuitem_ricerca`. Se la voce non è di tipo Smart Search (per esempio un componente di ricerca diverso), l'icona è sempre un link: il modale non viene usato.
+
+Il riquadro, la pagina dei risultati, i filtri e i prerequisiti di Joomla sono descritti nella guida [Ricerca nel sito](ricerca.md).
+
+> *Screenshot — Bottone di ricerca nell'header e modale di ricerca a tutta pagina*
 
 ---
 

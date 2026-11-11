@@ -67,7 +67,7 @@ $labelId = 'argomenti-label-' . $suffix;
     <ul class="d-flex flex-wrap gap-1 list-unstyled ps-0 mb-0" aria-labelledby="<?php echo $labelId; ?>">
         <?php foreach ($items as $item) : ?>
             <li>
-                <a class="chip chip-simple" href="<?php echo $item['href']; ?>"<?php echo $dataElement !== '' ? ' data-element="' . $dataElement . '"' : ''; ?>>
+                <a class="chip chip-simple chip-primary" href="<?php echo $item['href']; ?>"<?php echo $dataElement !== '' ? ' data-element="' . $dataElement . '"' : ''; ?>>
                     <span class="chip-label"><?php echo htmlspecialchars($item['title'], ENT_QUOTES, 'UTF-8'); ?></span>
                 </a>
             </li>

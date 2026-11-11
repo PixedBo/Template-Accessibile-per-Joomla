@@ -38,6 +38,7 @@ Queste guide si applicano a **qualsiasi sito** che usa questo template, indipend
 | [Header](header.md) | Logo, nome ente, payoff, social, bottoni login e ricerca |
 | [Menu di navigazione](menu.md) | Come creare i menu principale e secondario |
 | [Posizioni modulo](moduli.md) | Dove si può posizionare ogni modulo nel layout della pagina |
+| [Ricerca nel sito](ricerca.md) | Icona e riquadro di ricerca, pagina dei risultati, filtri; come dipende dall'indice del Motore di ricerca di Joomla |
 | [Banner di avviso](avvisi.md) | Come pubblicare comunicazioni urgenti nella posizione `avvisi`, sotto l'intestazione |
 | [Footer](footer.md) | Le due colonne del footer, logo UE, social, blocco "Contatta" |
 
@@ -118,6 +119,7 @@ Se stai configurando un sito Comune da zero, segui questo ordine:
 4. [Menu di navigazione](menu.md) — crea il menu principale
 5. [Posizioni modulo](moduli.md) — capire dove metti i moduli
 6. [Footer](footer.md) — configura il piè di pagina
+   - [Ricerca nel sito](ricerca.md) — attiva il Motore di ricerca di Joomla, crea l'indice e scegli i filtri
 7. [Alberatura delle categorie](alberatura-categorie.md) — crea la struttura delle categorie
 8. [Custom field per gli articoli](custom-field-articoli.md) — crea i campi per le schede servizio
 9. [Layout Servizi](layout-servizi.md) + [Layout Notizie](layout-notizie.md) + [Layout Amministrazione](layout-amministrazione.md) + [Layout Vivere il Comune](layout-vivere.md)

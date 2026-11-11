@@ -62,6 +62,22 @@
       "attributes": {
         "defer": true
       }
+    },
+    {
+      "name": "template.search-modal",
+      "type": "script",
+      "uri": "search-modal.js",
+      "attributes": {
+        "defer": true
+      }
+    },
+    {
+      "name": "template.search-filters",
+      "type": "script",
+      "uri": "search-filters.js",
+      "attributes": {
+        "defer": true
+      }
     }
   ]
 }

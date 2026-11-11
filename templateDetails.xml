@@ -88,10 +88,16 @@
         <field name="menuitem_login" type="menuitem" default="" label="TPL_ACCESSIBILE_LOGIN_MENUITEM_LABEL" description="TPL_ACCESSIBILE_LOGIN_MENUITEM_DESC" showon="mostra_login:1[AND]tipo_login:menuitem">
           <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
         </field>
-        
+      </fieldset>
+
+      <fieldset name="ricerca" label="TPL_ACCESSIBILE_FIELDSET_RICERCA_LABEL" description="TPL_ACCESSIBILE_FIELDSET_RICERCA_DESC">
         <field name="mostra_ricerca" type="radio" default="0" label="TPL_ACCESSIBILE_SHOW_SEARCH_LABEL" description="TPL_ACCESSIBILE_SHOW_SEARCH_DESC" class="btn-group btn-group-yesno">
           <option value="1">JYES</option>
           <option value="0">JNO</option>
+        </field>
+        <field name="ricerca_apertura" type="list" default="pagina" label="TPL_ACCESSIBILE_SEARCH_OPEN_LABEL" description="TPL_ACCESSIBILE_SEARCH_OPEN_DESC" showon="mostra_ricerca:1">
+          <option value="pagina">TPL_ACCESSIBILE_SEARCH_OPEN_PAGE</option>
+          <option value="modale">TPL_ACCESSIBILE_SEARCH_OPEN_MODAL</option>
         </field>
         <field name="tipo_ricerca" type="list" default="smartsearch" label="TPL_ACCESSIBILE_SEARCH_TYPE_LABEL" description="TPL_ACCESSIBILE_SEARCH_TYPE_DESC" showon="mostra_ricerca:1">
           <option value="smartsearch">TPL_ACCESSIBILE_SEARCH_STANDARD</option>
@@ -99,6 +105,30 @@
         </field>
         <field name="menuitem_ricerca" type="menuitem" default="" label="TPL_ACCESSIBILE_SEARCH_MENUITEM_LABEL" description="TPL_ACCESSIBILE_SEARCH_MENUITEM_DESC" showon="mostra_ricerca:1[AND]tipo_ricerca:menuitem">
           <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>
+        <field name="ricerca_suggerimenti" type="radio" default="0" label="TPL_ACCESSIBILE_SEARCH_SUGGEST_LABEL" description="TPL_ACCESSIBILE_SEARCH_SUGGEST_DESC" class="btn-group btn-group-yesno">
+          <option value="1">JYES</option>
+          <option value="0">JNO</option>
+        </field>
+
+        <field type="note" label="TPL_ACCESSIBILE_SEARCH_FILTERS_NOTE_LABEL" description="TPL_ACCESSIBILE_SEARCH_FILTERS_NOTE_DESC" class="alert alert-info" />
+
+        <field name="ricerca_filtri" type="radio" default="1" label="TPL_ACCESSIBILE_SEARCH_FILTERS_LABEL" description="TPL_ACCESSIBILE_SEARCH_FILTERS_DESC" class="btn-group btn-group-yesno">
+          <option value="1">JYES</option>
+          <option value="0">JNO</option>
+        </field>
+        <field name="ricerca_filtri_tipo" type="radio" default="1" label="TPL_ACCESSIBILE_SEARCH_FILTERS_TYPE_LABEL" description="TPL_ACCESSIBILE_SEARCH_FILTERS_TYPE_DESC" class="btn-group btn-group-yesno" showon="ricerca_filtri:1">
+          <option value="1">JYES</option>
+          <option value="0">JNO</option>
+        </field>
+        <field name="ricerca_filtri_cat" type="radio" default="1" label="TPL_ACCESSIBILE_SEARCH_FILTERS_CAT_LABEL" description="TPL_ACCESSIBILE_SEARCH_FILTERS_CAT_DESC" class="btn-group btn-group-yesno" showon="ricerca_filtri:1">
+          <option value="1">JYES</option>
+          <option value="0">JNO</option>
+        </field>
+        <field name="ricerca_filtri_categorie" type="category" extension="com_content" multiple="true" layout="joomla.form.field.list-fancy-select" filter="intarray" class="multipleCategories" label="TPL_ACCESSIBILE_SEARCH_FILTERS_CATEGORIES_LABEL" description="TPL_ACCESSIBILE_SEARCH_FILTERS_CATEGORIES_DESC" showon="ricerca_filtri:1[AND]ricerca_filtri_cat:1" />
+        <field name="ricerca_filtri_categorie_inverti" type="radio" default="0" label="TPL_ACCESSIBILE_SEARCH_FILTERS_CATEGORIES_INVERT_LABEL" description="TPL_ACCESSIBILE_SEARCH_FILTERS_CATEGORIES_INVERT_DESC" class="btn-group btn-group-yesno" showon="ricerca_filtri:1[AND]ricerca_filtri_cat:1">
+          <option value="1">JYES</option>
+          <option value="0">JNO</option>
         </field>
       </fieldset>
 
