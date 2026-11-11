@@ -622,7 +622,7 @@ aside .cmp-navscroll .navbar.it-navscroll-wrapper .link-list-wrapper ul li a.act
     margin: 0;
 }
 
-/* Bottoni Condividi e Azioni */
+/* Bottoni Condividi, Azioni e Argomenti */
 .btn-action-icon {
     width: 32px;
     height: 32px;
@@ -643,6 +643,28 @@ aside .cmp-navscroll .navbar.it-navscroll-wrapper .link-list-wrapper ul li a.act
 .btn-action-icon:focus svg.icon {
     fill: #ffffff;
 }
+
+.comuni-tags .chip{
+	border: 1px solid var(--bs-primary) !important;
+}
+
+.comuni-tags .chip.chip-simple {
+    text-decoration: none;
+}
+
+.comuni-tags .chip .chip-label{
+	color: var(--bs-primary);
+	height:24px;
+}
+
+.comuni-tags .chip:hover:not(.chip-disabled) {
+	background: var(--bs-btn-hover-color);
+}
+
+.comuni-tags .chip:not(.chip-disabled) {
+	background: #fff;
+}
+
 
 /* ========================================= */
 /* FIX MENU MOBILE (OVERLAP BACKDROP)        */
