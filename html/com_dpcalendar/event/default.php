@@ -39,6 +39,14 @@ $params    = $this->params;
 $event     = $this->event;
 $tplParams = $app->getTemplate(true)->params;
 
+// Click sulle voci dell'indice di pagina: vedi js/page-index.js
+$document->getWebAssetManager()->registerAndUseScript(
+    'template.page-index',
+    TplAccessibileHelper::mediaUrl('js/page-index.js'),
+    [],
+    ['defer' => true]
+);
+
 $esc    = static fn ($value): string => htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
 $sprite = static fn (string $icon): string => TplAccessibileHelper::spriteUrl($icon);
 

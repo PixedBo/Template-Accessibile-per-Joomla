@@ -30,6 +30,14 @@ $_parentTpl = \Joomla\CMS\Factory::getApplication()->getTemplate(true)->parent
     ?: \Joomla\CMS\Factory::getApplication()->getTemplate();
 require_once JPATH_SITE . '/templates/' . $_parentTpl . '/helpers/TplAccessibileHelper.php';
 $document = $app->getDocument();
+
+// Click sulle voci dell'indice di pagina: vedi js/page-index.js
+$document->getWebAssetManager()->registerAndUseScript(
+    'template.page-index',
+    TplAccessibileHelper::mediaUrl('js/page-index.js'),
+    [],
+    ['defer' => true]
+);
 $params   = $this->item->params;
 $canEdit  = $params->get('access-edit');
 

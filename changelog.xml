@@ -36,6 +36,7 @@
         <item><![CDATA[Scheda Evento: ordine delle sezioni fisso (Cos'è, A chi è rivolto, Luogo, Date e orari, Costi, Prenotazione, Allegati, Contatti, campi non associati, Ulteriori informazioni). I campi personalizzati non associati restano sezioni a sé come prima; il nuovo parametro "Campi non associati" permette di nasconderli]]></item>
     </change>
     <fix>
+        <item><![CDATA[Scheda Evento e Scheda Servizio: cliccando una voce dell'indice di pagina lo scroll si ferma all'inizio della sezione. Il NavScroll di Bootstrap Italia calcolava la posizione rispetto al contenitore del componente e non alla pagina; il click è ora gestito da js/page-index.js (nuovo), mentre voce attiva e barra di avanzamento restano a NavScroll]]></item>
         <item><![CDATA[Briciole di pane: i link passano da Route::_ come nel layout di Joomla]]></item>
         <item><![CDATA[Scheda Evento: indice di pagina e sezioni sono generati dallo stesso elenco. Prima usavano condizioni diverse per Descrizione, Luogo e Prenotazione, e una voce dell'indice poteva non avere la sezione (o viceversa)]]></item>
         <item><![CDATA[Scheda Evento: il titolo nascosto per screen reader era "Dettagli della notizia"; le etichette "Annullato" e "Prenota" usavano chiavi del modulo mod_dpcalendar_upcoming, che nella pagina evento potevano non essere caricate. Nuove chiavi TPL_ACCESSIBILE_EVENT_DETAILS, EVENT_CANCELED, EVENT_BOOKING]]></item>

@@ -4,6 +4,6 @@ RELEASE.md
 _build/
 _dist/
 examples/
-TEMP/_build_plugin/
+TEMP/
 _build_plugin/
 doc/tools/
