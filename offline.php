@@ -224,7 +224,7 @@ $offlineMsg   = $app->get('offline_message');
                     <div class="it-brand-wrapper">
                         <a href="<?php echo htmlspecialchars($baseurl, ENT_QUOTES, 'UTF-8'); ?>">
                             <?php if ($logoUrl) : ?>
-                                <svg class="icon" aria-hidden="true"><image xlink:href="<?php echo htmlspecialchars($logoUrl, ENT_QUOTES, 'UTF-8'); ?>" /></svg>
+                                <svg class="icon" aria-hidden="true"><image href="<?php echo htmlspecialchars($logoUrl, ENT_QUOTES, 'UTF-8'); ?>" /></svg>
                             <?php endif; ?>
                             <div class="it-brand-text">
                                 <div class="it-brand-title h2"><?php echo htmlspecialchars($params->get('nomesito', 'Il mio Ente')); ?></div>
