@@ -1,4 +1,4 @@
-# Accessible Template for Joomla 5+ (Universal Model / Bootstrap Italia)
+# Accessible Template for Joomla 5.4+ and 6 (Universal Model / Bootstrap Italia)
 
 > **The template passes the automated validation of the [App Valutazione Modelli](https://innovazione.gov.it/notizie/articoli/app-di-valutazione-per-i-siti-di-comuni-e-scuole-pubblicata-la-versione-2-0/) by the Italian Department for Digital Transformation** (Modello Comuni). The only two errors reported are independent of the template itself: the lack of an institutional domain (`comune.*.it`) and the absence of an accessibility statement, both of which must be provided by the municipality.
 >
@@ -6,14 +6,16 @@
 
 ## 📄 Description
 
-This is the template aimed at integrating the **Universal Model** and the design system of **Designers Italia** natively on **Joomla 5+**. The template is primarily built for **Italian Public Administration** (Municipalities, Schools, Healthcare, Museums), but it is suitable for any site that wants to follow the same high accessibility standards.
+This is the template aimed at integrating the **Universal Model** and the design system of **Designers Italia** natively on **Joomla 5.4+ and Joomla 6**. The template is primarily built for **Italian Public Administration** (Municipalities, Schools, Healthcare, Museums), but it is suitable for any site that wants to follow the same high accessibility standards.
 
-Designed without heavy external frameworks (zero jQuery, pure vanilla CSS and native JavaScript), it aims at a highly **accessible user experience (WCAG 2.1 AA/AAA)**, performant and future-proof. The structure is based on **Bootstrap Italia 2.18.1** and leverages modern *Web Asset Manager* and native Joomla 5 namespaces.
+Designed without heavy external frameworks (zero jQuery, pure vanilla CSS and native JavaScript), it aims at a highly **accessible user experience (WCAG 2.1 AA/AAA)**, performant and future-proof. The structure is based on **Bootstrap Italia 2.18.1** and leverages modern *Web Asset Manager* and native Joomla namespaces.
 
 ## 🛠 System Requirements
 
-- **Joomla!**: 5.4.0 or higher
-- **PHP**: 8.2.0 or higher
+- **Joomla!**: 5.4.0 or higher (compatible with Joomla 6)
+- **PHP**: 8.1.0 or higher
+
+> **Joomla 5.4 and PHP 8.1 are supported until October 2027**, when Joomla 5 reaches end of support. From the following release the minimum requirements will become **Joomla 6 and PHP 8.3**: sites that stay on Joomla 5 will keep the template already installed, but will no longer receive updates.
 
 ## 🚀 Installation
 
@@ -45,11 +47,25 @@ If you already have a Joomla site and only need the structure for an **Italian m
 
 The template is "turn-key": everything is configured from the **Template Styles → Accessible Template** panel in the Joomla backend, without touching any code.
 
-Main options include logo, entity name, primary color (5 accessible color themes), header, social networks, footer and "Contatta" contact block.
+Main options include logo, entity name, primary color (5 accessible color themes), header, search, social networks, footer and "Contatta" contact block, plus the tabs that map the custom fields of the Service Sheet ("Valutazione - COMUNI") and of the DPCalendar Event Sheet ("Scheda Evento").
 
 > **Note:** The full configuration documentation is currently available in Italian only.  
 > **→ Full guide (IT):** [`doc/it/configurazione-joomla.md`](doc/it/configurazione-joomla.md)  
 > **→ Colors and themes (IT):** [`doc/it/colori-e-temi.md`](doc/it/colori-e-temi.md)
+
+---
+
+## 🔎 Search
+
+Search relies on Joomla's **Smart Search** (`com_finder`) and is configured from the **Ricerca** tab of the template parameters:
+
+- the header icon opens either the results page or a **full-screen modal** with a search field, a "Cerca" button and an "Advanced search" link (without JavaScript it stays a plain link);
+- the **results page** has a large search field, card results with the category above the title and **checkbox filters** by content type and category, which stay active across pagination and sorting;
+- optional **search suggestions while typing**, in the modal and on the results page.
+
+Requires Smart Search enabled, with its plugins active and an up-to-date index. There is no topic (article tag) filter yet, because Joomla does not store article tags in the index.
+
+**→ Full guide (IT):** [`doc/it/ricerca.md`](doc/it/ricerca.md)
 
 ---
 
@@ -59,7 +75,7 @@ The template declares the following native module positions:
 
 `selezione-lingua` · `menu-principale` · `menu-secondario` · `avvisi` · `percorso` · `top` · `top-muted` · `evidenza` · `calendario` · `colonna-sinistra` · `colonna-destra` · `bottom` · `bottom2` · `footer1` · `footer2` · `cerca-servizi` · `debug`
 
-Menu modules must use the `comuni-menu` alternative layout.
+Header menu modules (`menu-principale`, `menu-secondario`) must use the `comuni-menu` alternative layout; menus in the `footer1` and `footer2` positions use the `comuni-footer` layout.
 
 **→ Full position guide (IT):** [`doc/it/moduli.md`](doc/it/moduli.md)
 
@@ -73,28 +89,35 @@ To add custom CSS rules without modifying the original files, create the file `/
 
 ## 🌟 Included Overrides and Alternative Layouts
 
-The template includes overrides for the main Joomla components (articles, menus, breadcrumbs, categories) and specialized alternative layouts for the Comuni Model:
+The template includes overrides for the main Joomla components (articles, menus, breadcrumbs, categories, search) and specialized alternative layouts for the Comuni Model:
 
 | Layout | Description |
 |--------|-------------|
-| `com_content/article/default` | Standard article with reading time, scrollspy, social sharing |
+| `com_content/article/default` | Standard article with reading time, page index, "Share" and "Actions" menus, topics as chips |
 | `com_content/article/note-legali` | Legal Notes page (C.SI.3.4) with mandatory CC-BY 4.0 section |
 | `com_content/article/scheda-servizio` | Municipal Service Sheet (C.SI.1.3) with JSON-LD and feedback widget |
 | `com_content/category/notizie` | News category with featured articles at the top |
 | `com_content/category/servizi` | Services category with search and subcategories |
 | `com_content/category/amministrazione` | Administration category with "In evidenza" featured section |
 | `com_content/category/vivere` | "Vivere il Comune" page with events and places |
-| `mod_articles/evidenza-singolo` | Article module: single or automatic accessible slideshow |
+| `mod_articles/evidenza-singolo` | Article module: a single article, or an accessible carousel (arrows and indicators) when there is more than one |
 | `mod_articles/evidenza-tre-colonne` | Article module: 3-column card layout |
 | `mod_menu/comuni-menu` | Mandatory menu layout for Bootstrap Italia header |
+| `mod_menu/comuni-footer` | Menu layout for `footer1`/`footer2`: list of links with the footer `data-element`s (FAQ, report inefficiency, accessibility, privacy, legal notes) |
 | `mod_breadcrumbs/default` | Breadcrumbs with schema.org microdata and `data-element` |
+| `com_finder/search/default` | Smart Search results page with cards and filters by content type and category |
+| `layouts/joomla/content/tags` | Category view tags as chips in the theme's primary color |
 | `com_dpcalendar/calendar/vivere` | *(DPCalendar)* "Vivere il Comune" page with events and locations from DPCalendar |
 | `com_dpcalendar/list/eventi` | *(DPCalendar)* Events list with featured carousel, filter and accessible pagination |
-| `com_dpcalendar/event/default` | *(DPCalendar)* Single event page with page index, map, booking and Modello Comuni sections (costs, attachments, contacts) from custom fields |
+| `com_dpcalendar/event/default` | *(DPCalendar)* Modello Comuni Event Sheet: page index, map, dates and times with "Add to calendar" (Google Calendar or `.ics`), booking and sections from custom fields (audience, gallery and video, costs, attachments, contacts, patronage, sponsors) |
 | `mod_dpcalendar_upcoming/joomlaPA` | *(DPCalendar)* "Upcoming events" module with Bootstrap Italia card layout |
 
+Article, Service Sheet and Event Sheet share the same page header ("Share" and "Actions" menus, topics as chips), defined once in the `html/layouts/accessibile/azioni-pagina.php` and `argomenti.php` partials.
+
 **→ Documentation (IT):** [`doc/it/`](doc/it/)  
-**→ DPCalendar integration guide (IT):** [`doc/it/integrazione-DPCalendar.md`](doc/it/integrazione-DPCalendar.md)
+**→ DPCalendar integration guide (IT):** [`doc/it/integrazione-DPCalendar.md`](doc/it/integrazione-DPCalendar.md)  
+**→ Event Sheet guide (IT):** [`doc/it/scheda-evento.md`](doc/it/scheda-evento.md)  
+**→ Search guide (IT):** [`doc/it/ricerca.md`](doc/it/ricerca.md)
 
 ---
 
@@ -124,7 +147,8 @@ The template implements all required `data-element` attributes:
 - ✅ Service Sheet layout (C.SI.1.3) with all `data-element`s and JSON-LD
 - ✅ News, Administration, Vivere il Comune category layouts
 - ✅ Feedback widget (C.SI.2.5/2.6) — full HTML structure with all required `data-element`s
-- ✅ DPCalendar integration: event page with Modello Comuni sections, map and booking; events list with featured carousel and filter
+- ✅ Footer menus with the `comuni-footer` layout and dedicated `data-element`s (FAQ, report inefficiency, accessibility, privacy, legal notes)
+- ✅ DPCalendar integration: Event Sheet with Modello Comuni sections, map, booking and "Add to calendar"; events list with featured carousel and filter
 - 🚧 Specialized layouts for Ufficio, Documento, Luogo, Evento (native article), Persona, Notizia (single article) not yet implemented
 
 ---
@@ -138,8 +162,6 @@ The template implements all required `data-element` attributes:
 **The two failing criteria (institutional domain and accessibility statement):**
 
 ![Failing criteria](doc/img/criteri-non-superati.jpg)
-
----
 
 ---
 

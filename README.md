@@ -1,4 +1,4 @@
-# Template Accessibile per Joomla 5+ (Modello Universale / Bootstrap Italia)
+# Template Accessibile per Joomla 5.4+ e 6 (Modello Universale / Bootstrap Italia)
 
 > **Il template supera la valutazione automatica dell'[App Valutazione Modelli](https://innovazione.gov.it/notizie/articoli/app-di-valutazione-per-i-siti-di-comuni-e-scuole-pubblicata-la-versione-2-0/) del Dipartimento per la Trasformazione Digitale** (Modello Comuni). Gli unici due errori rilevati riguardano requisiti indipendenti dal template: la mancanza di un dominio istituzionale (`comune.*.it`) e l'assenza di una dichiarazione di accessibilità, che devono essere predisposti dall'ente.
 >
@@ -16,14 +16,16 @@
 
 ## 📄 Descrizione
 
-Questo è il template pensato per integrare il **Modello Universale** e il design system di **Designers Italia** nativamente su **Joomla 5+**. Il template nasce per la **Pubblica Amministrazione italiana** (Comuni, Scuole, ASL, Musei), ma è adatto a qualsiasi sito che voglia seguire gli stessi standard di accessibilità.
+Questo è il template pensato per integrare il **Modello Universale** e il design system di **Designers Italia** nativamente su **Joomla 5.4+ e Joomla 6**. Il template nasce per la **Pubblica Amministrazione italiana** (Comuni, Scuole, ASL, Musei), ma è adatto a qualsiasi sito che voglia seguire gli stessi standard di accessibilità.
 
-Progettato senza framework pesanti (zero jQuery, CSS vanilla e JavaScript nativo), punta a garantire un'esperienza **altamente accessibile (WCAG 2.1 AA/AAA)**, performante e a prova di aggiornamenti. La struttura si basa su **Bootstrap Italia 2.18.1** e sfrutta i *Web Asset Manager* e i namespace nativi di Joomla 5.
+Progettato senza framework pesanti (zero jQuery, CSS vanilla e JavaScript nativo), punta a garantire un'esperienza **altamente accessibile (WCAG 2.1 AA/AAA)**, performante e a prova di aggiornamenti. La struttura si basa su **Bootstrap Italia 2.18.1** e sfrutta i *Web Asset Manager* e i namespace nativi di Joomla.
 
 ## 🛠 Requisiti di sistema
 
-- **Joomla!**: 5.4.0 o superiore
-- **PHP**: 8.2.0 o superiore
+- **Joomla!**: 5.4.0 o superiore (compatibile con Joomla 6)
+- **PHP**: 8.1.0 o superiore
+
+> **Joomla 5.4 e PHP 8.1 sono supportati fino a ottobre 2027**, quando Joomla 5 esce dal supporto. Dalla release successiva i requisiti minimi passeranno a **Joomla 6 e PHP 8.3**: chi resta su Joomla 5 continuerà a usare il template già installato, ma non riceverà più aggiornamenti.
 
 ## 🚀 Installazione
 
@@ -55,10 +57,24 @@ Se hai già un sito Joomla e ti serve solo la struttura per il **sito di un Comu
 
 Il template è "chiavi in mano": tutto si configura dal pannello **Stili Template → Template Accessibile** nel backend di Joomla, senza toccare il codice.
 
-Le opzioni principali includono logo, nome ente, colore primario (5 temi cromatici accessibili), header, social network, footer e blocco "Contatta".
+Le opzioni principali includono logo, nome ente, colore primario (5 temi cromatici accessibili), header, ricerca, social network, footer e blocco "Contatta", oltre alle schede per la mappatura dei campi della Scheda Servizio ("Valutazione - COMUNI") e della Scheda Evento DPCalendar ("Scheda Evento").
 
 **→ Guida completa:** [`doc/it/configurazione-joomla.md`](doc/it/configurazione-joomla.md)  
 **→ Colori e temi:** [`doc/it/colori-e-temi.md`](doc/it/colori-e-temi.md)
+
+---
+
+## 🔎 Ricerca
+
+La ricerca si appoggia al **Motore di ricerca di Joomla** (Smart Search, `com_finder`) e si configura dalla scheda **Ricerca** dei parametri del template:
+
+- l'icona nell'header apre la pagina dei risultati oppure un **modale a tutta pagina** con campo, pulsante "Cerca" e link "Ricerca avanzata" (senza JavaScript resta un link);
+- la **pagina dei risultati** ha un campo di ricerca grande, risultati a card con la categoria sopra il titolo e **filtri a caselle** per tipologia e categoria, che restano attivi cambiando pagina o ordinamento;
+- **suggerimenti durante la digitazione** opzionali, nel modale e nella pagina dei risultati.
+
+Richiede Smart Search attivo, con i plugin abilitati e l'indice aggiornato. Non c'è ancora un filtro per argomenti (tag degli articoli), perché Joomla non li registra nell'indice.
+
+**→ Guida completa:** [`doc/it/ricerca.md`](doc/it/ricerca.md)
 
 ---
 
@@ -68,7 +84,7 @@ Il template dichiara le seguenti posizioni native:
 
 `selezione-lingua` · `menu-principale` · `menu-secondario` · `avvisi` · `percorso` · `top` · `top-muted` · `evidenza` · `calendario` · `colonna-sinistra` · `colonna-destra` · `bottom` · `bottom2` · `footer1` · `footer2` · `cerca-servizi` · `debug`
 
-I moduli menu devono usare il layout alternativo `comuni-menu`.
+I moduli menu dell'header (`menu-principale`, `menu-secondario`) devono usare il layout alternativo `comuni-menu`; i menu nelle posizioni `footer1` e `footer2` il layout `comuni-footer`.
 
 **→ Guida completa con descrizione di ogni posizione:** [`doc/it/moduli.md`](doc/it/moduli.md)
 
@@ -82,25 +98,30 @@ Per aggiungere stili CSS personalizzati senza modificare i file originali, crea 
 
 ## 🌟 Override e Layout Alternativi inclusi
 
-Il template include override per i principali componenti Joomla (articoli, menu, breadcrumb, categorie) e layout alternativi specializzati per il Modello Comuni:
+Il template include override per i principali componenti Joomla (articoli, menu, breadcrumb, categorie, ricerca) e layout alternativi specializzati per il Modello Comuni:
 
 | Layout | Descrizione |
 |--------|-------------|
-| `com_content/article/default` | Articolo standard con tempo di lettura, scrollspy, social sharing |
+| `com_content/article/default` | Articolo standard con tempo di lettura, indice di pagina, menu "Condividi" e "Vedi azioni", argomenti come chip |
 | `com_content/article/note-legali` | Pagina Note Legali (C.SI.3.4) con sezione CC-BY 4.0 obbligatoria |
 | `com_content/article/scheda-servizio` | Scheda Servizio comunale (C.SI.1.3) con JSON-LD e widget feedback |
 | `com_content/category/notizie` | Categoria Notizie con articoli "In evidenza" in cima |
 | `com_content/category/servizi` | Categoria Servizi con ricerca e sottocategorie |
 | `com_content/category/amministrazione` | Categoria Amministrazione con sezione "In evidenza" |
 | `com_content/category/vivere` | Pagina "Vivere il Comune" con eventi e luoghi |
-| `mod_articles/evidenza-singolo` | Modulo articoli: singolo o slideshow accessibile automatico |
+| `mod_articles/evidenza-singolo` | Modulo articoli: un solo articolo, o carosello accessibile (con frecce e indicatori) se gli articoli sono più di uno |
 | `mod_articles/evidenza-tre-colonne` | Modulo articoli: layout a 3 colonne card |
 | `mod_menu/comuni-menu` | Layout menu obbligatorio per header Bootstrap Italia |
+| `mod_menu/comuni-footer` | Layout menu per `footer1`/`footer2`: elenco di link con i `data-element` del footer (FAQ, segnalazione disservizio, accessibilità, privacy, note legali) |
 | `mod_breadcrumbs/default` | Breadcrumb con microdata schema.org e `data-element` |
+| `com_finder/search/default` | Pagina dei risultati di Smart Search con card e filtri per tipologia e categoria |
+| `layouts/joomla/content/tags` | Tag delle viste categoria come chip nel colore primario del tema |
 | `com_dpcalendar/calendar/vivere` | *(DPCalendar)* Pagina "Vivere il Comune" con eventi e luoghi da DPCalendar |
 | `com_dpcalendar/list/eventi` | *(DPCalendar)* Lista eventi con carousel "In evidenza", filtro e paginazione |
-| `com_dpcalendar/event/default` | *(DPCalendar)* Scheda singolo evento con indice, mappa, prenotazione e sezioni del Modello Comuni (costi, allegati, contatti) da campi personalizzati |
+| `com_dpcalendar/event/default` | *(DPCalendar)* Scheda Evento del Modello Comuni: indice di pagina, mappa, date e orari con "Aggiungi al calendario" (Google Calendar o `.ics`), prenotazione e sezioni da campi personalizzati (a chi è rivolto, galleria e video, costi, allegati, contatti, patrocinio, sponsor) |
 | `mod_dpcalendar_upcoming/joomlaPA` | *(DPCalendar)* Modulo "prossimi eventi" con card Bootstrap Italia |
+
+Articolo, Scheda Servizio e Scheda Evento condividono la stessa intestazione di pagina (menu "Condividi" e "Vedi azioni", argomenti come chip), definita una sola volta nei partial `html/layouts/accessibile/azioni-pagina.php` e `argomenti.php`.
 
 **→ Guida all'inserimento articoli:** [`doc/it/inserimento-articoli.md`](doc/it/inserimento-articoli.md)  
 **→ Layout Notizie:** [`doc/it/layout-notizie.md`](doc/it/layout-notizie.md)  
@@ -108,7 +129,10 @@ Il template include override per i principali componenti Joomla (articoli, menu,
 **→ Layout Amministrazione:** [`doc/it/layout-amministrazione.md`](doc/it/layout-amministrazione.md)  
 **→ Layout Vivere il Comune (articoli):** [`doc/it/layout-vivere.md`](doc/it/layout-vivere.md)  
 **→ Scheda Servizio:** [`doc/it/scheda-servizio.md`](doc/it/scheda-servizio.md)  
-**→ Integrazione DPCalendar:** [`doc/it/integrazione-DPCalendar.md`](doc/it/integrazione-DPCalendar.md)
+**→ Footer e menu del footer:** [`doc/it/footer.md`](doc/it/footer.md)  
+**→ Integrazione DPCalendar:** [`doc/it/integrazione-DPCalendar.md`](doc/it/integrazione-DPCalendar.md)  
+**→ Scheda Evento (DPCalendar):** [`doc/it/scheda-evento.md`](doc/it/scheda-evento.md)  
+**→ Ricerca:** [`doc/it/ricerca.md`](doc/it/ricerca.md)
 
 ---
 
@@ -138,7 +162,8 @@ Il template implementa tutti i `data-element` richiesti:
 - ✅ Layout Scheda Servizio (C.SI.1.3) con tutti i `data-element` e JSON-LD
 - ✅ Layout Notizie, Amministrazione, Vivere il Comune
 - ✅ Widget feedback (C.SI.2.5/2.6) — struttura HTML completa con tutti i `data-element` richiesti
-- ✅ Integrazione DPCalendar: scheda evento con sezioni del Modello Comuni, mappa, prenotazione; lista eventi con carousel e filtro
+- ✅ Menu del footer con layout `comuni-footer` e `data-element` dedicati (FAQ, segnalazione disservizio, accessibilità, privacy, note legali)
+- ✅ Integrazione DPCalendar: Scheda Evento con sezioni del Modello Comuni, mappa, prenotazione e "Aggiungi al calendario"; lista eventi con carousel e filtro
 - 🚧 Layout specializzati per Ufficio, Documento, Luogo, Evento (articolo nativo), Persona, Notizia (articolo singolo) non ancora implementati
 
 ---
@@ -152,8 +177,6 @@ Il template implementa tutti i `data-element` richiesti:
 **I due criteri non superati (dominio istituzionale e dichiarazione di accessibilità):**
 
 ![Criteri non superati](doc/img/criteri-non-superati.jpg)
-
----
 
 ---
 

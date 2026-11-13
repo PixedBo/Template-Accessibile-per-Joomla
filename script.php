@@ -31,8 +31,8 @@ return new class implements InstallerScriptInterface
             return false;
         }
 
-        if (version_compare(PHP_VERSION, '8.2.0', '<')) {
-            Log::add('Template Accessibile richiede PHP 8.2.0 o superiore.', Log::ERROR, 'tpl_accessibile');
+        if (version_compare(PHP_VERSION, '8.1.0', '<')) {
+            Log::add('Template Accessibile richiede PHP 8.1.0 o superiore.', Log::ERROR, 'tpl_accessibile');
 
             return false;
         }

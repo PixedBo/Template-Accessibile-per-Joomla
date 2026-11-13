@@ -23,7 +23,7 @@ use Joomla\Database\DatabaseInterface;
 
 return new class () implements InstallerScriptInterface {
     private const MIN_JOOMLA = '5.4.0';
-    private const MIN_PHP    = '8.2.0';
+    private const MIN_PHP    = '8.1.0';
 
     public function preflight(string $type, InstallerAdapter $adapter): bool
     {
