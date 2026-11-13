@@ -154,7 +154,7 @@ $wa->addInlineStyle($inlineCss);
                                 ?>
                                 <a class="btn btn-primary btn-icon btn-full" href="<?php echo $loginUrl; ?>" data-element="personal-area-login" aria-label="<?php echo $loginText; ?>">
                                     <span class="rounded-icon" aria-hidden="true">
-                                        <svg class="icon icon-primary"><use xlink:href="<?= TplAccessibileHelper::spriteUrl('it-user') ?>"></use></svg>
+                                        <svg class="icon icon-primary"><use href="<?= TplAccessibileHelper::spriteUrl('it-user') ?>"></use></svg>
                                     </span>
                                     <span aria-hidden="true" class="d-none d-lg-block"><?php echo $loginText; ?></span>
                                 </a>
@@ -176,7 +176,7 @@ $wa->addInlineStyle($inlineCss);
                                     <a href="<?php echo $this->baseurl; ?>">
                                         <?php if ($logoUrl) : ?>
                                             <svg width="82" height="82" class="icon" aria-hidden="true">
-                                                <image xlink:href="<?php echo htmlspecialchars($logoUrl, ENT_QUOTES, 'UTF-8'); ?>" />
+                                                <image href="<?php echo htmlspecialchars($logoUrl, ENT_QUOTES, 'UTF-8'); ?>" />
                                             </svg>
                                         <?php endif; ?>
                                         <div class="it-brand-text">
@@ -193,7 +193,7 @@ $wa->addInlineStyle($inlineCss);
                                                 <?php foreach ($socialLinks as $social) : ?>
                                                     <li>
                                                         <a href="<?php echo htmlspecialchars($social['url'], ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noopener noreferrer">
-                                                            <svg class="icon icon-sm icon-white align-top"><use xlink:href="<?= TplAccessibileHelper::spriteUrl($social['icon']) ?>"></use></svg>
+                                                            <svg class="icon icon-sm icon-white align-top"><use href="<?= TplAccessibileHelper::spriteUrl($social['icon']) ?>"></use></svg>
                                                             <span class="visually-hidden"><?php echo $social['label']; ?></span>
                                                         </a>
                                                     </li>
@@ -386,7 +386,7 @@ endif;
                         <div class="it-brand-wrapper">
                             <a href="<?php echo $this->baseurl; ?>">
                                 <?php if ($logoUrl) : ?>
-                                    <svg class="icon" aria-hidden="true"><image xlink:href="<?php echo htmlspecialchars($logoUrl, ENT_QUOTES, 'UTF-8'); ?>" /></svg>
+                                    <svg class="icon" aria-hidden="true"><image href="<?php echo htmlspecialchars($logoUrl, ENT_QUOTES, 'UTF-8'); ?>" /></svg>
                                 <?php endif; ?>
                                 <div class="it-brand-text">
                                     <div class="it-brand-title h2"><?php echo htmlspecialchars($params->get('nomesito', 'Il mio Comune')); ?></div>

@@ -266,7 +266,7 @@ $wa->addInlineStyle($inlineCss);
   <a class="btn btn-primary btn-icon btn-full" href="<?php echo $loginUrl; ?>" data-element="personal-area-login" aria-label="<?php echo $loginText; ?>">
     <span class="rounded-icon" aria-hidden="true">
       <svg class="icon icon-primary">
-        <use xlink:href="<?= TplAccessibileHelper::spriteUrl('it-user') ?>"></use>
+        <use href="<?= TplAccessibileHelper::spriteUrl('it-user') ?>"></use>
       </svg>
     </span>
     <span aria-hidden="true" class="d-none d-lg-block"><?php echo $loginText; ?></span>
@@ -291,7 +291,7 @@ $wa->addInlineStyle($inlineCss);
 								<div class="it-brand-text d-flex align-items-center">
 								  <?php if ($logoUrl) : ?>
 									<svg width="82" height="82" class="icon" aria-hidden="true">
-									  <image xlink:href="<?php echo htmlspecialchars($logoUrl, ENT_QUOTES, 'UTF-8'); ?>" width="82" height="82" />
+									  <image href="<?php echo htmlspecialchars($logoUrl, ENT_QUOTES, 'UTF-8'); ?>" width="82" height="82" />
 									</svg>
 								  <?php endif; ?>
 								  <div>
@@ -318,7 +318,7 @@ $wa->addInlineStyle($inlineCss);
                aria-label="<?php echo $social['label']; ?> - <?php echo Text::_('TPL_ACCESSIBILE_NEW_WINDOW'); ?>">
               
               <svg class="icon icon-sm align-top" aria-hidden="true" style="fill: currentColor;">
-                <use xlink:href="<?= TplAccessibileHelper::spriteUrl($social['icon']) ?>"></use>
+                <use href="<?= TplAccessibileHelper::spriteUrl($social['icon']) ?>"></use>
               </svg>
 
               <span class="visually-hidden"><?php echo $social['label']; ?></span>
@@ -407,7 +407,7 @@ $wa->addInlineStyle($inlineCss);
 									<li>
 									  <a href="<?php echo htmlspecialchars($social['url'], ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noopener noreferrer">
 										<svg class="icon icon-sm icon-white align-top">
-										  <use xlink:href="<?= TplAccessibileHelper::spriteUrl($social['icon']) ?>"></use>
+										  <use href="<?= TplAccessibileHelper::spriteUrl($social['icon']) ?>"></use>
 										</svg>
 										<span class="visually-hidden"><?php echo $social['label']; ?></span>
 									  </a>
@@ -608,7 +608,7 @@ endif;
 				  <a href="<?php echo $this->baseurl; ?>">
 					<?php if ($logoUrl) : ?>
 					  <svg class="icon" aria-hidden="true">
-						<image xlink:href="<?php echo htmlspecialchars($logoUrl, ENT_QUOTES, 'UTF-8'); ?>" />
+						<image href="<?php echo htmlspecialchars($logoUrl, ENT_QUOTES, 'UTF-8'); ?>" />
 					  </svg>
 					<?php endif; ?>
 					<div class="it-brand-text">
@@ -628,7 +628,7 @@ endif;
 							   class="text-white"
 							   aria-label="<?php echo htmlspecialchars($social['label'], ENT_QUOTES, 'UTF-8'); ?> - <?php echo Text::_('TPL_ACCESSIBILE_NEW_WINDOW'); ?>">
 								<svg class="icon icon-sm align-top" aria-hidden="true" style="fill: currentColor;">
-									<use xlink:href="<?= TplAccessibileHelper::spriteUrl($social['icon']) ?>"></use>
+									<use href="<?= TplAccessibileHelper::spriteUrl($social['icon']) ?>"></use>
 								</svg>
 								<span class="visually-hidden"><?php echo htmlspecialchars($social['label'], ENT_QUOTES, 'UTF-8'); ?></span>
 							</a>
@@ -654,7 +654,7 @@ endif;
           <div class="col-12 text-center py-3">
             <a href="#top" class="scroll-top-static">
               <svg class="icon icon-sm icon-light" aria-hidden="true">
-                <use xlink:href="<?= TplAccessibileHelper::spriteUrl('it-arrow-up') ?>"></use>
+                <use href="<?= TplAccessibileHelper::spriteUrl('it-arrow-up') ?>"></use>
               </svg>
               <span><?php echo Text::_('TPL_ACCESSIBILE_SCROLL_TOP_TEXT'); ?></span>
             </a>
@@ -671,7 +671,7 @@ endif;
        data-bs-toggle="backtotop"
        aria-label="<?php echo Text::_('TPL_ACCESSIBILE_SCROLL_TOP_ARIA'); ?>">
       <svg class="icon icon-light" aria-hidden="true">
-        <use xlink:href="<?= TplAccessibileHelper::spriteUrl('it-arrow-up') ?>"></use>
+        <use href="<?= TplAccessibileHelper::spriteUrl('it-arrow-up') ?>"></use>
       </svg>
     </a>
     <?php endif; ?>
