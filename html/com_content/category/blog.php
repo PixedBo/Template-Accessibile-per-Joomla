@@ -80,7 +80,7 @@ $afterDisplayContent = trim(implode("\n", $results));
                         <div class="img-responsive-wrapper">
                             <div class="img-responsive">
                                 <div class="img-wrapper">
-                                    <img src="<?php echo $this->category->getParams()->get('image'); ?>"
+                                    <img src="<?php echo htmlspecialchars((string) $this->category->getParams()->get('image'), ENT_QUOTES, 'UTF-8'); ?>"
                                          alt="<?php echo htmlspecialchars($this->category->getParams()->get('image_alt') ?: $this->category->title, ENT_QUOTES, 'UTF-8'); ?>"
                                          title="<?php echo htmlspecialchars($this->category->title, ENT_QUOTES, 'UTF-8'); ?>">
                                 </div>

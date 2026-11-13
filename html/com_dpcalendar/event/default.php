@@ -3,12 +3,22 @@
  * @package     Joomla.Site
  * @subpackage  com_dpcalendar
  *
- * Layout alternativo "Scheda Evento" per DPCalendar.
+ * Scheda Evento per DPCalendar (tipologia "evento" del Modello Comuni).
+ *
+ * Le sezioni del corpo sono costruite una sola volta in $sections: indice di pagina e
+ * contenuto iterano lo stesso elenco, quindi una voce d'indice esiste se e solo se esiste
+ * la sua sezione.
+ *
+ * Le sezioni A chi è rivolto, Galleria, Video, Costi, Allegati, Contatti, Patrocinio e
+ * Sponsor leggono campi personalizzati di DPCalendar scelti nei parametri del template
+ * (fieldset "evento"). I campi non mappati restano sezioni a sé, come prima della 1.3.0.
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\MediaHelper;
+use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -20,40 +30,55 @@ use Joomla\CMS\Uri\Uri;
 $app = Factory::getApplication();
 $app->getLanguage()->load('tpl_templateaccessibileperjoomla', JPATH_SITE);
 
-$_parentTpl = \Joomla\CMS\Factory::getApplication()->getTemplate(true)->parent
-    ?: \Joomla\CMS\Factory::getApplication()->getTemplate();
+$_parentTpl = $app->getTemplate(true)->parent ?: $app->getTemplate();
 require_once JPATH_SITE . '/templates/' . $_parentTpl . '/helpers/TplAccessibileHelper.php';
+require_once JPATH_SITE . '/templates/' . $_parentTpl . '/helpers/TplAccessibileFieldsHelper.php';
 
-$document = $app->getDocument();
-$params   = $this->params;
-$event    = $this->event;
+$document  = $app->getDocument();
+$params    = $this->params;
+$event     = $this->event;
+$tplParams = $app->getTemplate(true)->params;
 
-// Funzione helper per generare embed video
-$getVideoEmbed = function($url) {
-    if (empty($url)) return '';
-    
+// Click sulle voci dell'indice di pagina: vedi js/page-index.js
+$document->getWebAssetManager()->registerAndUseScript(
+    'template.page-index',
+    TplAccessibileHelper::mediaUrl('js/page-index.js'),
+    [],
+    ['defer' => true]
+);
+
+$esc    = static fn ($value): string => htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
+$sprite = static fn (string $icon): string => TplAccessibileHelper::spriteUrl($icon);
+
+// Embed video (YouTube / Vimeo). Restituisce stringa vuota se l'URL non è riconosciuto.
+$videoTitle    = $esc(Text::sprintf('TPL_ACCESSIBILE_EVENT_VIDEO_TITLE', $event->title));
+$getVideoEmbed = static function ($url) use ($videoTitle): string {
+    if (!is_string($url) || trim($url) === '') {
+        return '';
+    }
+
     // YouTube
     if (preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $url, $match)) {
-        return '<div class="ratio ratio-16x9 mb-3"><iframe src="https://www.youtube.com/embed/' . $match[1] . '" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>';
+        return '<div class="ratio ratio-16x9 mb-3"><iframe src="https://www.youtube.com/embed/' . htmlspecialchars($match[1], ENT_QUOTES, 'UTF-8') . '" title="' . $videoTitle . '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>';
     }
-    
+
     // Vimeo
     if (preg_match('%vimeo\.com/(?:video/)?([0-9]+)%i', $url, $match)) {
-        return '<div class="ratio ratio-16x9 mb-3"><iframe src="https://player.vimeo.com/video/' . $match[1] . '" title="Vimeo video player" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>';
+        return '<div class="ratio ratio-16x9 mb-3"><iframe src="https://player.vimeo.com/video/' . $match[1] . '" title="' . $videoTitle . '" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>';
     }
-    
-    return $url;
+
+    return '';
 };
 
 // Risorse DPCalendar originali
 if ($params->get('event_show_map', '1')
     && $event->locations
     && $params->get('event_show_location', '2') && $params->get('map_provider', 'openstreetmap') != 'none') {
-    
-    // Aumentiamo lo zoom di 8 livelli rispetto al parametro impostato (era +4, ora +8)
-    $currentZoom = (int)$params->get('event_map_zoom', 4);
+
+    // Aumentiamo lo zoom di 8 livelli rispetto al parametro impostato
+    $currentZoom = (int) $params->get('event_map_zoom', 4);
     $params->set('event_map_zoom', $currentZoom + 8);
-    
+
     $this->layoutHelper->renderLayout('block.map', $this->displayData);
 }
 
@@ -61,13 +86,9 @@ $this->dpdocument->loadStyleFile('dpcalendar/views/event/default.css');
 $this->dpdocument->loadScriptFile('views/event/default.js');
 $this->dpdocument->addStyle($params->get('event_custom_css', ''));
 
-
-// Caricamento sottomodelli DPCalendar
+// Sotto-template DPCalendar (ognuno applica i propri parametri di visibilità)
 $imageContent       = $this->loadTemplate('image_full');
-$informationContent = $this->loadTemplate('information');
-$headerContent      = $this->loadTemplate('header');
 $ctaContent         = $this->loadTemplate('cta');
-$descriptionContent = $this->loadTemplate('description');
 $bookingFormContent = $this->loadTemplate('booking_form');
 $bookingsContent    = $this->loadTemplate('bookings');
 $seriesContent      = $this->loadTemplate('series');
@@ -76,19 +97,41 @@ $locationsContent   = $this->loadTemplate('locations');
 $ticketsContent     = $this->loadTemplate('tickets');
 $tagsContent        = $this->loadTemplate('tags');
 
-// URL "Aggiungi al calendario" (Google / iCal-Outlook) — logica derivata da default_header.php
+// ── Date ────────────────────────────────────────────────────────────────────
+$isAllDay = (bool) $event->all_day;
+$startDate = Factory::getDate($event->start_date);
+$endDate   = Factory::getDate($event->end_date);
+
+if (!$isAllDay) {
+    // Gli eventi "tutto il giorno" sono date pure: nessuna conversione di fuso
+    $tz = new \DateTimeZone($app->get('offset', 'UTC'));
+    $startDate->setTimezone($tz);
+    $endDate->setTimezone($tz);
+}
+
+$isSameDay    = $startDate->format('Y-m-d', true) === $endDate->format('Y-m-d', true);
+$showYear     = $startDate->format('Y', true) !== $endDate->format('Y', true);
+$dateFormat   = Text::_('DATE_FORMAT_LC3');
+$startDateStr = $startDate->format($dateFormat, true, true);
+$endDateStr   = $endDate->format($dateFormat, true, true);
+$startTime    = $startDate->format('H:i', true);
+$endTime      = $endDate->format('H:i', true);
+
+// ── URL "Aggiungi al calendario" (Google / file .ics) ───────────────────────
 $googleUrl = '';
 $icalUrl   = '';
+
 try {
     $gStart = $this->dateHelper->getDate($event->start_date, $event->all_day);
     $gEnd   = $this->dateHelper->getDate($event->end_date, $event->all_day);
     $gFmt   = $event->all_day ? 'Ymd' : 'Ymd\THis';
+
     if ($event->all_day) {
         $gEnd->modify('+1 day');
     }
 
-    // Indirizzo luogo (riusa la stessa composizione della sezione Luogo, niente dipendenza dal Geo model)
     $gLocationParts = [];
+
     if (!empty($event->locations)) {
         foreach ($event->locations as $loc) {
             $gLocationParts = array_filter([
@@ -102,108 +145,706 @@ try {
         }
     }
 
+    $gDetails = HTMLHelper::_('string.truncate', strip_tags((string) $event->description), 200);
+
     $googleUrl  = 'https://www.google.com/calendar/render?action=TEMPLATE&text=' . urlencode((string) $event->title);
     $googleUrl .= '&dates=' . $gStart->format($gFmt, true) . '%2F' . $gEnd->format($gFmt, true);
     $googleUrl .= '&location=' . urlencode(implode(', ', $gLocationParts));
-    $googleUrl .= '&details=' . urlencode((string) HTMLHelper::_('string.truncate', $event->description, 200));
+    $googleUrl .= '&details=' . urlencode((string) $gDetails);
     $googleUrl .= '&sf=true&output=xml';
 
-    $icalUrl = $this->router->route('index.php?option=com_dpcalendar&view=event&format=raw&id=' . $event->id . '&calid=' . $event->catid);
+    // Il router può restituire l'URL già con &amp;: lo si riporta a "&" e si fa l'escape in output
+    $icalUrl = str_replace('&amp;', '&', (string) $this->router->route(
+        'index.php?option=com_dpcalendar&view=event&format=raw&id=' . $event->id . '&calid=' . $event->catid
+    ));
 } catch (\Throwable $e) {
     $googleUrl = '';
     $icalUrl   = '';
 }
 
-// URL evento — gate event_show_url (vedi default_information_url.php)
-$showUrl = !empty($event->url) && $params->get('event_show_url', '1');
+$showCalendarExport = $params->get('event_show_copy', '1') && ($googleUrl || $icalUrl);
 
-// Pulsante "Link evento" riutilizzabile (header meta + sezione "Collegamento esterno"), accessibile e con rel sicuro
-$externalLinkButton = '';
-if ($showUrl) {
-    $externalLinkButton = '<a class="btn btn-outline-primary d-inline-flex align-items-center" '
-        . 'href="' . htmlspecialchars((string) $event->url, ENT_QUOTES) . '" '
-        . 'target="_blank" rel="noopener noreferrer nofollow" '
-        . 'aria-label="' . htmlspecialchars(Text::_('TPL_ACCESSIBILE_EVENT_LINK') . ' ' . Text::_('TPL_ACCESSIBILE_NEW_WINDOW'), ENT_QUOTES) . '">'
-        . '<span>' . Text::_('TPL_ACCESSIBILE_EVENT_LINK') . '</span>'
-        . '<svg class="icon icon-primary icon-xs ms-2" aria-hidden="true"><use href="'
-        . TplAccessibileHelper::spriteUrl('it-external-link') . '"></use></svg>'
-        . '</a>';
+// ── Collegamento esterno, organizzatori, autore ─────────────────────────────
+// L'URL dell'evento può arrivare da invii dal frontend o da calendari esterni: solo schemi ammessi
+$eventUrl   = TplAccessibileFieldsHelper::safeLink($event->url ?? '')['url'];
+$showUrl    = $eventUrl !== '' && $params->get('event_show_url', '1');
+$showHosts  = !empty($event->hosts) && $params->get('event_show_hosts', '1');
+$showAuthor = !empty($this->authorName) && $params->get('event_show_author', '1');
+
+$externalLinkLabel = Text::_('TPL_ACCESSIBILE_EVENT_LINK');
+$externalLinkAria  = $externalLinkLabel . ' ' . Text::_('TPL_ACCESSIBILE_NEW_WINDOW');
+
+// ── Categoria / calendario (non incluso nella query del model) ──────────────
+$categoryTitle = '';
+
+try {
+    $cat = \Joomla\CMS\Categories\Categories::getInstance('dpcalendar');
+
+    if ($cat) {
+        $catItem       = $cat->get($event->catid);
+        $categoryTitle = $catItem ? (string) $catItem->title : '';
+    }
+} catch (\Throwable $e) {
 }
 
-// Mesi per il calendario verticale
-$monthNames = [];
-for ($m = 1; $m <= 12; $m++) {
-    $monthNames[$m] = Text::_('TPL_ACCESSIBILE_MONTH_' . $m);
+// ── Argomenti (tag) ─────────────────────────────────────────────────────────
+// $tagsContent (sotto-template DPCalendar) resta il gate di visibilità e l'ultimo fallback.
+$tagsHtml = '';
+
+if ($tagsContent) {
+    $itemTags = $event->tags->itemTags ?? null;
+
+    if (empty($itemTags)) {
+        try {
+            $itemTags = (new TagsHelper())->getItemTags('com_dpcalendar.event', (int) $event->id);
+        } catch (\Throwable $e) {
+            $itemTags = null;
+        }
+    }
+
+    if (!empty($itemTags)) {
+        $tagsHtml = LayoutHelper::render('accessibile.argomenti', ['tags' => $itemTags, 'idSuffix' => 'evento']);
+    }
+
+    if (trim($tagsHtml) === '') {
+        $tagsHtml = '<div class="mt-4 mb-4">'
+            . '<span class="subtitle-small mb-2 d-block fw-semibold text-muted">' . Text::_('TPL_ACCESSIBILE_TAGS') . '</span>'
+            . '<div class="comuni-tags">' . $tagsContent . '</div></div>';
+    }
 }
 
-// Calcolo tempo di lettura
-$wordCount = str_word_count(strip_tags($event->description));
-$readingTime = ceil($wordCount / 200);
-if ($readingTime < 1) $readingTime = 1;
+// ── Immagine principale ─────────────────────────────────────────────────────
+$imageUrl = $imageAlt = $imageCaption = '';
+
+if ($imageContent) {
+    $images = $event->images ?? null;
+    $images = is_string($images) ? json_decode($images) : $images;
+
+    if (is_object($images) && !empty($images->image_full)) {
+        $imageUrl = trim((string) MediaHelper::getCleanMediaFieldValue((string) $images->image_full));
+
+        if ($imageUrl !== '' && !preg_match('#^(?:https?:)?//#i', $imageUrl) && $imageUrl[0] !== '/') {
+            $imageUrl = Uri::root(true) . '/' . $imageUrl;
+        }
+
+        $imageAlt     = (string) ($images->image_full_alt ?? '');
+        $imageCaption = (string) ($images->image_full_caption ?? '');
+    }
+}
+
+// ── Campi personalizzati mappati ────────────────────────────────────────────
+$fieldIndex = TplAccessibileFieldsHelper::index($event->jcfields ?? []);
+$usedFields = [];
+
+$cf = static function (string $param) use ($fieldIndex, $tplParams, &$usedFields): ?object {
+    $field = TplAccessibileFieldsHelper::mapped($fieldIndex, $tplParams, $param);
+
+    if ($field) {
+        $usedFields[(int) $field->id] = true;
+    }
+
+    return $field;
+};
+$key = static fn (string $param): int => (int) $tplParams->get($param, 0);
+
+// Immagini di un campo: Subform con un sotto-campo Media per riga, oppure singolo campo Media
+$fieldImages = static function (?object $field): array {
+    $images = [];
+
+    if ($field === null) {
+        return $images;
+    }
+
+    foreach (TplAccessibileFieldsHelper::rows($field) as $row) {
+        foreach ($row as $cell) {
+            $raw = $cell->rawvalue ?? '';
+            $raw = is_string($raw) ? json_decode($raw, true) : (is_object($raw) ? (array) $raw : $raw);
+
+            if (is_array($raw) && !empty($raw['imagefile'])) {
+                $link = TplAccessibileFieldsHelper::safeLink($raw);
+
+                if ($link['url'] !== '') {
+                    $images[] = $link;
+                }
+
+                break;
+            }
+        }
+    }
+
+    return $images;
+};
+
+$renderGallery = static function (array $images) use ($esc): string {
+    if (!$images) {
+        return '';
+    }
+
+    $html = '<div class="it-carousel-wrapper it-carousel-landscape-abstract-three-cols splide" data-bs-carousel-splide>'
+        . '<div class="splide__track"><ul class="splide__list it-carousel-all">';
+
+    foreach ($images as $image) {
+        $html .= '<li class="splide__slide"><div class="it-single-slide-wrapper"><figure>'
+            . '<img src="' . $esc($image['url']) . '" alt="' . $esc($image['text']) . '" class="img-fluid" loading="lazy">'
+            . ($image['text'] !== '' ? '<figcaption class="figure-caption mt-2">' . $esc($image['text']) . '</figcaption>' : '')
+            . '</figure></div></li>';
+    }
+
+    return $html . '</ul></div></div>';
+};
+
+// Elenco di link (nome + URL) da un Subform: usato da Allegati, Patrocinato da, Sponsor
+$fieldLinks = static function (?object $field) use ($key): array {
+    $links = [];
+
+    if ($field === null) {
+        return $links;
+    }
+
+    $kName = $key('cf_evento_link_key_nome');
+    $kUrl  = $key('cf_evento_link_key_url');
+    $rows  = TplAccessibileFieldsHelper::rows($field);
+
+    foreach ($rows as $row) {
+        $name    = TplAccessibileFieldsHelper::cellText($row, $kName, 0);
+        $urlCell = TplAccessibileFieldsHelper::cell($row, $kUrl, 1);
+        $link    = TplAccessibileFieldsHelper::safeLink($urlCell->rawvalue ?? '');
+        $name    = $name !== '' ? $name : $link['text'];
+
+        if ($name === '' && $link['url'] === '') {
+            continue;
+        }
+
+        $links[] = ['name' => $name !== '' ? $name : basename((string) parse_url($link['url'], PHP_URL_PATH)), 'url' => $link['url']];
+    }
+
+    // Campo singolo (URL o Media "Documento") al posto del Subform
+    if (!$rows) {
+        $link = TplAccessibileFieldsHelper::safeLink($field->rawvalue ?? '');
+
+        if ($link['url'] !== '') {
+            $links[] = [
+                'name' => $link['text'] !== '' ? $link['text'] : basename((string) parse_url($link['url'], PHP_URL_PATH)),
+                'url'  => $link['url'],
+            ];
+        }
+    }
+
+    return $links;
+};
+
+$renderLinkList = static function (array $links) use ($esc): string {
+    if (!$links) {
+        return '';
+    }
+
+    $html = '<div class="link-list-wrapper mb-3"><ul class="link-list">';
+
+    foreach ($links as $link) {
+        $html .= $link['url'] !== ''
+            ? '<li><a class="list-item px-0" href="' . $esc($link['url']) . '"><span>' . $esc($link['name']) . '</span></a></li>'
+            : '<li><span class="list-item px-0 d-block">' . $esc($link['name']) . '</span></li>';
+    }
+
+    return $html . '</ul></div>';
+};
+
+// ── Sezioni del corpo ───────────────────────────────────────────────────────
+$sections   = [];
+$addSection = static function (string $id, string $labelHtml, string $html, string $class = '') use (&$sections): void {
+    if (trim($html) !== '') {
+        $sections[] = ['id' => $id, 'label' => $labelHtml, 'html' => $html, 'class' => $class];
+    }
+};
 ?>
+<?php // ═══ 1. Cos'è (id "descrizione" invariato per i link già pubblicati) ═══ ?>
+<?php ob_start(); ?>
+    <?php if (!empty($event->description)) : ?>
+        <div class="richtext-wrapper lora">
+            <?php echo HTMLHelper::_('content.prepare', $event->description); ?>
+        </div>
+    <?php endif; ?>
+
+    <?php $galleryHtml = $renderGallery($fieldImages($cf('cf_evento_galleria'))); ?>
+    <?php if ($galleryHtml !== '') : ?>
+        <h3 class="h4 mt-4 mb-3"><?php echo Text::_('TPL_ACCESSIBILE_EVENT_GALLERY'); ?></h3>
+        <?php echo $galleryHtml; ?>
+    <?php endif; ?>
+
+    <?php
+    $videoField = $cf('cf_evento_video');
+    $videoRaw   = $videoField ? ($videoField->rawvalue ?? '') : '';
+    $videoRaw   = is_string($videoRaw) ? trim($videoRaw) : '';
+    $videoHtml  = $getVideoEmbed($videoRaw);
+
+    if ($videoHtml === '' && $videoRaw !== '') {
+        // URL non riconosciuto come YouTube/Vimeo: link semplice
+        $videoLink = TplAccessibileFieldsHelper::safeLink($videoRaw);
+        $videoHtml = $videoLink['url'] !== ''
+            ? '<p><a href="' . $esc($videoLink['url']) . '">' . $esc($videoLink['url']) . '</a></p>'
+            : '';
+    }
+    ?>
+    <?php if ($videoHtml !== '') : ?>
+        <h3 class="h4 mt-4 mb-3"><?php echo Text::_('TPL_ACCESSIBILE_EVENT_VIDEO'); ?></h3>
+        <?php echo $videoHtml; ?>
+    <?php endif; ?>
+<?php $addSection('descrizione', Text::_('TPL_ACCESSIBILE_EVENT_WHAT_IS'), ob_get_clean()); ?>
+
+<?php // ═══ 2. A chi è rivolto ═══ ?>
+<?php ob_start(); ?>
+    <?php $audienceField = $cf('cf_evento_a_chi_rivolto'); ?>
+    <?php if ($audienceField && trim(strip_tags((string) $audienceField->value)) !== '') : ?>
+        <div class="richtext-wrapper lora">
+            <?php echo $audienceField->value; ?>
+        </div>
+    <?php endif; ?>
+<?php $addSection('a-chi-e-rivolto', Text::_('TPL_ACCESSIBILE_EVENT_AUDIENCE'), ob_get_clean()); ?>
+
+<?php // ═══ 3. Luogo ═══ ?>
+<?php ob_start(); ?>
+    <?php if (!empty($event->locations)) : ?>
+        <?php foreach ($event->locations as $loc) : ?>
+            <div class="card-wrapper card-teaser-wrapper">
+                <div class="card shadow mt-3 rounded d-flex flex-row align-items-center">
+                    <div class="card-teaser-icon p-3">
+                        <svg class="icon icon-primary" aria-hidden="true">
+                            <use href="<?php echo $sprite('it-pin'); ?>"></use>
+                        </svg>
+                    </div>
+                    <div class="card-body ps-0">
+                        <h3 class="card-title h5 mb-0">
+                            <a class="text-decoration-none" href="<?php echo Route::_('index.php?option=com_dpcalendar&view=location&id=' . (int) $loc->id); ?>">
+                                <?php echo $esc($loc->title); ?>
+                            </a>
+                        </h3>
+                        <div class="card-text">
+                            <p class="mb-0">
+                                <?php
+                                echo $esc(implode(', ', array_filter([
+                                    trim(($loc->street ?? '') . ' ' . ($loc->number ?? '')),
+                                    $loc->zip ?? '',
+                                    $loc->city ?? '',
+                                    $loc->province ?? '',
+                                ])));
+                                ?>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
+
+        <?php if ($params->get('event_show_map', '1') && $locationsContent) : ?>
+            <div class="map-wrapper map-column mt-4" role="region" aria-label="<?php echo $esc(Text::_('TPL_ACCESSIBILE_EVENT_MAP')); ?>">
+                <div class="dp-locations-map-only">
+                    <?php echo $locationsContent; ?>
+                </div>
+            </div>
+            <script>
+                /* Leaflet calcola le dimensioni all'init: dopo che il layout è a larghezza piena
+                   forziamo un ricalcolo (invalidateSize via evento resize) così la mappa riempie il box. */
+                (function () {
+                    var refit = function () { window.dispatchEvent(new Event('resize')); };
+                    var run = function () { setTimeout(refit, 100); setTimeout(refit, 500); };
+                    if (document.readyState === 'complete') {
+                        run();
+                    } else {
+                        window.addEventListener('load', run);
+                    }
+                })();
+            </script>
+        <?php endif; ?>
+    <?php endif; ?>
+<?php $addSection('luogo', Text::_('TPL_ACCESSIBILE_LOCATION'), ob_get_clean()); ?>
+
+<?php // ═══ 4. Date e orari ═══ ?>
+<?php
+if ($isAllDay) {
+    $points = $isSameDay
+        ? [[$startDate, Text::_('TPL_ACCESSIBILE_EVENT_ALL_DAY')]]
+        : [[$startDate, Text::_('TPL_ACCESSIBILE_EVENT_ALL_DAY')], [$endDate, Text::_('TPL_ACCESSIBILE_EVENT_ALL_DAY')]];
+} elseif ($isSameDay) {
+    $points = [[$startDate, Text::sprintf('TPL_ACCESSIBILE_EVENT_TIME_RANGE', '<strong>' . $startTime . '</strong>', '<strong>' . $endTime . '</strong>')]];
+} else {
+    $points = [
+        [$startDate, Text::sprintf('TPL_ACCESSIBILE_EVENT_START_TIME', '<strong>' . $startTime . '</strong>')],
+        [$endDate, Text::sprintf('TPL_ACCESSIBILE_EVENT_END_TIME', '<strong>' . $endTime . '</strong>')],
+    ];
+}
+
+$rruleString = '';
+
+if (!empty($event->rrule) && method_exists($this->dateHelper, 'transformRRuleToString')) {
+    try {
+        $rruleString = (string) $this->dateHelper->transformRRuleToString($event->rrule, $event->start_date, $event->exdates ?? null);
+    } catch (\Throwable $e) {
+        $rruleString = '';
+    }
+}
+?>
+<?php ob_start(); ?>
+    <div class="point-list-wrapper my-4">
+        <?php foreach ($points as [$pointDate, $pointLabel]) : ?>
+            <div class="point-list">
+                <div class="point-list-aside point-list-primary fw-normal">
+                    <span class="point-date font-monospace"><?php echo $pointDate->format('d', true); ?></span>
+                    <span class="point-month font-monospace"><?php echo $esc($pointDate->format('M', true, true)); ?></span>
+                    <?php if ($showYear) : ?>
+                        <span class="small font-monospace"><?php echo $pointDate->format('Y', true); ?></span>
+                    <?php endif; ?>
+                </div>
+                <div class="point-list-content">
+                    <div class="card card-teaser shadow rounded">
+                        <div class="card-body">
+                            <p class="card-title h5 m-0 fw-normal"><?php echo $pointLabel; ?></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    </div>
+
+    <?php if ($rruleString !== '') : ?>
+        <p class="mb-0">
+            <span class="fw-semibold"><?php echo Text::_('TPL_ACCESSIBILE_EVENT_RECURRENCE'); ?>:</span>
+            <?php echo nl2br($esc($rruleString)); ?>
+        </p>
+    <?php endif; ?>
+
+    <?php if ($showCalendarExport) : ?>
+        <?php $calendarLabel = Text::_('TPL_ACCESSIBILE_ADD_TO_CALENDAR'); ?>
+        <?php if ($googleUrl && $icalUrl) : ?>
+            <div class="dropdown mt-4">
+                <button class="btn btn-outline-primary btn-sm btn-icon dropdown-toggle" type="button"
+                        id="addToCalendar-evento" data-bs-toggle="dropdown" aria-expanded="false">
+                    <svg class="icon icon-primary icon-sm" aria-hidden="true"><use href="<?php echo $sprite('it-plus-circle'); ?>"></use></svg>
+                    <span><?php echo $calendarLabel; ?></span>
+                </button>
+                <div class="dropdown-menu shadow-lg" aria-labelledby="addToCalendar-evento">
+                    <div class="link-list-wrapper">
+                        <ul class="link-list">
+                            <li>
+                                <a class="dropdown-item list-item" href="<?php echo $esc($googleUrl); ?>" target="_blank" rel="noopener noreferrer">
+                                    <span><?php echo Text::_('TPL_ACCESSIBILE_ADD_TO_CALENDAR_GOOGLE'); ?> <span class="visually-hidden"><?php echo Text::_('TPL_ACCESSIBILE_NEW_WINDOW'); ?></span></span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item list-item" href="<?php echo $esc($icalUrl); ?>">
+                                    <span><?php echo Text::_('TPL_ACCESSIBILE_ADD_TO_CALENDAR_ICS'); ?></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        <?php else : ?>
+            <?php // Un solo formato disponibile: link diretto, con il formato nel nome accessibile ?>
+            <div class="mt-4">
+                <a class="btn btn-outline-primary btn-sm btn-icon" href="<?php echo $esc($googleUrl ?: $icalUrl); ?>"
+                   <?php echo $googleUrl ? 'target="_blank" rel="noopener noreferrer"' : ''; ?>>
+                    <svg class="icon icon-primary icon-sm" aria-hidden="true"><use href="<?php echo $sprite('it-plus-circle'); ?>"></use></svg>
+                    <span><?php echo $calendarLabel; ?>
+                        <span class="visually-hidden">
+                            (<?php echo Text::_($googleUrl ? 'TPL_ACCESSIBILE_ADD_TO_CALENDAR_GOOGLE' : 'TPL_ACCESSIBILE_ADD_TO_CALENDAR_ICS'); ?>)
+                            <?php echo $googleUrl ? Text::_('TPL_ACCESSIBILE_NEW_WINDOW') : ''; ?>
+                        </span>
+                    </span>
+                </a>
+            </div>
+        <?php endif; ?>
+    <?php endif; ?>
+<?php $addSection('date-orari', Text::_('TPL_ACCESSIBILE_EVENT_DATE_ORARI'), ob_get_clean()); ?>
+
+<?php // ═══ 5. Costi: prezzi nativi DPCalendar, poi righe del campo mappato ═══ ?>
+<?php
+$costs = [];
+
+if ($params->get('event_show_price', '1') && !empty($event->prices) && is_iterable($event->prices)) {
+    $dpHelper = '\\DigitalPeak\\Component\\DPCalendar\\Administrator\\Helper\\DPCalendarHelper';
+
+    foreach ($event->prices as $price) {
+        if (!is_object($price)) {
+            continue;
+        }
+
+        $value = (string) ($price->value ?? '');
+
+        if ($value !== '' && class_exists($dpHelper)) {
+            try {
+                // renderPrice restituisce l'importo già formattato con la valuta di DPCalendar
+                $value = (string) $dpHelper::renderPrice($value);
+            } catch (\Throwable $e) {
+                $value = $esc($value);
+            }
+        } else {
+            $value = $esc($value);
+        }
+
+        $costs[] = [
+            'title'       => $esc($price->label ?? ''),
+            'price'       => $value,
+            'description' => (string) ($price->description ?? ''), // HTML dell'editor DPCalendar
+        ];
+    }
+}
+
+$costsField = $cf('cf_evento_costi');
+
+foreach (TplAccessibileFieldsHelper::rows($costsField) as $row) {
+    $cTitle = TplAccessibileFieldsHelper::cellText($row, $key('cf_evento_costi_key_titolo'), 0);
+    $cPrice = TplAccessibileFieldsHelper::cellText($row, $key('cf_evento_costi_key_prezzo'), 1);
+    $cDesc  = TplAccessibileFieldsHelper::cellText($row, $key('cf_evento_costi_key_descrizione'), 2);
+
+    if ($cTitle === '' && $cPrice === '' && $cDesc === '') {
+        continue;
+    }
+
+    $costs[] = ['title' => $esc($cTitle), 'price' => $esc($cPrice), 'description' => nl2br($esc($cDesc))];
+}
+
+// Campo mappato non Subform (testo / editor): si stampa il valore così com'è
+$costsText = ($costsField && !TplAccessibileFieldsHelper::rows($costsField) && is_string($costsField->value))
+    ? trim($costsField->value)
+    : '';
+?>
+<?php ob_start(); ?>
+    <?php foreach ($costs as $cost) : ?>
+        <div class="card no-after border-start border-primary mt-3">
+            <div class="card-body">
+                <?php if ($cost['title'] !== '') : ?>
+                    <h3 class="h5 mb-1"><?php echo $cost['title']; ?></h3>
+                <?php endif; ?>
+                <?php if ($cost['price'] !== '') : ?>
+                    <p class="fw-semibold mb-1"><?php echo $cost['price']; ?></p>
+                <?php endif; ?>
+                <?php if (trim(strip_tags($cost['description'])) !== '') : ?>
+                    <div class="text-paragraph-small mb-0"><?php echo $cost['description']; ?></div>
+                <?php endif; ?>
+            </div>
+        </div>
+    <?php endforeach; ?>
+    <?php if ($costsText !== '') : ?>
+        <div class="richtext-wrapper lora"><?php echo $costsText; ?></div>
+    <?php endif; ?>
+<?php $addSection('costi', Text::_('TPL_ACCESSIBILE_EVENT_COSTS'), ob_get_clean()); ?>
+
+<?php // ═══ 6. Prenotazione ═══ ?>
+<?php ob_start(); ?>
+    <?php if ($bookingFormContent || $ctaContent || $bookingsContent) : ?>
+        <div class="richtext-wrapper lora">
+            <?php echo $ctaContent; ?>
+            <?php echo $bookingFormContent; ?>
+            <?php echo $bookingsContent; ?>
+        </div>
+    <?php endif; ?>
+<?php $addSection('prenotazione', Text::_('TPL_ACCESSIBILE_EVENT_BOOKING'), ob_get_clean(), 'has-bg-grey p-4'); ?>
+
+<?php // ═══ 7. Allegati ═══ ?>
+<?php ob_start(); ?>
+    <?php foreach ($fieldLinks($cf('cf_evento_allegati')) as $attachment) : ?>
+        <?php if ($attachment['url'] === '') { continue; } ?>
+        <?php $extension = strtoupper(pathinfo((string) parse_url($attachment['url'], PHP_URL_PATH), PATHINFO_EXTENSION)); ?>
+        <div class="card card-teaser shadow mt-3 rounded">
+            <svg class="icon icon-primary" aria-hidden="true"><use href="<?php echo $sprite('it-clip'); ?>"></use></svg>
+            <div class="card-body">
+                <h3 class="card-title h5 m-0">
+                    <a class="text-decoration-none" href="<?php echo $esc($attachment['url']); ?>">
+                        <?php echo $esc($attachment['name']); ?><?php echo ($extension !== '' && strlen($extension) <= 5) ? ' (' . $esc($extension) . ')' : ''; ?>
+                    </a>
+                </h3>
+            </div>
+        </div>
+    <?php endforeach; ?>
+<?php $addSection('allegati', Text::_('TPL_ACCESSIBILE_EVENT_ATTACHMENTS'), ob_get_clean()); ?>
+
+<?php // ═══ 8. Contatti: punti di contatto (campo mappato), organizzatori e autore (DPCalendar) ═══ ?>
+<?php ob_start(); ?>
+    <?php foreach (TplAccessibileFieldsHelper::rows($cf('cf_evento_contatti')) as $row) : ?>
+        <?php
+        $contactName  = TplAccessibileFieldsHelper::cellText($row, $key('cf_evento_contatti_key_nome'), 0);
+        $contactPhone = TplAccessibileFieldsHelper::cellText($row, $key('cf_evento_contatti_key_telefono'), 1);
+        $contactEmail = TplAccessibileFieldsHelper::cellText($row, $key('cf_evento_contatti_key_email'), 2);
+        $phoneHref    = preg_replace('/[^0-9+]/', '', $contactPhone);
+        $emailValid   = $contactEmail !== '' && filter_var($contactEmail, FILTER_VALIDATE_EMAIL);
+
+        if ($contactName === '' && $contactPhone === '' && $contactEmail === '') {
+            continue;
+        }
+        ?>
+        <div class="card card-teaser shadow mt-3 rounded">
+            <svg class="icon icon-primary" aria-hidden="true"><use href="<?php echo $sprite('it-telephone'); ?>"></use></svg>
+            <div class="card-body">
+                <?php if ($contactName !== '') : ?>
+                    <h3 class="card-title h5"><?php echo $esc($contactName); ?></h3>
+                <?php endif; ?>
+                <div class="card-text">
+                    <?php if ($contactPhone !== '') : ?>
+                        <p class="mb-1">
+                            <?php if ($phoneHref !== '') : ?>
+                                <a href="tel:<?php echo $esc($phoneHref); ?>"><?php echo $esc($contactPhone); ?></a>
+                            <?php else : ?>
+                                <?php echo $esc($contactPhone); ?>
+                            <?php endif; ?>
+                        </p>
+                    <?php endif; ?>
+                    <?php if ($contactEmail !== '') : ?>
+                        <p class="mb-0">
+                            <?php if ($emailValid) : ?>
+                                <?php // Codifica dell'indirizzo: "?" e "&" aggiungerebbero parametri (cc, bcc) al mailto ?>
+                                <a href="mailto:<?php echo $esc(str_replace('%40', '@', rawurlencode($contactEmail))); ?>"><?php echo $esc($contactEmail); ?></a>
+                            <?php else : ?>
+                                <?php echo $esc($contactEmail); ?>
+                            <?php endif; ?>
+                        </p>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+    <?php endforeach; ?>
+
+    <?php if ($showHosts) : ?>
+        <h3 class="h5 mt-4"><?php echo Text::_('TPL_ACCESSIBILE_EVENT_SUPPORTED_BY'); ?></h3>
+        <?php foreach ($event->hosts as $host) : ?>
+            <div class="card card-teaser shadow mt-3 rounded">
+                <svg class="icon icon-primary" aria-hidden="true"><use href="<?php echo $sprite('it-pa'); ?>"></use></svg>
+                <div class="card-body">
+                    <p class="card-title h5 m-0">
+                        <?php $hostLink = TplAccessibileFieldsHelper::safeLink($host->link ?? '')['url']; ?>
+                        <?php if ($hostLink !== '') : ?>
+                            <a class="text-decoration-none" href="<?php echo $esc($hostLink); ?>"><?php echo $esc($host->name ?? ''); ?></a>
+                        <?php else : ?>
+                            <?php echo $esc($host->name ?? ''); ?>
+                        <?php endif; ?>
+                    </p>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    <?php endif; ?>
+
+    <?php if ($showAuthor) : ?>
+        <h3 class="h5 mt-4"><?php echo Text::_('TPL_ACCESSIBILE_EVENT_AUTHOR'); ?>:</h3>
+        <div class="card card-teaser shadow mt-3 rounded">
+            <svg class="icon icon-primary" aria-hidden="true"><use href="<?php echo $sprite('it-user'); ?>"></use></svg>
+            <div class="card-body">
+                <p class="card-title h5 m-0">
+                    <?php // authorName e avatar sono HTML prodotto dalla view di DPCalendar ?>
+                    <?php $contactLink = TplAccessibileFieldsHelper::safeLink($event->contact_link ?? '')['url']; ?>
+                    <?php if ($contactLink !== '') : ?>
+                        <a class="text-decoration-none" href="<?php echo $esc($contactLink); ?>"><?php echo $this->authorName . ($this->avatar ?? ''); ?></a>
+                    <?php else : ?>
+                        <?php echo $this->authorName . ($this->avatar ?? ''); ?>
+                    <?php endif; ?>
+                </p>
+            </div>
+        </div>
+    <?php endif; ?>
+<?php $addSection('contatti', Text::_('TPL_ACCESSIBILE_EVENT_CONTACTS'), ob_get_clean()); ?>
+
+<?php // ═══ 10 (preparata prima della 9). Ulteriori informazioni: registra i campi mappati come usati ═══ ?>
+<?php ob_start(); ?>
+    <?php $patronageHtml = $renderLinkList($fieldLinks($cf('cf_evento_patrocinato'))); ?>
+    <?php if ($patronageHtml !== '') : ?>
+        <h3 class="h5"><?php echo Text::_('TPL_ACCESSIBILE_EVENT_PATRONAGE'); ?></h3>
+        <?php echo $patronageHtml; ?>
+    <?php endif; ?>
+
+    <?php $sponsorHtml = $renderLinkList($fieldLinks($cf('cf_evento_sponsor'))); ?>
+    <?php if ($sponsorHtml !== '') : ?>
+        <h3 class="h5"><?php echo Text::_('TPL_ACCESSIBILE_EVENT_SPONSOR'); ?></h3>
+        <?php echo $sponsorHtml; ?>
+    <?php endif; ?>
+
+    <?php $moreInfoField = $cf('cf_evento_ulteriori_info'); ?>
+    <?php if ($moreInfoField && trim(strip_tags((string) $moreInfoField->value)) !== '') : ?>
+        <div class="richtext-wrapper lora mb-3">
+            <?php echo $moreInfoField->value; ?>
+        </div>
+    <?php endif; ?>
+
+    <?php if ($showUrl) : ?>
+        <p class="mb-3"><?php echo Text::_('TPL_ACCESSIBILE_EVENT_EXTERNAL_LINK_INTRO'); ?></p>
+        <p class="mb-3">
+            <a class="btn btn-outline-primary btn-sm btn-icon" href="<?php echo $esc($eventUrl); ?>"
+               target="_blank" rel="noopener noreferrer nofollow" aria-label="<?php echo $esc($externalLinkAria); ?>">
+                <span><?php echo $externalLinkLabel; ?></span>
+                <svg class="icon icon-primary icon-xs ms-2" aria-hidden="true"><use href="<?php echo $sprite('it-external-link'); ?>"></use></svg>
+            </a>
+        </p>
+    <?php endif; ?>
+
+    <?php if ($seriesContent || $scheduleContent || $ticketsContent) : ?>
+        <div class="richtext-wrapper lora">
+            <?php echo $seriesContent; ?>
+            <?php echo $scheduleContent; ?>
+            <?php echo $ticketsContent; ?>
+        </div>
+    <?php endif; ?>
+<?php $moreInfoSectionHtml = ob_get_clean(); ?>
+
+<?php // ═══ 9. Campi personalizzati non mappati: una sezione ciascuno, come prima della 1.3.0 ═══ ?>
+<?php if ($tplParams->get('evento_campi_non_mappati', 'sezioni') !== 'nascondi') : ?>
+    <?php foreach ($fieldIndex as $fieldId => $field) : ?>
+        <?php
+        if (isset($usedFields[$fieldId]) || empty($field->value)) {
+            continue;
+        }
+
+        $fieldHtml = $field->type === 'subform' ? $renderGallery($fieldImages($field)) : '';
+
+        if ($fieldHtml === '' && is_string($field->value)) {
+            $embed     = $getVideoEmbed($field->rawvalue ?? '');
+            $fieldHtml = '<div class="richtext-wrapper lora">' . ($embed !== '' ? $embed : $field->value) . '</div>';
+        }
+
+        $addSection('field-' . (int) $fieldId, $esc($field->title ?? ''), $fieldHtml);
+        ?>
+    <?php endforeach; ?>
+<?php endif; ?>
+
+<?php $addSection('informazioni', Text::_('TPL_ACCESSIBILE_SERVICE_INFO'), $moreInfoSectionHtml); ?>
 
 <div class="container pt-4">
     <div class="row">
         <div class="col-lg-8 px-lg-4 py-lg-2 mb-3">
 
-            <?php
-            // Categoria/calendario: non incluso nella query del model, caricato dalla Categories API
-            $categoryTitle = '';
-            try {
-                $cat = \Joomla\CMS\Categories\Categories::getInstance('dpcalendar');
-                if ($cat) {
-                    $catItem = $cat->get($event->catid);
-                    $categoryTitle = $catItem ? $catItem->title : '';
-                }
-            } catch (\Throwable $e) {}
-            ?>
-            <?php
-            // Meta evento in testata: categoria + organizzatori + a cura di (ogni voce rispetta il proprio gate)
-            $showHosts  = !empty($event->hosts) && $params->get('event_show_hosts', '1');
-            $showAuthor = !empty($this->authorName) && $params->get('event_show_author', '1');
-            ?>
             <?php if ($categoryTitle !== '') : ?>
                 <p class="category-top mb-1 small">
-                    <span class="category text-primary fw-semibold text-uppercase"><?php echo $this->escape($categoryTitle); ?></span>
+                    <span class="category text-primary fw-semibold text-uppercase"><?php echo $esc($categoryTitle); ?></span>
                 </p>
             <?php endif; ?>
 
             <h1 class="mb-2" data-element="event-title">
-                <?php echo $this->escape($event->title); ?>
+                <?php echo $esc($event->title); ?>
             </h1>
 
             <?php if ($event->state == 3) : ?>
                 <div class="mb-3">
                     <span class="badge rounded-pill bg-danger">
-                        <?php echo Text::_('MOD_DPCALENDAR_UPCOMING_CANCELED'); ?>
+                        <?php echo Text::_('TPL_ACCESSIBILE_EVENT_CANCELED'); ?>
                     </span>
                 </div>
             <?php endif; ?>
 
-            <h2 class="visually-hidden"><?php echo Text::_('TPL_ACCESSIBILE_ARTICLE_DETAILS'); ?></h2>
+            <h2 class="visually-hidden"><?php echo Text::_('TPL_ACCESSIBILE_EVENT_DETAILS'); ?></h2>
 
-            <h2 class="h4 py-2">
-                <?php 
-                $startDateStr = HTMLHelper::_('date', $event->start_date, Text::_('d F Y'));
-                $endDateStr   = HTMLHelper::_('date', $event->end_date, Text::_('d F Y'));
-                
-                if ($startDateStr === $endDateStr) {
-                    echo Text::sprintf('TPL_ACCESSIBILE_EVENT_ON_DATE', $startDateStr);
-                } else {
-                    echo Text::sprintf('TPL_ACCESSIBILE_EVENT_FROM_TO', $startDateStr, $endDateStr);
-                }
+            <p class="h4 py-2">
+                <?php
+                echo $startDateStr === $endDateStr
+                    ? Text::sprintf('TPL_ACCESSIBILE_EVENT_ON_DATE', $esc($startDateStr))
+                    : Text::sprintf('TPL_ACCESSIBILE_EVENT_FROM_TO', $esc($startDateStr), $esc($endDateStr));
                 ?>
-            </h2>
+            </p>
 
-            <?php // Collegamento esterno: pulsante compatto (icona + testo) sotto la data ?>
+            <?php // Collegamento esterno: pulsante compatto sotto la data ?>
             <?php if ($showUrl) : ?>
                 <div class="mb-3">
                     <a class="btn btn-outline-primary btn-sm d-inline-flex align-items-center"
-                       href="<?php echo $this->escape($event->url); ?>"
+                       href="<?php echo $esc($eventUrl); ?>"
                        target="_blank" rel="noopener noreferrer nofollow"
-                       aria-label="<?php echo Text::_('TPL_ACCESSIBILE_EVENT_LINK') . ' ' . Text::_('TPL_ACCESSIBILE_NEW_WINDOW'); ?>">
-                        <svg class="icon icon-primary icon-xs me-2" aria-hidden="true"><use href="<?php echo TplAccessibileHelper::spriteUrl('it-external-link'); ?>"></use></svg>
-                        <span><?php echo Text::_('TPL_ACCESSIBILE_EVENT_LINK'); ?></span>
+                       aria-label="<?php echo $esc($externalLinkAria); ?>">
+                        <svg class="icon icon-primary icon-xs me-2" aria-hidden="true"><use href="<?php echo $sprite('it-external-link'); ?>"></use></svg>
+                        <span><?php echo $externalLinkLabel; ?></span>
                     </a>
                 </div>
             <?php endif; ?>
@@ -216,96 +857,35 @@ if ($readingTime < 1) $readingTime = 1;
 
         </div>
 
-        <div class="col-lg-3 offset-lg-1 header-laterale align-self-end">
+        <div class="col-lg-3 offset-lg-1 header-laterale">
 
-            <?php // Condividi ?>
-            <div class="d-flex align-items-center mb-3">
-                <span class="subtitle-small fw-semibold text-muted me-3 mb-0"><?php echo Text::_('TPL_ACCESSIBILE_SHARE'); ?>:</span>
-                <div class="d-flex gap-2">
-                    <a class="btn btn-action-icon d-flex align-items-center justify-content-center rounded"
-                       href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode(Uri::current()); ?>"
-                       target="_blank" rel="noopener noreferrer"
-                       title="<?php echo Text::_('TPL_ACCESSIBILE_SHARE_ON_FACEBOOK'); ?>"
-                       aria-label="<?php echo Text::_('TPL_ACCESSIBILE_SHARE_ON_FACEBOOK'); ?>">
-                        <svg class="icon icon-sm" aria-hidden="true"><use href="<?php echo TplAccessibileHelper::spriteUrl('it-facebook'); ?>"></use></svg>
-                    </a>
-                    <a class="btn btn-action-icon d-flex align-items-center justify-content-center rounded"
-                       href="https://twitter.com/intent/tweet?text=<?php echo urlencode(Uri::current()); ?>"
-                       target="_blank" rel="noopener noreferrer"
-                       title="<?php echo Text::_('TPL_ACCESSIBILE_SHARE_ON_X'); ?>"
-                       aria-label="<?php echo Text::_('TPL_ACCESSIBILE_SHARE_ON_X'); ?>">
-                        <svg class="icon icon-sm" aria-hidden="true"><use href="<?php echo TplAccessibileHelper::spriteUrl('it-twitter'); ?>"></use></svg>
-                    </a>
-                    <a class="btn btn-action-icon d-flex align-items-center justify-content-center rounded"
-                       href="https://api.whatsapp.com/send?text=<?php echo urlencode(Uri::current()); ?>"
-                       target="_blank" rel="noopener noreferrer"
-                       title="<?php echo Text::_('TPL_ACCESSIBILE_SHARE_ON_WHATSAPP'); ?>"
-                       aria-label="<?php echo Text::_('TPL_ACCESSIBILE_SHARE_ON_WHATSAPP'); ?>">
-                        <svg class="icon icon-sm" aria-hidden="true"><use href="<?php echo TplAccessibileHelper::spriteUrl('it-whatsapp'); ?>"></use></svg>
-                    </a>
-                </div>
-            </div>
+            <?php // Condividi + Vedi azioni (partial condiviso) ?>
+            <?php echo LayoutHelper::render('accessibile.azioni-pagina', [
+                'title'     => $event->title,
+                'showPrint' => (bool) $params->get('event_show_print', 1),
+                'idSuffix'  => 'evento',
+            ]); ?>
 
-            <?php // Azioni ?>
-            <div class="d-flex align-items-center mb-4">
-                <span class="subtitle-small fw-semibold text-muted me-3 mb-0"><?php echo Text::_('TPL_ACCESSIBILE_ACTIONS'); ?>:</span>
-                <div class="d-flex gap-2 align-items-center">
-                    <?php if ($params->get('event_show_print', 1)) : ?>
-                    <button class="btn btn-action-icon d-flex align-items-center justify-content-center rounded"
-                            onclick="window.print();"
-                            title="<?php echo Text::_('TPL_ACCESSIBILE_PRINT_PAGE'); ?>"
-                            aria-label="<?php echo Text::_('TPL_ACCESSIBILE_PRINT_PAGE'); ?>">
-                        <svg class="icon icon-sm" aria-hidden="true"><use href="<?php echo TplAccessibileHelper::spriteUrl('it-print'); ?>"></use></svg>
-                    </button>
-                    <?php endif; ?>
-                    <a class="btn btn-action-icon d-flex align-items-center justify-content-center rounded"
-                       href="mailto:?subject=<?php echo urlencode($event->title); ?>&amp;body=<?php echo urlencode(Uri::current()); ?>"
-                       title="<?php echo Text::_('TPL_ACCESSIBILE_SEND_EMAIL'); ?>"
-                       aria-label="<?php echo Text::_('TPL_ACCESSIBILE_SEND_EMAIL'); ?>">
-                        <svg class="icon icon-sm" aria-hidden="true"><use href="<?php echo TplAccessibileHelper::spriteUrl('it-mail'); ?>"></use></svg>
-                    </a>
-                </div>
-            </div>
-
-            <?php // Salva evento (esporta su calendario) ?>
-            <?php if ($params->get('event_show_copy', '1') && ($googleUrl || $icalUrl)) : ?>
-            <div class="mb-4">
-                <span class="subtitle-small fw-semibold text-muted d-block mb-2"><?php echo Text::_('TPL_ACCESSIBILE_SAVE_EVENT'); ?>:</span>
-                <div class="d-flex flex-wrap gap-2 align-items-center">
-                    <?php if ($googleUrl) : ?>
-                    <a class="btn btn-outline-primary btn-sm d-inline-flex align-items-center"
-                       href="<?php echo $googleUrl; ?>"
-                       target="_blank" rel="noopener noreferrer"
-                       aria-label="<?php echo Text::_('TPL_ACCESSIBILE_ADD_TO_GOOGLE'); ?>">
-                        <svg class="icon icon-primary icon-xs me-2" aria-hidden="true"><use href="<?php echo TplAccessibileHelper::spriteUrl('it-google'); ?>"></use></svg>
-                        <span><?php echo Text::_('TPL_ACCESSIBILE_SAVE_EVENT_GOOGLE'); ?></span>
-                    </a>
-                    <?php endif; ?>
-                    <?php if ($icalUrl) : ?>
-                    <a class="btn btn-outline-primary btn-sm d-inline-flex align-items-center"
-                       href="<?php echo $icalUrl; ?>"
-                       aria-label="<?php echo Text::_('TPL_ACCESSIBILE_ADD_TO_ICAL'); ?>">
-                        <svg class="icon icon-primary icon-xs me-2" aria-hidden="true"><use href="<?php echo TplAccessibileHelper::spriteUrl('it-download'); ?>"></use></svg>
-                        <span><?php echo Text::_('TPL_ACCESSIBILE_SAVE_EVENT_OUTLOOK'); ?></span>
-                    </a>
-                    <?php endif; ?>
-                </div>
-            </div>
-            <?php endif; ?>
-
-            <?php // Argomenti (Tags) ?>
-            <?php if ($tagsContent) : ?>
-                <div class="mt-4 mb-4">
-                    <span class="subtitle-small mb-2 d-block fw-semibold text-muted"><?php echo Text::_('TPL_ACCESSIBILE_TAGS'); ?></span>
-                    <div class="comuni-tags"><?php echo $tagsContent; ?></div>
-                </div>
-            <?php endif; ?>
+            <?php // Argomenti (chip; fallback sul sotto-template DPCalendar) ?>
+            <?php echo $tagsHtml; ?>
 
         </div>
     </div>
 </div>
 
-<?php if ($imageContent) : ?>
+<?php if ($imageUrl !== '') : ?>
+<div class="container-fluid my-3">
+    <div class="row">
+        <figure class="figure px-0 img-full">
+            <img src="<?php echo $esc($imageUrl); ?>" class="figure-img img-fluid" alt="<?php echo $esc($imageAlt); ?>">
+            <?php if ($imageCaption !== '') : ?>
+                <figcaption class="figure-caption px-3"><?php echo $esc($imageCaption); ?></figcaption>
+            <?php endif; ?>
+        </figure>
+    </div>
+</div>
+<?php elseif ($imageContent) : ?>
+<?php // URL dell'immagine non ricavabile dai dati dell'evento: resa originale di DPCalendar ?>
 <div class="container mb-4">
     <div class="row">
         <div class="col-12">
@@ -340,66 +920,21 @@ if ($readingTime < 1) $readingTime = 1;
                                         </span>
                                         <div class="progress">
                                             <div class="progress-bar it-navscroll-progressbar" role="progressbar"
-                                                 aria-valuemin="0" aria-valuemax="100"
+                                                 aria-label="<?php echo $esc(Text::_('TPL_ACCESSIBILE_READING_PROGRESS')); ?>"
+                                                 aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
                                                  style="width: 0%;"></div>
                                         </div>
                                         <div id="collapse-evento" class="accordion-collapse collapse show"
                                              role="region" aria-labelledby="accordion-title-evento">
                                             <div class="accordion-body">
                                                 <ul class="link-list" data-element="page-index">
-                                                    <?php if ($descriptionContent) : ?>
-                                                    <li class="nav-item">
-                                                        <a class="nav-link" href="#descrizione">
-                                                            <span><?php echo Text::_('TPL_ACCESSIBILE_SERVICE_DESCRIPTION'); ?></span>
-                                                        </a>
-                                                    </li>
-                                                    <?php endif; ?>
-                                                    <li class="nav-item">
-                                                        <a class="nav-link" href="#date-orari">
-                                                            <span><?php echo Text::_('TPL_ACCESSIBILE_EVENT_DATE_ORARI'); ?></span>
-                                                        </a>
-                                                    </li>
-                                                    <?php if ($showUrl) : ?>
-                                                    <li class="nav-item">
-                                                        <a class="nav-link" href="#collegamento-esterno">
-                                                            <span><?php echo Text::_('TPL_ACCESSIBILE_EVENT_URL'); ?></span>
-                                                        </a>
-                                                    </li>
-                                                    <?php endif; ?>
-                                                    <?php // Indice campi aggiuntivi ?>
-                                                    <?php if (!empty($event->jcfields)) : ?>
-                                                        <?php foreach ($event->jcfields as $field) : ?>
-                                                            <?php if (!empty($field->value)) : ?>
-                                                                <li class="nav-item">
-                                                                    <a class="nav-link" href="#field-<?php echo $field->id; ?>">
-                                                                        <span><?php echo $field->title; ?></span>
-                                                                    </a>
-                                                                </li>
-                                                            <?php endif; ?>
-                                                        <?php endforeach; ?>
-                                                    <?php endif; ?>
-
-                                                    <?php if ($locationsContent) : ?>
-                                                    <li class="nav-item">
-                                                        <a class="nav-link" href="#luogo">
-                                                            <span><?php echo Text::_('TPL_ACCESSIBILE_LOCATION'); ?></span>
-                                                        </a>
-                                                    </li>
-                                                    <?php endif; ?>
-                                                    <?php if ($bookingFormContent || $ctaContent) : ?>
-                                                    <li class="nav-item">
-                                                        <a class="nav-link" href="#prenotazione">
-                                                            <span><?php echo Text::_('MOD_DPCALENDAR_UPCOMING_BOOK'); ?></span>
-                                                        </a>
-                                                    </li>
-                                                    <?php endif; ?>
-                                                    <?php if ($seriesContent || $scheduleContent || $ticketsContent) : ?>
-                                                    <li class="nav-item">
-                                                        <a class="nav-link" href="#informazioni">
-                                                            <span><?php echo Text::_('TPL_ACCESSIBILE_SERVICE_INFO'); ?></span>
-                                                        </a>
-                                                    </li>
-                                                    <?php endif; ?>
+                                                    <?php foreach ($sections as $section) : ?>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link" href="#<?php echo $section['id']; ?>">
+                                                                <span><?php echo $section['label']; ?></span>
+                                                            </a>
+                                                        </li>
+                                                    <?php endforeach; ?>
                                                 </ul>
                                             </div>
                                         </div>
@@ -415,336 +950,12 @@ if ($readingTime < 1) $readingTime = 1;
         <?php // Contenuto principale ?>
         <div class="col-lg-9 it-page-sections-container border-light">
 
-            <?php if (!empty($event->description)) : ?>
-            <section class="it-page-section anchor-offset mb-30" id="descrizione">
-                <h2 class="mb-3"><?php echo Text::_('TPL_ACCESSIBILE_SERVICE_DESCRIPTION'); ?></h2>
-                <div class="richtext-wrapper lora">
-                    <?php echo HTMLHelper::_('content.prepare', $event->description); ?>
-                </div>
-            </section>
-            <?php endif; ?>
-
-            <?php // Organizzatori e A cura di — card complementari, prima di Date e orari ?>
-            <?php if ($showHosts || $showAuthor) : ?>
-            <div class="row mb-30">
-                <?php if ($showHosts) : ?>
-                <div class="col-12 col-md-6 mb-3">
-                    <div class="card-wrapper card-teaser-wrapper h-100">
-                        <div class="card shadow-sm rounded d-flex flex-row align-items-center h-100">
-                            <div class="card-teaser-icon d-flex align-items-center flex-shrink-0 ps-3 pe-1 py-2">
-                                <svg class="icon icon-primary icon-sm">
-                                    <use href="<?php echo TplAccessibileHelper::spriteUrl('it-pa'); ?>"></use>
-                                </svg>
-                            </div>
-                            <div class="card-body ps-2 py-2 pe-3">
-                                <h3 class="card-title h6 text-uppercase text-muted mb-1"><?php echo Text::_('TPL_ACCESSIBILE_EVENT_HOSTS'); ?></h3>
-                                <div class="card-text">
-                                    <p class="mb-0 fw-semibold"><?php
-                                        $hostCount = is_countable($event->hosts) ? count($event->hosts) : 0;
-                                        foreach ($event->hosts as $hIndex => $host) {
-                                            if (!empty($host->link)) {
-                                                echo '<a class="text-decoration-none" href="' . htmlspecialchars((string) $host->link, ENT_QUOTES) . '">' . $this->escape($host->name) . '</a>';
-                                            } else {
-                                                echo $this->escape($host->name);
-                                            }
-                                            if ($hIndex < $hostCount - 1) {
-                                                echo ', ';
-                                            }
-                                        }
-                                    ?></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <?php endif; ?>
-                <?php if ($showAuthor) : ?>
-                <div class="col-12 col-md-6 mb-3">
-                    <div class="card-wrapper card-teaser-wrapper h-100">
-                        <div class="card shadow-sm rounded d-flex flex-row align-items-center h-100">
-                            <div class="card-teaser-icon d-flex align-items-center flex-shrink-0 ps-3 pe-1 py-2">
-                                <svg class="icon icon-primary icon-sm">
-                                    <use href="<?php echo TplAccessibileHelper::spriteUrl('it-user'); ?>"></use>
-                                </svg>
-                            </div>
-                            <div class="card-body ps-2 py-2 pe-3">
-                                <h3 class="card-title h6 text-uppercase text-muted mb-1"><?php echo Text::_('TPL_ACCESSIBILE_EVENT_AUTHOR'); ?></h3>
-                                <div class="card-text">
-                                    <p class="mb-0 fw-semibold"><?php
-                                        if (!empty($event->contact_link)) {
-                                            echo '<a class="text-decoration-none" href="' . htmlspecialchars((string) $event->contact_link, ENT_QUOTES) . '">' . $this->authorName . ($this->avatar ?? '') . '</a>';
-                                        } else {
-                                            echo $this->authorName . ($this->avatar ?? '');
-                                        }
-                                    ?></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <?php endif; ?>
-            </div>
-            <?php endif; ?>
-
-            <section class="it-page-section anchor-offset mb-30" id="date-orari">
-                <h2 class="mb-3"><?php echo Text::_('TPL_ACCESSIBILE_EVENT_DATE_ORARI'); ?></h2>
-
-                <div class="calendar-vertical mb-3">
-                    <?php
-                    $isAllDay = (bool)$event->all_day;
-                    if ($isAllDay) {
-                        $startDate = Factory::getDate($event->start_date);
-                        $endDate   = Factory::getDate($event->end_date);
-                    } else {
-                        $tz        = new \DateTimeZone(Factory::getApplication()->get('offset', 'UTC'));
-                        $startDate = Factory::getDate($event->start_date);
-                        $startDate->setTimezone($tz);
-                        $endDate   = Factory::getDate($event->end_date);
-                        $endDate->setTimezone($tz);
-                    }
-                    $isSameDay = ($startDate->format('Y-m-d', true) === $endDate->format('Y-m-d', true));
-
-                    $startDay      = $startDate->format('j', true);
-                    $startMonthNum = (int)$startDate->format('n', true);
-                    $startMonth    = $monthNames[$startMonthNum] ?? '';
-                    $startYear     = $startDate->format('Y', true);
-                    $startTime     = $startDate->format('H:i', true);
-                    $endTime       = $endDate->format('H:i', true);
-
-                    if (!$isSameDay) {
-                        $endDay      = $endDate->format('j', true);
-                        $endMonthNum = (int)$endDate->format('n', true);
-                        $endMonth    = $monthNames[$endMonthNum] ?? '';
-                        $endYear     = $endDate->format('Y', true);
-                    }
-                    ?>
-
-                    <?php if ($isSameDay) : ?>
-                    <div class="calendar-date">
-                        <div class="calendar-date-day text-center">
-                            <small class="calendar-date-day__year"><?php echo $startYear; ?></small>
-                            <span class="title-xxlarge-regular d-flex justify-content-center"><?php echo $startDay; ?></span>
-                            <small class="calendar-date-day__month"><?php echo $startMonth; ?></small>
-                        </div>
-                        <div class="calendar-date-description rounded">
-                            <div class="calendar-date-description-content">
-                                <?php if ($isAllDay) : ?>
-                                    <h3 class="title-medium-2 mb-0"><?php echo Text::_('TPL_ACCESSIBILE_EVENT_ALL_DAY'); ?></h3>
-                                <?php else : ?>
-                                    <h3 class="title-medium-2 mb-0"><?php echo Text::sprintf('TPL_ACCESSIBILE_EVENT_TIME_RANGE', '<strong>' . $startTime . '</strong>', '<strong>' . $endTime . '</strong>'); ?></h3>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                    </div>
-                    <?php else : ?>
-                    <div class="calendar-date mb-3">
-                        <div class="calendar-date-day text-center">
-                            <small class="calendar-date-day__year"><?php echo $startYear; ?></small>
-                            <span class="title-xxlarge-regular d-flex justify-content-center"><?php echo $startDay; ?></span>
-                            <small class="calendar-date-day__month"><?php echo $startMonth; ?></small>
-                        </div>
-                        <div class="calendar-date-description rounded">
-                            <div class="calendar-date-description-content">
-                                <?php if ($isAllDay) : ?>
-                                    <h3 class="title-medium-2 mb-0"><?php echo Text::_('TPL_ACCESSIBILE_EVENT_ALL_DAY'); ?></h3>
-                                <?php else : ?>
-                                    <h3 class="title-medium-2 mb-0"><?php echo Text::sprintf('TPL_ACCESSIBILE_EVENT_START_TIME', '<strong>' . $startTime . '</strong>'); ?></h3>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="calendar-date">
-                        <div class="calendar-date-day text-center">
-                            <small class="calendar-date-day__year"><?php echo $endYear; ?></small>
-                            <span class="title-xxlarge-regular d-flex justify-content-center"><?php echo $endDay; ?></span>
-                            <small class="calendar-date-day__month"><?php echo $endMonth; ?></small>
-                        </div>
-                        <div class="calendar-date-description rounded">
-                            <div class="calendar-date-description-content">
-                                <?php if ($isAllDay) : ?>
-                                    <h3 class="title-medium-2 mb-0"><?php echo Text::_('TPL_ACCESSIBILE_EVENT_ALL_DAY'); ?></h3>
-                                <?php else : ?>
-                                    <h3 class="title-medium-2 mb-0"><?php echo Text::sprintf('TPL_ACCESSIBILE_EVENT_END_TIME', '<strong>' . $endTime . '</strong>'); ?></h3>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                    </div>
-                    <?php endif; ?>
-                </div>
-
-                <?php // Ricorrenza (rrule) ?>
-                <?php if (!empty($event->rrule) && method_exists($this->dateHelper, 'transformRRuleToString')) : ?>
-                    <?php
-                    $rruleString = '';
-                    try {
-                        $rruleString = (string) $this->dateHelper->transformRRuleToString(
-                            $event->rrule,
-                            $event->start_date,
-                            $event->exdates ?? null
-                        );
-                    } catch (\Throwable $e) {
-                        $rruleString = '';
-                    }
-                    ?>
-                    <?php if ($rruleString !== '') : ?>
-                        <p class="mb-0">
-                            <span class="fw-semibold"><?php echo Text::_('TPL_ACCESSIBILE_EVENT_RECURRENCE'); ?>:</span>
-                            <?php echo nl2br($this->escape($rruleString)); ?>
-                        </p>
-                    <?php endif; ?>
-                <?php endif; ?>
-            </section>
-
-            <?php // Collegamento esterno ?>
-            <?php if ($showUrl) : ?>
-            <section class="it-page-section anchor-offset mb-30" id="collegamento-esterno">
-                <h2 class="mb-3"><?php echo Text::_('TPL_ACCESSIBILE_EVENT_URL'); ?></h2>
-                <p class="mb-3"><?php echo Text::_('TPL_ACCESSIBILE_EVENT_EXTERNAL_LINK_INTRO'); ?></p>
-                <?php echo $externalLinkButton; ?>
-            </section>
-            <?php endif; ?>
-
-            <?php // Sezione Campi Aggiuntivi ?>
-            <?php if (!empty($event->jcfields)) : ?>
-                <?php foreach ($event->jcfields as $field) : ?>
-                    <?php if (!empty($field->value)) : ?>
-                        <section class="it-page-section anchor-offset mb-30" id="field-<?php echo $field->id; ?>">
-                            <h2 class="mb-3"><?php echo $field->title; ?></h2>
-                            
-                            <?php if ($field->type === 'subform' && !empty($field->subform_rows)) : ?>
-                                <?php // Render speciale per Gallery (Subform) ?>
-                                <div class="it-carousel-wrapper it-carousel-landscape-abstract-three-cols splide" data-bs-carousel-splide>
-                                    <div class="splide__track">
-                                        <ul class="splide__list it-carousel-all">
-                                            <?php foreach ($field->subform_rows as $row) : ?>
-                                                <?php 
-                                                // Estraiamo l'immagine e il testo dal row del subform
-                                                // Nel dump vediamo che c'è un campo 'immagine' (field26)
-                                                $imageData = null;
-                                                foreach ($row as $rowField) {
-                                                    if (isset($rowField->rawvalue) && is_array($rowField->rawvalue)) {
-                                                        $imageData = $rowField->rawvalue;
-                                                        break;
-                                                    }
-                                                }
-                                                
-                                                if ($imageData) : 
-                                                    $imgSrc = $imageData['imagefile'] ?? '';
-                                                    // Pulizia eventuale hash di Joomla dal path immagine
-                                                    if (strpos($imgSrc, '#') !== false) {
-                                                        $imgSrc = explode('#', $imgSrc)[0];
-                                                    }
-                                                    $altText = $imageData['alt_text'] ?? '';
-                                                ?>
-                                                <li class="splide__slide">
-                                                    <div class="it-single-slide-wrapper">
-                                                        <figure>
-                                                            <img src="<?php echo Uri::root() . $imgSrc; ?>" alt="<?php echo $this->escape($altText); ?>" class="img-fluid">
-                                                            <?php if ($altText) : ?>
-                                                                <figcaption class="figure-caption mt-2"><?php echo $this->escape($altText); ?></figcaption>
-                                                            <?php endif; ?>
-                                                        </figure>
-                                                    </div>
-                                                </li>
-                                                <?php endif; ?>
-                                            <?php endforeach; ?>
-                                        </ul>
-                                    </div>
-                                </div>
-                            <?php else : ?>
-                                <div class="richtext-wrapper lora">
-                                    <?php 
-                                    // Se il valore è un URL video, genera l'embed, altrimenti stampa il valore normale
-                                    $processedValue = $getVideoEmbed($field->value);
-                                    echo ($processedValue !== $field->value) ? $processedValue : $field->value; 
-                                    ?>
-                                </div>
-                            <?php endif; ?>
-                        </section>
-                    <?php endif; ?>
-                <?php endforeach; ?>
-            <?php endif; ?>
-
-            <?php if (!empty($event->locations)) : ?>
-            <section class="it-page-section anchor-offset mb-30" id="luogo">
-                <h2 class="mb-3"><?php echo Text::_('TPL_ACCESSIBILE_LOCATION'); ?></h2>
-                
-                <?php foreach ($event->locations as $loc) : ?>
-                    <div class="card-wrapper card-teaser-wrapper">
-                        <div class="card shadow mt-3 rounded d-flex flex-row align-items-center">
-                            <div class="card-teaser-icon p-3">
-                                <svg class="icon icon-primary">
-                                    <use href="<?php echo TplAccessibileHelper::spriteUrl('it-pin'); ?>"></use>
-                                </svg>
-                            </div>
-                            <div class="card-body ps-0">
-                                <h3 class="card-title h5 mb-0">
-                                    <a class="text-decoration-none" href="<?php echo Route::_('index.php?option=com_dpcalendar&view=location&id=' . $loc->id); ?>">
-                                        <?php echo $this->escape($loc->title); ?>
-                                    </a>
-                                </h3>
-                                <div class="card-text">
-                                    <p class="mb-0">
-                                        <?php 
-                                        $addressParts = array_filter([
-                                            trim(($loc->street ?? '') . ' ' . ($loc->number ?? '')),
-                                            $loc->zip ?? '',
-                                            $loc->city ?? '',
-                                            $loc->province ?? ''
-                                        ]);
-                                        echo $this->escape(implode(', ', $addressParts));
-                                        ?>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-
-                <?php if ($params->get('event_show_map', '1')) : ?>
-                    <div class="map-wrapper map-column mt-4">
-                        <div class="dp-locations-map-only">
-                            <?php echo $this->loadTemplate('locations'); ?>
-                        </div>
-                    </div>
-                    <script>
-                        /* Leaflet calcola le dimensioni all'init: dopo che il layout è a larghezza piena
-                           forziamo un ricalcolo (invalidateSize via evento resize) così la mappa riempie il box. */
-                        (function () {
-                            var refit = function () { window.dispatchEvent(new Event('resize')); };
-                            var run = function () { setTimeout(refit, 100); setTimeout(refit, 500); };
-                            if (document.readyState === 'complete') {
-                                run();
-                            } else {
-                                window.addEventListener('load', run);
-                            }
-                        })();
-                    </script>
-                <?php endif; ?>
-            </section>
-            <?php endif; ?>
-
-            <?php if ($bookingFormContent || $ctaContent || $bookingsContent) : ?>
-            <section class="it-page-section anchor-offset mb-30 has-bg-grey p-4" id="prenotazione">
-                <h2 class="mb-3"><?php echo Text::_('MOD_DPCALENDAR_UPCOMING_BOOK'); ?></h2>
-                <div class="richtext-wrapper lora">
-                    <?php echo $ctaContent; ?>
-                    <?php echo $bookingFormContent; ?>
-                    <?php echo $bookingsContent; ?>
-                </div>
-            </section>
-            <?php endif; ?>
-
-            <?php if ($seriesContent || $scheduleContent || $ticketsContent) : ?>
-            <section class="it-page-section anchor-offset mb-30" id="informazioni">
-                <h2 class="mb-3"><?php echo Text::_('TPL_ACCESSIBILE_SERVICE_INFO'); ?></h2>
-                <div class="richtext-wrapper lora">
-                    <?php echo $seriesContent; ?>
-                    <?php echo $scheduleContent; ?>
-                    <?php echo $ticketsContent; ?>
-                </div>
-            </section>
-            <?php endif; ?>
+            <?php foreach ($sections as $section) : ?>
+                <section class="it-page-section anchor-offset mb-30<?php echo $section['class'] !== '' ? ' ' . $section['class'] : ''; ?>" id="<?php echo $section['id']; ?>">
+                    <h2 class="mb-3"><?php echo $section['label']; ?></h2>
+                    <?php echo $section['html']; ?>
+                </section>
+            <?php endforeach; ?>
 
             <?php // Data ultimo aggiornamento ?>
             <?php if ($params->get('event_show_modify_date', 1) && !empty($event->modified)) : ?>

@@ -178,11 +178,11 @@ for ($m = 1; $m <= 12; $m++) {
 								<svg class="icon icon-sm icon-primary" aria-hidden="true">
 									<use href="<?php echo TplAccessibileHelper::spriteUrl('it-refresh'); ?>"></use>
 								</svg>
-								<span><?php echo nl2br((string)$dateHelper->transformRRuleToString(
+								<span><?php echo nl2br(htmlspecialchars((string)$dateHelper->transformRRuleToString(
 									$event->rrule,
 									$event->start_date,
 									$event->exdates
-								)); ?></span>
+								), ENT_QUOTES, 'UTF-8')); ?></span>
 							</div>
 							<?php } ?>
 
@@ -191,10 +191,10 @@ for ($m = 1; $m <= 12; $m++) {
 								<?php foreach ($event->locations as $location) { ?>
 								<div class="dp-location<?php echo $params->get('show_location') ? '' : ' dp-location_hidden'; ?>">
 									<div class="dp-location__details"
-										 data-latitude="<?php echo $location->latitude; ?>"
-										 data-longitude="<?php echo $location->longitude; ?>"
-										 data-title="<?php echo $location->title; ?>"
-										 data-color="<?php echo $event->color; ?>"></div>
+										 data-latitude="<?php echo htmlspecialchars((string) $location->latitude, ENT_QUOTES, 'UTF-8'); ?>"
+										 data-longitude="<?php echo htmlspecialchars((string) $location->longitude, ENT_QUOTES, 'UTF-8'); ?>"
+										 data-title="<?php echo htmlspecialchars((string) $location->title, ENT_QUOTES, 'UTF-8'); ?>"
+										 data-color="<?php echo htmlspecialchars((string) $event->color, ENT_QUOTES, 'UTF-8'); ?>"></div>
 									<?php if ($params->get('show_location')) { ?>
 									<div class="d-flex align-items-center gap-2">
 										<svg class="icon icon-sm icon-primary" aria-hidden="true">
@@ -226,7 +226,7 @@ for ($m = 1; $m <= 12; $m++) {
 											<use href="<?php echo TplAccessibileHelper::spriteUrl('it-card'); ?>"></use>
 										</svg>
 										<span class="dp-event-price__label">
-											<?php echo $price->label ?: $translator->translate('MOD_DPCALENDAR_UPCOMING_PRICES'); ?>
+											<?php echo htmlspecialchars((string) ($price->label ?: $translator->translate('MOD_DPCALENDAR_UPCOMING_PRICES')), ENT_QUOTES, 'UTF-8'); ?>
 										</span>
 										<span class="dp-event-price__regular<?php echo $discounted != $price->value ? ' dp-event-price__regular_has-discount' : ''; ?>">
 											<?php echo $price->value === '' ? '' : DPCalendarHelper::renderPrice($price->value); ?>
@@ -280,11 +280,11 @@ for ($m = 1; $m <= 12; $m++) {
 
 	<?php if ($params->get('show_map')) { ?>
 		<div class="mod-dpcalendar-upcoming-joomlaPA__map dp-map"
-			 style="width: <?php echo $params->get('map_width', '100%'); ?>; height: <?php echo $params->get('map_height', '350px'); ?>"
-			 data-zoom="<?php echo $params->get('map_zoom', 4); ?>"
-			 data-latitude="<?php echo $params->get('map_lat', 47); ?>"
-			 data-longitude="<?php echo $params->get('map_long', 4); ?>"
-			 data-ask-consent="<?php echo $params->get('map_ask_consent'); ?>">
+			 style="width: <?php echo htmlspecialchars((string) $params->get('map_width', '100%'), ENT_QUOTES, 'UTF-8'); ?>; height: <?php echo htmlspecialchars((string) $params->get('map_height', '350px'), ENT_QUOTES, 'UTF-8'); ?>"
+			 data-zoom="<?php echo (int) $params->get('map_zoom', 4); ?>"
+			 data-latitude="<?php echo htmlspecialchars((string) $params->get('map_lat', 47), ENT_QUOTES, 'UTF-8'); ?>"
+			 data-longitude="<?php echo htmlspecialchars((string) $params->get('map_long', 4), ENT_QUOTES, 'UTF-8'); ?>"
+			 data-ask-consent="<?php echo htmlspecialchars((string) $params->get('map_ask_consent'), ENT_QUOTES, 'UTF-8'); ?>">
 		</div>
 	<?php } ?>
 

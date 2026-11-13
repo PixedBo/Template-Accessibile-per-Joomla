@@ -13,13 +13,14 @@ use Joomla\Registry\Registry;
 $_parentTpl = \Joomla\CMS\Factory::getApplication()->getTemplate(true)->parent
     ?: \Joomla\CMS\Factory::getApplication()->getTemplate();
 require_once JPATH_SITE . '/templates/' . $_parentTpl . '/helpers/TplAccessibileHelper.php';
+require_once JPATH_SITE . '/templates/' . $_parentTpl . '/helpers/TplAccessibileSearchHelper.php';
 
 $app       = Factory::getApplication();
 $doc       = $app->getDocument();
 $template  = $app->getTemplate();
 $params    = $app->getTemplate(true)->params;
 
-$colore    = $params->get('coloreprimario', '#0066CC');
+$colore    = TplAccessibileHelper::primaryColor($params);
 $baseurl   = Uri::base();
 $logo = $this->params->get('logotipo');
 $logoUrl = '';
@@ -128,6 +129,25 @@ if ($scrollTop === 1 && $scrollTipo === 'flottante') {
     $wa->useScript('template.scroll-top');
 }
 
+// Ricerca: destinazione dell'icona, modale e suggerimenti (scheda "Ricerca" dei parametri)
+$ricercaUrl    = '';
+$ricercaModale = false;
+
+if ((int) $params->get('mostra_ricerca', 0) === 1) {
+    $ricercaTarget = TplAccessibileSearchHelper::target($params);
+    $ricercaUrl    = $ricercaTarget['url'];
+    // Il modale invia un form con "q": ha senso solo verso la pagina risultati di Smart Search
+    $ricercaModale = $ricercaTarget['finder'] && $params->get('ricerca_apertura', 'pagina') === 'modale';
+
+    if ($ricercaModale) {
+        $wa->useScript('template.search-modal');
+
+        if ((int) $params->get('ricerca_suggerimenti', 0) === 1) {
+            TplAccessibileSearchHelper::useSuggestions();
+        }
+    }
+}
+
 if (TplAccessibileHelper::mediaExists('css/custom.css')) {
     $wa->registerAndUseStyle('template.custom', 'custom.css', [], [], ['template.comuni']);
 }
@@ -219,7 +239,7 @@ $wa->addInlineStyle($inlineCss);
 
 						if (!empty($nomeRegione)) :
 							if (!empty($linkRegione)) : ?>
-								<a class="d-lg-block navbar-brand" target="_blank" href="<?php echo htmlspecialchars($linkRegione, ENT_QUOTES, 'UTF-8'); ?>" 
+								<a class="d-lg-block navbar-brand" target="_blank" rel="noopener noreferrer" href="<?php echo htmlspecialchars($linkRegione, ENT_QUOTES, 'UTF-8'); ?>" 
                   aria-label="<?php echo Text::sprintf('TPL_ACCESSIBILE_GO_TO_PORTAL', htmlspecialchars($nomeRegione)) . ' - ' . Text::_('TPL_ACCESSIBILE_EXTERNAL_LINK'); ?>" 
                   title="<?php echo Text::sprintf('TPL_ACCESSIBILE_GO_TO_PORTAL', htmlspecialchars($nomeRegione)); ?>">
                   <?php echo htmlspecialchars($nomeRegione); ?>
@@ -241,7 +261,7 @@ $wa->addInlineStyle($inlineCss);
   
   if ($mostraLogin == 1) :
       $tipoLogin = $this->params->get('tipo_login', 'standard');
-      $menuitemLogin = $this->params->get('menuitem_login', 0);
+      $menuitemLogin = (int) $this->params->get('menuitem_login', 0);
       $user = $app->getIdentity();
       
       if ($user->guest) {
@@ -329,30 +349,16 @@ $wa->addInlineStyle($inlineCss);
     </div>
   <?php endif; ?>
 
-  <?php
-  // Recupero parametri ricerca dal template
-  $mostraRicerca = $this->params->get('mostra_ricerca', 0);
-  
-  if ($mostraRicerca == 1) :
-      $tipoRicerca = $this->params->get('tipo_ricerca', 'smartsearch');
-      $menuitemRicerca = $this->params->get('menuitem_ricerca', 0);
-      
-      if ($tipoRicerca == 'menuitem' && $menuitemRicerca > 0) {
-          $ricercaUrl = Route::_('index.php?Itemid=' . $menuitemRicerca); // <-- MODIFICATO
-      } else {
-          $ricercaUrl = Route::_('index.php?option=com_finder&view=search'); // <-- MODIFICATO
-      }
-  ?>
-  
+  <?php // Icona di ricerca: link alla pagina risultati; in modalità "modale" lo stesso link apre il modale (senza JavaScript resta un link) ?>
+  <?php if ($ricercaUrl !== '') : ?>
   <div class="it-search-wrapper">
-    <span class="d-none d-md-block"><?php echo Text::_('TPL_ACCESSIBILE_SEARCH'); ?></span>
-    <a class="search-link rounded-icon" href="<?php echo $ricercaUrl; ?>" aria-label="<?php echo Text::_('TPL_ACCESSIBILE_SEARCH_SITE'); ?>">
-      <svg class="icon">
+    <span class="d-none d-md-block" aria-hidden="true"><?php echo Text::_('TPL_ACCESSIBILE_SEARCH'); ?></span>
+    <a class="search-link rounded-icon" href="<?php echo $ricercaUrl; ?>" aria-label="<?php echo Text::_('TPL_ACCESSIBILE_SEARCH_SITE'); ?>"<?php if ($ricercaModale) : ?> data-bs-toggle="modal" data-bs-target="#search-modal" aria-haspopup="dialog"<?php endif; ?>>
+      <svg class="icon" aria-hidden="true">
         <use href="<?= TplAccessibileHelper::spriteUrl('it-search') ?>"></use>
       </svg>
     </a>
   </div>
-  
   <?php endif; ?>
 </div>
 						  
@@ -469,7 +475,7 @@ $wa->addInlineStyle($inlineCss);
 	   
 	   <?php if ($this->countModules('evidenza')) : ?>
 	   <section id="evidenza" class="evidence-section">
-		<div class="section py-5 pb-lg-80 px-lg-5 position-relative bg-evidenza bg-evidenza-<?php echo $this->params->get('coloreprimario', 'blu'); ?>">
+		<div class="section py-5 pb-lg-80 px-lg-5 position-relative bg-evidenza">
                 
 	<div class="container">
 			<div class="row">
@@ -674,6 +680,13 @@ endif;
         <use xlink:href="<?= TplAccessibileHelper::spriteUrl('it-arrow-up') ?>"></use>
       </svg>
     </a>
+    <?php endif; ?>
+
+    <?php if ($ricercaModale) : ?>
+      <?php echo LayoutHelper::render('accessibile.ricerca-modale', [
+          'url'         => $ricercaUrl,
+          'suggestions' => (int) $params->get('ricerca_suggerimenti', 0) === 1,
+      ]); ?>
     <?php endif; ?>
 
     <jdoc:include type="modules" name="debug" style="none" />

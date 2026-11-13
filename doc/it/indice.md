@@ -38,8 +38,9 @@ Queste guide si applicano a **qualsiasi sito** che usa questo template, indipend
 | [Header](header.md) | Logo, nome ente, payoff, social, bottoni login e ricerca |
 | [Menu di navigazione](menu.md) | Come creare i menu principale e secondario |
 | [Posizioni modulo](moduli.md) | Dove si può posizionare ogni modulo nel layout della pagina |
+| [Ricerca nel sito](ricerca.md) | Icona e riquadro di ricerca, pagina dei risultati, filtri; come dipende dall'indice del Motore di ricerca di Joomla |
 | [Banner di avviso](avvisi.md) | Come pubblicare comunicazioni urgenti nella posizione `avvisi`, sotto l'intestazione |
-| [Footer](footer.md) | Le due colonne del footer, logo UE, social, blocco "Contatta" |
+| [Footer](footer.md) | Le due posizioni modulo del footer, logo UE, social, blocco "Contatta" |
 
 ### Gestione dei contenuti
 
@@ -81,6 +82,7 @@ Queste guide si applicano a **qualsiasi sito** che usa questo template, indipend
 | Guida | Cosa impara |
 |-------|-------------|
 | [Integrazione DPCalendar](integrazione-DPCalendar.md) | Come usare DPCalendar (free) per la sezione eventi: pagina "Vivere il Comune" con dati reali, lista eventi con carousel e filtro, scheda singolo evento con mappa e prenotazione |
+| [Scheda Evento](scheda-evento.md) | Le sezioni della scheda evento e i campi personalizzati di DPCalendar da creare e associare (A chi è rivolto, Costi, Allegati, Contatti, Patrocinio, Sponsor) |
 
 ### Verifica e conformità
 
@@ -99,6 +101,12 @@ Per saltare la configurazione manuale e avere subito un sito di esempio funziona
 | [📦 Pacchetto Quickstart](../quickstart/quickstart-JoomlaPA-Akeeba.jpa) | Backup Akeeba `.jpa` con Joomla + template già configurato |
 | [📖 Istruzioni di installazione](../quickstart/istruzioni.md) | Guida passo-passo all'installazione tramite Akeeba Kickstart |
 
+Se hai già un sito Joomla e vuoi solo la struttura (categorie, campi, menu, pagine) per il sito di un Comune, usa invece il plugin dei dati di esempio:
+
+| Risorsa | Descrizione |
+|---------|-------------|
+| [🧩 Dati di esempio (sito di un Comune)](dati-di-esempio.md) | Plugin che crea categorie, campi personalizzati, menu, moduli e pagine istituzionali, a blocchi e senza duplicati |
+
 ---
 
 ## Percorso consigliato per un nuovo sito Comune
@@ -111,6 +119,7 @@ Se stai configurando un sito Comune da zero, segui questo ordine:
 4. [Menu di navigazione](menu.md) — crea il menu principale
 5. [Posizioni modulo](moduli.md) — capire dove metti i moduli
 6. [Footer](footer.md) — configura il piè di pagina
+   - [Ricerca nel sito](ricerca.md) — attiva il Motore di ricerca di Joomla, crea l'indice e scegli i filtri
 7. [Alberatura delle categorie](alberatura-categorie.md) — crea la struttura delle categorie
 8. [Custom field per gli articoli](custom-field-articoli.md) — crea i campi per le schede servizio
 9. [Layout Servizi](layout-servizi.md) + [Layout Notizie](layout-notizie.md) + [Layout Amministrazione](layout-amministrazione.md) + [Layout Vivere il Comune](layout-vivere.md)

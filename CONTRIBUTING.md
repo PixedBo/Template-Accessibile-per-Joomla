@@ -1,7 +1,7 @@
-# Contribuire al Template Accessibile per Joomla 5
+# Contribuire al Template Accessibile per Joomla
 
 Grazie per il tuo interesse nel contribuire a questo progetto! 🎉
-Questo template nasce per fornire alle Pubbliche Amministrazioni (e non solo) una base solida, sicura e nativamente accessibile per Joomla 5+, sfruttando il framework Bootstrap Italia.
+Questo template nasce per fornire alle Pubbliche Amministrazioni (e non solo) una base solida, sicura e nativamente accessibile per Joomla 5.4+ e 6, sfruttando il framework Bootstrap Italia.
 
 Per mantenere altissima la qualità del codice e garantire la conformità alle linee guida AgID e WCAG, ti chiediamo di seguire queste indicazioni prima di inviare una Pull Request (PR).
 

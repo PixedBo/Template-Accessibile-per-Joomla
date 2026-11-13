@@ -8,11 +8,11 @@
   <authorUrl>https://www.pixed.it</authorUrl>
   <copyright>Copyright (C) 2025 Pixed Web Development. All rights reserved.</copyright>
   <license>GNU General Public License version 3 or later; see LICENSE.txt</license>
-  <description>Template Joomla 5 conforme alle linee guida Designers Italia e Modello Comuni</description>
+  <description>Template per Joomla 5.4+ e 6 conforme alle linee guida Designers Italia e Modello Comuni</description>
   <inheritable>1</inheritable>
   <dependencies>
-    <dependency type="core" operator=">=">5.0.0</dependency>
-    <dependency type="php" operator=">=">8.2.0</dependency>
+    <dependency type="core" operator=">=">5.4.0</dependency>
+    <dependency type="php" operator=">=">8.1.0</dependency>
   </dependencies>
   <scriptfile>script.php</scriptfile>
   <files>
@@ -65,9 +65,9 @@
         <field name="favicon_png" type="media" label="TPL_ACCESSIBILE_FAVICON_PNG_LABEL" directory="images" description="TPL_ACCESSIBILE_FAVICON_PNG_DESC" />
         <field name="nomesito" type="text" default="Il mio Comune" label="TPL_ACCESSIBILE_SITENAME_LABEL" description="TPL_ACCESSIBILE_SITENAME_DESC" size="20" />
         <field name="nomeregione" type="text" default="La mia Regione" label="TPL_ACCESSIBILE_REGION_LABEL" description="TPL_ACCESSIBILE_REGION_DESC" size="20" />
-        <field name="linkregione" type="url" default="" label="TPL_ACCESSIBILE_REGION_LINK_LABEL" description="TPL_ACCESSIBILE_REGION_LINK_DESC" size="20" />
+        <field name="linkregione" type="url" filter="url" validate="url" default="" label="TPL_ACCESSIBILE_REGION_LINK_LABEL" description="TPL_ACCESSIBILE_REGION_LINK_DESC" size="20" />
         <field name="payoff" type="text" default="Sottotitolo" label="TPL_ACCESSIBILE_PAYOFF_LABEL" description="TPL_ACCESSIBILE_PAYOFF_DESC" size="20" />
-        <field name="coloreprimario" type="list" default="#007a52" label="TPL_ACCESSIBILE_PRIMARY_COLOR_LABEL" description="TPL_ACCESSIBILE_PRIMARY_COLOR_DESC">
+        <field name="coloreprimario" type="list" validate="options" default="#007a52" label="TPL_ACCESSIBILE_PRIMARY_COLOR_LABEL" description="TPL_ACCESSIBILE_PRIMARY_COLOR_DESC">
           <option value="#0066CC">TPL_ACCESSIBILE_COLOR_BLUE</option>
           <option value="#007a52">TPL_ACCESSIBILE_COLOR_GREEN</option>
           <option value="#d1344c">TPL_ACCESSIBILE_COLOR_RED</option>
@@ -88,10 +88,16 @@
         <field name="menuitem_login" type="menuitem" default="" label="TPL_ACCESSIBILE_LOGIN_MENUITEM_LABEL" description="TPL_ACCESSIBILE_LOGIN_MENUITEM_DESC" showon="mostra_login:1[AND]tipo_login:menuitem">
           <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
         </field>
-        
+      </fieldset>
+
+      <fieldset name="ricerca" label="TPL_ACCESSIBILE_FIELDSET_RICERCA_LABEL" description="TPL_ACCESSIBILE_FIELDSET_RICERCA_DESC">
         <field name="mostra_ricerca" type="radio" default="0" label="TPL_ACCESSIBILE_SHOW_SEARCH_LABEL" description="TPL_ACCESSIBILE_SHOW_SEARCH_DESC" class="btn-group btn-group-yesno">
           <option value="1">JYES</option>
           <option value="0">JNO</option>
+        </field>
+        <field name="ricerca_apertura" type="list" default="pagina" label="TPL_ACCESSIBILE_SEARCH_OPEN_LABEL" description="TPL_ACCESSIBILE_SEARCH_OPEN_DESC" showon="mostra_ricerca:1">
+          <option value="pagina">TPL_ACCESSIBILE_SEARCH_OPEN_PAGE</option>
+          <option value="modale">TPL_ACCESSIBILE_SEARCH_OPEN_MODAL</option>
         </field>
         <field name="tipo_ricerca" type="list" default="smartsearch" label="TPL_ACCESSIBILE_SEARCH_TYPE_LABEL" description="TPL_ACCESSIBILE_SEARCH_TYPE_DESC" showon="mostra_ricerca:1">
           <option value="smartsearch">TPL_ACCESSIBILE_SEARCH_STANDARD</option>
@@ -99,6 +105,30 @@
         </field>
         <field name="menuitem_ricerca" type="menuitem" default="" label="TPL_ACCESSIBILE_SEARCH_MENUITEM_LABEL" description="TPL_ACCESSIBILE_SEARCH_MENUITEM_DESC" showon="mostra_ricerca:1[AND]tipo_ricerca:menuitem">
           <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>
+        <field name="ricerca_suggerimenti" type="radio" default="0" label="TPL_ACCESSIBILE_SEARCH_SUGGEST_LABEL" description="TPL_ACCESSIBILE_SEARCH_SUGGEST_DESC" class="btn-group btn-group-yesno">
+          <option value="1">JYES</option>
+          <option value="0">JNO</option>
+        </field>
+
+        <field type="note" label="TPL_ACCESSIBILE_SEARCH_FILTERS_NOTE_LABEL" description="TPL_ACCESSIBILE_SEARCH_FILTERS_NOTE_DESC" class="alert alert-info" />
+
+        <field name="ricerca_filtri" type="radio" default="1" label="TPL_ACCESSIBILE_SEARCH_FILTERS_LABEL" description="TPL_ACCESSIBILE_SEARCH_FILTERS_DESC" class="btn-group btn-group-yesno">
+          <option value="1">JYES</option>
+          <option value="0">JNO</option>
+        </field>
+        <field name="ricerca_filtri_tipo" type="radio" default="1" label="TPL_ACCESSIBILE_SEARCH_FILTERS_TYPE_LABEL" description="TPL_ACCESSIBILE_SEARCH_FILTERS_TYPE_DESC" class="btn-group btn-group-yesno" showon="ricerca_filtri:1">
+          <option value="1">JYES</option>
+          <option value="0">JNO</option>
+        </field>
+        <field name="ricerca_filtri_cat" type="radio" default="1" label="TPL_ACCESSIBILE_SEARCH_FILTERS_CAT_LABEL" description="TPL_ACCESSIBILE_SEARCH_FILTERS_CAT_DESC" class="btn-group btn-group-yesno" showon="ricerca_filtri:1">
+          <option value="1">JYES</option>
+          <option value="0">JNO</option>
+        </field>
+        <field name="ricerca_filtri_categorie" type="category" extension="com_content" multiple="true" layout="joomla.form.field.list-fancy-select" filter="intarray" class="multipleCategories" label="TPL_ACCESSIBILE_SEARCH_FILTERS_CATEGORIES_LABEL" description="TPL_ACCESSIBILE_SEARCH_FILTERS_CATEGORIES_DESC" showon="ricerca_filtri:1[AND]ricerca_filtri_cat:1" />
+        <field name="ricerca_filtri_categorie_inverti" type="radio" default="0" label="TPL_ACCESSIBILE_SEARCH_FILTERS_CATEGORIES_INVERT_LABEL" description="TPL_ACCESSIBILE_SEARCH_FILTERS_CATEGORIES_INVERT_DESC" class="btn-group btn-group-yesno" showon="ricerca_filtri:1[AND]ricerca_filtri_cat:1">
+          <option value="1">JYES</option>
+          <option value="0">JNO</option>
         </field>
       </fieldset>
 
@@ -139,12 +169,12 @@
       </fieldset>
 
       <fieldset name="social" label="TPL_ACCESSIBILE_SOCIAL_LABEL">
-        <field name="socialx" type="url" label="TPL_ACCESSIBILE_SOCIAL_X_LABEL" description="TPL_ACCESSIBILE_SOCIAL_X_DESC" size="20" />
-        <field name="facebook" type="url" label="TPL_ACCESSIBILE_SOCIAL_FB_LABEL" description="TPL_ACCESSIBILE_SOCIAL_FB_DESC" size="20" />
-        <field name="youtube" type="url" label="TPL_ACCESSIBILE_SOCIAL_YT_LABEL" description="TPL_ACCESSIBILE_SOCIAL_YT_DESC" size="20" />
-        <field name="telegram" type="url" label="TPL_ACCESSIBILE_SOCIAL_TG_LABEL" description="TPL_ACCESSIBILE_SOCIAL_TG_DESC" size="20" />
+        <field name="socialx" type="url" filter="url" validate="url" label="TPL_ACCESSIBILE_SOCIAL_X_LABEL" description="TPL_ACCESSIBILE_SOCIAL_X_DESC" size="20" />
+        <field name="facebook" type="url" filter="url" validate="url" label="TPL_ACCESSIBILE_SOCIAL_FB_LABEL" description="TPL_ACCESSIBILE_SOCIAL_FB_DESC" size="20" />
+        <field name="youtube" type="url" filter="url" validate="url" label="TPL_ACCESSIBILE_SOCIAL_YT_LABEL" description="TPL_ACCESSIBILE_SOCIAL_YT_DESC" size="20" />
+        <field name="telegram" type="url" filter="url" validate="url" label="TPL_ACCESSIBILE_SOCIAL_TG_LABEL" description="TPL_ACCESSIBILE_SOCIAL_TG_DESC" size="20" />
         <field name="whatsapp" type="text" label="TPL_ACCESSIBILE_SOCIAL_WA_LABEL" description="TPL_ACCESSIBILE_SOCIAL_WA_DESC" size="20" />
-		<field name="linkedin" type="url" label="TPL_ACCESSIBILE_SOCIAL_LI_LABEL" description="TPL_ACCESSIBILE_SOCIAL_LI_DESC" size="20" />
+		<field name="linkedin" type="url" filter="url" validate="url" label="TPL_ACCESSIBILE_SOCIAL_LI_LABEL" description="TPL_ACCESSIBILE_SOCIAL_LI_DESC" size="20" />
       </fieldset>
 
       <fieldset name="valutazione" label="TPL_ACCESSIBILE_FIELDSET_VALUTAZIONE_COMUNI_LABEL" description="TPL_ACCESSIBILE_FIELDSET_VALUTAZIONE_DESC">
@@ -251,6 +281,72 @@
         </field>
         <field name="menuitem_contatti" type="menuitem" label="TPL_ACCESSIBILE_MENUITEM_CONTATTI_LABEL" description="TPL_ACCESSIBILE_MENUITEM_CONTATTI_DESC" default="">
           <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>
+      </fieldset>
+
+      <fieldset name="evento" label="TPL_ACCESSIBILE_FIELDSET_EVENTO_LABEL" description="TPL_ACCESSIBILE_FIELDSET_EVENTO_DESC">
+        <field type="note" label="TPL_ACCESSIBILE_EVENTO_NOTE_LABEL" description="TPL_ACCESSIBILE_EVENTO_NOTE_DESC" class="alert alert-info" />
+
+        <field name="cf_evento_a_chi_rivolto" type="sql" label="TPL_ACCESSIBILE_CF_EVENTO_A_CHI_RIVOLTO_LABEL" description="TPL_ACCESSIBILE_CF_EVENTO_A_CHI_RIVOLTO_DESC" key_field="id" value_field="title" query="SELECT id, title FROM #__fields WHERE state = 1 AND context = 'com_dpcalendar.event' AND only_use_in_subform = 0 ORDER BY title ASC" default="">
+          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>
+        <field name="cf_evento_galleria" type="sql" label="TPL_ACCESSIBILE_CF_EVENTO_GALLERIA_LABEL" description="TPL_ACCESSIBILE_CF_EVENTO_GALLERIA_DESC" key_field="id" value_field="title" query="SELECT id, title FROM #__fields WHERE state = 1 AND context = 'com_dpcalendar.event' AND type = 'subform' ORDER BY title ASC" default="">
+          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>
+        <field name="cf_evento_video" type="sql" label="TPL_ACCESSIBILE_CF_EVENTO_VIDEO_LABEL" description="TPL_ACCESSIBILE_CF_EVENTO_VIDEO_DESC" key_field="id" value_field="title" query="SELECT id, title FROM #__fields WHERE state = 1 AND context = 'com_dpcalendar.event' AND only_use_in_subform = 0 ORDER BY title ASC" default="">
+          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>
+
+        <field name="cf_evento_costi" type="sql" label="TPL_ACCESSIBILE_CF_EVENTO_COSTI_LABEL" description="TPL_ACCESSIBILE_CF_EVENTO_COSTI_DESC" key_field="id" value_field="title" query="SELECT id, title FROM #__fields WHERE state = 1 AND context = 'com_dpcalendar.event' AND only_use_in_subform = 0 ORDER BY title ASC" default="">
+          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>
+        <field name="cf_evento_costi_key_titolo" type="sql" label="TPL_ACCESSIBILE_CF_EVENTO_COSTI_KEY_TITOLO_LABEL" description="TPL_ACCESSIBILE_CF_EVENTO_KEY_DESC" key_field="id" value_field="label" query="SELECT id, CONCAT(title, ' [', name, ']') AS label FROM #__fields WHERE state = 1 AND context = 'com_dpcalendar.event' AND only_use_in_subform = 1 ORDER BY title ASC" default="" showon="cf_evento_costi!:">
+          <option value="">TPL_ACCESSIBILE_EVENTO_KEY_AUTO</option>
+        </field>
+        <field name="cf_evento_costi_key_prezzo" type="sql" label="TPL_ACCESSIBILE_CF_EVENTO_COSTI_KEY_PREZZO_LABEL" description="TPL_ACCESSIBILE_CF_EVENTO_KEY_DESC" key_field="id" value_field="label" query="SELECT id, CONCAT(title, ' [', name, ']') AS label FROM #__fields WHERE state = 1 AND context = 'com_dpcalendar.event' AND only_use_in_subform = 1 ORDER BY title ASC" default="" showon="cf_evento_costi!:">
+          <option value="">TPL_ACCESSIBILE_EVENTO_KEY_AUTO</option>
+        </field>
+        <field name="cf_evento_costi_key_descrizione" type="sql" label="TPL_ACCESSIBILE_CF_EVENTO_COSTI_KEY_DESCRIZIONE_LABEL" description="TPL_ACCESSIBILE_CF_EVENTO_KEY_DESC" key_field="id" value_field="label" query="SELECT id, CONCAT(title, ' [', name, ']') AS label FROM #__fields WHERE state = 1 AND context = 'com_dpcalendar.event' AND only_use_in_subform = 1 ORDER BY title ASC" default="" showon="cf_evento_costi!:">
+          <option value="">TPL_ACCESSIBILE_EVENTO_KEY_AUTO</option>
+        </field>
+
+        <field name="cf_evento_allegati" type="sql" label="TPL_ACCESSIBILE_CF_EVENTO_ALLEGATI_LABEL" description="TPL_ACCESSIBILE_CF_EVENTO_ALLEGATI_DESC" key_field="id" value_field="title" query="SELECT id, title FROM #__fields WHERE state = 1 AND context = 'com_dpcalendar.event' AND only_use_in_subform = 0 ORDER BY title ASC" default="">
+          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>
+
+        <field name="cf_evento_contatti" type="sql" label="TPL_ACCESSIBILE_CF_EVENTO_CONTATTI_LABEL" description="TPL_ACCESSIBILE_CF_EVENTO_CONTATTI_DESC" key_field="id" value_field="title" query="SELECT id, title FROM #__fields WHERE state = 1 AND context = 'com_dpcalendar.event' AND type = 'subform' ORDER BY title ASC" default="">
+          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>
+        <field name="cf_evento_contatti_key_nome" type="sql" label="TPL_ACCESSIBILE_CF_EVENTO_CONTATTI_KEY_NOME_LABEL" description="TPL_ACCESSIBILE_CF_EVENTO_KEY_DESC" key_field="id" value_field="label" query="SELECT id, CONCAT(title, ' [', name, ']') AS label FROM #__fields WHERE state = 1 AND context = 'com_dpcalendar.event' AND only_use_in_subform = 1 ORDER BY title ASC" default="" showon="cf_evento_contatti!:">
+          <option value="">TPL_ACCESSIBILE_EVENTO_KEY_AUTO</option>
+        </field>
+        <field name="cf_evento_contatti_key_telefono" type="sql" label="TPL_ACCESSIBILE_CF_EVENTO_CONTATTI_KEY_TELEFONO_LABEL" description="TPL_ACCESSIBILE_CF_EVENTO_KEY_DESC" key_field="id" value_field="label" query="SELECT id, CONCAT(title, ' [', name, ']') AS label FROM #__fields WHERE state = 1 AND context = 'com_dpcalendar.event' AND only_use_in_subform = 1 ORDER BY title ASC" default="" showon="cf_evento_contatti!:">
+          <option value="">TPL_ACCESSIBILE_EVENTO_KEY_AUTO</option>
+        </field>
+        <field name="cf_evento_contatti_key_email" type="sql" label="TPL_ACCESSIBILE_CF_EVENTO_CONTATTI_KEY_EMAIL_LABEL" description="TPL_ACCESSIBILE_CF_EVENTO_KEY_DESC" key_field="id" value_field="label" query="SELECT id, CONCAT(title, ' [', name, ']') AS label FROM #__fields WHERE state = 1 AND context = 'com_dpcalendar.event' AND only_use_in_subform = 1 ORDER BY title ASC" default="" showon="cf_evento_contatti!:">
+          <option value="">TPL_ACCESSIBILE_EVENTO_KEY_AUTO</option>
+        </field>
+
+        <field name="cf_evento_patrocinato" type="sql" label="TPL_ACCESSIBILE_CF_EVENTO_PATROCINATO_LABEL" description="TPL_ACCESSIBILE_CF_EVENTO_PATROCINATO_DESC" key_field="id" value_field="title" query="SELECT id, title FROM #__fields WHERE state = 1 AND context = 'com_dpcalendar.event' AND type = 'subform' ORDER BY title ASC" default="">
+          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>
+        <field name="cf_evento_sponsor" type="sql" label="TPL_ACCESSIBILE_CF_EVENTO_SPONSOR_LABEL" description="TPL_ACCESSIBILE_CF_EVENTO_SPONSOR_DESC" key_field="id" value_field="title" query="SELECT id, title FROM #__fields WHERE state = 1 AND context = 'com_dpcalendar.event' AND type = 'subform' ORDER BY title ASC" default="">
+          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>
+        <field name="cf_evento_link_key_nome" type="sql" label="TPL_ACCESSIBILE_CF_EVENTO_LINK_KEY_NOME_LABEL" description="TPL_ACCESSIBILE_CF_EVENTO_LINK_KEY_DESC" key_field="id" value_field="label" query="SELECT id, CONCAT(title, ' [', name, ']') AS label FROM #__fields WHERE state = 1 AND context = 'com_dpcalendar.event' AND only_use_in_subform = 1 ORDER BY title ASC" default="">
+          <option value="">TPL_ACCESSIBILE_EVENTO_KEY_AUTO</option>
+        </field>
+        <field name="cf_evento_link_key_url" type="sql" label="TPL_ACCESSIBILE_CF_EVENTO_LINK_KEY_URL_LABEL" description="TPL_ACCESSIBILE_CF_EVENTO_LINK_KEY_DESC" key_field="id" value_field="label" query="SELECT id, CONCAT(title, ' [', name, ']') AS label FROM #__fields WHERE state = 1 AND context = 'com_dpcalendar.event' AND only_use_in_subform = 1 ORDER BY title ASC" default="">
+          <option value="">TPL_ACCESSIBILE_EVENTO_KEY_AUTO</option>
+        </field>
+
+        <field name="cf_evento_ulteriori_info" type="sql" label="TPL_ACCESSIBILE_CF_EVENTO_ULTERIORI_INFO_LABEL" description="TPL_ACCESSIBILE_CF_EVENTO_ULTERIORI_INFO_DESC" key_field="id" value_field="title" query="SELECT id, title FROM #__fields WHERE state = 1 AND context = 'com_dpcalendar.event' AND only_use_in_subform = 0 ORDER BY title ASC" default="">
+          <option value="">TPL_ACCESSIBILE_NONE_SELECTED</option>
+        </field>
+
+        <field name="evento_campi_non_mappati" type="list" default="sezioni" label="TPL_ACCESSIBILE_EVENTO_CAMPI_NON_MAPPATI_LABEL" description="TPL_ACCESSIBILE_EVENTO_CAMPI_NON_MAPPATI_DESC">
+          <option value="sezioni">TPL_ACCESSIBILE_EVENTO_CAMPI_NON_MAPPATI_SEZIONI</option>
+          <option value="nascondi">TPL_ACCESSIBILE_EVENTO_CAMPI_NON_MAPPATI_NASCONDI</option>
         </field>
       </fieldset>
     </fields>

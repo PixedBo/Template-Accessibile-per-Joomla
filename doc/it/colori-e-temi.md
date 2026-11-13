@@ -18,14 +18,14 @@ Il template include 5 palette colore preimpostate, pensate per diversi tipi di e
 
 ## Come cambiare il colore
 
-1. Vai su **Estensioni → Template → Stili** e clicca sul nome del template
-2. Nella scheda **Generale**, scorri fino al campo **Colore primario del sito**
+1. Vai su **Sistema → Stili template sito** e clicca sul nome del template
+2. Nella scheda **Dettagli**, scorri fino al campo **Colore primario del sito**
 3. Clicca sul menu a tendina e seleziona il colore desiderato
 4. Clicca **Salva** (in alto a sinistra)
 
 La modifica ha effetto immediato su tutto il sito: non è necessario fare nient'altro.
 
-> *Screenshot — Scheda "Generale" del template con il menu a tendina "Colore primario del sito" aperto, che mostra le 5 opzioni con i colori*
+![Scheda "Dettagli" del template con il campo "Colore primario del sito" e le 5 opzioni disponibili](../img/be-template-colore-primario.png)
 
 ---
 

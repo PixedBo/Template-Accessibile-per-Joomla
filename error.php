@@ -32,7 +32,7 @@ if ($errorCode == '404') {
     $errorMessage = 'Not Found';
 }
 
-$colore    = $params->get('coloreprimario', '#0066CC');
+$colore    = TplAccessibileHelper::primaryColor($params);
 $baseurl   = Uri::base();
 $logo      = $params->get('logotipo');
 $logoUrl   = '';
@@ -134,7 +134,7 @@ $wa->addInlineStyle($inlineCss);
                             $linkRegione = $params->get('linkregione');
                             if (!empty($nomeRegione)) :
                                 if (!empty($linkRegione)) : ?>
-                                    <a class="d-lg-block navbar-brand" target="_blank" href="<?php echo htmlspecialchars($linkRegione, ENT_QUOTES, 'UTF-8'); ?>" aria-label="<?php echo Text::sprintf('TPL_ACCESSIBILE_GO_TO_PORTAL', htmlspecialchars($nomeRegione)) . ' - ' . Text::_('TPL_ACCESSIBILE_EXTERNAL_LINK'); ?>" title="<?php echo Text::sprintf('TPL_ACCESSIBILE_GO_TO_PORTAL', htmlspecialchars($nomeRegione)); ?>">
+                                    <a class="d-lg-block navbar-brand" target="_blank" rel="noopener noreferrer" href="<?php echo htmlspecialchars($linkRegione, ENT_QUOTES, 'UTF-8'); ?>" aria-label="<?php echo Text::sprintf('TPL_ACCESSIBILE_GO_TO_PORTAL', htmlspecialchars($nomeRegione)) . ' - ' . Text::_('TPL_ACCESSIBILE_EXTERNAL_LINK'); ?>" title="<?php echo Text::sprintf('TPL_ACCESSIBILE_GO_TO_PORTAL', htmlspecialchars($nomeRegione)); ?>">
                                        <?php echo htmlspecialchars($nomeRegione); ?>
                                     </a>
                                 <?php else : ?>
@@ -270,7 +270,7 @@ $wa->addInlineStyle($inlineCss);
                         </ol>
                     </nav>
 
-                    <h1 class="display-1 fw-bold mb-4 text-danger"><?php echo $errorCode; ?></h1>
+                    <h1 class="display-1 fw-bold mb-4 text-danger"><?php echo (int) $errorCode; ?></h1>
                     
                     <?php if ($this->debug) : ?>
                         <div class="alert alert-danger" role="alert">

@@ -24,7 +24,7 @@ $doc         = $app->getDocument();
 $params      = $app->getTemplate(true)->params;
 $extraButtons = AuthenticationHelper::getLoginButtons('form-login');
 
-$colore  = $params->get('coloreprimario', '#0066CC');
+$colore  = TplAccessibileHelper::primaryColor($params);
 $baseurl = Uri::base();
 $logo    = $params->get('logotipo');
 $logoUrl = '';
